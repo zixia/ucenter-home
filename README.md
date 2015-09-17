@@ -2,6 +2,9 @@
 UCenter1.5.1/UCHome2.0/Discuz!7.2 集成安装包  
 https://github.com/zixia/ucenter-home
 
+## Screenshot
+![UCenter Home](https://raw.githubusercontent.com/zixia/ucenter-home/master/uchome.gif)
+
 ## Download (Mirror from)
 * http://www.comsenz.com/downloads/install/uchome
 * http://download.comsenz.com/UC_UCH_DZ/UC1.5.1_UCH2.0_DZ7.2_SC_UTF8.zip
