@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//·ÖÒ³
+//åˆ†é¡µ
 $perpage = 30;
 $perpage = mob_perpage($perpage);
 
@@ -16,7 +16,7 @@ $page = empty($_GET['page'])?0:intval($_GET['page']);
 if($page<1) $page = 1;
 $start = ($page-1)*$perpage;
 
-//¼ì²é¿ªÊ¼Êý
+//æ£€æŸ¥å¼€å§‹æ•°
 ckstart($start, $perpage);
 
 $list = array();
@@ -57,13 +57,13 @@ if($view == 'userapp') {
 		}
 	}
 	
-	//Í³¼Æ¸üÐÂ
+	//ç»Ÿè®¡æ›´æ–°
 	$myinvitenum = getcount('myinvite', array('touid'=>$space['uid']));
 	if($myinvitenum != $space['myinvitenum']) {
 		updatetable('space', array('myinvitenum'=>$myinvitenum), array('uid'=>$space['uid']));
 	}
 
-	//·ÖÒ³
+	//åˆ†é¡µ
 	$multi = smulti($start, $perpage, $count, "space.php?do=$do&view=userapp");
 	
 } else {
@@ -74,7 +74,7 @@ if($view == 'userapp') {
 		$space['notenum'] = 0;
 	}
 	
-	//Í¨ÖªÀàÐÍ
+	//é€šçŸ¥ç±»åž‹
 	$noticetypes = array(
 		'wall' => lang('wall'),
 		'piccomment' => lang('pic_comment'),
@@ -122,16 +122,16 @@ if($view == 'userapp') {
 			}
 			$list[] = $value;
 		}
-		//·ÖÒ³
+		//åˆ†é¡µ
 		$multi = multi($count, $perpage, $page, "space.php?do=$do");
 	}
 
 	
-	//¸üÐÂ×´Ì¬ÎªÒÑ¿´
+	//æ›´æ–°çŠ¶æ€ä¸ºå·²çœ‹
 	if($newids) {
 		$_SGLOBAL['db']->query("UPDATE ".tname('notification')." SET new='0' WHERE id IN (".simplode($newids).")");
 		
-		//¸üÐÂÎ´¶ÁµÄ
+		//æ›´æ–°æœªè¯»çš„
 		$newcount = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('notification')." WHERE uid='$_SGLOBAL[supe_uid]' AND new='1'"), 0);
 		$space['notenum'] = $newcount = intval($newcount);
 		updatetable('space', array('notenum'=>$newcount), array('uid'=>$_SGLOBAL['supe_uid']));

@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//»ñÈ¡µ±Ç°»·¾³ĞÅÏ¢
+//è·å–å½“å‰ç¯å¢ƒä¿¡æ¯
 function _my_env_get($var) {
 	global $_SGLOBAL, $space;
 	
@@ -26,7 +26,7 @@ function _my_env_get($var) {
 	}
 }
 
-//»ñÈ¡Ö¸¶¨ÓÃ»§µÄºÃÓÑµÄuidÁĞ±í
+//è·å–æŒ‡å®šç”¨æˆ·çš„å¥½å‹çš„uidåˆ—è¡¨
 function _my_get_friends($uid) {
 	global $_SGLOBAL, $space;
 	
@@ -47,7 +47,7 @@ function _my_get_friends($uid) {
 	return $_SGLOBAL[$var];
 }
 
-//»ñÈ¡Ö¸¶¨ÓÃ»§ÏÔÊ¾µÄÃû×Ö
+//è·å–æŒ‡å®šç”¨æˆ·æ˜¾ç¤ºçš„åå­—
 function _my_get_name($uid) {
 	global $_SGLOBAL, $space, $_SCONFIG;
 	
@@ -68,12 +68,12 @@ function _my_get_name($uid) {
 	return $_SGLOBAL[$var];
 }
 
-//»ñÈ¡Ö¸¶¨ÓÃ»§Í·ÏñµÄurl
+//è·å–æŒ‡å®šç”¨æˆ·å¤´åƒçš„url
 function _my_get_profilepic($uid, $size='small') {
 	return UC_API.'/avatar.php?uid='.$uid.'&size='.$size;
 }
 
-//ÅĞ¶Ïuid1ºÍuid2ÊÇ·ñÎªºÃÓÑ
+//åˆ¤æ–­uid1å’Œuid2æ˜¯å¦ä¸ºå¥½å‹
 function _my_are_friends($uid1, $uid2) {
 	global $_SGLOBAL, $space, $_SCONFIG;
 	
@@ -98,7 +98,7 @@ function _my_are_friends($uid1, $uid2) {
 	return $_SGLOBAL[$var];
 }
 
-//Ö¸¶¨ÓÃ»§ÊÇ·ñ°²×°ÁËÓ¦ÓÃ
+//æŒ‡å®šç”¨æˆ·æ˜¯å¦å®‰è£…äº†åº”ç”¨
 function _my_user_is_added_app($uid, $appid) {
 	global $_SGLOBAL, $space, $_SCONFIG;
 	
@@ -113,7 +113,7 @@ function _my_user_is_added_app($uid, $appid) {
 	return $_SGLOBAL[$var];
 }
 
-//»ñÈ¡Ó¦ÓÃÔÚuchomeÉÏµÄ·ÃÎÊµØÖ·
+//è·å–åº”ç”¨åœ¨uchomeä¸Šçš„è®¿é—®åœ°å€
 function _my_get_app_url($appid, $suffix) {
 	global $_SGLOBAL, $space, $_SCONFIG;
 	
@@ -123,7 +123,7 @@ function _my_get_app_url($appid, $suffix) {
 	return $_SGLOBAL['prefix_url']."userapp.php?appid=$appid";
 }
 
-//»ñÈ¡Ó¦ÓÃÏÔÊ¾Î»ÖÃ
+//è·å–åº”ç”¨æ˜¾ç¤ºä½ç½®
 function _my_get_app_position($appid) {
 	global $_SGLOBAL, $space, $_SCONFIG;
 	

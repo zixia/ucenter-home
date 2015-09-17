@@ -35,13 +35,13 @@ if($requestrun) {
 
 
 	$request_version = '1.0';
-	$request_name = 'Ä£¿éµ÷ÓÃ½Å±¾·¶Àı';
-	$request_description = '×îĞÂÖ÷Ìâµ÷ÓÃ·¶Àı£¬Äú¿ÉÒÔ²ÎÕÕ±¾½Å±¾ ./include/request/sample.inc.php ÖĞµÄËµÃ÷±àĞ´Ä£¿é½Å±¾';
+	$request_name = 'æ¨¡å—è°ƒç”¨è„šæœ¬èŒƒä¾‹';
+	$request_description = 'æœ€æ–°ä¸»é¢˜è°ƒç”¨èŒƒä¾‹ï¼Œæ‚¨å¯ä»¥å‚ç…§æœ¬è„šæœ¬ ./include/request/sample.inc.php ä¸­çš„è¯´æ˜ç¼–å†™æ¨¡å—è„šæœ¬';
 	$request_copyright = '<a href="http://www.comsenz.com" target="_blank">Comsenz Inc.</a>';
 	$request_settings = array(
-		'limit' 	=> array('·µ»ØÌõÄ¿Êı', 'ÉèÖÃ·µ»ØµÄÌõÄ¿Êı', 'text'),
-		'fid' 		=> array('Ñ¡Ôñ°æ¿é', 'Ñ¡ÔñÏÔÊ¾ÄÄ¸ö°æ¿éµÄÌû×Ó', 'select', array()),
-		'sidestatus' 	=> array('Ö÷ÌâÁĞ±íÒ³Ãæ(forumdisplay.php)×¨ÓÃ', 'ÉèÖÃ´ËÊı¾İµ÷ÓÃÄ£¿éÎªÖ÷ÌâÁĞ±íÒ³Ãæ(forumdisplay.php)µÄ×¨ÓÃÄ£¿é£¬Ö»µ÷ÓÃµ±Ç°°æ¿éµÄÄÚÈİ', 'radio'),
+		'limit' 	=> array('è¿”å›æ¡ç›®æ•°', 'è®¾ç½®è¿”å›çš„æ¡ç›®æ•°', 'text'),
+		'fid' 		=> array('é€‰æ‹©ç‰ˆå—', 'é€‰æ‹©æ˜¾ç¤ºå“ªä¸ªç‰ˆå—çš„å¸–å­', 'select', array()),
+		'sidestatus' 	=> array('ä¸»é¢˜åˆ—è¡¨é¡µé¢(forumdisplay.php)ä¸“ç”¨', 'è®¾ç½®æ­¤æ•°æ®è°ƒç”¨æ¨¡å—ä¸ºä¸»é¢˜åˆ—è¡¨é¡µé¢(forumdisplay.php)çš„ä¸“ç”¨æ¨¡å—ï¼Œåªè°ƒç”¨å½“å‰ç‰ˆå—çš„å†…å®¹', 'radio'),
 	);
 
 	include DISCUZ_ROOT.'./forumdata/cache/cache_forums.php';

@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//¼ì²é¶ÔÏó¼°ÖØ¸´Ê¹ÓÃ
+//æ£€æŸ¥å¯¹è±¡åŠé‡å¤ä½¿ç”¨
 $idtype = 'cid';
 $query = $_SGLOBAL['db']->query('SELECT * FROM '.tname('comment')." WHERE cid = '$id' AND authorid = '$_SGLOBAL[supe_uid]'");
 $value = $_SGLOBAL['db']->fetch_array($query);
@@ -18,7 +18,7 @@ if(empty($value)) {
 	showmessage('magicuse_object_once_limit');
 }
 
-//²ÊºçìÅ
+//å½©è™¹ç‚«
 if(submitcheck("usesubmit")) {
 
 	updatetable('comment', array('magicflicker'=>1), array('cid'=>$id, 'authorid'=>$_SGLOBAL['supe_uid']));

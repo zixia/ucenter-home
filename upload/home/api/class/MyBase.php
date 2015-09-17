@@ -231,13 +231,13 @@ class MyBase {
 	 * getUsers
 	 *
 	 * @param array $uIds
-	 * @param array $spaces space±íÖÐµÄÐÅÏ¢
-	 * @param boolean $isReturnSpaceField ÊÇ·ñ·µ»Øspacefield±íÖÐµÄÐÅÏ¢
-	 * @param boolean $isReturnSpaceInfo ÊÇ·ñ·µ»Øspaceinfo±íÖÐµÄÐÅÏ¢
-	 * @param boolean $isReturnFriends ÊÇ·ñ·µ»ØºÃÓÑÐÅÏ¢
-	 * @param integer $friendNum ºÃÓÑÊýÄ¿
-	 * @param boolean $isOnlyReturnFriendId ÊÇ·ñ½ö·µ»ØºÃÓÑid
-	 * @param boolean $isFriendIdKey ÊÇ·ñfriendId×÷ÎªÊý×éµÄkey
+	 * @param array $spaces spaceè¡¨ä¸­çš„ä¿¡æ¯
+	 * @param boolean $isReturnSpaceField æ˜¯å¦è¿”å›žspacefieldè¡¨ä¸­çš„ä¿¡æ¯
+	 * @param boolean $isReturnSpaceInfo æ˜¯å¦è¿”å›žspaceinfoè¡¨ä¸­çš„ä¿¡æ¯
+	 * @param boolean $isReturnFriends æ˜¯å¦è¿”å›žå¥½å‹ä¿¡æ¯
+	 * @param integer $friendNum å¥½å‹æ•°ç›®
+	 * @param boolean $isOnlyReturnFriendId æ˜¯å¦ä»…è¿”å›žå¥½å‹id
+	 * @param boolean $isFriendIdKey æ˜¯å¦friendIdä½œä¸ºæ•°ç»„çš„key
 	 * @access public
 	 * @return array
 	 */
@@ -265,7 +265,7 @@ class MyBase {
 				$spaceFields[$row['uid']] = $row;
 			}
 
-			// ÓÉÓÚspacefield±íÖÐÒ»Ð©×Ö¶ÎµÄÒþË½´æ·ÅÔÚspaceinfo±í£¬ÔÚÕâÀïÒ»¿éÈ¡³öÀ´
+			// ç”±äºŽspacefieldè¡¨ä¸­ä¸€äº›å­—æ®µçš„éšç§å­˜æ”¾åœ¨spaceinfoè¡¨ï¼Œåœ¨è¿™é‡Œä¸€å—å–å‡ºæ¥
 			$sql = sprintf('SELECT * FROM %s WHERE uid IN (%s)', tname('spaceinfo'), implode(', ', $uIds));
 			$query = $_SGLOBAL['db']->query($sql);
 			while($row = $_SGLOBAL['db']->fetch_array($query)) {
@@ -413,10 +413,10 @@ class my{
 		return $response;
 	}
 
-	//¸ñÊ½»¯·µ»Ø½á¹û
+	//æ ¼å¼åŒ–è¿”å›žç»“æžœ
 	function formatResponse($data) {
 		global $_SCONFIG, $_SC;
-		//·µ»Ø½á¹ûÒª²Î¼ÓÒ»Ð©Í³Ò»µÄ·µ»ØÐÅÏ¢
+		//è¿”å›žç»“æžœè¦å‚åŠ ä¸€äº›ç»Ÿä¸€çš„è¿”å›žä¿¡æ¯
 		$res = array(
 			'timezone'	=> $_SCONFIG['timeoffset'],
 			'version'   => X_VER,

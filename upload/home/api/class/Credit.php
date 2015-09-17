@@ -11,10 +11,10 @@ if(!defined('IN_UCHOME')) {
 class Credit extends MyBase {
 
 	/**
-	 * »ñÈ¡ÓÃ»§»ı·Ö
+	 * è·å–ç”¨æˆ·ç§¯åˆ†
 	 *
-	 * @param integer $uId ÓÃ»§Id
-	 * @return integer ÓÃ»§»ı·Ö
+	 * @param integer $uId ç”¨æˆ·Id
+	 * @return integer ç”¨æˆ·ç§¯åˆ†
 	 */
 	function get($uId) {
 		global $_SGLOBAL;
@@ -24,13 +24,13 @@ class Credit extends MyBase {
 	}
 
 	/**
-	 * ¸üĞÂÓÃ»§µÄ»ı·Ö
+	 * æ›´æ–°ç”¨æˆ·çš„ç§¯åˆ†
 	 *
-	 * @param integer $uId ÓÃ»§Id
-	 * @param integer $credits »ı·ÖÖµ
-	 * @param integer $appId Ó¦ÓÃId
-	 * @param string $note ²Ù×÷¼ÇÂ¼
-	 * @return integer ¸üĞÂºóµÄÓÃ»§»ı·Ö
+	 * @param integer $uId ç”¨æˆ·Id
+	 * @param integer $credits ç§¯åˆ†å€¼
+	 * @param integer $appId åº”ç”¨Id
+	 * @param string $note æ“ä½œè®°å½•
+	 * @return integer æ›´æ–°åçš„ç”¨æˆ·ç§¯åˆ†
 	 */
 	function update($uId, $credits, $appId, $note) {
 		global $_SGLOBAL;

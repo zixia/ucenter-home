@@ -15,14 +15,14 @@ if(submitcheck('friendsubmit')) {
 		showmessage('showcredit_error');
 	}
 	
-	//¼ì²âºÃÓÑ
+	//æ£€æµ‹å¥½å‹
 	$_POST['fusername'] = trim($_POST['fusername']);
 	$fuid = getcount('friend', array('uid'=>$space['uid'], 'fusername'=>$_POST['fusername'], 'status'=>1), 'fuid');
 	if(empty($_POST['fusername']) || empty($fuid) || $fuid == $space['uid']) {
 		showmessage('showcredit_fuid_error');
 	}
 	
-	//ÔùËÍ
+	//èµ é€
 	$count = getcount('show', array('uid'=>$fuid));
 	if($count) {
 		$_SGLOBAL['db']->query("UPDATE ".tname('show')." SET credit=credit+$showcredit WHERE uid='$fuid'");
@@ -30,13 +30,13 @@ if(submitcheck('friendsubmit')) {
 		inserttable('show', array('uid'=>$fuid, 'username'=>$_POST['fusername'], 'credit'=>$showcredit), 0, true);
 	}
 	
-	//¼õÉÙ×Ô¼ºµÄ»ý·Ö
+	//å‡å°‘è‡ªå·±çš„ç§¯åˆ†
 	$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET credit=credit-$showcredit WHERE uid='$space[uid]'");
 	
-	//¸øºÃÓÑÍ¨Öª
+	//ç»™å¥½å‹é€šçŸ¥
 	notification_add($fuid, 'credit', cplang('note_showcredit', array($showcredit)));
 	
-	//ÊµÃû
+	//å®žå
 	realname_set($fuid, $_POST['fusername']);
 	realname_get();
 	
@@ -58,7 +58,7 @@ if(submitcheck('friendsubmit')) {
 	}
 	$_POST['note'] = getstr($_POST['note'], 100, 1, 1, 1);
 	
-	//Ôö¼Ó
+	//å¢žåŠ 
 	$count = getcount('show', array('uid'=>$_SGLOBAL['supe_uid']));
 	if($count) {
 		$notesql = $_POST['note']?", note='$_POST[note]'":'';
@@ -67,7 +67,7 @@ if(submitcheck('friendsubmit')) {
 		inserttable('show', array('uid'=>$_SGLOBAL['supe_uid'], 'username'=>$_SGLOBAL['supe_username'], 'credit'=>$showcredit, 'note'=>$_POST['note']), 0, true);
 	}
 
-	//¼õÉÙ×Ô¼ºµÄ»ý·Ö
+	//å‡å°‘è‡ªå·±çš„ç§¯åˆ†
 	$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET credit=credit-$showcredit WHERE uid='$space[uid]'");
 	
 	//feed

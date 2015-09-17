@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//È¨ÏŞ
+//æƒé™
 if(!checkperm('manageblock')) {
 	cpmessage('no_authority_management_operation');
 }
@@ -42,7 +42,7 @@ if(submitcheck('valuesubmit')) {
 		$bid = inserttable('block', $setarr, 1);
 	}
 	
-	//ÏÂÒ»²½
+	//ä¸‹ä¸€æ­¥
 	cpmessage('enter_the_next_step', $turl.'&op=code&id='.$bid, 0);
 	
 } elseif (submitcheck('codesubmit')) {
@@ -61,11 +61,11 @@ if(submitcheck('valuesubmit')) {
 	$setarr['htmlcode'] = addslashes(preg_replace("/href\=\"(?!http\:\/\/)(.+?)\"/i", 'href="'.getsiteurl().'\\1"', stripslashes($setarr['htmlcode'])));
 	updatetable('block', $setarr, array('bid'=>$bid));
 	
-	//¸üĞÂ»º´æ
+	//æ›´æ–°ç¼“å­˜
 	include_once(S_ROOT.'./source/function_cache.php');
 	block_cache();
 	
-	//Ğ´ÈëÄ£°å
+	//å†™å…¥æ¨¡æ¿
 	if($block['blocksql']) {
 		if(empty($setarr['perpage'])) {
 			$perstr = '';
@@ -83,12 +83,12 @@ if(submitcheck('valuesubmit')) {
 }
 
 if(empty($_GET['op'])) {
-	//ÏÔÊ¾ÁĞ±í
+	//æ˜¾ç¤ºåˆ—è¡¨
 	$perpage = 20;
 	$page = empty($_GET['page'])?1:intval($_GET['page']);
 	if($page<1) $page = 1;
 	$start = ($page-1)*$perpage;
-	//¼ì²é¿ªÊ¼Êı
+	//æ£€æŸ¥å¼€å§‹æ•°
 	ckstart($start, $perpage);
 	
 	$list = array();
@@ -106,10 +106,10 @@ if(empty($_GET['op'])) {
 	
 } elseif($_GET['op'] == 'code') {
 	
-	//»ñÈ¡Êı¾İ
+	//è·å–æ•°æ®
 	$block = sub_getblock($_GET['id']);
 
-	//ÏÔÊ¾½á¹û
+	//æ˜¾ç¤ºç»“æœ
 	$colnames = $keys = array();
 	if(!empty($block['blocksql'])) {
 		if($query = $_SGLOBAL['db']->query(preg_replace("/\[(\d+)\]/e", "mksqltime('\\1')", $block['blocksql'])." LIMIT 1", 'SILENT')) {
@@ -123,7 +123,7 @@ if(empty($_GET['op'])) {
 	
 	$phptag = '$';
 	
-	//Ä¬ÈÏÏÔÊ¾
+	//é»˜è®¤æ˜¾ç¤º
 	if(empty($block['cachename'])) {
 		$block['cachename'] = 'block'.$block['bid'];
 	}
@@ -138,9 +138,9 @@ if(empty($_GET['op'])) {
 
 } elseif($_GET['op'] == 'add') {
 	
-	//»ñÈ¡Êı¾İ
+	//è·å–æ•°æ®
 	$block = array();
-	//»ñÈ¡ÏÖÓĞ±í
+	//è·å–ç°æœ‰è¡¨
 	$tables = sub_gettables();
 	
 	$sqlTables = array(
@@ -173,9 +173,9 @@ if(empty($_GET['op'])) {
 
 } elseif($_GET['op'] == 'blocksql') {
 	
-	//»ñÈ¡Êı¾İ
+	//è·å–æ•°æ®
 	$block = sub_getblock($_GET['id']);
-	//»ñÈ¡ÏÖÓĞ±í
+	//è·å–ç°æœ‰è¡¨
 	$tables = sub_gettables();
 
 } elseif($_GET['op'] == 'tpl') {

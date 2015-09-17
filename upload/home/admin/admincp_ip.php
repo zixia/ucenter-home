@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//权限
+//鏉冮檺
 if(!checkperm('manageip')) {
 	cpmessage('no_authority_management_operation');
 }
@@ -17,13 +17,13 @@ if(submitcheck('thevaluesubmit')) {
 
 	$setarr = array();
 	
-	//ip允许
+	//ip鍏佽
 	$_POST['config']['ipaccess'] = trim(preg_replace("/(\s*(\r\n|\n\r|\n|\r)\s*)/", "\r\n", $_POST['config']['ipaccess']));
 	if(!ipaccess($_POST['config']['ipaccess'])) {
 		cpmessage('ip_is_not_allowed_to_visit_the_area', '', 1, array($_SGLOBAL[onlineip]));
 	}
 	
-	//ip禁止
+	//ip绂佹
 	$_POST['config']['ipbanned'] = saddslashes(trim(preg_replace("/(\s*(\r\n|\n\r|\n|\r)\s*)/", "\r\n", $_POST['config']['ipbanned'])));
 	if(ipbanned($_POST['config']['ipbanned'])) {
 		cpmessage('the_prohibition_of_the_visit_within_the_framework_of_ip', '', 1, array($_SGLOBAL[onlineip]));
@@ -40,7 +40,7 @@ if(submitcheck('thevaluesubmit')) {
 		$_SGLOBAL['db']->query("REPLACE INTO ".tname('config')." (var, datavalue) VALUES ".implode(',', $setarr));
 	}
 
-	//更新缓存
+	//鏇存柊缂撳瓨
 	include_once(S_ROOT.'./source/function_cache.php');
 	config_cache();;
 

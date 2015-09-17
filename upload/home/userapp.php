@@ -8,16 +8,16 @@ include_once('./common.php');
 
 $appid = empty($_GET['id'])?'':intval($_GET['id']);
 
-//ÊÇ·ñ¹Ø±ÕÕ¾µã
+//æ˜¯å¦å…³é—­ç«™ç‚¹
 checkclose();
 
-//ĞèÒªµÇÂ¼
+//éœ€è¦ç™»å½•
 checklogin();
 
-//¿Õ¼äĞÅÏ¢
+//ç©ºé—´ä¿¡æ¯
 $space = getspace($_SGLOBAL['supe_uid']);
 
-//¿Õ¼ä±»Ëø¶¨
+//ç©ºé—´è¢«é”å®š
 if($space['flag'] == -1) {
 	showmessage('space_has_been_locked');
 }
@@ -31,21 +31,21 @@ if(empty($_SCONFIG['my_status'])) {
 }
 
 if($appid == '1036584') {
-	//ÊÓÆµÈÏÖ¤
+	//è§†é¢‘è®¤è¯
 } else {
-	//ÑéÖ¤ÊÇ·ñÓĞÈ¨ÏŞÍæÓ¦ÓÃ
+	//éªŒè¯æ˜¯å¦æœ‰æƒé™ç©åº”ç”¨
 	if(!checkperm('allowmyop')) {
 		showmessage('no_privilege');
 	}
 	
-	//ÊµÃûÈÏÖ¤
+	//å®åè®¤è¯
 	include_once(S_ROOT.'./source/function_cp.php');
 	ckrealname('userapp');
 	
-	//ÊÓÆµÈÏÖ¤
+	//è§†é¢‘è®¤è¯
 	ckvideophoto('userapp');
 	
-	//¸üĞÂ×´Ì¬
+	//æ›´æ–°çŠ¶æ€
 	updatetable('session', array('lastactivity' => $_SGLOBAL['timestamp']), array('uid'=>$_SGLOBAL['supe_uid']));
 }
 
@@ -57,13 +57,13 @@ if($app = $_SGLOBAL['db']->fetch_array($query)) {
 	}
 }
 	
-//ÂşÓÎ
+//æ¼«æ¸¸
 $my_appId = $appid;
 $my_suffix = base64_decode(urldecode($_GET['my_suffix']));
 
 $my_prefix = getsiteurl();
 
-//½±Àø»ı·Ö
+//å¥–åŠ±ç§¯åˆ†
 getreward('useapp', 1, 0, $appid);
 
 if (!$my_suffix) {

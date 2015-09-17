@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//»ñÈ¡ÏŞÖÆÌõ¼ş
+//è·å–é™åˆ¶æ¡ä»¶
 function getwheres($intkeys, $strkeys, $randkeys, $likekeys, $pre='') {
 	
 	$wherearr = array();
@@ -54,7 +54,7 @@ function getwheres($intkeys, $strkeys, $randkeys, $likekeys, $pre='') {
 	return array('wherearr'=>$wherearr, 'urls'=>$urls);
 }
 
-//»ñÈ¡ÅÅĞò
+//è·å–æ’åº
 function getorders($alloworders, $default, $pre='') {
 	$orders = array('sql'=>'', 'urls'=>array());
 	if(empty($_GET['orderby']) || !in_array($_GET['orderby'], $alloworders)) {
@@ -74,11 +74,11 @@ function getorders($alloworders, $default, $pre='') {
 	return $orders;
 }
 
-//¶Ô»°¿ò
+//å¯¹è¯æ¡†
 function cpmessage($msgkey, $url_forward='', $second=1, $values=array()) {
 	global $_SGLOBAL, $_SC, $_SCONFIG, $_TPL, $_SN, $space;
 	
-	//È¥µô¹ã¸æ
+	//å»æ‰å¹¿å‘Š
 	$_SGLOBAL['ad'] = array();
 
 	include_once(S_ROOT.'./language/lang_cpmessage.php');
@@ -88,10 +88,10 @@ function cpmessage($msgkey, $url_forward='', $second=1, $values=array()) {
 		$message = $msgkey;
 	}
 	
-	//ÏÔÊ¾
+	//æ˜¾ç¤º
 	obclean();
 	
-	//²Ëµ¥¼¤»î
+	//èœå•æ¿€æ´»
 	$menuactive = array('index' => ' class="active"');
 	
 	if(!empty($url_forward)) {
@@ -102,15 +102,15 @@ function cpmessage($msgkey, $url_forward='', $second=1, $values=array()) {
 	exit();
 }
 
-//Éú³ÉÕ¾µãkey
+//ç”Ÿæˆç«™ç‚¹key
 function mksitekey() {
 	global $_SERVER, $_SC, $_SGLOBAL;
-	//16Î»
+	//16ä½
 	$sitekey = substr(md5($_SERVER['SERVER_ADDR'].$_SERVER['HTTP_USER_AGENT'].$_SC['dbhost'].$_SC['dbuser'].$_SC['dbpw'].$_SC['dbname'].substr($_SGLOBAL['timestamp'], 0, 6)), 8, 6).random(10);
 	return $sitekey;
 }
 
-//Í³¼ÆÊı¾İ
+//ç»Ÿè®¡æ•°æ®
 function getstatistics() {
 	global $_SGLOBAL, $_SC, $_SCONFIG;
 	
@@ -149,7 +149,7 @@ function getstatistics() {
 	return $statistics;
 }
 
-//ÈÕÖ¾
+//æ—¥å¿—
 function admincp_log() {
 	global $_GET, $_POST;
 	
@@ -173,7 +173,7 @@ function admincp_log() {
 	runlog('admincp', $log_message);
 }
 
-//ÑÕÉ«½»²æ
+//é¢œè‰²äº¤å‰
 function mkcolor($color1='#FFFFFF', $color2='#FCF9E6') {
 	global $_SGLOBAL;
 

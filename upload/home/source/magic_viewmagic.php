@@ -10,7 +10,7 @@ if(!defined('IN_UCHOME')) {
 
 $magic['custom']['maxview'] = $magic['custom']['maxview'] ? intval($magic['custom']['maxview']) : 10;
 
-//͸�Ӿ�
+//透视镜
 if(submitcheck("usesubmit")) {
 	
 	$idtype = 'uid';

@@ -8,9 +8,9 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-$pernum = 1;//Ò»´Î·¢ËÍÓÊ¼ş¸öÊı£¬Ì«¶àÈİÒ×³¬Ê±ºÍ·şÎñÆ÷±»·âÉ±
+$pernum = 1;//ä¸€æ¬¡å‘é€é‚®ä»¶ä¸ªæ•°ï¼Œå¤ªå¤šå®¹æ˜“è¶…æ—¶å’ŒæœåŠ¡å™¨è¢«å°æ€
 
-ssetcookie('sendmail', '1', 300);//ÓÃ»§Ã¿5·ÖÖÓµ÷ÓÃ±¾³ÌĞò
+ssetcookie('sendmail', '1', 300);//ç”¨æˆ·æ¯5åˆ†é’Ÿè°ƒç”¨æœ¬ç¨‹åº
 $lockfile = S_ROOT.'./data/sendmail.lock';
 @$filemtime = filemtime($lockfile);
 
@@ -18,10 +18,10 @@ if($_SGLOBAL['timestamp'] - $filemtime < 5) exit();
 
 touch($lockfile);
 
-//·ÀÖ¹³¬Ê±
+//é˜²æ­¢è¶…æ—¶
 set_time_limit(0);
 
-//»ñÈ¡·¢ËÍ¶ÓÁĞ
+//è·å–å‘é€é˜Ÿåˆ—
 $list = $sublist = $cids = $touids = array();
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('mailcron')." WHERE sendtime<='$_SGLOBAL[timestamp]' ORDER BY sendtime LIMIT 0,$pernum");
 while ($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -32,22 +32,22 @@ while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 
 if(empty($cids)) exit();
 
-//ÓÊ¼şÄÚÈİ
+//é‚®ä»¶å†…å®¹
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('mailqueue')." WHERE cid IN (".simplode($cids).")");
 while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 	$sublist[$value['cid']][] = $value;
 }
 
-//¸üĞÂÓÃ»§×îºó·¢ËÍÊ±¼ä
+//æ›´æ–°ç”¨æˆ·æœ€åå‘é€æ—¶é—´
 if($touids) {
 	$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET lastsend='$_SGLOBAL[timestamp]' WHERE uid IN (".simplode($touids).")");
 }
 
-//É¾³ıÓÊ¼ş
+//åˆ é™¤é‚®ä»¶
 $_SGLOBAL['db']->query("DELETE FROM ".tname('mailcron')." WHERE cid IN (".simplode($cids).")");
 $_SGLOBAL['db']->query("DELETE FROM ".tname('mailqueue')." WHERE cid IN (".simplode($cids).")");
 
-//¿ªÊ¼·¢ËÍ
+//å¼€å§‹å‘é€
 include_once(S_ROOT.'./source/function_sendmail.php');
 foreach ($list as $cid => $value) {
 	$mlist = $sublist[$cid];

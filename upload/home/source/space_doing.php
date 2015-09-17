@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//·ÖÒ³
+//åˆ†é¡µ
 $perpage = 20;
 $perpage = mob_perpage($perpage);
 
@@ -16,17 +16,17 @@ $page = empty($_GET['page'])?0:intval($_GET['page']);
 if($page<1) $page=1;
 $start = ($page-1)*$perpage;
 
-//¼ì²é¿ªÊ¼Êı
+//æ£€æŸ¥å¼€å§‹æ•°
 ckstart($start, $perpage);
 
 $dolist = array();
 $count = 0;
 
 if(empty($_GET['view']) && ($space['friendnum']<$_SCONFIG['showallfriendnum'])) {
-	$_GET['view'] = 'all';//Ä¬ÈÏÏÔÊ¾
+	$_GET['view'] = 'all';//é»˜è®¤æ˜¾ç¤º
 }
 	
-//´¦Àí²éÑ¯
+//å¤„ç†æŸ¥è¯¢
 $f_index = '';
 if($_GET['view'] == 'all') {
 	
@@ -63,7 +63,7 @@ if($doid) {
 $doids = $clist = $newdoids = array();
 if(empty($count)) {
 	$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('doing')." WHERE $wheresql"), 0);
-	//¸üĞÂÍ³¼Æ
+	//æ›´æ–°ç»Ÿè®¡
 	if($wheresql == "uid='$space[uid]'" && $space['doingnum'] != $count) {
 		updatetable('space', array('doingnum' => $count), array('uid'=>$space['uid']));
 	}
@@ -80,20 +80,20 @@ if($count) {
 	}
 }
 
-//µ¥Ìõ´¦Àí
+//å•æ¡å¤„ç†
 if($doid) {
 	$dovalue = empty($dolist)?array():$dolist[0];
 	if($dovalue) {
 		if($dovalue['uid'] == $_SGLOBAL['supe_uid']) {
 			$actives = array('me'=>' class="active"');
 		} else {
-			$space = getspace($dovalue['uid']);//¶Ô·½µÄ¿Õ¼ä
+			$space = getspace($dovalue['uid']);//å¯¹æ–¹çš„ç©ºé—´
 			$actives = array('all'=>' class="active"');
 		}
 	}
 }
 
-//»Ø¸´
+//å›å¤
 if($doids) {
 	
 	include_once(S_ROOT.'./source/class_tree.php');
@@ -124,10 +124,10 @@ foreach ($newdoids as $cdoid) {
 	}
 }
 
-//·ÖÒ³
+//åˆ†é¡µ
 $multi = multi($count, $perpage, $page, $theurl);
 
-//Í¬ĞÄÇéµÄ
+//åŒå¿ƒæƒ…çš„
 $moodlist = array();
 if($space['mood'] && empty($start)) {
 	$query = $_SGLOBAL['db']->query("SELECT s.uid,s.username,s.name,s.namestatus,s.mood,s.updatetime,s.groupid,sf.note,sf.sex
@@ -145,7 +145,7 @@ if($space['mood'] && empty($start)) {
 
 $upid = 0;
 
-//ÊµÃû
+//å®å
 realname_get();
 
 $_TPL['css'] = 'doing';

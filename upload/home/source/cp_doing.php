@@ -21,21 +21,21 @@ if(submitcheck('addsubmit')) {
 			showmessage('no_privilege');
 		}
 		
-		//ÊµÃûÈÏÖ¤
+		//å®åè®¤è¯
 		ckrealname('doing');
 		
-		//ÊÓÆµÈÏÖ¤
+		//è§†é¢‘è®¤è¯
 		ckvideophoto('doing');
 		
-		//ĞÂÓÃ»§¼ûÏ°
+		//æ–°ç”¨æˆ·è§ä¹ 
 		cknewuser();
 	
-		//ÑéÖ¤Âë
+		//éªŒè¯ç 
 		if(checkperm('seccode') && !ckseccode($_POST['seccode'])) {
 			showmessage('incorrect_code');
 		}
 	
-		//ÅĞ¶ÏÊÇ·ñ²Ù×÷Ì«¿ì
+		//åˆ¤æ–­æ˜¯å¦æ“ä½œå¤ªå¿«
 		$waittime = interval_check('post');
 		if($waittime > 0) {
 			showmessage('operating_too_fast', '', 1, array($waittime));
@@ -45,15 +45,15 @@ if(submitcheck('addsubmit')) {
 			$add_doing = 0;
 		}
 
-		//ÊµÃû
+		//å®å
 		if(!ckrealname('doing', 1)) {
 			$add_doing = 0;
 		}
-		//ÊÓÆµ
+		//è§†é¢‘
 		if(!ckvideophoto('doing', array(), 1)) {
 			$add_doing = 0;
 		}
-		//ĞÂÓÃ»§
+		//æ–°ç”¨æˆ·
 		if(!cknewuser(1)) {
 			$add_doing = 0;
 		}
@@ -63,13 +63,13 @@ if(submitcheck('addsubmit')) {
 		}
 	}
 	
-	//»ñÈ¡ĞÄÇé
+	//è·å–å¿ƒæƒ…
 	$mood = 0;
 	preg_match("/\[em\:(\d+)\:\]/s", $_POST['message'], $ms);
 	$mood = empty($ms[1])?0:intval($ms[1]);
 
 	$message = getstr($_POST['message'], 200, 1, 1, 1);
-	//Ìæ»»±íÇé
+	//æ›¿æ¢è¡¨æƒ…
 	$message = preg_replace("/\[em:(\d+):]/is", "<img src=\"image/face/\\1.gif\" class=\"face\">", $message);
 	$message = preg_replace("/\<br.*?\>/is", ' ', $message);
 	
@@ -86,11 +86,11 @@ if(submitcheck('addsubmit')) {
 			'mood' => $mood,
 			'ip' => getonlineip()
 		);
-		//Èë¿â
+		//å…¥åº“
 		$newdoid = inserttable('doing', $setarr, 1);
 	}
 	
-	//¸üĞÂ¿Õ¼änote
+	//æ›´æ–°ç©ºé—´note
 	$setarr = array('note'=>$message);
 	$credit = $experience = 0;
 	if(!empty($_POST['spacenote'])) {
@@ -115,7 +115,7 @@ if(submitcheck('addsubmit')) {
 		'lastpost' => "lastpost='$_SGLOBAL[timestamp]'"
 	);
 	if($add_doing) {
-		if(empty($space['doingnum'])) {//µÚÒ»´Î
+		if(empty($space['doingnum'])) {//ç¬¬ä¸€æ¬¡
 			$doingnum = getcount('doing', array('uid'=>$space['uid']));
 			$setarr['doingnum'] = "doingnum='$doingnum'";
 		} else {
@@ -124,7 +124,7 @@ if(submitcheck('addsubmit')) {
 	}
 	$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET ".implode(',', $setarr)." WHERE uid='$_SGLOBAL[supe_uid]'");
 	
-	//ÊÂ¼şfeed
+	//äº‹ä»¶feed
 	if($add_doing && ckprivacy('doing', 1)) {
 		$feedarr = array(
 			'appid' => UC_APPID,
@@ -139,12 +139,12 @@ if(submitcheck('addsubmit')) {
 			'id' => $newdoid,
 			'idtype' => 'doid'
 		);
-		$feedarr['hash_template'] = md5($feedarr['title_template']."\t".$feedarr['body_template']);//Ï²ºÃhash
-		$feedarr['hash_data'] = md5($feedarr['title_template']."\t".$feedarr['title_data']."\t".$feedarr['body_template']."\t".$feedarr['body_data']);//ºÏ²¢hash
+		$feedarr['hash_template'] = md5($feedarr['title_template']."\t".$feedarr['body_template']);//å–œå¥½hash
+		$feedarr['hash_data'] = md5($feedarr['title_template']."\t".$feedarr['title_data']."\t".$feedarr['body_template']."\t".$feedarr['body_data']);//åˆå¹¶hash
 		inserttable('feed', $feedarr);
 	}
 
-	//Í³¼Æ
+	//ç»Ÿè®¡
 	updatestat('doing');
 	
 	showmessage('do_success', $_POST['refer'], 0);
@@ -156,20 +156,20 @@ if(submitcheck('addsubmit')) {
 		showmessage('no_privilege');
 	}
 	
-	//ÊµÃûÈÏÖ¤
+	//å®åè®¤è¯
 	ckrealname('doing');
 	
-	//ĞÂÓÃ»§¼ûÏ°
+	//æ–°ç”¨æˆ·è§ä¹ 
 	cknewuser();
 	
-	//ÅĞ¶ÏÊÇ·ñ²Ù×÷Ì«¿ì
+	//åˆ¤æ–­æ˜¯å¦æ“ä½œå¤ªå¿«
 	$waittime = interval_check('post');
 	if($waittime > 0) {
 		showmessage('operating_too_fast', '', 1, array($waittime));
 	}
 	
 	$message = getstr($_POST['message'], 200, 1, 1, 1);
-	//Ìæ»»±íÇé
+	//æ›¿æ¢è¡¨æƒ…
 	$message = preg_replace("/\[em:(\d+):]/is", "<img src=\"image/face/\\1.gif\" class=\"face\">", $message);
 	$message = preg_replace("/\<br.*?\>/is", ' ', $message);
 	if(strlen($message) < 1) {
@@ -188,7 +188,7 @@ if(submitcheck('addsubmit')) {
 	if(empty($updo)) {
 		showmessage('docomment_error');
 	} else {
-		//ºÚÃûµ¥
+		//é»‘åå•
 		if(isblacklist($updo['uid'])) {
 			showmessage('is_blacklist');
 		}
@@ -208,32 +208,32 @@ if(submitcheck('addsubmit')) {
 		'grade' => $updo['grade']+1
 	);
 	
-	//×î¶à²ã¼¶
+	//æœ€å¤šå±‚çº§
 	if($updo['grade'] >= 3) {
-		$setarr['upid'] = $updo['upid'];//¸üÄ¸Ò»¸ö¼¶±ğ
+		$setarr['upid'] = $updo['upid'];//æ›´æ¯ä¸€ä¸ªçº§åˆ«
 	}
 
 	$newid = inserttable('docomment', $setarr, 1);
 	
-	//¸üĞÂ»Ø¸´Êı
+	//æ›´æ–°å›å¤æ•°
 	$_SGLOBAL['db']->query("UPDATE ".tname('doing')." SET replynum=replynum+1 WHERE doid='$updo[doid]'");
 	
-	//Í¨Öª
+	//é€šçŸ¥
 	if($updo['uid'] != $_SGLOBAL['supe_uid']) {
 		$note = cplang('note_doing_reply', array("space.php?do=doing&doid=$updo[doid]&highlight=$newid"));
 		notification_add($updo['uid'], 'doing', $note);
-		//½±Àø»ı·Ö
+		//å¥–åŠ±ç§¯åˆ†
 		getreward('comment',1, 0, 'doing'.$updo['doid']);
 	}
 	
-	//Í³¼Æ
+	//ç»Ÿè®¡
 	updatestat('docomment');
 		
 	showmessage('do_success', $_POST['refer'], 0);
 
 }
 
-//É¾³ı
+//åˆ é™¤
 if($_GET['op'] == 'delete') {
 	
 	if(submitcheck('deletesubmit')) {
@@ -242,10 +242,10 @@ if($_GET['op'] == 'delete') {
 			$query = $_SGLOBAL['db']->query("SELECT dc.*, d.uid as duid FROM ".tname('docomment')." dc, ".tname('doing')." d WHERE dc.id='$id' AND dc.doid=d.doid");
 			if($value = $_SGLOBAL['db']->fetch_array($query)) {
 				if($allowmanage || $value['uid'] == $_SGLOBAL['supe_uid'] || $value['duid'] == $_SGLOBAL['supe_uid'] ) {
-					//¸üĞÂÄÚÈİ
+					//æ›´æ–°å†…å®¹
 					updatetable('docomment', array('uid'=>0, 'username'=>'', 'message'=>''), array('id'=>$id));
 					if($value['uid'] != $_SGLOBAL['supe_uid'] && $value['duid'] != $_SGLOBAL['supe_uid']) {
-						//¿Û³ı»ı·Ö
+						//æ‰£é™¤ç§¯åˆ†
 						getreward('delcomment', 1, $value['uid']);
 					}
 				}

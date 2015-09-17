@@ -8,14 +8,14 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//ÇåÀí½ÅÓ¡ºÍ×îÐÂ·Ã¿Í
-$maxday = 90;//±£Áô90ÌìµÄ
+//æ¸…ç†è„šå°å’Œæœ€æ–°è®¿å®¢
+$maxday = 90;//ä¿ç•™90å¤©çš„
 $deltime = $_SGLOBAL['timestamp'] - $maxday*3600*24;
 
-//ÇåÀí½ÅÓ¡
+//æ¸…ç†è„šå°
 $_SGLOBAL['db']->query("DELETE FROM ".tname('clickuser')." WHERE dateline < '$deltime'");
 
-//×îÐÂ·Ã¿Í
+//æœ€æ–°è®¿å®¢
 $_SGLOBAL['db']->query("DELETE FROM ".tname('visitor')." WHERE dateline < '$deltime'");
 
 ?>

@@ -8,13 +8,13 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//分页
+//鍒嗛〉
 $perpage = 20;
 $page = empty($_GET['page'])?0:intval($_GET['page']);
 if($page<1) $page=1;
 $start = ($page-1)*$perpage;
 
-//检查开始数
+//妫�鏌ュ紑濮嬫暟
 ckstart($start, $perpage);
 
 $list = array();
@@ -37,7 +37,7 @@ if($space['mood']) {
 	
 	realname_get();
 	
-	//分页
+	//鍒嗛〉
 	$multi = multi($count, $perpage, $page, $theurl);
 
 }

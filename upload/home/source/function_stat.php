@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//ÈÕÖ¾»Ø¸´Êı
+//æ—¥å¿—å›å¤æ•°
 function blog_replynum_stat($start, $perpage) {
 	global $_SGLOBAL;
 	
@@ -31,7 +31,7 @@ function blog_replynum_stat($start, $perpage) {
 	return $next;
 }
 
-//¿Õ¼äºÃÓÑÊı
+//ç©ºé—´å¥½å‹æ•°
 function space_friendnum_stat($start, $perpage) {
 	global $_SGLOBAL;
 	
@@ -54,7 +54,7 @@ function space_friendnum_stat($start, $perpage) {
 	return $next;
 }
 
-//¿Õ¼äºÃÓÑ»º´æ
+//ç©ºé—´å¥½å‹ç¼“å­˜
 function space_friend_stat($start, $perpage) {
 	global $_SGLOBAL;
 	
@@ -76,7 +76,7 @@ function space_friend_stat($start, $perpage) {
 	return $next;
 }
 
-//Èº×éÓÃ»§Êı
+//ç¾¤ç»„ç”¨æˆ·æ•°
 function mtag_membernum_stat($start, $perpage) {
 	global $_SGLOBAL;
 	
@@ -99,7 +99,7 @@ function mtag_membernum_stat($start, $perpage) {
 	return $next;
 }
 
-//Èº×é»°ÌâÊı
+//ç¾¤ç»„è¯é¢˜æ•°
 function mtag_threadnum_stat($start, $perpage) {
 	global $_SGLOBAL;
 	
@@ -122,7 +122,7 @@ function mtag_threadnum_stat($start, $perpage) {
 	return $next;
 }
 
-//Èº×éÌû×ÓÊı
+//ç¾¤ç»„å¸–å­æ•°
 function mtag_postnum_stat($start, $perpage) {
 	global $_SGLOBAL;
 	
@@ -145,7 +145,7 @@ function mtag_postnum_stat($start, $perpage) {
 	return $next;
 }
 
-//»°Ìâ»Ø¸´Êı
+//è¯é¢˜å›å¤æ•°
 function thread_replynum_stat($start, $perpage) {
 	global $_SGLOBAL;
 	
@@ -168,7 +168,7 @@ function thread_replynum_stat($start, $perpage) {
 	return $next;
 }
 
-//Ïà²áÍ¼Æ¬Êı
+//ç›¸å†Œå›¾ç‰‡æ•°
 function album_picnum_stat($start, $perpage) {
 	global $_SGLOBAL;
 	
@@ -191,7 +191,7 @@ function album_picnum_stat($start, $perpage) {
 	return $next;
 }
 
-//TAGÈÕÖ¾Êı
+//TAGæ—¥å¿—æ•°
 function tag_blognum_stat($start, $perpage) {
 	global $_SGLOBAL;
 	

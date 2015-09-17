@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//¸üĞÂÅäÖÃÎÄ¼ş
+//æ›´æ–°é…ç½®æ–‡ä»¶
 function config_cache($updatedata=true) {
 	global $_SGLOBAL;
 
@@ -37,7 +37,7 @@ function config_cache($updatedata=true) {
 	}
 }
 
-//¸üĞÂnetworkÅäÖÃÎÄ¼ş
+//æ›´æ–°networké…ç½®æ–‡ä»¶
 function network_cache() {
 	global $_SGLOBAL, $_SCONFIG;
 
@@ -46,7 +46,7 @@ function network_cache() {
 	cache_write('network', "_SGLOBAL['network']", $_SGLOBAL['network']);
 }
 
-//¸üĞÂÓÃ»§×éCACHE
+//æ›´æ–°ç”¨æˆ·ç»„CACHE
 function usergroup_cache() {
 	global $_SGLOBAL;
 
@@ -57,7 +57,7 @@ function usergroup_cache() {
 	while ($group = $_SGLOBAL['db']->fetch_array($query)) {
 		$group['maxattachsize'] = intval($group['maxattachsize']) * 1024 * 1024;//M
 		if($group['system'] == 0) {
-			//ÊÇ·ñÊÇ×î¸ßÉÏÏŞ
+			//æ˜¯å¦æ˜¯æœ€é«˜ä¸Šé™
 			if($highest) {
 				$group['exphigher'] = 999999999;
 				$highest = false;
@@ -77,16 +77,16 @@ function usergroup_cache() {
 			'icon' => $group['icon']
 		);
 		
-		//Éú³É»º´æÎÄ¼ş
+		//ç”Ÿæˆç¼“å­˜æ–‡ä»¶
 		cache_write('usergroup_'.$group['gid'], "_SGLOBAL['usergroup']", $usergroup);
 	}
 	
-	//Éú³É»º´æÎÄ¼ş
+	//ç”Ÿæˆç¼“å­˜æ–‡ä»¶
 	cache_write('usergroup', "_SGLOBAL['grouptitle']", $_SGLOBAL['grouptitle']);
 
 }
 
-//¸üĞÂÓÃ»§À¸Ä¿»º´æ
+//æ›´æ–°ç”¨æˆ·æ ç›®ç¼“å­˜
 function profilefield_cache() {
 	global $_SGLOBAL;
 
@@ -98,7 +98,7 @@ function profilefield_cache() {
 	cache_write('profilefield', "_SGLOBAL['profilefield']", $_SGLOBAL['profilefield']);
 }
 
-//¸üĞÂÈº×éÀ¸Ä¿»º´æ
+//æ›´æ–°ç¾¤ç»„æ ç›®ç¼“å­˜
 function profield_cache() {
 	global $_SGLOBAL;
 
@@ -110,7 +110,7 @@ function profield_cache() {
 	cache_write('profield', "_SGLOBAL['profield']", $_SGLOBAL['profield']);
 }
 
-//¸üĞÂ´ÊÓïÆÁ±Î
+//æ›´æ–°è¯è¯­å±è”½
 function censor_cache() {
 	global $_SGLOBAL;
 
@@ -143,7 +143,7 @@ function censor_cache() {
 	cache_write('censor', "_SGLOBAL['censor']", $_SGLOBAL['censor']);
 }
 
-//¸üĞÂ»ı·Ö¹æÔò
+//æ›´æ–°ç§¯åˆ†è§„åˆ™
 function creditrule_cache() {
 	global $_SGLOBAL;
 
@@ -156,7 +156,7 @@ function creditrule_cache() {
 	cache_write('creditrule', "_SGLOBAL['creditrule']", $_SGLOBAL['creditrule']);
 }
 
-//¸üĞÂ¹ã¸æ»º´æ
+//æ›´æ–°å¹¿å‘Šç¼“å­˜
 function ad_cache() {
 	global $_SGLOBAL;
 
@@ -168,7 +168,7 @@ function ad_cache() {
 	cache_write('ad', "_SGLOBAL['ad']", $_SGLOBAL['ad']);
 }
 
-//¸üĞÂÓÃ»§Ïòµ¼ÈÎÎñ
+//æ›´æ–°ç”¨æˆ·å‘å¯¼ä»»åŠ¡
 function task_cache() {
 	global $_SGLOBAL;
 
@@ -182,7 +182,7 @@ function task_cache() {
 	cache_write('task', "_SGLOBAL['task']", $_SGLOBAL['task']);
 }
 
-//¸üĞÂµã»÷Æ÷
+//æ›´æ–°ç‚¹å‡»å™¨
 function click_cache() {
 	global $_SGLOBAL;
 
@@ -194,7 +194,7 @@ function click_cache() {
 	cache_write('click', "_SGLOBAL['click']", $_SGLOBAL['click']);
 }
 
-//¸üĞÂÄ£¿é
+//æ›´æ–°æ¨¡å—
 function block_cache() {
 	global $_SGLOBAL;
 
@@ -206,7 +206,7 @@ function block_cache() {
 	cache_write('block', "_SGLOBAL['block']", $_SGLOBAL['block']);
 }
 
-//¸üĞÂÄ£°åÎÄ¼ş
+//æ›´æ–°æ¨¡æ¿æ–‡ä»¶
 function tpl_cache() {
 	include_once(S_ROOT.'./source/function_cp.php');
 
@@ -217,7 +217,7 @@ function tpl_cache() {
 	}
 }
 
-//¸üĞÂÄ£¿é»º´æ
+//æ›´æ–°æ¨¡å—ç¼“å­˜
 function block_data_cache() {
 	global $_SGLOBAL, $_SCONFIG;
 
@@ -232,7 +232,7 @@ function block_data_cache() {
 	}
 }
 
-//¸üĞÂMYOPÄ¬ÈÏÓ¦ÓÃ
+//æ›´æ–°MYOPé»˜è®¤åº”ç”¨
 function userapp_cache() {
 	global $_SGLOBAL, $_SCONFIG;
 
@@ -246,14 +246,14 @@ function userapp_cache() {
 	cache_write('userapp', "_SGLOBAL['userapp']", $_SGLOBAL['userapp']);
 }
 
-//¸üĞÂÓ¦ÓÃÃû
+//æ›´æ–°åº”ç”¨å
 function app_cache() {
 	global $_SGLOBAL;
 
 	$relatedtag = unserialize(data_get('relatedtag'));
 	$default_open = 0;
 	if(empty($relatedtag)) {
-		//´ÓUCÈ¡Ó¦ÓÃ
+		//ä»UCå–åº”ç”¨
 		$relatedtag = array();
 		include_once S_ROOT.'./uc_client/client.php';
 		$relatedtag['data'] = uc_app_ls();
@@ -265,7 +265,7 @@ function app_cache() {
 		if($default_open) {
 			$data['open'] = 1;
 		}
-		if($appid == UC_APPID) {//µ±Ç°Ó¦ÓÃ
+		if($appid == UC_APPID) {//å½“å‰åº”ç”¨
 			$data['open'] = 0;
 		}
 		$_SGLOBAL['app'][$appid] = array(
@@ -279,12 +279,12 @@ function app_cache() {
 	cache_write('app', "_SGLOBAL['app']", $_SGLOBAL['app']);
 }
 
-// ¸üĞÂ»î¶¯·ÖÀà
+// æ›´æ–°æ´»åŠ¨åˆ†ç±»
 function eventclass_cache(){
     global $_SGLOBAL;
 
 	$_SGLOBAL['eventclass'] = array();
-	// ´ÓÊı¾İ¿â»ñÈ¡
+	// ä»æ•°æ®åº“è·å–
 	$query = $_SGLOBAL['db']->query("SELECT * FROM " . tname("eventclass") . " ORDER BY displayorder");
 	while($value = $_SGLOBAL['db']->fetch_array($query)){
 		if($value['poster']) {
@@ -297,12 +297,12 @@ function eventclass_cache(){
 	cache_write('eventclass', "_SGLOBAL['eventclass']", $_SGLOBAL['eventclass']);
 }
 
-//¸üĞÂµÀ¾ßĞÅÏ¢
+//æ›´æ–°é“å…·ä¿¡æ¯
 function magic_cache(){
     global $_SGLOBAL;
 
 	$_SGLOBAL['magic'] = array();
-	// ´ÓÊı¾İ¿â»ñÈ¡
+	// ä»æ•°æ®åº“è·å–
 	$query = $_SGLOBAL['db']->query("SELECT mid, name FROM ".tname('magic')." WHERE close='0'");
 	while($value = $_SGLOBAL['db']->fetch_array($query)){
 	    $_SGLOBAL['magic'][$value['mid']] = $value['name'];
@@ -310,7 +310,7 @@ function magic_cache(){
 	cache_write('magic', "_SGLOBAL['magic']", $_SGLOBAL['magic']);
 }
 
-//µİ¹éÇå¿ÕÄ¿Â¼
+//é€’å½’æ¸…ç©ºç›®å½•
 function deltreedir($dir) {
 	$files = sreaddir($dir);
 	foreach ($files as $file) {
@@ -322,7 +322,7 @@ function deltreedir($dir) {
 	}
 }
 
-//Êı×é×ª»»³É×Ö´®
+//æ•°ç»„è½¬æ¢æˆå­—ä¸²
 function arrayeval($array, $level = 0) {
 	$space = '';
 	for($i = 0; $i <= $level; $i++) {
@@ -344,7 +344,7 @@ function arrayeval($array, $level = 0) {
 	return $evaluate;
 }
 
-//Ğ´Èë
+//å†™å…¥
 function cache_write($name, $var, $values) {
 	$cachefile = S_ROOT.'./data/data_'.$name.'.php';
 	$cachetext = "<?php\r\n".

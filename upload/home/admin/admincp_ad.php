@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//权限
+//鏉冮檺
 if(!checkperm('managead')) {
 	cpmessage('no_authority_management_operation');
 }
@@ -22,7 +22,7 @@ if(submitcheck('adsubmit')) {
 	}
 	$_POST['system'] = intval($_POST['system']);
 
-	//模板
+	//妯℃澘
 	$html = '';
 	$adcodes = array();
 	switch($_POST['adcode']['type']) {
@@ -86,11 +86,11 @@ if(submitcheck('adsubmit')) {
 		updatetable('ad', $setarr, array('adid' => $adid));
 	}
 
-	//写入模板
+	//鍐欏叆妯℃澘
 	$tpl = S_ROOT.'./data/adtpl/'.$adid.'.htm';
 	swritefile($tpl, $html);
 
-	//缓存更新
+	//缂撳瓨鏇存柊
 	include_once(S_ROOT.'./source/function_cache.php');
 	ad_cache();
 
@@ -101,7 +101,7 @@ if(submitcheck('adsubmit')) {
 	include_once(S_ROOT.'./source/function_delete.php');
 	if(!empty($_POST['adids']) && deleteads($_POST['adids'])) {
 
-		//缓存更新
+		//缂撳瓨鏇存柊
 		include_once(S_ROOT.'./source/function_cache.php');
 		ad_cache();
 
@@ -137,13 +137,13 @@ if(empty($_GET['op'])) {
 		$advalue = $_SGLOBAL['db']->fetch_array($query);
 	}
 	if(empty($advalue)) {
-		//默认数据
+		//榛樿鏁版嵁
 		$advalue = array('adid'=>0, 'system'=>1, 'pagetype'=>'leftside', 'available'=>1, 'adcode'=>array('type'=>'html'));
 	} else {
 		$advalue['adcode'] = unserialize($advalue['adcode']);
 	}
 
-	//显示处理
+	//鏄剧ず澶勭悊
 	$systems = array($advalue['system'] => ' checked');
 	$pagetypes = array($advalue['pagetype'] => ' selected');
 	$availables = array($advalue['available'] => ' checked');

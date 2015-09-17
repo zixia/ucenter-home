@@ -26,13 +26,13 @@ if(submitcheck('ordersubmit')) {
 	showmessage('do_success', 'cp.php?ac=userapp');
 }
 
-//实名认证
+//瀹炲悕璁よ瘉
 ckrealname('userapp');
 
-//视频认证
+//瑙嗛璁よ瘉
 ckvideophoto('userapp');
 
-//uchome地址
+//uchome鍦板潃
 $uchUrl = getsiteurl().'cp.php?ac=userapp';
 	
 //manyou
@@ -57,10 +57,10 @@ $my_extra = isset($_GET['my_extra']) ? $_GET['my_extra'] : '';
 $delimiter = strrpos($my_suffix, '?') ? '&' : '?';
 $myUrl = $my_prefix.urldecode($my_suffix.$delimiter.'my_extra='.$my_extra);
 	
-//本地列表
+//鏈湴鍒楄〃
 $my_userapp = $my_default_userapp = array();
 if($my_suffix == '/userapp/list') {
-	$_GET['op'] = 'menu';//模板
+	$_GET['op'] = 'menu';//妯℃澘
 	$max_order = 0;
 	foreach($_SGLOBAL['userapp'] as $value) {
 		if(isset($_SGLOBAL['my_userapp'][$value['appid']])) {

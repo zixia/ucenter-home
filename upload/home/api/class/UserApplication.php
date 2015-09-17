@@ -64,7 +64,7 @@ class UserApplication extends MyBase {
 		
 		$reward = getreward('installapp', 0, $uId, $appId, 0);
 		
-		//更新用户
+		//鏇存柊鐢ㄦ埛
 		$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET updatetime='$_SGLOBAL[timestamp]', credit=credit+$reward[credit], experience=experience+$reward[experience] WHERE uid='$uId'");
 
 		$displayMethod = ($displayMethod == 'iframe') ? 1 : 0;

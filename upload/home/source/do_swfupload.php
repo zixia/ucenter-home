@@ -43,7 +43,7 @@ if($op == "finish") {
 		$hash = '';
 	} else {
 		$filearr = $dirstr = array();
-		//´óÍ·Ìù±³¾°Í¼
+		//å¤§å¤´è´´èƒŒæ™¯å›¾
 		if($iscamera) {
 			$directory = sreaddir(S_ROOT.'./image/foreground');
 			foreach($directory as $key => $value) {
@@ -88,13 +88,13 @@ if($op == "finish") {
 	if($op == "doodle") {
 		$query = $_SGLOBAL['db']->query('SELECT * FROM '.tname('usermagic')." WHERE uid = '$_SGLOBAL[supe_uid]' AND mid = 'doodle'");
 		$value = $_SGLOBAL['db']->fetch_array($query);
-		if(empty($value) || $value['count'] < 1) {//Ã»ÓÐÍ¿Ñ»°å
+		if(empty($value) || $value['count'] < 1) {//æ²¡æœ‰æ¶‚é¸¦æ¿
 			$uploadfiles = -8;
 			$dosave = false;
 		}
 	}
 	
-	//Èç¹ûÎª¿ÕÔò´ú±í·¢ËÍ¹ýÀ´µÄÁ÷ÓÐ´íÎó
+	//å¦‚æžœä¸ºç©ºåˆ™ä»£è¡¨å‘é€è¿‡æ¥çš„æµæœ‰é”™è¯¯
 	if($dosave && !empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
 		$_SERVER['HTTP_ALBUMID'] = addslashes(siconv(urldecode($_SERVER['HTTP_ALBUMID']), $_SC['charset'], "UTF-8"));
 		$from = false;
@@ -103,7 +103,7 @@ if($op == "finish") {
 		} elseif($_GET['from'] == 'album') {
 			$from = 'uploadimage';
 		}
-		$_SCONFIG['allowwatermark'] = 0;	//½ûÖ¹Ìí¼ÓË®Ó¡
+		$_SCONFIG['allowwatermark'] = 0;	//ç¦æ­¢æ·»åŠ æ°´å°
 		$uploadfiles = stream_save($GLOBALS['HTTP_RAW_POST_DATA'], $_SERVER['HTTP_ALBUMID'], 'jpg', '', '', 0, $from);
 	}
 	

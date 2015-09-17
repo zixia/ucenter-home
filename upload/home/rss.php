@@ -20,7 +20,7 @@ if(!empty($uid)) {
 	$space = getspace($uid);
 }
 if(empty($space)) {
-	//Õ¾µã¸üÐÂrss
+	//ç«™ç‚¹æ›´æ–°rss
 	$space['username'] = $_SCONFIG['sitename'];
 	$space['name'] = $_SCONFIG['sitename'];
 	$space['email'] = $_SCONFIG['adminemail'];
@@ -33,7 +33,7 @@ if(empty($space)) {
 	$space['lastupdate'] = sgmdate($rssdateformat, $space['lastupdate']);
 }
 
-//10Æª×îÐÂÈÕÖ¾
+//10ç¯‡æœ€æ–°æ—¥å¿—
 $uidsql = empty($space['uid'])?'':" AND b.uid='$space[uid]'";
 $query = $_SGLOBAL['db']->query("SELECT bf.message, b.*
 	FROM ".tname('blog')." b

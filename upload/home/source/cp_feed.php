@@ -66,7 +66,7 @@ if($_GET['op'] == 'delete') {
 	}
 } elseif($_GET['op'] == 'get') {
 
-	//获得好友的feed
+	//鑾峰緱濂藉弸鐨刦eed
 	$cp_mode = 1;
 	$_GET['start'] = intval($_GET['start']);
 	if($_GET['start'] < 1) {

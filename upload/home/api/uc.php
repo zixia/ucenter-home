@@ -4,24 +4,24 @@
 	$Id: uc.php 10988 2009-01-19 05:44:31Z zhengqingpeng $
 */
 
-define('UC_CLIENT_VERSION', '1.5.0');	//note UCenter °æ±¾±êÊ¶
+define('UC_CLIENT_VERSION', '1.5.0');	//note UCenter ç‰ˆæœ¬æ ‡è¯†
 define('UC_CLIENT_RELEASE', '20081212');
 
-define('API_DELETEUSER', 1);		//ÓÃ»§É¾³ý API ½Ó¿Ú¿ª¹Ø
-define('API_RENAMEUSER', 1);		//ÓÃ»§ÃûÐÞ¸Ä API ½Ó¿Ú¿ª¹Ø
-define('API_GETTAG', 1);		//»ñÈ¡±êÇ© API ½Ó¿Ú¿ª¹Ø
-define('API_SYNLOGIN', 1);		//Í¬²½µÇÂ¼ API ½Ó¿Ú¿ª¹Ø
-define('API_SYNLOGOUT', 1);		//Í¬²½µÇ³ö API ½Ó¿Ú¿ª¹Ø
-define('API_UPDATEPW', 1);		//¸ü¸ÄÓÃ»§ÃÜÂë ¿ª¹Ø
-define('API_UPDATEBADWORDS', 1);	//¸üÐÂ¹Ø¼ü×ÖÁÐ±í ¿ª¹Ø
-define('API_UPDATEHOSTS', 1);		//¸üÐÂHOSTÎÄ¼þ ¿ª¹Ø
-define('API_UPDATEAPPS', 1);		//¸üÐÂÓ¦ÓÃÁÐ±í ¿ª¹Ø
-define('API_UPDATECLIENT', 1);		//¸üÐÂ¿Í»§¶Ë»º´æ ¿ª¹Ø
-define('API_UPDATECREDIT', 1);		//¸üÐÂÓÃ»§»ý·Ö ¿ª¹Ø
-define('API_GETCREDIT', 1);	//Ïò UC Ìá¹©»ý·Ö ¿ª¹Ø
-define('API_GETCREDITSETTINGS', 1);	//Ïò UC Ìá¹©»ý·ÖÉèÖÃ ¿ª¹Ø
-define('API_UPDATECREDITSETTINGS', 1);	//¸üÐÂÓ¦ÓÃ»ý·ÖÉèÖÃ ¿ª¹Ø
-define('API_ADDFEED', 1);	//Ïò UCHome Ìí¼Ófeed ¿ª¹Ø
+define('API_DELETEUSER', 1);		//ç”¨æˆ·åˆ é™¤ API æŽ¥å£å¼€å…³
+define('API_RENAMEUSER', 1);		//ç”¨æˆ·åä¿®æ”¹ API æŽ¥å£å¼€å…³
+define('API_GETTAG', 1);		//èŽ·å–æ ‡ç­¾ API æŽ¥å£å¼€å…³
+define('API_SYNLOGIN', 1);		//åŒæ­¥ç™»å½• API æŽ¥å£å¼€å…³
+define('API_SYNLOGOUT', 1);		//åŒæ­¥ç™»å‡º API æŽ¥å£å¼€å…³
+define('API_UPDATEPW', 1);		//æ›´æ”¹ç”¨æˆ·å¯†ç  å¼€å…³
+define('API_UPDATEBADWORDS', 1);	//æ›´æ–°å…³é”®å­—åˆ—è¡¨ å¼€å…³
+define('API_UPDATEHOSTS', 1);		//æ›´æ–°HOSTæ–‡ä»¶ å¼€å…³
+define('API_UPDATEAPPS', 1);		//æ›´æ–°åº”ç”¨åˆ—è¡¨ å¼€å…³
+define('API_UPDATECLIENT', 1);		//æ›´æ–°å®¢æˆ·ç«¯ç¼“å­˜ å¼€å…³
+define('API_UPDATECREDIT', 1);		//æ›´æ–°ç”¨æˆ·ç§¯åˆ† å¼€å…³
+define('API_GETCREDIT', 1);	//å‘ UC æä¾›ç§¯åˆ† å¼€å…³
+define('API_GETCREDITSETTINGS', 1);	//å‘ UC æä¾›ç§¯åˆ†è®¾ç½® å¼€å…³
+define('API_UPDATECREDITSETTINGS', 1);	//æ›´æ–°åº”ç”¨ç§¯åˆ†è®¾ç½® å¼€å…³
+define('API_ADDFEED', 1);	//å‘ UCHome æ·»åŠ feed å¼€å…³
 
 define('API_RETURN_SUCCEED', '1');
 define('API_RETURN_FAILED', '-1');
@@ -32,7 +32,7 @@ define('S_ROOT', substr(dirname(__FILE__), 0, -3));
 
 $_SGLOBAL = $_SCONFIG = $_SBLOCK = $_TPL = $_SCOOKIE = $space = array();
 
-//»ñÈ¡Ê±¼ä
+//èŽ·å–æ—¶é—´
 $_SGLOBAL['timestamp'] = time();
 
 if(defined('IN_UC')) {
@@ -43,7 +43,7 @@ if(defined('IN_UC')) {
 	include_once S_ROOT.'./data/data_config.php';
 	include_once S_ROOT.'./source/function_common.php';
 
-	//Á´½ÓÊý¾Ý¿â
+	//é“¾æŽ¥æ•°æ®åº“
 	dbconnect();
 
 } else {
@@ -57,7 +57,7 @@ if(defined('IN_UC')) {
 	include_once S_ROOT.'./data/data_config.php';
 	include_once S_ROOT.'./source/function_common.php';
 
-	//Á´½ÓÊý¾Ý¿â
+	//é“¾æŽ¥æ•°æ®åº“
 	dbconnect();
 
 	$get = $post = array();
@@ -121,10 +121,10 @@ class uc_note {
 			return API_RETURN_FORBIDDEN;
 		}
 	
-		//note ÓÃ»§É¾³ý API ½Ó¿Ú
+		//note ç”¨æˆ·åˆ é™¤ API æŽ¥å£
 		include_once S_ROOT.'./source/function_delete.php';
 	
-		//»ñµÃÓÃ»§
+		//èŽ·å¾—ç”¨æˆ·
 		$uids = $get['ids'];
 		$query = $_SGLOBAL['db']->query("SELECT uid FROM ".tname('member')." WHERE uid IN ($uids)");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -140,7 +140,7 @@ class uc_note {
 			return API_RETURN_FORBIDDEN;
 		}
 	
-		//±à¼­ÓÃ»§
+		//ç¼–è¾‘ç”¨æˆ·
 		$old_username = $get['oldusername'];
 		$new_username = $get['newusername'];
 	
@@ -213,7 +213,7 @@ class uc_note {
 			return API_RETURN_FORBIDDEN;
 		}
 	
-		//note Í¬²½µÇÂ¼ API ½Ó¿Ú
+		//note åŒæ­¥ç™»å½• API æŽ¥å£
 		obclean();
 		header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');
 	
@@ -224,7 +224,7 @@ class uc_note {
 			include_once S_ROOT.'./source/function_space.php';
 			$member = saddslashes($member);
 			$space = insertsession($member);
-			//ÉèÖÃcookie
+			//è®¾ç½®cookie
 			ssetcookie('auth', authcode("$member[password]\t$member[uid]", 'ENCODE'), $cookietime);
 		}
 		ssetcookie('loginuser', $get['username'], $cookietime);
@@ -237,7 +237,7 @@ class uc_note {
 			return API_RETURN_FORBIDDEN;
 		}
 	
-		//note Í¬²½µÇ³ö API ½Ó¿Ú
+		//note åŒæ­¥ç™»å‡º API æŽ¥å£
 		obclean();
 		header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');
 	
@@ -319,7 +319,7 @@ class uc_note {
 		fwrite($fp, $s);
 		fclose($fp);
 		
-		//ÅäÖÃÎÄ¼þ
+		//é…ç½®æ–‡ä»¶
 		if($UC_API && is_writeable(S_ROOT.'./config.php')) {
 			$configfile = trim(file_get_contents(S_ROOT.'./config.php'));
 			$configfile = substr($configfile, -2) == '?>' ? substr($configfile, 0, -2) : $configfile;

@@ -8,12 +8,12 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//È¨ÏÞ
+//æƒé™
 if(!checkperm('manageevent')) {
 	cpmessage('no_authority_management_operation');
 }
 
-// »ñÈ¡»î¶¯·ÖÀàÐÅÏ¢
+// èŽ·å–æ´»åŠ¨åˆ†ç±»ä¿¡æ¯
 if(!@include_once(S_ROOT.'./data/data_eventclass.php')) {
 	include_once(S_ROOT.'./source/function_cache.php');
 	eventclass_cache();
@@ -26,14 +26,14 @@ if(submitcheck('opsubmit')) {
 		if(!empty($_POST['ids']) && deleteevents($_POST['ids'])) {
 			cpmessage('do_success', $_POST['mpurl']);
 		} else {
-			cpmessage('choose_to_delete_the_columns_event'); // ÇëÑ¡ÔñÒªÉ¾³ýµÄ»î¶¯
+			cpmessage('choose_to_delete_the_columns_event'); // è¯·é€‰æ‹©è¦åˆ é™¤çš„æ´»åŠ¨
 		}
 	} elseif(isset($grademap[$_POST['optype']])) {
 		$grade = $grademap[$_POST['optype']];
 		if(!empty($_POST['ids']) && verifyevents($_POST['ids'], $grade)) {
 			cpmessage('do_success', $_POST['mpurl']);
 		} else {
-			cpmessage('choose_to_grade_the_columns_event'); // ÇëÑ¡ÔñÒªÉèÖÃµÄ»î¶¯×´Ì¬
+			cpmessage('choose_to_grade_the_columns_event'); // è¯·é€‰æ‹©è¦è®¾ç½®çš„æ´»åŠ¨çŠ¶æ€
 		}
 	} else {
 		cpmessage('choice_batch_action');
@@ -41,11 +41,11 @@ if(submitcheck('opsubmit')) {
 }
 
 if(empty($_GET['op'])) {
-	// ËÑË÷
+	// æœç´¢
 	
 	$mpurl = 'admincp.php?ac=event';
 
-	//´¦ÀíËÑË÷
+	//å¤„ç†æœç´¢
 	$intkeys = array('eventid', 'uid', 'public', 'grade', "classid");
 	$strkeys = array('province', 'city');
 	$randkeys = array(array('intval','hot'));
@@ -71,7 +71,7 @@ if(empty($_GET['op'])) {
 	$wheresql = empty($wherearr)?'1':implode(' AND ', $wherearr);
 	$mpurl .= '&'.implode('&', $results['urls']);
 	
-	//¼¤»î
+	//æ¿€æ´»
 	if(strlen($_GET['grade']) && $_GET['grade'] == 0) {
 		$actives = array('grade0' => ' class="active"');
 	} elseif ($_GET['grade'] == -1) {
@@ -86,14 +86,14 @@ if(empty($_GET['op'])) {
 		$actives = array('all' => ' class="active"');
 	}
 
-	//ÅÅÐò
+	//æŽ’åº
 	$orders = getorders(array('dateline', 'starttime', 'membernum', 'hot'), 'eventid');
 	$ordersql = $orders['sql'];
 	if($orders['urls']) $mpurl .= '&'.implode('&', $orders['urls']);
 	$orderby = array($_GET['orderby']=>' selected');
 	$ordersc = array($_GET['ordersc']=>' selected');
 
-	//ÏÔÊ¾·ÖÒ³
+	//æ˜¾ç¤ºåˆ†é¡µ
 	$perpage = empty($_GET['perpage'])?0:intval($_GET['perpage']);
 	if(!in_array($perpage, array(20,50,100, 1000))) $perpage = 20;
 	$mpurl .= '&perpage='.$perpage;
@@ -102,7 +102,7 @@ if(empty($_GET['op'])) {
 	$page = empty($_GET['page'])?1:intval($_GET['page']);
 	if($page<1) $page = 1;
 	$start = ($page-1)*$perpage;
-	//¼ì²é¿ªÊ¼Êý
+	//æ£€æŸ¥å¼€å§‹æ•°
 	ckstart($start, $perpage);
 	$managebatch = checkperm('managebatch');
 	$allowbatch = true;
@@ -122,7 +122,7 @@ if(empty($_GET['op'])) {
 	}
 }
 
-//ÉèÖÃ»î¶¯×´Ì¬£ºÉóºË£¬ÍÆ¼ö£¬¹Ø±Õ
+//è®¾ç½®æ´»åŠ¨çŠ¶æ€ï¼šå®¡æ ¸ï¼ŒæŽ¨èï¼Œå…³é—­
 function verifyevents($eventids, $grade){
 	global $_SGLOBAL;
 
@@ -141,7 +141,7 @@ function verifyevents($eventids, $grade){
 	
 	$grade = intval($grade);
 	if(!in_array($grade, array(-2,-1,1,2))){
-		cpmessage('bad_event_grade');// ´íÎóµÄ»î¶¯×´Ì¬
+		cpmessage('bad_event_grade');// é”™è¯¯çš„æ´»åŠ¨çŠ¶æ€
 	}
 	
 	$newids = $events = $actions = array();
@@ -154,21 +154,21 @@ function verifyevents($eventids, $grade){
 		$events[$value['eventid']] = $value;
 		
 		if($grade == -1){			
-			$actions[$value['eventid']] = "unverify";//Î´Í¨¹ýÉóºË			
+			$actions[$value['eventid']] = "unverify";//æœªé€šè¿‡å®¡æ ¸			
 		} elseif($grade == 1) {			
 			if($value['grade'] == -2){
-				$actions[$value['eventid']] = "open";// ¿ªÆô
+				$actions[$value['eventid']] = "open";// å¼€å¯
 			} elseif($value['grade'] < 1) {
-				$actions[$value['eventid']] = "verify";// Í¨¹ýÉóºË				
+				$actions[$value['eventid']] = "verify";// é€šè¿‡å®¡æ ¸				
 			} elseif($value['grade'] == 2) {
-				$actions[$value['eventid']] = "unrecommend"; // È¡ÏûÍÆ¼ö		
+				$actions[$value['eventid']] = "unrecommend"; // å–æ¶ˆæŽ¨è		
 			}
 		} elseif($grade == 2) {
-			//ÍÆ¼ö½±Àø»ý·Ö
+			//æŽ¨èå¥–åŠ±ç§¯åˆ†
 			getreward('recommendevent', 1, $value['uid'], '', 0);
-			$actions[$value['eventid']] = "recommend";//ÍÆ¼ö
+			$actions[$value['eventid']] = "recommend";//æŽ¨è
 		} elseif($grade == -2){
-			$actions[$value['eventid']] = "close";//¹Ø±Õ
+			$actions[$value['eventid']] = "close";//å…³é—­
 		}
 	}
 	
@@ -180,7 +180,7 @@ function verifyevents($eventids, $grade){
 	$feed_inserts = array();	
 	foreach($newids as $id){
 		$event = $events[$id];
-		if($grade >= 1 && $events[$id]['grade'] < 1 && $events[$id]['grade'] >= -1 ){// feed:·¢²¼»î¶¯
+		if($grade >= 1 && $events[$id]['grade'] < 1 && $events[$id]['grade'] >= -1 ){// feed:å‘å¸ƒæ´»åŠ¨
 			$poster = "";
 			if(empty($event['poster'])){
 				$poster = $_SGLOBAL['eventclass'][$event['classid']]['poster'];							
@@ -209,15 +209,15 @@ function verifyevents($eventids, $grade){
 				'target_ids' => '',
 				'friend' => ''
 			);
-			$feedarr = sstripslashes($feedarr);//È¥µô×ªÒå
-			$feedarr['title_data'] = serialize(sstripslashes($feedarr['title_data']));//Êý×é×ª»¯
-			$feedarr['body_data'] = serialize(sstripslashes($feedarr['body_data']));//Êý×é×ª»¯
-			$feedarr['hash_template'] = md5($feedarr['title_template']."\t".$feedarr['body_template']);//Ï²ºÃhash
-			$feedarr['hash_data'] = md5($feedarr['title_template']."\t".$feedarr['title_data']."\t".$feedarr['body_template']."\t".$feedarr['body_data']);//ºÏ²¢hash
-			$feedarr = saddslashes($feedarr);//Ôö¼Ó×ªÒå
+			$feedarr = sstripslashes($feedarr);//åŽ»æŽ‰è½¬ä¹‰
+			$feedarr['title_data'] = serialize(sstripslashes($feedarr['title_data']));//æ•°ç»„è½¬åŒ–
+			$feedarr['body_data'] = serialize(sstripslashes($feedarr['body_data']));//æ•°ç»„è½¬åŒ–
+			$feedarr['hash_template'] = md5($feedarr['title_template']."\t".$feedarr['body_template']);//å–œå¥½hash
+			$feedarr['hash_data'] = md5($feedarr['title_template']."\t".$feedarr['title_data']."\t".$feedarr['body_template']."\t".$feedarr['body_data']);//åˆå¹¶hash
+			$feedarr = saddslashes($feedarr);//å¢žåŠ è½¬ä¹‰
 			$feed_inserts[] = "('$feedarr[appid]', 'event', '$feedarr[uid]', '$feedarr[username]', '$feedarr[dateline]', '0', '$feedarr[hash_template]', '$feedarr[hash_data]', '$feedarr[title_template]', '$feedarr[title_data]', '$feedarr[body_template]', '$feedarr[body_data]', '$feedarr[body_general]', '$feedarr[image_1]', '$feedarr[image_1_link]', '$feedarr[image_2]', '$feedarr[image_2_link]', '$feedarr[image_3]', '$feedarr[image_3_link]', '$feedarr[image_4]', '$feedarr[image_4_link]', '', '$id', 'eventid')";			
 		}
-		if($event['uid'] != $_SGLOBAL['supe_uid']){// ×Ô¼ºµÄ²»·¢ËÍÍ¨Öª			
+		if($event['uid'] != $_SGLOBAL['supe_uid']){// è‡ªå·±çš„ä¸å‘é€é€šçŸ¥			
 			$noteids[] = $event[uid];
 			$note_msg = cplang('event_set_'.$actions[$id], array("space.php?do=event&id=".$event['eventid'], $event['title']));
 			$note_inserts[] = "('$event[uid]', 'system', '1', '0', '', '".addslashes($note_msg)."', '$_SGLOBAL[timestamp]')";
@@ -225,13 +225,13 @@ function verifyevents($eventids, $grade){
 	}
 	
 	unset($events);
-	//ÐÞ¸Ä×´Ì¬
-	if($grade == 2){// ÐèÒªÍ¬Ê±ÐÞ¸ÄÍÆ¼öÊ±¼ä
+	//ä¿®æ”¹çŠ¶æ€
+	if($grade == 2){// éœ€è¦åŒæ—¶ä¿®æ”¹æŽ¨èæ—¶é—´
 		$_SGLOBAL['db']->query("UPDATE ".tname("event")." SET grade='$grade', recommendtime='$_SGLOBAL[timestamp]' WHERE eventid IN (" . simplode($newids).")");
 	} else {
 		$_SGLOBAL['db']->query("UPDATE ".tname("event")." SET grade='$grade' WHERE eventid IN (" . simplode($newids).")");
 	}
-	//Í¨Öª
+	//é€šçŸ¥
 	if($note_inserts){
 		$_SGLOBAL['db']->query("INSERT INTO ".tname('notification')." (`uid`, `type`, `new`, `authorid`, `author`, `note`, `dateline`) VALUES ".implode(',', $note_inserts));
 		$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid IN (".simplode($noteids).")");

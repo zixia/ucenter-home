@@ -4,9 +4,9 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//È¨ÏŞ
+//æƒé™
 if(!$allowmanage = checkperm('managemagiclog')) {
-	$_GET['uid'] = $_SGLOBAL['supe_uid'];//Ö»ÄÜ²Ù×÷±¾ÈËµÄ
+	$_GET['uid'] = $_SGLOBAL['supe_uid'];//åªèƒ½æ“ä½œæœ¬äººçš„
 	$_GET['username'] = $_SGLOBAL['supe_username'];
 }
 
@@ -16,10 +16,10 @@ $_GET['view'] = $_GET['view'] ? $_GET['view'] : 'holdlog';
 $actives[$_GET['view']] = ' class="active"';
 
 if ($_GET['view'] == 'inlog') {
-	//»ñÈ¡¼ÇÂ¼
+	//è·å–è®°å½•
 	$mpurl = 'admincp.php?ac=magiclog&view=inlog';
 
-	//´¦ÀíËÑË÷
+	//å¤„ç†æœç´¢
 	$intkeys = array('type');
 	$strkeys = array('mid');
 	$randkeys = array();
@@ -49,7 +49,7 @@ if ($_GET['view'] == 'inlog') {
 	$page = empty($_GET['page'])?1:intval($_GET['page']);
 	if($page<1) $page = 1;
 	$start = ($page-1)*$perpage;
-	//¼ì²é¿ªÊ¼Êı
+	//æ£€æŸ¥å¼€å§‹æ•°
 	ckstart($start, $perpage);
 
 	$list = array();
@@ -65,10 +65,10 @@ if ($_GET['view'] == 'inlog') {
 	}
 
 } elseif ($_GET['view'] == 'uselog') {
-	//Ê¹ÓÃ¼ÇÂ¼
+	//ä½¿ç”¨è®°å½•
 	$mpurl = 'admincp.php?ac=magiclog&view=uselog';
 
-	//´¦ÀíËÑË÷
+	//å¤„ç†æœç´¢
 	$intkeys = array('id');
 	$strkeys = array('mid','idtype');
 	$randkeys = array();
@@ -87,17 +87,17 @@ if ($_GET['view'] == 'inlog') {
 	$wheresql = empty($wherearr)?'1':implode(' AND ', $wherearr);
 	$mpurl .= '&'.implode('&', $results['urls']);
 
-	//ÅÅĞò
+	//æ’åº
 	$ordersql = 'ORDER BY dateline DESC';
 
-	//ÏÔÊ¾·ÖÒ³
+	//æ˜¾ç¤ºåˆ†é¡µ
 	$perpage = 50;
 	$mpurl .= '&perpage='.$perpage;
 
 	$page = empty($_GET['page'])?1:intval($_GET['page']);
 	if($page<1) $page = 1;
 	$start = ($page-1)*$perpage;
-	//¼ì²é¿ªÊ¼Êı
+	//æ£€æŸ¥å¼€å§‹æ•°
 	ckstart($start, $perpage);
 
 	$list = array();
@@ -113,7 +113,7 @@ if ($_GET['view'] == 'inlog') {
 	}
 
 } elseif($_GET['view'] == 'storelog') {
-	//µÀ¾ßÉÌµêÊÛ³öÍ³¼Æ
+	//é“å…·å•†åº—å”®å‡ºç»Ÿè®¡
 	if(!$allowmanage) {
 		cpmessage('no_authority_management_operation');
 	}
@@ -133,10 +133,10 @@ if ($_GET['view'] == 'inlog') {
 	usort($list, 'hotsort');
 	
 } else {
-	//³ÖÓĞµÀ¾ß
+	//æŒæœ‰é“å…·
 	$mpurl = 'admincp.php?ac=magiclog&view=holdlog';
 
-	//´¦ÀíËÑË÷
+	//å¤„ç†æœç´¢
 	$intkeys = array('uid');
 	$strkeys = array('mid');
 	$randkeys = array();
@@ -144,23 +144,23 @@ if ($_GET['view'] == 'inlog') {
 	$results = getwheres($intkeys, $strkeys, $randkeys, $likekeys);
 	$wherearr = $results['wherearr'];
 
-	//³ıÈ¥Îª0µÄ
+	//é™¤å»ä¸º0çš„
 	$wherearr[] = 'count > 0';
 
 	$wheresql = empty($wherearr)?'1':implode(' AND ', $wherearr);
 	$mpurl .= '&'.implode('&', $results['urls']);
 
-	//ÅÅĞò
+	//æ’åº
 	$ordersql = '';
 
-	//ÏÔÊ¾·ÖÒ³
+	//æ˜¾ç¤ºåˆ†é¡µ
 	$perpage = 50;
 	$mpurl .= '&perpage='.$perpage;
 
 	$page = empty($_GET['page'])?1:intval($_GET['page']);
 	if($page<1) $page = 1;
 	$start = ($page-1)*$perpage;
-	//¼ì²é¿ªÊ¼Êı
+	//æ£€æŸ¥å¼€å§‹æ•°
 	ckstart($start, $perpage);
 
 	$list = array();

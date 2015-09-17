@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//ÒşÉí¿¨
+//éšèº«å¡
 if(submitcheck("usesubmit")) {
 
 	$expire = $_SGLOBAL['timestamp'] + ($magic['custom']['effectivetime'] ? $magic['custom']['effectivetime'] : 86400);

@@ -8,13 +8,13 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//È¨ÏŞ
+//æƒé™
 if(empty($_SC['allowedittpl']) || !checkperm('managetemplate') || !ckfounder($_SGLOBAL['supe_uid'])) {
 	cpmessage('no_authority_management_operation_edittpl');
 }
 
 $turl = 'admincp.php?ac=template';
-//Ä£°åÄ¿Â¼
+//æ¨¡æ¿ç›®å½•
 $tpldir = S_ROOT.'./template/default/';
 
 if(submitcheck('editsubmit')) {
@@ -22,7 +22,7 @@ if(submitcheck('editsubmit')) {
 	$filename = checkfilename($_POST['filename']);
 	$filefullname = $tpldir.$filename;
 
-	//¸´ÖÆµ±Ç°µÄÎÄ¼ş
+	//å¤åˆ¶å½“å‰çš„æ–‡ä»¶
 	$d_file = $filefullname.'.bak';
 	if(!file_exists($d_file)) {
 		if(!@copy($filefullname, $d_file)) {
@@ -35,7 +35,7 @@ if(submitcheck('editsubmit')) {
 	fwrite($fp, stripslashes($_POST['content']));
 	fclose($fp);
 	
-	//Çå¿ÕÄ£°å»º´æ
+	//æ¸…ç©ºæ¨¡æ¿ç¼“å­˜
 	$filename = substr($filename, 0, strlen($filename)-4);
 	$tpl = strexists($filename,'/')?$filename:"template/$_SCONFIG[template]/$filename";
 	$objfile = S_ROOT.'./data/tpl_cache/'.str_replace('/','_',$tpl).'.php';
@@ -46,7 +46,7 @@ if(submitcheck('editsubmit')) {
 
 if(empty($_GET['op'])) {
 
-	//»ñÈ¡Ä£°åÁĞ±í
+	//è·å–æ¨¡æ¿åˆ—è¡¨
 	$tpls = array();
 	if($dh = opendir($tpldir)) {
 		while (($file = readdir($dh)) !== false) {
@@ -83,7 +83,7 @@ if(empty($_GET['op'])) {
 	$filename = checkfilename($_GET['filename']);
 	$filefullname = $tpldir.$filename;
 
-	//¸´ÖÆµ±Ç°µÄÎÄ¼ş
+	//å¤åˆ¶å½“å‰çš„æ–‡ä»¶
 	$d_file = $filefullname.'.bak';
 	if(file_exists($d_file)) {
 		if(!@copy($d_file, $filefullname)) {

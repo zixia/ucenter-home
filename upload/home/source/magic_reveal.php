@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//¼ì²éÊÇ·ñÊ¹ÓÃÁËÄäÃû¿¨
+//æ£€æŸ¥æ˜¯å¦ä½¿ç”¨äº†åŒ¿åå¡
 if(!$_SGLOBAL['db']->result($_SGLOBAL['db']->query('SELECT COUNT(*) FROM '.tname('magicuselog')." WHERE id = '$id' AND idtype = '$idtype' AND mid = 'anonymous'"), 0)) {
 	showmessage('magicuse_bad_object');
 }

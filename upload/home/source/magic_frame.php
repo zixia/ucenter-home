@@ -11,7 +11,7 @@ if(!defined('IN_UCHOME')) {
 $idtype = 'picid';
 magic_check_idtype($id, $idtype);
 
-//Ïà¿ò
+//ç›¸æ¡†
 if(submitcheck("usesubmit")) {
 
 	$_POST['frame'] = intval($_POST['frame']);

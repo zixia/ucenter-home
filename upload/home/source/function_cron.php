@@ -8,12 +8,12 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//Ö´ÐÐ¼Æ»®ÈÎÎñ
+//æ‰§è¡Œè®¡åˆ’ä»»åŠ¡
 function runcron($cronid = 0) {
 	global $_SGLOBAL, $_SCONFIG, $_SBLOCK, $_TPL, $_SCOOKIE, $_SN, $space;
 	
 	$where = $cronid ? "cronid='$cronid'" : "available>'0' AND nextrun<='$_SGLOBAL[timestamp]'";
-	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('cron')." WHERE $where ORDER BY nextrun LIMIT 1");//Ö»ÔËÐÐÒ»¸ö
+	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('cron')." WHERE $where ORDER BY nextrun LIMIT 1");//åªè¿è¡Œä¸€ä¸ª
 	if($cron = $_SGLOBAL['db']->fetch_array($query)) {
 
 		$lockfile = S_ROOT.'./data/runcron_'.$cron['cronid'].'.lock';
@@ -21,7 +21,7 @@ function runcron($cronid = 0) {
 
 		if(is_writable($lockfile)) {
 			$locktime =  filemtime($lockfile);
-			if($locktime > $_SGLOBAL['timestamp'] - 600) {//10·ÖÖÓ
+			if($locktime > $_SGLOBAL['timestamp'] - 600) {//10åˆ†é’Ÿ
 				return NULL;
 			}
 		} else {
@@ -40,26 +40,26 @@ function runcron($cronid = 0) {
 		@unlink($lockfile);
 	}
 	
-	//¸üÐÂconfig
+	//æ›´æ–°config
 	cron_config();
 }
 
-//×îÏÈÖ´ÐÐ
+//æœ€å…ˆæ‰§è¡Œ
 function cron_config() {
 	global $_SGLOBAL;
 	
-	//ÏÂ´ÎÖ´ÐÐcronÊ±¼ä
+	//ä¸‹æ¬¡æ‰§è¡Œcronæ—¶é—´
 	$query = $_SGLOBAL['db']->query("SELECT nextrun FROM ".tname('cron')." WHERE available>'0' ORDER BY nextrun LIMIT 1");
 	$nextrun = $_SGLOBAL['db']->result($query, 0);
 	if(empty($nextrun)) $nextrun = 0;
 
-	//¸üÐÂconfig
+	//æ›´æ–°config
 	inserttable('config', array('var'=>'cronnextrun', 'datavalue'=>$nextrun), 0, true);
 	include_once S_ROOT.'./source/function_cache.php';
 	config_cache(false);
 }
 
-//ÏÂ´ÎÖ´ÐÐµÄÊ±¼ä
+//ä¸‹æ¬¡æ‰§è¡Œçš„æ—¶é—´
 function cronnextrun($cron) {
 	global $_SGLOBAL, $_SCONFIG;
 
@@ -105,7 +105,7 @@ function cronnextrun($cron) {
 		$cron['minute'] = $nexttime['minute'];
 	}
 
-	//¸üÐÂÏÂ´ÎÔËÐÐÊ±¼ä
+	//æ›´æ–°ä¸‹æ¬¡è¿è¡Œæ—¶é—´
 	$nextrun = @gmmktime($cron['hour'], $cron['minute'], 0, $monthnow, $cron['day'], $yearnow) - $_SCONFIG['timeoffset'] * 3600;
 	$setarr = array(
 		'lastrun' => $_SGLOBAL['timestamp'],

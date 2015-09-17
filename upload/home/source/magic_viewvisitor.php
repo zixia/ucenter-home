@@ -10,7 +10,7 @@ if(!defined('IN_UCHOME')) {
 
 $magic['custom']['maxview'] = $magic['custom']['maxview'] ? intval($magic['custom']['maxview']) : 10;
 
-//Íµ¿ú¾µ
+//å·çª¥é•œ
 if(submitcheck("usesubmit")) {
 	
 	$idtype = 'uid';
@@ -18,7 +18,7 @@ if(submitcheck("usesubmit")) {
 	
 	$op = "show";	
 	$list = array();
-	//ÆÁ±ÎÊ¹ÓÃÄäÃû¿¨·ÃÎÊµÄ¿Õ¼ä
+	//å±è”½ä½¿ç”¨åŒ¿åå¡è®¿é—®çš„ç©ºé—´
 	$query = $_SGLOBAL['db']->query('SELECT m.uid, m.username FROM '.tname('visitor').' v LEFT JOIN '.tname('member')." m ON v.uid = m.uid WHERE v.vuid = '$id' AND v.vusername != '' ORDER BY v.dateline DESC LIMIT {$magic['custom']['maxview']}");
 	while($value = $_SGLOBAL['db']->fetch_array($query)) {
 		realname_set($value['uid'], $value['username']);

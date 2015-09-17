@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//¼ì²éÐÅÏ¢
+//æ£€æŸ¥ä¿¡æ¯
 $classid = empty($_GET['classid'])?0:intval($_GET['classid']);
 $op = empty($_GET['op'])?'':$_GET['op'];
 
@@ -32,9 +32,9 @@ if ($op == 'edit') {
 	}
 
 } elseif ($op == 'delete') {
-	//É¾³ý·ÖÀà
+	//åˆ é™¤åˆ†ç±»
 	if(submitcheck('deletesubmit')) {
-		//¸üÐÂÈÕÖ¾·ÖÀà
+		//æ›´æ–°æ—¥å¿—åˆ†ç±»
 		updatetable('blog', array('classid'=>0), array('classid'=>$classid));
 		$_SGLOBAL['db']->query("DELETE FROM ".tname('class')." WHERE classid='$classid'");
 		
@@ -42,7 +42,7 @@ if ($op == 'edit') {
 	}
 }
 
-//Ä£°æ
+//æ¨¡ç‰ˆ
 include_once template("cp_class");
 	
 ?>

@@ -12,28 +12,28 @@ $perpage = 20;
 $page = empty($_GET['page'])?1:intval($_GET['page']);
 if($page<1) $page = 1;
 $start = ($page-1)*$perpage;
-//¼ì²é¿ªÊ¼Êı
+//æ£€æŸ¥å¼€å§‹æ•°
 ckstart($start, $perpage);
 	
 if(empty($_GET['op'])) {
 
-	//¿Õ¼ä´óĞ¡
+	//ç©ºé—´å¤§å°
 	$maxattachsize = checkperm('maxattachsize');
 	if(empty($maxattachsize)) {
 		$percent = 0;
 		$maxattachsize = '-';
 	} else {
-		$maxattachsize = $maxattachsize + $space['addsize'];//¶îÍâ¿Õ¼ä
+		$maxattachsize = $maxattachsize + $space['addsize'];//é¢å¤–ç©ºé—´
 		$percent = intval($space['attachsize']/$maxattachsize*100);
 		$maxattachsize = formatsize($maxattachsize);
 	}
 	$space['attachsize'] = formatsize($space['attachsize']);
 	
-	//ÓÃ»§×é
+	//ç”¨æˆ·ç»„
 	$space['grouptitle'] = checkperm('grouptitle');
 
 	$theurl = 'cp.php?ac=credit&perpage='.$perpage;
-	//»ı·Ö»ñµÃ¼ÇÂ¼
+	//ç§¯åˆ†è·å¾—è®°å½•
 	$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT count(*) FROM ".tname('creditlog')." WHERE uid='$space[uid]'"), 0);
 	if($count) {
 		$query = $_SGLOBAL['db']->query("SELECT r.rulename, c.* FROM ".tname('creditlog')." c LEFT JOIN ".tname('creditrule')." r ON r.rid=c.rid WHERE c.uid='$space[uid]' ORDER BY dateline DESC LIMIT $start,$perpage");
@@ -121,7 +121,7 @@ if(empty($_GET['op'])) {
 	$lower = '';
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('usergroup')." ORDER BY explower DESC");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
-		//ÊÇ·ñÊÇ×î¸ßÉÏÏŞ
+		//æ˜¯å¦æ˜¯æœ€é«˜ä¸Šé™
 		if(empty($value['system'])) {
 			if($highest) {
 				$value['exphigher'] = 999999999;

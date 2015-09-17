@@ -8,11 +8,11 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//Éú³ÉËõÂÔÍ¼
+//ç”Ÿæˆç¼©ç•¥å›¾
 function makethumb($srcfile) {
 	global $_SGLOBAL;
 
-	//ÅĞ¶ÏÎÄ¼şÊÇ·ñ´æÔÚ
+	//åˆ¤æ–­æ–‡ä»¶æ˜¯å¦å­˜åœ¨
 	if (!file_exists($srcfile)) {
 		return '';
 	}
@@ -20,7 +20,7 @@ function makethumb($srcfile) {
 	
 	include_once(S_ROOT.'./data/data_setting.php');
 
-	//ËõÂÔÍ¼´óĞ¡
+	//ç¼©ç•¥å›¾å¤§å°
 	$tow = intval($_SGLOBAL['setting']['thumbwidth']);
 	$toh = intval($_SGLOBAL['setting']['thumbheight']);
 	if($tow < 60) $tow = 60;
@@ -33,11 +33,11 @@ function makethumb($srcfile) {
 		$make_max = 1;
 	}
 	
-	//»ñÈ¡Í¼Æ¬ĞÅÏ¢
+	//è·å–å›¾ç‰‡ä¿¡æ¯
 	$im = '';
 	if($data = getimagesize($srcfile)) {
 		if($data[2] == 1) {
-			$make_max = 0;//gif²»´¦Àí
+			$make_max = 0;//gifä¸å¤„ç†
 			if(function_exists("imagecreatefromgif")) {
 				$im = imagecreatefromgif($srcfile);
 			}
@@ -72,18 +72,18 @@ function makethumb($srcfile) {
 		$fmaxtow = $fmaxtoh*($srcw/$srch);
 	}
 	if($srcw <= $maxtow && $srch <= $maxtoh) {
-		$make_max = 0;//²»´¦Àí
+		$make_max = 0;//ä¸å¤„ç†
 	}
 	if($srcw > $tow || $srch > $toh) {
 		if(function_exists("imagecreatetruecolor") && function_exists("imagecopyresampled") && @$ni = imagecreatetruecolor($ftow, $ftoh)) {
 			imagecopyresampled($ni, $im, 0, 0, 0, 0, $ftow, $ftoh, $srcw, $srch);
-			//´óÍ¼Æ¬
+			//å¤§å›¾ç‰‡
 			if($make_max && @$maxni = imagecreatetruecolor($fmaxtow, $fmaxtoh)) {
 				imagecopyresampled($maxni, $im, 0, 0, 0, 0, $fmaxtow, $fmaxtoh, $srcw, $srch);
 			}
 		} elseif(function_exists("imagecreate") && function_exists("imagecopyresized") && @$ni = imagecreate($ftow, $ftoh)) {
 			imagecopyresized($ni, $im, 0, 0, 0, 0, $ftow, $ftoh, $srcw, $srch);
-			//´óÍ¼Æ¬
+			//å¤§å›¾ç‰‡
 			if($make_max && @$maxni = imagecreate($fmaxtow, $fmaxtoh)) {
 				imagecopyresized($maxni, $im, 0, 0, 0, 0, $fmaxtow, $fmaxtoh, $srcw, $srch);
 			}
@@ -92,13 +92,13 @@ function makethumb($srcfile) {
 		}
 		if(function_exists('imagejpeg')) {
 			imagejpeg($ni, $dstfile);
-			//´óÍ¼Æ¬
+			//å¤§å›¾ç‰‡
 			if($make_max) {
 				imagejpeg($maxni, $srcfile);
 			}
 		} elseif(function_exists('imagepng')) {
 			imagepng($ni, $dstfile);
-			//´óÍ¼Æ¬
+			//å¤§å›¾ç‰‡
 			if($make_max) {
 				imagepng($maxni, $srcfile);
 			}
@@ -117,13 +117,13 @@ function makethumb($srcfile) {
 	}
 }
 
-//Í¼Æ¬Ë®Ó¡
+//å›¾ç‰‡æ°´å°
 function makewatermark($srcfile) {
 	global $_SGLOBAL;
 	
 	include_once(S_ROOT.'./data/data_setting.php');
 	
-	//Ë®Ó¡Í¼Æ¬
+	//æ°´å°å›¾ç‰‡
 	$watermarkfile = empty($_SGLOBAL['setting']['watermarkfile'])?S_ROOT.'./image/watermark.png':$_SGLOBAL['setting']['watermarkfile'];
     if(!file_exists($watermarkfile) || !$water_info = getimagesize($watermarkfile)) {
     	return '';
@@ -141,7 +141,7 @@ function makewatermark($srcfile) {
 		return '';
 	}
 
-    //Ô­Í¼
+    //åŸå›¾
     if(!file_exists($srcfile) || !$src_info = getimagesize($srcfile)) {
     	return '';
     }
@@ -150,11 +150,11 @@ function makewatermark($srcfile) {
     $src_im = '';
     switch($src_info[2]) {
         case 1:
-        	//ÅĞ¶ÏÊÇ·ñÎª¶¯»­
+        	//åˆ¤æ–­æ˜¯å¦ä¸ºåŠ¨ç”»
         	$fp = fopen($srcfile, 'rb');
 			$filecontent = fread($fp, filesize($srcfile));
 			fclose($fp);
-			if(strpos($filecontent, 'NETSCAPE2.0') === FALSE) {//¶¯»­Í¼²»¼ÓË®Ó¡
+			if(strpos($filecontent, 'NETSCAPE2.0') === FALSE) {//åŠ¨ç”»å›¾ä¸åŠ æ°´å°
         		@$src_im = imagecreatefromgif($srcfile);
 			}
         	break;
@@ -166,38 +166,38 @@ function makewatermark($srcfile) {
     	return '';
     }
     
-    //¼ÓË®Ó¡µÄÍ¼Æ¬µÄ³¤¶È»ò¿í¶È±ÈË®Ó¡Ğ¡150px
+    //åŠ æ°´å°çš„å›¾ç‰‡çš„é•¿åº¦æˆ–å®½åº¦æ¯”æ°´å°å°150px
     if(($src_w < $water_w + 150) || ($src_h < $water_h + 150)) {
     	return '';
     }
 	
-    //Î»ÖÃ
+    //ä½ç½®
 	switch($_SGLOBAL['setting']['watermarkpos']) {
-		case 1://¶¥¶Ë¾Ó×ó
+		case 1://é¡¶ç«¯å±…å·¦
 			$posx = 0;
 			$posy = 0;
 			break;
-		case 2://¶¥¶Ë¾ÓÓÒ
+		case 2://é¡¶ç«¯å±…å³
 			$posx = $src_w - $water_w;
 			$posy = 0;
 			break;
-		case 3://µ×¶Ë¾Ó×ó
+		case 3://åº•ç«¯å±…å·¦
 			$posx = 0;
 			$posy = $src_h - $water_h;
 			break;
-		case 4://µ×¶Ë¾ÓÓÒ
+		case 4://åº•ç«¯å±…å³
 			$posx = $src_w - $water_w;
 			$posy = $src_h - $water_h;
 			break;
-		default://Ëæ»ú
+		default://éšæœº
 			$posx = mt_rand(0, ($src_w - $water_w));
 			$posy = mt_rand(0, ($src_h - $water_h));
 			break;
 	}
 
-    //Éè¶¨Í¼ÏñµÄ»ìÉ«Ä£Ê½
+    //è®¾å®šå›¾åƒçš„æ··è‰²æ¨¡å¼
 	@imagealphablending($src_im, true);
-	//¿½±´Ë®Ó¡µ½Ä¿±êÎÄ¼ş
+	//æ‹·è´æ°´å°åˆ°ç›®æ ‡æ–‡ä»¶
 	@imagecopy($src_im, $water_im, $posx, $posy, 0, 0, $water_w, $water_h);
     switch($src_info[2]) {
         case 1:@imagegif($src_im, $srcfile);break;

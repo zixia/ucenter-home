@@ -20,15 +20,15 @@ function sendmail($toemail, $subject, $message, $from='') {
 	include_once(S_ROOT.'./data/data_mail.php');
 	$mail = $_SGLOBAL['mail'];
 	
-	//ÓÊ¼şÍ·µÄ·Ö¸ô·û
+	//é‚®ä»¶å¤´çš„åˆ†éš”ç¬¦
 	$maildelimiter = $mail['maildelimiter'] == 1 ? "\r\n" : ($mail['maildelimiter'] == 2 ? "\r" : "\n");
-	//ÊÕ¼şÈËµØÖ·ÖĞ°üº¬ÓÃ»§Ãû
+	//æ”¶ä»¶äººåœ°å€ä¸­åŒ…å«ç”¨æˆ·å
 	$mailusername = isset($mail['mailusername']) ? $mail['mailusername'] : 1;
-	//¶Ë¿Ú
+	//ç«¯å£
 	$mail['port'] = $mail['port'] ? $mail['port'] : 25;
 	$mail['mailsend'] = $mail['mailsend'] ? $mail['mailsend'] : 1;
 	
-	//·¢ĞÅÕß
+	//å‘ä¿¡è€…
 	if($mail['mailsend'] == 3) {
 		$email_from = empty($from) ? $_SCONFIG['adminemail'] : $from;
 	} else {

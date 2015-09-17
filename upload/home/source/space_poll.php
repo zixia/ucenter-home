@@ -17,7 +17,7 @@ if($pid) {
 	
 	$perpage = 20;
 	$start = ($page-1)*$perpage;
-	//¼ì²é¿ªÊ¼Êý
+	//æ£€æŸ¥å¼€å§‹æ•°
 	ckstart($start, $perpage);
 		
 	$newpoll = $hotpoll = $poll = $option = array();
@@ -30,15 +30,15 @@ if($pid) {
 	if($poll['credit'] && $poll['percredit'] && $poll['credit'] < $poll['percredit']) {
 		$poll['percredit'] = $poll['credit'];
 	}
-	realname_set($poll['uid'], $poll['username']);//ÊµÃû
-	//ÏÞÖÆÍ¶Æ±
+	realname_set($poll['uid'], $poll['username']);//å®žå
+	//é™åˆ¶æŠ•ç¥¨
 	$allowedvote = true;
 	
 	if(!empty($poll['sex']) && $poll['sex'] != $_SGLOBAL['member']['sex']) {
 		$allowedvote = false;
 	}
 	$expiration = false;
-	//¹ýÆÚÍ¬Ñù½ûÖ¹Í¶Æ±
+	//è¿‡æœŸåŒæ ·ç¦æ­¢æŠ•ç¥¨
 	if($poll['expiration'] && $poll['expiration'] < $_SGLOBAL['timestamp']) {
 		$allowedvote = false;
 		$expiration = true;
@@ -57,15 +57,15 @@ if($pid) {
 	}
 	
 	$hasvoted = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('polluser')."  WHERE uid='$_SGLOBAL[supe_uid]' AND pid='$pid' "),0);
-	//×ÜÍ¶Æ±Êý
+	//æ€»æŠ•ç¥¨æ•°
 	$allvote = 0;
-	//È¡³öËùÓÐÍ¶Æ±Ïî
+	//å–å‡ºæ‰€æœ‰æŠ•ç¥¨é¡¹
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('polloption')." WHERE pid='$pid' ORDER BY oid");
 	while($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$allvote += intval($value['votenum']);
 		$option[] = $value;
 	}
-	//¼ÆËã°Ù·Ö±È
+	//è®¡ç®—ç™¾åˆ†æ¯”
 	foreach($option as $key => $value) {
 		if($value['votenum'] && $allvote) {
 			$value['percent'] = round($value['votenum']/$allvote, 2);
@@ -78,14 +78,14 @@ if($pid) {
 	}
 	$isfriend = 1;
 	if($poll['noreply']) {
-		//ÊÇ·ñºÃÓÑ
+		//æ˜¯å¦å¥½å‹
 		$isfriend = $space['self'];
 		if($space['friends'] && in_array($_SGLOBAL['supe_uid'], $space['friends'])) {
-			$isfriend = 1;//ÊÇºÃÓÑ
+			$isfriend = 1;//æ˜¯å¥½å‹
 		}
 	}
 	if($isfriend) {
-		//ÆÀÂÛ
+		//è¯„è®º
 		$count = $poll['replynum'];
 		$list = array();
 		if($count) {
@@ -94,32 +94,32 @@ if($pid) {
 	
 			$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('comment')." WHERE $csql id='$pid' AND idtype='pid' ORDER BY dateline LIMIT $start,$perpage");
 			while ($value = $_SGLOBAL['db']->fetch_array($query)) {
-				realname_set($value['authorid'], $value['author']);//ÊµÃû
+				realname_set($value['authorid'], $value['author']);//å®žå
 				$list[] = $value;
 			}
 		}
-		//·ÖÒ³
+		//åˆ†é¡µ
 		$multi = multi($count, $perpage, $page, "space.php?uid=$poll[uid]&do=$do&pid=$pid", '', 'div_main_content');
 	}
-	//È¡³ö×îÐÂÍ¶Æ±
+	//å–å‡ºæœ€æ–°æŠ•ç¥¨
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('poll')." ORDER BY dateline DESC LIMIT 0, 10");
 	while($value = $_SGLOBAL['db']->fetch_array($query)) {
-		realname_set($value['uid'], $value['username']);//ÊµÃû
+		realname_set($value['uid'], $value['username']);//å®žå
 		$newpoll[] = $value;
 	}
 	
-	//È¡³ö×îÈÈµÄÍ¶Æ±
+	//å–å‡ºæœ€çƒ­çš„æŠ•ç¥¨
 	$timerange = $_SGLOBAL['timestamp']-2592000;
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('poll')." WHERE lastvote >= '$timerange' ORDER BY voternum DESC LIMIT 0, 10");
 	while($value = $_SGLOBAL['db']->fetch_array($query)) {
-		realname_set($value['uid'], $value['username']);//ÊµÃû
+		realname_set($value['uid'], $value['username']);//å®žå
 		$hotpoll[] = $value;
 	}
 	
-	//Ïà¹ØÈÈµã
+	//ç›¸å…³çƒ­ç‚¹
 	$topic = topic_get($poll['topicid']);
 	
-	//ÊµÃû
+	//å®žå
 	realname_get();
 	
 	$_TPL['css'] = 'poll';
@@ -129,11 +129,11 @@ if($pid) {
 	
 	$_GET['view'] = $_GET['view'] ? trim($_GET['view']) : 'new';
 	if($_GET['view'] == 'all') $_GET['view'] = 'new';
-	//·ÖÒ³
+	//åˆ†é¡µ
 	$perpage = 10;
 	$start = ($page-1)*$perpage;
 	
-	//¼ì²é¿ªÊ¼Êý
+	//æ£€æŸ¥å¼€å§‹æ•°
 	ckstart($start, $perpage);
 	
 	$wherearr = $list = array();
@@ -204,7 +204,7 @@ if($pid) {
 		
 	}
 	
-	//ËÑË÷
+	//æœç´¢
 	if($searchkey = stripsearchkey($_GET['searchkey'])) {
 		$wherearr[] = "p.subject LIKE '%$searchkey%'";
 		$theurl .= "&searchkey=$_GET[searchkey]";
@@ -217,7 +217,7 @@ if($pid) {
 	}
 	$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM $counttable $wheresql"),0);
 
-	//¸üÐÂÍ³¼Æ
+	//æ›´æ–°ç»Ÿè®¡
 	if($wheresql == "p.uid='$space[uid]'" && $space['pollnum'] != $count) {
 		updatetable('space', array('pollnum' => $count), array('uid'=>$space['uid']));
 	}
@@ -242,10 +242,10 @@ if($pid) {
 		}
 	}
 	
-	//·ÖÒ³
+	//åˆ†é¡µ
 	$multi = multi($count, $perpage, $page, $theurl);
 
-	//ÊµÃû
+	//å®žå
 	realname_get();
 	
 	$actives = array($_GET['view']=>' class="active"');

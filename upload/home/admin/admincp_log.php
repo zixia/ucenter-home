@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//È¨ÏŞ
+//æƒé™
 if(!checkperm('managelog')) {
 	cpmessage('no_authority_management_operation');
 }
@@ -43,7 +43,7 @@ if($_GET['op'] == 'view') {
 	$_GET['keysearch'] = stripsearchkey($_GET['keysearch']);
 	$_GET['ip'] = trim($_GET['ip']);
 	$mpurl = "admincp.php?ac=log&file=$_GET[file]&uid=$_GET[uid]&ip=$_GET[ip]&starttime=$_GET[starttime]&endtime=$_GET[endtime]&keysearch=$_GET[keysearch]";
-	//ÓÃÒ»¸öÁÙÊ±ÎÄ¼ş»º´æËÑË÷½á¹û
+	//ç”¨ä¸€ä¸ªä¸´æ—¶æ–‡ä»¶ç¼“å­˜æœç´¢ç»“æœ
 	$tmpfile = S_ROOT.'./data/temp/logsearch_'.substr(md5($mpurl), 8, 8).'.tmp';
 	if(!is_dir(S_ROOT.'./data/temp/')) {
 		@mkdir(S_ROOT.'./data/temp/', 0777);
@@ -52,12 +52,12 @@ if($_GET['op'] == 'view') {
 	$page = empty($_GET['page'])?1:intval($_GET['page']);
 	if($page<1) $page = 1;
 	$start = ($page-1)*$perpage;
-	//¼ì²é¿ªÊ¼Êı
+	//æ£€æŸ¥å¼€å§‹æ•°
 	ckstart($start, $perpage);
 	
 	$list = $uids = array();
 	$fromcache = true;
-	//Èç¹ûÃ»ÓĞ»º´æÎÄ¼ş£¬È«ÎÄ¼şÉ¨Ãè
+	//å¦‚æœæ²¡æœ‰ç¼“å­˜æ–‡ä»¶ï¼Œå…¨æ–‡ä»¶æ‰«æ
 	if(!is_file($tmpfile)) {
 		$fromcache = false;
 		$lines = array();
@@ -78,7 +78,7 @@ if($_GET['op'] == 'view') {
 			if($valid) {
 				$n = strlen($line);
 				$o = ftell($fp) - $n;
-				$lines[] = $cursor.'-'.$o.'-'.$n;//¼ÇÂ¼ĞÅÏ¢£ºĞĞºÅ-ÆğÊ¼Î»ÖÃ-³¤¶È
+				$lines[] = $cursor.'-'.$o.'-'.$n;//è®°å½•ä¿¡æ¯ï¼šè¡Œå·-èµ·å§‹ä½ç½®-é•¿åº¦
 				if($offset >= $start && $offset < $start + $perpage) {
 					$list[] = $loginfo;
 				}

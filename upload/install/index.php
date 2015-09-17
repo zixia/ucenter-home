@@ -197,7 +197,7 @@ END;
 		echo '<tr><td>'.$name.'()</td>'.($status ? '<td class="w pdleft1">'.$lang['supportted'].'</td>' : '<td class="nw pdleft1">'.$lang['unsupportted'].'</td>').($status ? '<td class="padleft">'.$lang['none'].'</td>' : '<td><font color="red">'.$advices[$name].'</font></td>').'</tr>';
 	}
 	echo '</table>';
-	//UCenter µÄ°²×°¼ì²â
+	//UCenter çš„å®‰è£…æ£€æµ‹
 	$dirs = array('/data/', '/data/cache/', '/data/view/', '/data/avatar/', '/data/logs/', '/data/backup/', '/data/tmp/');
 	echo <<<END
 		<h2 class="title">$lang[priv_check]</h2>
@@ -227,7 +227,7 @@ END;
 		echo '<tr><td>./'.$ucenter.$dir.'</td><td class="w pdleft1">'.$lang['writeable'].'</td><td'.($checkok ? ' class="w pdleft1">'.$lang['writeable'] : ' class="nw pdleft1">'.$lang['unwriteable']).'</td></tr>';
 	}
 
-	//UCenter_HomeµÄĞÅÏ¢¼ì²é
+	//UCenter_Homeçš„ä¿¡æ¯æ£€æŸ¥
 
 	$checkok = false;
 	if(!checkfdperm(S_ROOT.'./config.php', 1)) {
@@ -259,7 +259,7 @@ END;
 	}
 	echo '<tr><td>./'.$uchome.'/uc_client/data/</td><td class="w pdleft1">'.$lang['writeable'].'</td><td'.($checkok ? ' class="w pdleft1">'.$lang['writeable'] : ' class="nw pdleft1">'.$lang['unwriteable']).'</td></tr>';
 
-	//DISCUZ ÎÄ¼şÈ¨ÏŞ¼ì²â
+	//DISCUZ æ–‡ä»¶æƒé™æ£€æµ‹
 	$checkok = false;
 	if(checkfdperm(DISCUZ_ROOT.'./config.inc.php',1)) {
 		$checkok = true;

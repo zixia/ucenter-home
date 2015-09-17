@@ -11,13 +11,13 @@ if(!defined('IN_UCHOME')) {
 class Photo extends MyBase {
 
 	/**
-	 * ´´½¨Ïà²á
-	 * @param integer $uId ÓÃ»§Id
-	 * @param string  $name Ïà²áÃû³Æ
-	 * @param string  $privacy Ïà²áÏŞÖÆ
-	 * @param string  $passwd ²é¿´Ïà²áÊ±µÄÃÜÂë
-	 * @param string  $friends ÔÊĞí²é¿´Ïà²áµÄºÃÓÑId
-	 * @return integer Ïà²áId
+	 * åˆ›å»ºç›¸å†Œ
+	 * @param integer $uId ç”¨æˆ·Id
+	 * @param string  $name ç›¸å†Œåç§°
+	 * @param string  $privacy ç›¸å†Œé™åˆ¶
+	 * @param string  $passwd æŸ¥çœ‹ç›¸å†Œæ—¶çš„å¯†ç 
+	 * @param string  $friends å…è®¸æŸ¥çœ‹ç›¸å†Œçš„å¥½å‹Id
+	 * @return integer ç›¸å†ŒId
 	 */
 	function createAlbum($uId, $name, $privacy, $passwd = null, $friendIds = null) {
 		include_once(S_ROOT . './source/function_cp.php');
@@ -40,14 +40,14 @@ class Photo extends MyBase {
 	}
 
 	/**
-	 * ¸üĞÂÏà²á
-	 * @param integer $uId ÓÃ»§Id
-	 * @param intger  $aId Ïà²áId
-	 * @param string  $name Ïà²áÃû³Æ
-	 * @param string  $privacy Ïà²áÏŞÖÆ
-	 * @param string  $passwd ²é¿´Ïà²áÊ±µÄÃÜÂë
-	 * @param string  $friends ÔÊĞí²é¿´Ïà²áµÄºÃÓÑId
-	 * @param integer $coverId Ïà²á·âÃæId
+	 * æ›´æ–°ç›¸å†Œ
+	 * @param integer $uId ç”¨æˆ·Id
+	 * @param intger  $aId ç›¸å†ŒId
+	 * @param string  $name ç›¸å†Œåç§°
+	 * @param string  $privacy ç›¸å†Œé™åˆ¶
+	 * @param string  $passwd æŸ¥çœ‹ç›¸å†Œæ—¶çš„å¯†ç 
+	 * @param string  $friends å…è®¸æŸ¥çœ‹ç›¸å†Œçš„å¥½å‹Id
+	 * @param integer $coverId ç›¸å†Œå°é¢Id
 	 * @return boolean
 	 */
 	function updateAlbum($uId, $aId, $name = null, $privacy = null, $passwd = null, $friendIds = null, $coverId = null) {
@@ -95,12 +95,12 @@ class Photo extends MyBase {
 	}
 
 	/**
-	 * ÒÆ³ıÏà²á
+	 * ç§»é™¤ç›¸å†Œ
 	 *
-	 * @param integer $uId ÓÃ»§Id
-	 * @param integer $aId Ïà²áId
-	 * @param string  $action ¶¯×÷
-	 * @param integer $targetAlbumId Ä¿±êÏà²áId
+	 * @param integer $uId ç”¨æˆ·Id
+	 * @param integer $aId ç›¸å†ŒId
+	 * @param string  $action åŠ¨ä½œ
+	 * @param integer $targetAlbumId ç›®æ ‡ç›¸å†ŒId
 	 * @return boolean
 	 */
 	function removeAlbum($uId, $aId, $action = null , $targetAlbumId = null) {
@@ -156,9 +156,9 @@ class Photo extends MyBase {
 	}
 
 	/**
-	 * »ñÈ¡ÓÃ»§µÄÏà²áÁĞ±í
+	 * è·å–ç”¨æˆ·çš„ç›¸å†Œåˆ—è¡¨
 	 *
-	 * @param integer $uId ÓÃ»§Id
+	 * @param integer $uId ç”¨æˆ·Id
 	 * @return array
 	 */
 	function getAlbums($uId) {
@@ -172,17 +172,17 @@ class Photo extends MyBase {
 		return new APIResponse($albums);
 	}
 
-	// todo ²âÊÔÔ¶³ÌÄ£Ê½ÉÏ´«µÄÍ¼Æ¬
+	// todo æµ‹è¯•è¿œç¨‹æ¨¡å¼ä¸Šä¼ çš„å›¾ç‰‡
 	/**
-	 * ÉÏ´«ÕÕÆ¬
+	 * ä¸Šä¼ ç…§ç‰‡
 	 *
-	 * @param integer $uId ÓÃ»§Id
-	 * @param integer $aId Ïà²áId
-	 * @param string  $fileName ÎÄ¼şÃû
-	 * @param string  $fileType ÎÄ¼şÀàĞÍ
-	 * @param integer $fileSize ÎÄ¼ş´óĞ¡
-	 * @param string  $data ÕÕÆ¬Êı¾İ
-	 * @param string  $caption ÕÕÆ¬ËµÃ÷
+	 * @param integer $uId ç”¨æˆ·Id
+	 * @param integer $aId ç›¸å†ŒId
+	 * @param string  $fileName æ–‡ä»¶å
+	 * @param string  $fileType æ–‡ä»¶ç±»å‹
+	 * @param integer $fileSize æ–‡ä»¶å¤§å°
+	 * @param string  $data ç…§ç‰‡æ•°æ®
+	 * @param string  $caption ç…§ç‰‡è¯´æ˜
 	 * @return array
 	 */
 	function upload($uId, $aId, $fileName, $fileType, $fileSize, $data, $caption = null) {
@@ -231,11 +231,11 @@ class Photo extends MyBase {
 	}
 
 	/**
-	 * »ñÈ¡ÕÕÆ¬ĞÅÏ¢
+	 * è·å–ç…§ç‰‡ä¿¡æ¯
 	 *
-	 * @param integer $uId ÓÃ»§Id
-	 * @param integer $aId Ïà²áId
-	 * @param array   $pIds Í¼Æ¬IdÁĞ±í
+	 * @param integer $uId ç”¨æˆ·Id
+	 * @param integer $aId ç›¸å†ŒId
+	 * @param array   $pIds å›¾ç‰‡Idåˆ—è¡¨
 	 * @return array
 	 */
 	function get($uId, $aId, $pIds = null) {
@@ -278,14 +278,14 @@ class Photo extends MyBase {
 	}
 
 	/**
-	 * ¸üĞÂÒ»ÕÅÕÕÆ¬
-	 * @param integer $uId ÓÃ»§Id
-	 * @param integer $aId Ïà²áId
-	 * @param string  $fileName ÎÄ¼şÃû
-	 * @param string  $fileType ÎÄ¼şÀàĞÍ
-	 * @param integer $fileSize ÎÄ¼ş´óĞ¡
-	 * @param string  $caption ÕÕÆ¬ËµÃ÷
-	 * @param string  $data ÕÕÆ¬Êı¾İ
+	 * æ›´æ–°ä¸€å¼ ç…§ç‰‡
+	 * @param integer $uId ç”¨æˆ·Id
+	 * @param integer $aId ç›¸å†ŒId
+	 * @param string  $fileName æ–‡ä»¶å
+	 * @param string  $fileType æ–‡ä»¶ç±»å‹
+	 * @param integer $fileSize æ–‡ä»¶å¤§å°
+	 * @param string  $caption ç…§ç‰‡è¯´æ˜
+	 * @param string  $data ç…§ç‰‡æ•°æ®
 	 */
 	function update($uId, $pId, $aId, $fileName = null, $fileType = null, $fileSize = null, $caption = null, $data = null ) {
 		global $_SGLOBAL;
@@ -298,7 +298,7 @@ class Photo extends MyBase {
 		}
 
 		if (is_string($data) && strlen($data) > 0) {
-			// ÖØĞÂÉÏ´«ĞÂÍ¼Æ¬
+			// é‡æ–°ä¸Šä¼ æ–°å›¾ç‰‡
 			$query = $_SGLOBAL['db']->query('SELECT size, title, filename FROM ' . tname('pic') . ' WHERE picid=' . $pId. ' AND albumid=' . $aId . ' AND uid=' . $uId);
 			$picInfo = $_SGLOBAL['db']->fetch_array($query);
 			if ($picInfo && is_array($picInfo)) {
@@ -313,7 +313,7 @@ class Photo extends MyBase {
 				$pic = stream_save($stream, $aId, $fileType, $name, $title, $picInfo['size']);
 				$_SC['attachdir'] = $attachDir;
 
-				// ·µ»ØÖµ¸úÎÄµµ²»Ì«Ò»Ñù
+				// è¿”å›å€¼è·Ÿæ–‡æ¡£ä¸å¤ªä¸€æ ·
 				$newPic = array();
 				if ($pic && is_array($pic)) {
 					include_once(S_ROOT . './source/function_delete.php');
@@ -359,10 +359,10 @@ class Photo extends MyBase {
 	}
 
 	/**
-	 * É¾³ıÕÕÆ¬
+	 * åˆ é™¤ç…§ç‰‡
 	 *
-	 * @param integer $uId ÓÃ»§Id
-	 * @param array   $pIds ÕÕÆ¬IdÁĞ±í
+	 * @param integer $uId ç”¨æˆ·Id
+	 * @param array   $pIds ç…§ç‰‡Idåˆ—è¡¨
 	 * @return array
 	 */
 	function remove($uId, $pIds) {

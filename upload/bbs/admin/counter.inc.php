@@ -268,7 +268,7 @@ if(submitcheck('forumsubmit', 1)) {
 	
 	$nextlink = "$BASESCRIPT?action=counter&changesort=$changesort&cursort=$cursort&specialarrange=yes";
 	if($processed) {
-		cpmsg("$lang[counter_special_arrange]:(µÚ{$cursort}Àà/¹²".count($sortids)."Àà)", $nextlink, 'loading');
+		cpmsg("$lang[counter_special_arrange]:(ç¬¬{$cursort}ç±»/å…±".count($sortids)."ç±»)", $nextlink, 'loading');
 	} else {
 		cpmsg('counter_special_arrange_succeed', $BASESCRIPT.'?action=counter', 'succeed');
 	}

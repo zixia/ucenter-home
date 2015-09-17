@@ -8,13 +8,13 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//≥£¡ø∂®“Â
+//Â∏∏ÈáèÂÆö‰πâ
 define( 'PCLZIP_READ_BLOCK_SIZE', 2048 );
 define( 'PCLZIP_SEPARATOR', ',' );
 define( 'PCLZIP_ERROR_EXTERNAL', 0 );
 define( 'PCLZIP_TEMPORARY_DIR', '' );
 
-//¥ÌŒÛ–≈œ¢∂®“Â
+//ÈîôËØØ‰ø°ÊÅØÂÆö‰πâ
 define( 'PCLZIP_ERR_USER_ABORTED', 2 );
 define( 'PCLZIP_ERR_NO_ERROR', 0 );
 define( 'PCLZIP_ERR_WRITE_OPEN_FAIL', -1 );
@@ -37,7 +37,7 @@ define( 'PCLZIP_ERR_ALREADY_A_DIRECTORY', -17 );
 define( 'PCLZIP_ERR_UNSUPPORTED_COMPRESSION', -18 );
 define( 'PCLZIP_ERR_UNSUPPORTED_ENCRYPTION', -19 );
 
-//≤Œ ˝∂®“Â
+//ÂèÇÊï∞ÂÆö‰πâ
 define( 'PCLZIP_OPT_PATH', 77001 );
 define( 'PCLZIP_OPT_ADD_PATH', 77002 );
 define( 'PCLZIP_OPT_REMOVE_PATH', 77003 );
@@ -61,7 +61,7 @@ define( 'PCLZIP_CB_POST_EXTRACT', 78002 );
 define( 'PCLZIP_CB_PRE_ADD', 78003 );
 define( 'PCLZIP_CB_POST_ADD', 78004 );
 
-//Zip ¿‡
+//Zip Á±ª
 class Zip {
 	var $zipname = '';
 	var $zip_fd = 0;

@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//¼ì²éÐÅÏ¢
+//æ£€æŸ¥ä¿¡æ¯
 $topicid = empty($_GET['topicid'])?0:intval($_GET['topicid']);
 $id = empty($_GET['id'])?0:intval($_GET['id']);
 $idtype = empty($_GET['idtype'])?'':trim($_GET['idtype']);
@@ -20,7 +20,7 @@ if($topicid) {
 	$topic = $_SGLOBAL['db']->fetch_array($query);
 }
 
-//È¨ÏÞ¼ì²é
+//æƒé™æ£€æŸ¥
 if(empty($topic)) {
 
 	if($_GET['op'] != 'join') {
@@ -41,7 +41,7 @@ if(empty($topic)) {
 	$topic['pic'] = pic_get($topic['pic'], $topic['thumb'], $topic['remote'], 1);
 }
 
-//Ìí¼Ó±à¼­²Ù×÷
+//æ·»åŠ ç¼–è¾‘æ“ä½œ
 if(submitcheck('topicsubmit')) {
 
 	$setarr = array(
@@ -56,7 +56,7 @@ if(submitcheck('topicsubmit')) {
 		showmessage('topic_subject_error');
 	}
 	
-	//·âÃæ
+	//å°é¢
 	if($_FILES['pic']['size'] && $filearr = pic_save($_FILES['pic'], -1)) {
 		$setarr['pic'] = $filearr['filepath'];
 		$setarr['thumb'] = $filearr['thumb'];
@@ -77,7 +77,7 @@ if(submitcheck('topicsubmit')) {
 }
 
 if($_GET['op'] == 'delete') {
-	//É¾³ý
+	//åˆ é™¤
 	if(submitcheck('deletesubmit')) {
 		include_once(S_ROOT.'./source/function_delete.php');
 		if(deletetopics(array($topicid))) {
@@ -134,7 +134,7 @@ if($_GET['op'] == 'delete') {
 		if(empty($tlist[$_POST['newtopicid']])) $_POST['newtopicid'] = 0;
 		updatetable($tablename, array('topicid'=>$_POST['newtopicid']), array($idtype=>$id));
 		
-		//²ÎÓëÓÃ»§
+		//å‚ä¸Žç”¨æˆ·
 		if($_POST['newtopicid']) {
 			topic_join($_POST['newtopicid'], $item['uid'], addslashes($item['username']));
 		} else {
@@ -164,7 +164,7 @@ if($_GET['op'] == 'delete') {
 	
 	$topic['endtime'] = $topic['endtime']?sgmdate('Y-m-d H:i', $topic['endtime']):'';
 	
-	//ÓÃ»§×é
+	//ç”¨æˆ·ç»„
 	$usergroups = array(-1=>array(), 1=>array(), 0=>array());
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('usergroup'));
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {

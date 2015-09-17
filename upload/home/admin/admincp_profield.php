@@ -8,14 +8,14 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//È¨ÏŞ
+//æƒé™
 if(!checkperm('manageprofield')) {
 	cpmessage('no_authority_management_operation');
 }
 
 @include_once(S_ROOT.'./data/data_profield.php');
 
-//È¡µÃµ¥¸öÊı¾İ
+//å–å¾—å•ä¸ªæ•°æ®
 $thevalue = $list = array();
 $_GET['fieldid'] = empty($_GET['fieldid'])?0:intval($_GET['fieldid']);
 if($_GET['fieldid']) {
@@ -45,7 +45,7 @@ if(submitcheck('fieldsubmit')) {
 		updatetable('profield', $setarr, array('fieldid'=>$thevalue['fieldid']));
 	}
 	
-	//¸üĞÂ»º´æ
+	//æ›´æ–°ç¼“å­˜
 	include_once(S_ROOT.'./source/function_cache.php');
 	profield_cache();
 	
@@ -56,7 +56,7 @@ if(submitcheck('fieldsubmit')) {
 		updatetable('profield', array('displayorder'=>intval($value)), array('fieldid'=>intval($fieldid)));
 	}
 	
-	//¸üĞÂ»º´æ
+	//æ›´æ–°ç¼“å­˜
 	include_once(S_ROOT.'./source/function_cache.php');
 	profield_cache();
 	
@@ -64,7 +64,7 @@ if(submitcheck('fieldsubmit')) {
 }
 
 if(empty($_GET['op'])) {
-	//ÁĞ±í
+	//åˆ—è¡¨
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('profield')." ORDER BY displayorder");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$list[] = $value;
@@ -73,7 +73,7 @@ if(empty($_GET['op'])) {
 	$actives = array('view' => ' class="active"');
 
 } elseif($_GET['op'] == 'add') {
-	//Ìí¼Ó
+	//æ·»åŠ 
 	$thevalue = array('filedid' => 0, 'formtype' => 'text');
 	$formtypearr = array();
 
@@ -85,7 +85,7 @@ if(empty($_GET['op'])) {
 	
 	$_GET['fieldid'] = intval($_GET['fieldid']);
 	
-	//ÖÁÉÙ±£ÁôÒ»¸öÀ¸Ä¿
+	//è‡³å°‘ä¿ç•™ä¸€ä¸ªæ ç›®
 	if(count($_SGLOBAL['profield']) < 2) {
 		cpmessage('have_one_mtag');
 	}
@@ -99,7 +99,7 @@ if(empty($_GET['op'])) {
 		
 		include_once(S_ROOT.'./source/function_delete.php');
 		if($_GET['fieldid'] && deleteprofield(array($_GET['fieldid']), $newfieldid)) {
-			//¸üĞÂ»º´æ
+			//æ›´æ–°ç¼“å­˜
 			include_once(S_ROOT.'./source/function_cache.php');
 			profield_cache();
 	

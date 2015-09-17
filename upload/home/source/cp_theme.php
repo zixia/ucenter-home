@@ -28,7 +28,7 @@ if(submitcheck('csssubmit')) {
 	showmessage('do_success', 'cp.php?ac=theme');
 }
 
-//È·¶¨ÎÄ¼şÊÇ·ñ´æÔÚ
+//ç¡®å®šæ–‡ä»¶æ˜¯å¦å­˜åœ¨
 if($dir && $dir != 'uchomedefault') {
 	$cssfile = S_ROOT.'./theme/'.$dir.'/style.css';
 	if(!file_exists($cssfile)) {
@@ -37,7 +37,7 @@ if($dir && $dir != 'uchomedefault') {
 }
 
 if ($op == 'use') {
-	//ÆôÓÃ
+	//å¯ç”¨
 	if($dir == 'uchomedefault') {
 		$setarr = array('theme'=>'', 'css'=>'');
 	} else {
@@ -47,19 +47,19 @@ if ($op == 'use') {
 	showmessage('do_success', 'space.php', 0);
 	
 } elseif ($op == 'diy') {
-	//×Ô¶¨Òå
+	//è‡ªå®šä¹‰
 } else {
 	
-	//Ä£°åÁĞ±í
+	//æ¨¡æ¿åˆ—è¡¨
 	$themes = array(
 		array('dir'=>'uchomedefault', 'name'=>cplang('the_default_style'), 'pic'=>'image/theme_default.jpg')
 	);
 	$themes[] = array('dir'=>'uchomediy', 'name'=>cplang('the_diy_style'), 'pic'=>'image/theme_diy.jpg');
 
-	//»ñÈ¡±¾µØ·ç¸ñÄ¿Â¼
+	//è·å–æœ¬åœ°é£æ ¼ç›®å½•
 	$themedirs = sreaddir(S_ROOT.'./theme');
 	foreach ($themedirs as $key => $dirname) {
-		//ÑùÊ½ÎÄ¼şºÍÍ¼Æ¬Ğè´æÔÚ
+		//æ ·å¼æ–‡ä»¶å’Œå›¾ç‰‡éœ€å­˜åœ¨
 		$now_dir = S_ROOT.'./theme/'.$dirname;
 		if(file_exists($now_dir.'/style.css') && file_exists($now_dir.'/preview.jpg')) {
 			$themes[] = array(
@@ -69,7 +69,7 @@ if ($op == 'use') {
 		}
 	}
 	
-	//Ê±Çø
+	//æ—¶åŒº
 	$toselect = array($space['timeoffset'] => ' selected');
 }
 
@@ -77,7 +77,7 @@ $actives = array('theme'=>' class="active"');
 
 include_once template("cp_theme");
 
-//»ñÈ¡ÏµÍ³·ç¸ñÃû
+//è·å–ç³»ç»Ÿé£æ ¼å
 function getcssname($dirname) {
 	$css = sreadfile(S_ROOT.'./theme/'.$dirname.'/style.css');
 	if($css) {
@@ -91,7 +91,7 @@ function getcssname($dirname) {
 
 function checksecurity($str) {
 	
-	//Ö´ĞĞÒ»ÏµÁĞµÄ¹ıÂËÑéÖ¤ÊÇ·ñºÏ·¨µÄCSS
+	//æ‰§è¡Œä¸€ç³»åˆ—çš„è¿‡æ»¤éªŒè¯æ˜¯å¦åˆæ³•çš„CSS
 	$filter = array(
 		'/\/\*[\n\r]*(.+?)[\n\r]*\*\//is',
 		'/[^a-z0-9]+/i',

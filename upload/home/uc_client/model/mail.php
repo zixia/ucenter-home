@@ -9,7 +9,7 @@
 
 !defined('IN_UC') && exit('Access Denied');
 
-define('UC_MAIL_REPEAT', 5);	//note ÓÊ¼þ·¢ËÍÊ§°ÜÖØ¸´´ÎÊý
+define('UC_MAIL_REPEAT', 5);	//note é‚®ä»¶å‘é€å¤±è´¥é‡å¤æ¬¡æ•°
 
 class mailmodel {
 
@@ -28,7 +28,7 @@ class mailmodel {
 	}
 
 	/**
-	 * Í³¼ÆÍ¨ÖªµÄ×ÜÌõÊý
+	 * ç»Ÿè®¡é€šçŸ¥çš„æ€»æ¡æ•°
 	 *
 	 */
 	function get_total_num() {
@@ -37,12 +37,12 @@ class mailmodel {
 	}
 
 	/**
-	 * Enter µÃµ½ÓÊ¼þÁÐ±í
+	 * Enter å¾—åˆ°é‚®ä»¶åˆ—è¡¨
 	 *
 	 * @param int	$page
 	 * @param int	$ppp
 	 * @param int	$totalnum
-	 * @return array ½á¹û¼¯
+	 * @return array ç»“æžœé›†
 	 */
 	function get_list($page, $ppp, $totalnum) {
 		$start = $this->base->page_get_start($page, $ppp, $totalnum);
@@ -57,10 +57,10 @@ class mailmodel {
 	}
 
 	/**
-	 * É¾³ýÓÊ¼þÍ¨¹ýids
+	 * åˆ é™¤é‚®ä»¶é€šè¿‡ids
 	 *
 	 * @param string/array $ids
-	 * @return ÊÜÓ°ÏìµÄÐÐÊý
+	 * @return å—å½±å“çš„è¡Œæ•°
 	 */
 	function delete_mail($ids) {
 		$ids = $this->base->implode($ids);
@@ -69,17 +69,17 @@ class mailmodel {
 	}
 
 	/**
-	 * Ìí¼ÓÓÊ¼þÁÐ±í
+	 * æ·»åŠ é‚®ä»¶åˆ—è¡¨
 	 *
-	 * @param string ²Ù×÷
+	 * @param string æ“ä½œ
 	 * @param string getdata
 	 * @param string postdata
-	 * @param array appids Ö¸¶¨Í¨ÖªµÄ APPID
-	 * @param int pri ÓÅÏÈ¼¶£¬ÖµÔ½´ó±íÊ¾Ô½¸ß
-	 * @return int ²åÈëµÄID
+	 * @param array appids æŒ‡å®šé€šçŸ¥çš„ APPID
+	 * @param int pri ä¼˜å…ˆçº§ï¼Œå€¼è¶Šå¤§è¡¨ç¤ºè¶Šé«˜
+	 * @return int æ’å…¥çš„ID
 	 */
 	function add($mail) {
-		//note ÏÈÈë¿â
+		//note å…ˆå…¥åº“
 		if($mail['level']) {
 			$sql = "INSERT INTO ".UC_DBTABLEPRE."mailqueue (touid, tomail, subject, message, frommail, charset, htmlon, level, dateline, failures, appid) VALUES ";
 			$values_arr = array();
@@ -96,7 +96,7 @@ class mailmodel {
 			$insert_id = $this->db->insert_id();
 			$insert_id && $this->db->query("REPLACE INTO ".UC_DBTABLEPRE."vars SET name='mailexists', value='1'");
 			return $insert_id;
-		} else {//note Ö±½Ó·¢ËÍ
+		} else {//note ç›´æŽ¥å‘é€
 			$mail['email_to'] = array();
 			$uids = 0;
 			foreach($mail['uids'] as $uid) {
@@ -123,10 +123,10 @@ class mailmodel {
 
 	function _send() {
 
-		//note ²é¿´ÊÇ·ñÓÐÓÊ¼þ
+		//note æŸ¥çœ‹æ˜¯å¦æœ‰é‚®ä»¶
 		$mail = $this->_get_mail();
 		if(empty($mail)) {
-			//note ±êÊ¾Îª²»ÐèÒª·¢ËÍÓÊ¼þ
+			//note æ ‡ç¤ºä¸ºä¸éœ€è¦å‘é€é‚®ä»¶
 			$this->db->query("REPLACE INTO ".UC_DBTABLEPRE."vars SET name='mailexists', value='0'");
 			return NULL;
 		} else {

@@ -6,10 +6,10 @@
 
 include_once('./common.php');
 
-//»ñÈ¡·½·¨
+//è·å–æ–¹æ³•
 $ac = empty($_GET['ac'])?'':$_GET['ac'];
 
-//×Ô¶¨ÒåµÇÂ¼
+//è‡ªå®šä¹‰ç™»å½•
 if($ac == $_SCONFIG['login_action']) {
 	$ac = 'login';
 } elseif($ac == 'login') {
@@ -21,14 +21,14 @@ if($ac == $_SCONFIG['register_action']) {
 	$ac = '';
 }
 
-//ÔÊĞíµÄ·½·¨
+//å…è®¸çš„æ–¹æ³•
 $acs = array('login', 'register', 'lostpasswd', 'swfupload', 'inputpwd',
 	'ajax', 'seccode', 'sendmail', 'stat', 'emailcheck');
 if(empty($ac) || !in_array($ac, $acs)) {
 	showmessage('enter_the_space', 'index.php', 0);
 }
 
-//Á´½Ó
+//é“¾æ¥
 $theurl = 'do.php?ac='.$ac;
 
 include_once(S_ROOT.'./source/do_'.$ac.'.php');

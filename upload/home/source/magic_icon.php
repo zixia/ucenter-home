@@ -11,10 +11,10 @@ if(!defined('IN_UCHOME')) {
 $idtype = 'tid';
 $thread = magic_check_idtype($id, $idtype);
 if($thread['magicegg'] >= 8) {
-	showmessage('magicuse_object_count_limit', '', '', array(8));//´ËµÀ¾ß¶ÔÍ¬Ò»Ä¿±ê×î¶àÊ¹ÓÃ \\1 ´Î
+	showmessage('magicuse_object_count_limit', '', '', array(8));//æ­¤é“å…·å¯¹åŒä¸€ç›®æ ‡æœ€å¤šä½¿ç”¨ \\1 æ¬¡
 }
 
-//²Êºçµ°
+//å½©è™¹è›‹
 if(submitcheck('usesubmit')) {
 
 	$_SGLOBAL['db']->query('UPDATE '.tname('thread')." SET magicegg = magicegg + 1 WHERE tid = '$id' AND uid = '$_SGLOBAL[supe_uid]'");

@@ -13,24 +13,24 @@ $mid = empty($_GET['mid']) ? '' : trim($_GET['mid']);
 
 if(!checkperm('allowmagic')) {
 	ckspacelog();
-	showmessage('magic_groupid_not_allowed');//ÄúËùÔÚµÄÓÃ»§×é±»½ûÖ¹Ê¹ÓÃµÀ¾ß
+	showmessage('magic_groupid_not_allowed');//æ‚¨æ‰€åœ¨çš„ç”¨æˆ·ç»„è¢«ç¦æ­¢ä½¿ç”¨é“å…·
 }
 
-//»ñµÃµÀ¾ß
+//èŽ·å¾—é“å…·
 $magic = $mid ? magic_get($mid) : array();
 
-//Ìá½»¹ºÂò
-if (submitcheck("buysubmit")) {//¹ºÂò
+//æäº¤è´­ä¹°
+if (submitcheck("buysubmit")) {//è´­ä¹°
 	
 	if(!$mid) {
 		showmessage('unknown_magic');
 	}
 
-	//»ñµÃµÀ¾ßÐÅÏ¢
+	//èŽ·å¾—é“å…·ä¿¡æ¯
 	$results = magic_buy_get($magic);
 	extract($results);
 
-	//¹ºÂòµÀ¾ß
+	//è´­ä¹°é“å…·
 	$charge = magic_buy_post($magic, $magicstore, $coupon);
 
 	if($magic['experience']) {
@@ -39,32 +39,32 @@ if (submitcheck("buysubmit")) {//¹ºÂò
 		showmessage('magicbuy_success', $_POST['refer'], 0, array($charge));
 	}
 
-} elseif (submitcheck("presentsubmit")) {//ÔùËÍ
+} elseif (submitcheck("presentsubmit")) {//èµ é€
 	
 	if(!$mid) {
 		showmessage('unknown_magic');
 	}
 
 	if($mid == 'license') {
-		showmessage("magic_can_not_be_presented");//´ËµÀ¾ß²»ÄÜ×ªÈÃ
+		showmessage("magic_can_not_be_presented");//æ­¤é“å…·ä¸èƒ½è½¬è®©
 	}
 
-	//ºÃÓÑ
+	//å¥½å‹
 	$fuid = 0;
 	$_POST['fusername'] = trim($_POST['fusername']);
 	if(empty($_POST['fusername'])) {
-		showmessage("bad_friend_username_given");//ºÃÓÑÃû×ÖÎÞÐ§
+		showmessage("bad_friend_username_given");//å¥½å‹åå­—æ— æ•ˆ
 	}
 	$_POST['fusername'] = getstr($_POST['fusername'], 15);
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("friend")." WHERE uid = '$_SGLOBAL[supe_uid]' AND fusername='$_POST[fusername]'");
 	$value = $_SGLOBAL['db']->fetch_array($query);
 	if(!$value) {
-		showmessage("bad_friend_username_given");//ºÃÓÑÃû×ÖÎÞÐ§
+		showmessage("bad_friend_username_given");//å¥½å‹åå­—æ— æ•ˆ
 	}
 	$fuid = $value['fuid'];
 	$fusername = $value['fusername'];
 
-	//ÔùÓèÕßµÄ±ØÐëÓµÓÐ¸ÃµÀ¾ß¼°×ªÔö¿¨
+	//èµ äºˆè€…çš„å¿…é¡»æ‹¥æœ‰è¯¥é“å…·åŠè½¬å¢žå¡
 	$usermagics = array();
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("usermagic")." WHERE uid='$_SGLOBAL[supe_uid]' AND mid IN('license', '$mid')");
 	while($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -77,10 +77,10 @@ if (submitcheck("buysubmit")) {//¹ºÂò
 		showmessage('has_no_more_magic', '', '',  array($magic['name'], 'a_buy_'.$mid, "cp.php?ac=magic&op=buy&mid=$mid"));
 	}
 
-	//ÔùÓèÕß
+	//èµ äºˆè€…
 	$_SGLOBAL['db']->query('UPDATE '.tname('usermagic')." SET count = count - 1 WHERE uid = '$_SGLOBAL[supe_uid]' AND mid IN ('license', '$mid')");
 
-	//ÊÜÔùÕß
+	//å—èµ è€…
 	$query = $_SGLOBAL['db']->query('SELECT * FROM '.tname('usermagic')." WHERE uid='$fuid' AND mid='$mid'");
 	$value = $_SGLOBAL['db']->fetch_array($query);
 	$count = $value ? $value['count'] + 1 : 1;
@@ -90,7 +90,7 @@ if (submitcheck("buysubmit")) {//¹ºÂò
 			'mid'=>$mid,
 			'count'=>$count), 0, true);
 
-	//ÊÕÈë£¨ÔùËÍ£©ÈÕÖ¾
+	//æ”¶å…¥ï¼ˆèµ é€ï¼‰æ—¥å¿—
 	inserttable('magicinlog',
 		array('uid'=>$fuid,
 			'username'=>$fusername,
@@ -101,23 +101,23 @@ if (submitcheck("buysubmit")) {//¹ºÂò
 			'credit'=>0,
 			'dateline'=>$_SGLOBAL['timestamp']));
 
-	//Í¨Öª±»ÔùËÍÕß
+	//é€šçŸ¥è¢«èµ é€è€…
 	notification_add($fuid, 'magic', cplang('magic_present_note', array($magic['name'], "cp.php?ac=magic&view=me&mid=$mid")));
 	showmessage("magicpresent_success", $_POST['refer'], '', array($fusername));
 }
 
-if($op == 'buy') {//¹ºÂò
+if($op == 'buy') {//è´­ä¹°
 
 	$results = magic_buy_get($magic);
 	extract($results);
 
-} elseif ($op == "present") {//ÔùËÍ
+} elseif ($op == "present") {//èµ é€
 
 	if($mid == 'license') {
-		showmessage("magic_can_not_be_presented");//´ËµÀ¾ß²»ÄÜ×ªÈÃ
+		showmessage("magic_can_not_be_presented");//æ­¤é“å…·ä¸èƒ½è½¬è®©
 	}
 
-	//ÔùÓèÕßµÄ±ØÐëÓµÓÐ¸ÃµÀ¾ß¼°×ªÔö¿¨
+	//èµ äºˆè€…çš„å¿…é¡»æ‹¥æœ‰è¯¥é“å…·åŠè½¬å¢žå¡
 	$usermagics = array();
 	$query = $_SGLOBAL['db']->query('SELECT * FROM '.tname('usermagic')." WHERE uid='$_SGLOBAL[supe_uid]' AND mid IN('license', '$mid')");
 	while($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -130,13 +130,13 @@ if($op == 'buy') {//¹ºÂò
 		showmessage('has_no_more_magic', '', '',  array($magic['name'], 'a_buy_'.$mid, "cp.php?ac=magic&op=buy&mid=$mid"));
 	}
 } elseif($op == 'showusage') {
-	//ÏÔÊ¾Ê¹ÓÃ°ïÖúÍ¼Æ¬
+	//æ˜¾ç¤ºä½¿ç”¨å¸®åŠ©å›¾ç‰‡
 
 	if(!$mid) {
 		showmessage('unknown_magic');
 	}
 	
-} elseif($op == 'receive') {//ÁìÈ¡ºì°ü
+} elseif($op == 'receive') {//é¢†å–çº¢åŒ…
 
 	$uid = intval($_GET['uid']);
 	$query = $_SGLOBAL['db']->query('SELECT * FROM '.tname('magicuselog')." WHERE uid='$uid' AND mid='gift' LIMIT 1");
@@ -144,11 +144,11 @@ if($op == 'buy') {//¹ºÂò
 	if($value && $value['data']) {
 		$data = unserialize($value['data']);
 		if($data['left'] <= 0) {
-			showmessage("magic_gift_already_given_out");//ºì°üÒÑ¾­±»ÁìÍêÁË
+			showmessage("magic_gift_already_given_out");//çº¢åŒ…å·²ç»è¢«é¢†å®Œäº†
 		}
 		$data['receiver'] = is_array($data['receiver']) ? $data['receiver'] : array();
 		if(in_array($_SGLOBAL['supe_uid'], $data['receiver'])) {
-			showmessage("magic_had_got_gift");//ÄúÒÑ¾­ÁìÈ¡¹ý´Ë´Îºì°üÁË
+			showmessage("magic_had_got_gift");//æ‚¨å·²ç»é¢†å–è¿‡æ­¤æ¬¡çº¢åŒ…äº†
 		}
 		$credit = $data['left'] > $data['chunk'] ? $data['chunk'] : $data['left'];
 		$data['receiver'][] = $_SGLOBAL['supe_uid'];
@@ -159,13 +159,13 @@ if($op == 'buy') {//¹ºÂò
 			$_SGLOBAL['db']->query('DELETE FROM '.tname('magicuselog')." WHERE logid = '$value[logid]'");
 		}
 		$_SGLOBAL['db']->query('UPDATE '.tname('space')." SET credit = credit + '$credit' WHERE uid='$_SGLOBAL[supe_uid]'");
-		showmessage('magic_got_gift', '', '', array($credit));//ÄúÒÑ¾­ÁìÈ¡µ½ºì°üÁË£º»ñµÃ x »ý·Ö
+		showmessage('magic_got_gift', '', '', array($credit));//æ‚¨å·²ç»é¢†å–åˆ°çº¢åŒ…äº†ï¼šèŽ·å¾— x ç§¯åˆ†
 	} else {
-		showmessage('magic_has_no_gift');//¿Õ¼äÖ÷ÈËÃ»ÓÐÉèÖÃºì°ü
+		showmessage('magic_has_no_gift');//ç©ºé—´ä¸»äººæ²¡æœ‰è®¾ç½®çº¢åŒ…
 	}
 
 } elseif($op == 'appear') {
-	//È¡ÏûÒþÉí²ÝÐ§¹û
+	//å–æ¶ˆéšèº«è‰æ•ˆæžœ
 
 	if(!$_SGLOBAL['session']['magichidden']) {
 		showmessage('magic_not_hidden_yet');
@@ -178,14 +178,14 @@ if($op == 'buy') {//¹ºÂò
 	}
 
 } elseif($op == 'retrieve') {
-	//»ØÊÕºì°ü¿¨
+	//å›žæ”¶çº¢åŒ…å¡
 
 	$query = $_SGLOBAL['db']->query('SELECT * FROM '.tname('magicuselog')." WHERE uid = '$_SGLOBAL[supe_uid]' AND mid = 'gift'");
 	$value = $_SGLOBAL['db']->fetch_array($query);
 	
 	$leftcredit = 0;
 	if(!$value) {
-		showmessage('not_set_gift');//Äúµ±Ç°Ã»ÓÐÉèÖÃºì°ü
+		showmessage('not_set_gift');//æ‚¨å½“å‰æ²¡æœ‰è®¾ç½®çº¢åŒ…
 	} elseif($value['data']) {
 		$data = unserialize($value['data']);
 		$leftcredit = intval($data['left']);
@@ -197,7 +197,7 @@ if($op == 'buy') {//¹ºÂò
 		showmessage('do_success', $_POST['refer'], 0);
 	}
 	
-} elseif($op == 'cancelsuperstar') {//È¡Ïû³¬¼¶Ã÷ÐÇ
+} elseif($op == 'cancelsuperstar') {//å–æ¶ˆè¶…çº§æ˜Žæ˜Ÿ
 	
 	$mid = 'superstar';
 	$query = $_SGLOBAL['db']->query('SELECT * FROM '.tname('spacefield')." WHERE uid = '$_SGLOBAL[supe_uid]'");
@@ -212,7 +212,7 @@ if($op == 'buy') {//¹ºÂò
 		showmessage('do_success', $_POST['refer'], 0);
 	}
 	
-} elseif($op == 'cancelflicker') {//È¡Ïû²ÊºçìÅ
+} elseif($op == 'cancelflicker') {//å–æ¶ˆå½©è™¹ç‚«
 	
 	$mid = 'flicker';
 	$_GET['idtype'] = 'cid';
@@ -228,11 +228,11 @@ if($op == 'buy') {//¹ºÂò
 		showmessage('do_success', $_POST['refer'], 0);
 	}
 	
-} elseif($op == 'cancelcolor') {//È¡Ïû²ÊÉ«µÆ
+} elseif($op == 'cancelcolor') {//å–æ¶ˆå½©è‰²ç¯
 	
 	$mid = 'color';
 	$_GET['id'] = intval($_GET['id']);
-	//idtypeµ½º¬ÓÐmagiccolor×Ö¶ÎµÄ±íÓ³Éä
+	//idtypeåˆ°å«æœ‰magiccolorå­—æ®µçš„è¡¨æ˜ å°„
 	$mapping = array('blogid'=>'blogfield', 'tid'=>'thread');
 	$tablename = $mapping[$_GET['idtype']];
 	if(empty($tablename)) {
@@ -259,7 +259,7 @@ if($op == 'buy') {//¹ºÂò
 		showmessage('do_success', $_POST['refer'], 0);
 	}
 	
-} elseif($op == 'cancelframe') {//È¡ÏûÏà¿ò
+} elseif($op == 'cancelframe') {//å–æ¶ˆç›¸æ¡†
 	
 	$mid = 'frame';
 	$_GET['idtype'] = 'picid';
@@ -275,7 +275,7 @@ if($op == 'buy') {//¹ºÂò
 		showmessage('do_success', $_POST['refer'], 0);
 	}
 
-} elseif($op == 'cancelbgimage') {//È¡ÏûÐÅÖ½
+} elseif($op == 'cancelbgimage') {//å–æ¶ˆä¿¡çº¸
 
 	$mid = 'bgimage';
 	$_GET['idtype'] = 'blogid';
@@ -291,18 +291,18 @@ if($op == 'buy') {//¹ºÂò
 		showmessage('do_success', $_POST['refer'], 0);
 	}
 	
-} else {//ä¯ÀÀ
+} else {//æµè§ˆ
 
-	if($_GET['view'] == 'me') {//ÎÒµÄµÀ¾ß
+	if($_GET['view'] == 'me') {//æˆ‘çš„é“å…·
 
-		//ÓµÓÐµÄµÀ¾ß
+		//æ‹¥æœ‰çš„é“å…·
 		$types['list'] = ' class="active"';
 		$list = $ids = $magics = array();
 		if($mid) {
 			$magics[$mid] = $magic;
 			$ids[] = $mid;
 		} else {
-			//ÏÔÊ¾È«²¿
+			//æ˜¾ç¤ºå…¨éƒ¨
 			$query = $_SGLOBAL['db']->query('SELECT * FROM '.tname('magic')." WHERE close = '0'");
 			while($value = $_SGLOBAL['db']->fetch_array($query)) {
 				$value['forbiddengid'] = explode(',', $value['forbiddengid']);
@@ -315,23 +315,23 @@ if($op == 'buy') {//¹ºÂò
 			$list[$value['mid']] = $value;
 		}
 
-	} elseif($_GET['view'] == 'log') {//¼ÇÂ¼
+	} elseif($_GET['view'] == 'log') {//è®°å½•
 
 		$_GET['type'] = in_array($_GET['type'], array('in', 'out', 'present')) ? $_GET['type'] : 'in';
 		$types = array($_GET['type']=>' class="active"');
 
-		//·ÖÒ³
+		//åˆ†é¡µ
 		$perpage = 20;
 		$page = empty($_GET['page'])?0:intval($_GET['page']);
 		if($page<1) $page = 1;
 		$start = ($page-1)*$perpage;
-		//¼ì²é¿ªÊ¼Êý
+		//æ£€æŸ¥å¼€å§‹æ•°
 		ckstart($start, $perpage);
 
 		$list = array();
 		if($_GET['type'] == 'in') {
-			//»ñµÃ¼ÇÂ¼
-			$uids = array();//ÏÔÊ¾ÔùËÍÕß
+			//èŽ·å¾—è®°å½•
+			$uids = array();//æ˜¾ç¤ºèµ é€è€…
 			$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query('SELECT COUNT(*) FROM '.tname('magicinlog')." WHERE uid = '$_SGLOBAL[supe_uid]'"), 0);
 			if($count) {
 				$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('magicinlog')." WHERE uid = '$_SGLOBAL[supe_uid]' ORDER BY dateline DESC LIMIT $start, $perpage");
@@ -350,7 +350,7 @@ if($op == 'buy') {//¹ºÂò
 				realname_get();
 			}
 		} elseif($_GET['type'] == 'present') {
-			//ÔùËÍ¼ÇÂ¼
+			//èµ é€è®°å½•
 			$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query('SELECT COUNT(*) FROM '.tname('magicinlog')." WHERE type = 2 AND fromid = '$_SGLOBAL[supe_uid]'"), 0);
 			if($count) {
 				$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('magicinlog')." WHERE type = 2 AND fromid = '$_SGLOBAL[supe_uid]' ORDER BY dateline DESC LIMIT $start, $perpage");
@@ -361,7 +361,7 @@ if($op == 'buy') {//¹ºÂò
 			}
 			realname_get();
 		} else {
-			//Ê¹ÓÃ¼ÇÂ¼
+			//ä½¿ç”¨è®°å½•
 			$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query('SELECT COUNT(*) FROM '.tname('magicuselog')." WHERE uid = '$_SGLOBAL[supe_uid]'"), 0);
 			if($count) {
 				$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('magicuselog')." WHERE uid = '$_SGLOBAL[supe_uid]' ORDER BY dateline DESC LIMIT $start, $perpage");
@@ -372,25 +372,25 @@ if($op == 'buy') {//¹ºÂò
 			}
 		}
 
-		//·ÖÒ³
+		//åˆ†é¡µ
 		$theurl = 'cp.php?ac=magic&view=log&type='.$_GET['type'];
 		$multi = multi($count, $perpage, $page, $theurl);
 
-	} else {//µÀ¾ßÊÐ³¡
+	} else {//é“å…·å¸‚åœº
 		$_GET['view'] = 'store';
 
-		//ÏÔÊ¾Ë³Ðò
+		//æ˜¾ç¤ºé¡ºåº
 		$_GET['order'] = $_GET['order'] == 'hot' ? 'hot' : 'default';
 		$orders = array($_GET['order']=>' class="active"');
 
 		$magics = $ids = $list = array();
-		$blacklist = array('coupon');//µÀ¾ßÉÌµêÆÁ±ÎÏÔÊ¾µÄµÀ¾ß
+		$blacklist = array('coupon');//é“å…·å•†åº—å±è”½æ˜¾ç¤ºçš„é“å…·
 		if($mid) {
-			//Ö»ÏÔÊ¾µ¥¸ö
+			//åªæ˜¾ç¤ºå•ä¸ª
 			$magics[$mid] = $magic;
 			$ids[] = $mid;
 		} else {
-			//ÏÔÊ¾È«²¿
+			//æ˜¾ç¤ºå…¨éƒ¨
 			$orderby = $_GET['order'] == 'hot' ? '' : 'ORDER BY displayorder';
 			$query = $_SGLOBAL['db']->query('SELECT * FROM '.tname('magic')." $orderby");
 			while($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -404,15 +404,15 @@ if($op == 'buy') {//¹ºÂò
 		}
 
 		if(empty($magics)) {
-			showmessage('magic_store_is_closed');//µÀ¾ßÉÌµêÒÑ¾­¹Ø±Õ£¨Ã»ÓÐÈÎºÎµÀ¾ß¿ª·Å£©
+			showmessage('magic_store_is_closed');//é“å…·å•†åº—å·²ç»å…³é—­ï¼ˆæ²¡æœ‰ä»»ä½•é“å…·å¼€æ”¾ï¼‰
 		}
 
-		$oldids = array();//ÒÑ¾­Â¼ÈëÉÌµêµÄµÀ¾ß
+		$oldids = array();//å·²ç»å½•å…¥å•†åº—çš„é“å…·
 		$query = $_SGLOBAL['db']->query('SELECT * FROM '.tname('magicstore').' WHERE mid IN ('.simplode($ids).')');
 		while($value = $_SGLOBAL['db']->fetch_array($query)) {
 			$list[$value['mid']] = $value;
 			$oldids[] = $value['mid'];
-			//¸üÐÂ¿â´æÊý
+			//æ›´æ–°åº“å­˜æ•°
 			if($value['storage'] < $magics[$value['mid']]['providecount'] &&
 				$value['lastprovide'] + $magics[$value['mid']]['provideperoid'] < $_SGLOBAL['timestamp']) {
 
@@ -421,7 +421,7 @@ if($op == 'buy') {//¹ºÂò
 			}
 		}
 
-		$newids = array_diff($ids, $oldids);//»¹Î´Â¼ÈëÉÌµêµÄµÀ¾ß
+		$newids = array_diff($ids, $oldids);//è¿˜æœªå½•å…¥å•†åº—çš„é“å…·
 		if($newids) {
 			$inserts = array();
 			foreach ($newids as $id) {
@@ -433,9 +433,9 @@ if($op == 'buy') {//¹ºÂò
 			$_SGLOBAL['db']->query('INSERT INTO '.tname('magicstore').'(mid, storage, lastprovide) VALUES '.implode(',',$inserts));
 		}
 
-		//ÅÅÐò
+		//æŽ’åº
 		if($_GET['order'] == 'hot') {
-			//°´ÊÛ³öÊýÅÅÐò
+			//æŒ‰å”®å‡ºæ•°æŽ’åº
 			function hotsort($a, $b) {
 				return ($a['sellcount'] > $b['sellcount']) ? -1 : ($a['sellcount'] < $b['sellcount']);
 			}
@@ -447,7 +447,7 @@ if($op == 'buy') {//¹ºÂò
 			$list = $order;
 			unset($order);
 		} else {
-			//Ä¬ÈÏ
+			//é»˜è®¤
 			$order = array();
 			foreach ($ids as $id) {
 				$order[$id] = $list[$id];

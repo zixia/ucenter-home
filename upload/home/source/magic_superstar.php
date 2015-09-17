@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//³¬¼¶Ã÷ÐÇ
+//è¶…çº§æ˜Žæ˜Ÿ
 if(submitcheck("usesubmit")) {
 
 	$_POST['star'] = intval($_POST['star']);

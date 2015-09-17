@@ -8,14 +8,14 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//ÊÇ·ñ¹«¿ª
+//æ˜¯å¦å…¬å¼€
 if(empty($_SCONFIG['networkpublic'])) {
-	checklogin();//ĞèÒªµÇÂ¼
+	checklogin();//éœ€è¦ç™»å½•
 }
 
 include_once(S_ROOT.'./data/data_network.php');
 
-//ÈÕÖ¾
+//æ—¥å¿—
 $cachefile = S_ROOT.'./data/cache_network_blog.txt';
 if(check_network_cache('blog')) {
 	$bloglist = unserialize(sreadfile($cachefile));
@@ -28,10 +28,10 @@ if(check_network_cache('blog')) {
 	);
 	extract($sqlarr);
 
-	//ÒşË½
+	//éšç§
 	$wherearr[] = "main.friend='0'";
 	
-	//ÏÔÊ¾ÊıÁ¿
+	//æ˜¾ç¤ºæ•°é‡
 	$shownum = 6;
 	
 	$query = $_SGLOBAL['db']->query("SELECT main.*, field.* 
@@ -54,7 +54,7 @@ foreach($bloglist as $key => $value) {
 	$bloglist[$key] = $value;
 }
 
-//Í¼Æ¬
+//å›¾ç‰‡
 $cachefile = S_ROOT.'./data/cache_network_pic.txt';
 if(check_network_cache('pic')) {
 	$piclist = unserialize(sreadfile($cachefile));
@@ -67,7 +67,7 @@ if(check_network_cache('pic')) {
 	);
 	extract($sqlarr);
 
-	//ÏÔÊ¾ÊıÁ¿
+	//æ˜¾ç¤ºæ•°é‡
 	$shownum = 28;
 	
 	$piclist = array();
@@ -92,7 +92,7 @@ foreach($piclist as $key => $value) {
 	$piclist[$key] = $value;
 }
 
-//»°Ìâ
+//è¯é¢˜
 $cachefile = S_ROOT.'./data/cache_network_thread.txt';
 if(check_network_cache('thread')) {
 	$threadlist = unserialize(sreadfile($cachefile));
@@ -105,7 +105,7 @@ if(check_network_cache('thread')) {
 	);
 	extract($sqlarr);
 
-	//ÏÔÊ¾ÊıÁ¿
+	//æ˜¾ç¤ºæ•°é‡
 	$shownum = 10;
 	
 	$threadlist = array();
@@ -129,7 +129,7 @@ foreach($threadlist as $key => $value) {
 }
 
 
-//»î¶¯
+//æ´»åŠ¨
 include_once(S_ROOT.'./data/data_eventclass.php');
 $cachefile = S_ROOT.'./data/cache_network_event.txt';
 if(check_network_cache('event')) {
@@ -143,7 +143,7 @@ if(check_network_cache('event')) {
 	);
 	extract($sqlarr);
 
-	//ÏÔÊ¾ÊıÁ¿
+	//æ˜¾ç¤ºæ•°é‡
 	$shownum = 4;
 	
 	$eventlist = array();
@@ -170,7 +170,7 @@ foreach($eventlist as $key => $value) {
 }
 
 
-//Í¶Æ±
+//æŠ•ç¥¨
 $cachefile = S_ROOT.'./data/cache_network_poll.txt';
 if(check_network_cache('poll')) {
 	$polllist = unserialize(sreadfile($cachefile));
@@ -183,7 +183,7 @@ if(check_network_cache('poll')) {
 	);
 	extract($sqlarr);
 
-	//ÏÔÊ¾ÊıÁ¿
+	//æ˜¾ç¤ºæ•°é‡
 	$shownum = 9;
 	
 	$polllist = array();
@@ -204,7 +204,7 @@ foreach($polllist as $key => $value) {
 	$polllist[$key] = $value;
 }
 
-//¼ÇÂ¼
+//è®°å½•
 $dolist = array();
 $query = $_SGLOBAL['db']->query("SELECT *
 	FROM ".tname('doing')."
@@ -215,7 +215,7 @@ while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 	$dolist[] = $value;
 }
 
-//Õ¾³¤ÍÆ¼ö
+//ç«™é•¿æ¨è
 $star = array();
 $starlist = array();
 if($_SCONFIG['spacebarusername']) {
@@ -229,7 +229,7 @@ if($starlist) {
 	$star = sarray_rand($starlist, 1);
 }
 
-//¾º¼ÛÅÅÃû
+//ç«ä»·æ’å
 $showlist = array();
 $query = $_SGLOBAL['db']->query("SELECT sh.note, s.* FROM ".tname('show')." sh
 	LEFT JOIN ".tname('space')." s ON s.uid=sh.uid
@@ -243,7 +243,7 @@ if(empty($star) && $showlist) {
 	$star = sarray_rand($showlist, 1);
 }
 
-//ÔÚÏßÓÃ»§
+//åœ¨çº¿ç”¨æˆ·
 $onlinelist = array();
 $query = $_SGLOBAL['db']->query("SELECT s.*, sf.note FROM ".tname('session')." s
 	LEFT JOIN ".tname('spacefield')." sf ON sf.uid=s.uid
@@ -260,10 +260,10 @@ if(empty($star) && $onlinelist) {
 }
 
 
-//ÔÚÏßÈËÊı
+//åœ¨çº¿äººæ•°
 $olcount = getcount('session', array());
 
-//Ó¦ÓÃ
+//åº”ç”¨
 $myappcount = 0;
 $myapplist = array();
 if($_SCONFIG['my_status']) {
@@ -276,7 +276,7 @@ if($_SCONFIG['my_status']) {
 	}
 }
 
-//·ÖÏí
+//åˆ†äº«
 $sharelist = array();
 $query = $_SGLOBAL['db']->query("SELECT *
 	FROM ".tname('share')."
@@ -288,14 +288,14 @@ while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 
 realname_get();
 
-//×îºóµÇÂ¼Ãû
+//æœ€åç™»å½•å
 $membername = empty($_SCOOKIE['loginuser'])?'':sstripslashes($_SCOOKIE['loginuser']);
 $wheretime = $_SGLOBAL['timestamp']-3600*24*30;
 
 $_TPL['css'] = 'network';
 include_once template("network");
 
-//¼ì²é»º´æ
+//æ£€æŸ¥ç¼“å­˜
 function check_network_cache($type) {
 	global $_SGLOBAL;
 	
@@ -309,21 +309,21 @@ function check_network_cache($type) {
 	return false;
 }
 
-//»ñµÃSQL
+//è·å¾—SQL
 function mk_network_sql($type, $ids, $crops, $days, $orders) {
 	global $_SGLOBAL;
 	
 	$nt = $_SGLOBAL['network'][$type];
 	
 	$wherearr = array('1');
-	//Ö¸¶¨
+	//æŒ‡å®š
 	foreach ($ids as $value) {
 		if($nt[$value]) {
 			$wherearr[] = "main.{$value} IN (".$nt[$value].")";
 		}
 	}
 	
-	//·¶Î§
+	//èŒƒå›´
 	foreach ($crops as $value) {
 		$value1 = $value.'1';
 		$value2 = $value.'2';
@@ -334,14 +334,14 @@ function mk_network_sql($type, $ids, $crops, $days, $orders) {
 			$wherearr[] = "main.{$value} <= '".$nt[$value2]."'";
 		}
 	}
-	//Ê±¼ä
+	//æ—¶é—´
 	foreach ($days as $value) {
 		if($nt[$value]) {
 			$daytime = $_SGLOBAL['timestamp'] - $nt[$value]*3600*24;
 			$wherearr[] = "main.{$value}>='$daytime'";
 		}
 	}
-	//ÅÅĞò
+	//æ’åº
 	$order = in_array($nt['order'], $orders)?$nt['order']:array_shift($orders);
 	$sc = in_array($nt['sc'], array('desc','asc'))?$nt['sc']:'desc';
 	

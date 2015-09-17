@@ -6,10 +6,10 @@
 
 include_once('./common.php');
 
-//ÊÇ·ñ¹Ø±ÕÕ¾µã
+//æ˜¯å¦å…³é—­ç«™ç‚¹
 checkclose();
 
-//¿Õ¼ä±»Ëø¶¨
+//ç©ºé—´è¢«é”å®š
 if($_SGLOBAL['supe_uid']) {
 	$space = getspace($_SGLOBAL['supe_uid']);
 	
@@ -17,7 +17,7 @@ if($_SGLOBAL['supe_uid']) {
 		showmessage('space_has_been_locked');
 	}
 	
-	//½ûÖ¹·ÃÎÊ
+	//ç¦æ­¢è®¿é—®
 	if(checkperm('banvisit')) {
 		ckspacelog();
 		showmessage('you_do_not_have_permission_to_visit');

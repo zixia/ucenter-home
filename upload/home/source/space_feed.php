@@ -8,18 +8,18 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//ÏÔÊ¾È«Õ¾¶¯Ì¬µÄºÃÓÑÊı
+//æ˜¾ç¤ºå…¨ç«™åŠ¨æ€çš„å¥½å‹æ•°
 if(empty($_SCONFIG['showallfriendnum']) || $_SCONFIG['showallfriendnum']<1) $_SCONFIG['showallfriendnum'] = 10;
-//Ä¬ÈÏÈÈµãÌìÊı
+//é»˜è®¤çƒ­ç‚¹å¤©æ•°
 if(empty($_SCONFIG['feedhotday'])) $_SCONFIG['feedhotday'] = 2;
 
-//ÍøÕ¾½ü¿ö
+//ç½‘ç«™è¿‘å†µ
 $isnewer = $space['friendnum']<$_SCONFIG['showallfriendnum']?1:0;
 if(empty($_GET['view']) && $space['self'] && $isnewer) {
-	$_GET['view'] = 'all';//Ä¬ÈÏÏÔÊ¾
+	$_GET['view'] = 'all';//é»˜è®¤æ˜¾ç¤º
 }
 
-//·ÖÒ³
+//åˆ†é¡µ
 $perpage = $_SCONFIG['feedmaxnum']<50?50:$_SCONFIG['feedmaxnum'];
 $perpage = mob_perpage($perpage);
 
@@ -28,19 +28,19 @@ if($_GET['view'] == 'hot') {
 }
 
 $start = empty($_GET['start'])?0:intval($_GET['start']);
-//¼ì²é¿ªÊ¼Êı
+//æ£€æŸ¥å¼€å§‹æ•°
 ckstart($start, $perpage);
 
-//½ñÌìÊ±¼ä¿ªÊ¼Ïß
+//ä»Šå¤©æ—¶é—´å¼€å§‹çº¿
 $_SGLOBAL['today'] = sstrtotime(sgmdate('Y-m-d'));
 
-//×îÉÙÈÈ¶È
+//æœ€å°‘çƒ­åº¦
 $minhot = $_SCONFIG['feedhotmin']<1?3:$_SCONFIG['feedhotmin'];
 $_SGLOBAL['gift_appid'] = '1027468';
 
 if($_GET['view'] == 'all') {
 
-	$wheresql = "1";//Ã»ÓĞÒşË½
+	$wheresql = "1";//æ²¡æœ‰éšç§
 	$ordersql = "dateline DESC";
 	$theurl = "space.php?uid=$space[uid]&do=$do&view=all";
 	$f_index = '';
@@ -68,12 +68,12 @@ if($_GET['view'] == 'all') {
 		$theurl = "space.php?uid=$space[uid]&do=$do&view=we";
 		$f_index = 'USE INDEX(dateline)';
 		$_GET['view'] = 'we';
-		//²»ÏÔÊ¾Ê±¼ä
+		//ä¸æ˜¾ç¤ºæ—¶é—´
 		$_TPL['hidden_time'] = 1;
 	}
 }
 
-//¹ıÂË
+//è¿‡æ»¤
 $appid = empty($_GET['appid'])?0:intval($_GET['appid']);
 if($appid) {
 	$wheresql .= " AND appid='$appid'";
@@ -97,7 +97,7 @@ $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." $f_index
 	LIMIT $start,$perpage");
 
 if($_GET['view'] == 'me' || $_GET['view'] == 'hot') {
-	//¸öÈË¶¯Ì¬
+	//ä¸ªäººåŠ¨æ€
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		if(ckfriend($value['uid'], $value['friend'], $value['target_ids'])) {
 			realname_set($value['uid'], $value['username']);
@@ -106,7 +106,7 @@ if($_GET['view'] == 'me' || $_GET['view'] == 'hot') {
 		$count++;
 	}
 } else {
-	//ÒªÕÛµşµÄ¶¯Ì¬
+	//è¦æŠ˜å çš„åŠ¨æ€
 	$hidden_icons = array();
 	if($_SCONFIG['feedhiddenicon']) {
 		$_SCONFIG['feedhiddenicon'] = str_replace(' ', '', $_SCONFIG['feedhiddenicon']);
@@ -148,25 +148,25 @@ $newspacelist = array();
 
 if($space['self'] && empty($start)) {
 
-	//¶ÌÏûÏ¢
+	//çŸ­æ¶ˆæ¯
 	$space['pmnum'] = $_SGLOBAL['member']['newpm'];
 
-	//¾Ù±¨¹ÜÀí
+	//ä¸¾æŠ¥ç®¡ç†
 	if(checkperm('managereport')) {
 		$space['reportnum'] = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('report')." WHERE new='1'"), 0);
 	}
 
-	//ÉóºË»î¶¯
+	//å®¡æ ¸æ´»åŠ¨
 	if(checkperm('manageevent')) {
 		$space['eventverifynum'] = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('event')." WHERE grade='0'"), 0);
 	}
 
-	//µÈ´ıÊµÃûÈÏÖ¤
+	//ç­‰å¾…å®åè®¤è¯
 	if($_SCONFIG['realname'] && checkperm('managename')) {
 		$space['namestatusnum'] = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('space')." WHERE namestatus='0' AND name!=''"), 0);
 	}
 	
-	//»¶Ó­ĞÂ³ÉÔ±
+	//æ¬¢è¿æ–°æˆå‘˜
 	if($_SCONFIG['newspacenum']>0) {
 		$newspacelist = unserialize(data_get('newspacelist'));
 		if(!is_array($newspacelist)) $newspacelist = array();
@@ -176,7 +176,7 @@ if($space['self'] && empty($start)) {
 		}
 	}
 
-	//×î½ü·Ã¿ÍÁĞ±í
+	//æœ€è¿‘è®¿å®¢åˆ—è¡¨
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('visitor')." WHERE uid='$space[uid]' ORDER BY dateline DESC LIMIT 0,12");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		realname_set($value['vuid'], $value['vusername']);
@@ -184,7 +184,7 @@ if($space['self'] && empty($start)) {
 		$oluids[] = $value['vuid'];
 	}
 
-	//·Ã¿ÍÔÚÏß
+	//è®¿å®¢åœ¨çº¿
 	if($oluids) {
 		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('session')." WHERE uid IN (".simplode($oluids).")");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -199,7 +199,7 @@ if($space['self'] && empty($start)) {
 	$oluids = array();
 	$olfcount = 0;
 	if($space['feedfriend']) {
-		//ÔÚÏßºÃÓÑ
+		//åœ¨çº¿å¥½å‹
 		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('session')." WHERE uid IN ($space[feedfriend]) ORDER BY lastactivity DESC LIMIT 0,15");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 			if(!$value['magichidden']) {
@@ -212,7 +212,7 @@ if($space['self'] && empty($start)) {
 		}
 	}
 	if($olfcount < 15) {
-		//ÎÒµÄºÃÓÑ
+		//æˆ‘çš„å¥½å‹
 		$query = $_SGLOBAL['db']->query("SELECT fuid AS uid, fusername AS username, num FROM ".tname('friend')." WHERE uid='$space[uid]' AND status='1' ORDER BY num DESC, dateline DESC LIMIT 0,30");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 			if(empty($oluids[$value['uid']])) {
@@ -224,13 +224,13 @@ if($space['self'] && empty($start)) {
 		}
 	}
 
-	//»ñÈ¡ÈÎÎñ
+	//è·å–ä»»åŠ¡
 	include_once(S_ROOT.'./source/function_space.php');
 	$task = gettask();
 
-	//ºÃÓÑÉúÈÕ
+	//å¥½å‹ç”Ÿæ—¥
 	if($space['feedfriend']) {
-		list($s_month, $s_day) = explode('-', sgmdate('n-j', $_SGLOBAL['timestamp']-3600*24*3));//¹ıÆÚ3Ìì
+		list($s_month, $s_day) = explode('-', sgmdate('n-j', $_SGLOBAL['timestamp']-3600*24*3));//è¿‡æœŸ3å¤©
 		list($n_month, $n_day) = explode('-', sgmdate('n-j', $_SGLOBAL['timestamp']));
 		list($e_month, $e_day) = explode('-', sgmdate('n-j', $_SGLOBAL['timestamp']+3600*24*7));
 		if($e_month == $s_month) {
@@ -254,13 +254,13 @@ if($space['self'] && empty($start)) {
 		}
 	}
 
-	//»ı·Ö
+	//ç§¯åˆ†
 	$space['star'] = getstar($space['experience']);
 
-	//ÓòÃû
+	//åŸŸå
 	$space['domainurl'] = space_domain($space);
 
-	//ÈÈµã
+	//çƒ­ç‚¹
 	if($_SCONFIG['feedhotnum'] > 0 && ($_GET['view'] == 'we' || $_GET['view'] == 'all')) {
 		$hotlist_all = array();
 		$hotstarttime = $_SGLOBAL['timestamp'] - $_SCONFIG['feedhotday']*3600*24;
@@ -292,7 +292,7 @@ if($space['self'] && empty($start)) {
 		}
 	}
 	
-	//ÈÈÄÖ
+	//çƒ­é—¹
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('topic')." ORDER BY lastpost DESC LIMIT 0,1");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$value['pic'] = $value['pic']?pic_get($value['pic'], $value['thumb'], $value['remote']):'';
@@ -300,27 +300,27 @@ if($space['self'] && empty($start)) {
 	}
 
 
-	//ÌáĞÑ×ÜÊı
+	//æé†’æ€»æ•°
 	$space['allnum'] = 0;
 	foreach (array('notenum', 'addfriendnum', 'mtaginvitenum', 'eventinvitenum', 'myinvitenum', 'pokenum', 'reportnum', 'namestatusnum', 'eventverifynum') as $value) {
 		$space['allnum'] = $space['allnum'] + $space[$value];
 	}
 }
 
-//ÊµÃû´¦Àí
+//å®åå¤„ç†
 realname_get();
 
-//feedºÏ²¢
+//feedåˆå¹¶
 $list = array();
 
 if($_GET['view'] == 'hot') {
-	//ÈÈµã
+	//çƒ­ç‚¹
 	foreach ($feed_list as $value) {
 		$value = mkfeed($value);
 		$list['today'][] = $value;
 	}
 } elseif($_GET['view'] == 'me') {
-	//¸öÈË
+	//ä¸ªäºº
 	foreach ($feed_list as $value) {
 		if($hotlist[$value['feedid']]) continue;
 		$value = mkfeed($value);
@@ -334,7 +334,7 @@ if($_GET['view'] == 'hot') {
 		}
 	}
 } else {
-	//ºÃÓÑ¡¢È«Õ¾
+	//å¥½å‹ã€å…¨ç«™
 	foreach ($feed_list as $values) {
 		$actors = array();
 		$a_value = array();
@@ -355,7 +355,7 @@ if($_GET['view'] == 'hot') {
 			$list[$theday][] = $a_value;
 		}
 	}
-	//Ó¦ÓÃ
+	//åº”ç”¨
 	foreach ($appfeed_list as $values) {
 		$actors = array();
 		$a_value = array();
@@ -370,7 +370,7 @@ if($_GET['view'] == 'hot') {
 	}
 }
 
-//»ñµÃ¸öĞÔÄ£°å
+//è·å¾—ä¸ªæ€§æ¨¡æ¿
 $templates = $default_template = array();
 $tpl_dir = sreaddir(S_ROOT.'./template');
 foreach ($tpl_dir as $dir) {
@@ -387,13 +387,13 @@ foreach ($tpl_dir as $dir) {
 $_TPL['templates'] = $templates;
 $_TPL['default_template'] = $default_template;
 
-//±êÇ©¼¤»î
+//æ ‡ç­¾æ¿€æ´»
 $my_actives = array(in_array($_GET['filter'], array('site','myapp'))?$_GET['filter']:'all' => ' class="active"');
 $actives = array(in_array($_GET['view'], array('me','all','hot'))?$_GET['view']:'we' => ' class="active"');
 
 if(empty($cp_mode)) include_once template("space_feed");
 
-//É¸Ñ¡
+//ç­›é€‰
 function ckicon_uid($feed) {
 	global $_SGLOBAL, $space, $_SCONFIG;
 
@@ -411,7 +411,7 @@ function ckicon_uid($feed) {
 	return true;
 }
 
-//ÍÆ¼öÀñÎï
+//æ¨èç¤¼ç‰©
 function my_showgift() {
 	global $_SGLOBAL, $space, $_SCONFIG;
 	if($_SCONFIG['my_showgift'] && $_SGLOBAL['my_userapp'][$_SGLOBAL['gift_appid']]) {

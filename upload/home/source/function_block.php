@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//´¦ÀíÄ£¿é
+//å¤„ç†æ¨¡å—
 function block_batch($param) {
 	global $_SGLOBAL, $_SBLOCK, $_SCONFIG;
 	
@@ -16,20 +16,20 @@ function block_batch($param) {
 	$paramarr = parseparameter($param);
 
 	if(empty($_SCONFIG['allowcache'])) {
-		$paramarr['cachetime'] = 0;//¹Ø±Õ»º´æ
+		$paramarr['cachetime'] = 0;//å…³é—­ç¼“å­˜
 	} else {
 		$paramarr['cachetime'] = intval($paramarr['cachetime']);
 	}
 	
 	if(!empty($paramarr['perpage'])) {
-		//·ÖÒ³
+		//åˆ†é¡µ
 		$_GET['page'] = empty($_GET['page'])?1:intval($_GET['page']);
 		if($_GET['page'] < 1) $_GET['page'] = 1;
 		if($_GET['page'] > 1 && $paramarr['cachetime']) {
-			$cachekey = smd5($param.$_GET['page']);//key¸Ä±ä
+			$cachekey = smd5($param.$_GET['page']);//keyæ”¹å˜
 		}
 	}
-	//»ñÈ¡»º´æ
+	//è·å–ç¼“å­˜
 	if($paramarr['cachetime']) {
 		$caches = block_get($cachekey);
 	} else {
@@ -37,12 +37,12 @@ function block_batch($param) {
 	}
 
 	if(!empty($caches['mtime']) && $_SGLOBAL['timestamp']-$caches['mtime'] <= $paramarr['cachetime']) {
-		//Ê¹ÓÃ»º´æ
+		//ä½¿ç”¨ç¼“å­˜
 		$_SBLOCK[$paramarr['cachename']] = $caches['values'];
 		$_SBLOCK[$paramarr['cachename'].'_multipage'] = $caches['multi'];
 		
 	} else {
-		//²éÑ¯Êı¾İ
+		//æŸ¥è¯¢æ•°æ®
 		$blockarr = array();
 		$results = getparamsql($paramarr);
 		if($results['count']) {
@@ -54,15 +54,15 @@ function block_batch($param) {
 		$_SBLOCK[$paramarr['cachename']] = $blockarr;
 		$_SBLOCK[$paramarr['cachename'].'_multipage'] = $results['multi'];
 		
-		//¸üĞÂ»º´æ
+		//æ›´æ–°ç¼“å­˜
 		if($paramarr['cachetime']) {
-			$blockarr['multipage'] = $results['multi'];//»º´æ·ÖÒ³
+			$blockarr['multipage'] = $results['multi'];//ç¼“å­˜åˆ†é¡µ
 			block_set($cachekey, $blockarr);
 		}
 	}
 }
 
-//»ñÈ¡Ä£¿é»º´æ
+//è·å–æ¨¡å—ç¼“å­˜
 function block_get($cachekey) {
 	global $_SGLOBAL, $_SCONFIG;
 
@@ -99,26 +99,26 @@ function block_get($cachekey) {
 				@$caches['mtime'] = $result['mtime'];
 			}
 		} else {
-			//½¨Á¢·Ö±í
+			//å»ºç«‹åˆ†è¡¨
 			$basetable = tname('cache');
 			$query = $_SGLOBAL['db']->query("SHOW CREATE TABLE $basetable");
 			$creattable = $_SGLOBAL['db']->fetch_array($query);
 			$sql = str_replace($basetable, $thetable, $creattable['Create Table']);
-			$_SGLOBAL['db']->query($sql, 'SILENT');//´´½¨·Ö±í
+			$_SGLOBAL['db']->query($sql, 'SILENT');//åˆ›å»ºåˆ†è¡¨
 		}
 	}
 	
 	return $caches;
 }
 
-//¸üĞÂÄ£¿é
+//æ›´æ–°æ¨¡å—
 function block_set($cachekey, $blockarr) {
 	global $_SGLOBAL, $_SCONFIG;
 	
 	$blockvalue = serialize($blockarr);
 	
 	if($_SCONFIG['cachemode'] == 'file') {
-		//ÎÄ±¾´æ´¢
+		//æ–‡æœ¬å­˜å‚¨
 		$dircheck = false;
 		$cachedir = S_ROOT.'./data/block_cache/';
 		if(!is_dir($cachedir)) @mkdir($cachedir);
@@ -143,7 +143,7 @@ function block_set($cachekey, $blockarr) {
 	}
 }
 
-//×Ö·û´®½âÎö
+//å­—ç¬¦ä¸²è§£æ
 function parseparameter($param) {
 	$paramarr = array();
 	$sarr = explode('/', $param);
@@ -154,30 +154,30 @@ function parseparameter($param) {
 	return $paramarr;
 }
 
-//»ñÈ¡»º´æ·ÖÀàÃû
+//è·å–ç¼“å­˜åˆ†ç±»å
 function getcachedirname($cachekey, $ext='') {
 	global $_SCONFIG;
 	return empty($_SCONFIG['cachegrade'])?'':substr($cachekey, 0, $_SCONFIG['cachegrade']).$ext;
 }
 
-//MD5¹æÔòÈ¡»º´æÃû
+//MD5è§„åˆ™å–ç¼“å­˜å
 function smd5($str) {
 	return substr(md5($str), 8, 16);
 }
 
-//»ñÈ¡ÊıÁ¿sql
+//è·å–æ•°é‡sql
 function getcountsql($sqlstring, $rule, $tablename, $where) {
 	preg_match("/$rule/i", $sqlstring, $mathes);
 	if(empty($mathes)) {
 		$countsql = '';
 	} else {
-		if($where < 0) $mathes[$where] = '1';//ÎŞÏŞÖÆÌõ¼ş
+		if($where < 0) $mathes[$where] = '1';//æ— é™åˆ¶æ¡ä»¶
 		$countsql = "SELECT COUNT(*) FROM {$mathes[$tablename]} WHERE {$mathes[$where]}";
 	}
 	return $countsql;
 }
 
-//»ñÈ¡ÊıÁ¿ºÍ²éÑ¯Óï¾ä
+//è·å–æ•°é‡å’ŒæŸ¥è¯¢è¯­å¥
 function getparamsql($paramarr) {
 	global $_SGLOBAL;
 	
@@ -212,22 +212,22 @@ function getparamsql($paramarr) {
 		$query = $_SGLOBAL['db']->query($countsql);
 		$listcount = $_SGLOBAL['db']->result($query, 0);
 		if($listcount) {
-			//Ò³Êı
+			//é¡µæ•°
 			$start = ($_GET['page']-1)*$paramarr['perpage'];
-			//Ò³Ãæurl
+			//é¡µé¢url
 			$urlplus = array();
 			foreach ($_GET as $key => $value) {
 				if($key != 'page') $urlplus[] = rawurlencode($key).'='.rawurlencode($value);
 			}
 			$mpurl = $_SERVER['PHP_SELF'].(empty($urlplus)?'':'?'.implode('&', $urlplus));
 			
-			//ÅĞ¶ÏÒ³ÊıÊÇ·ñ³¬³ö·¶Î§
+			//åˆ¤æ–­é¡µæ•°æ˜¯å¦è¶…å‡ºèŒƒå›´
 			if($start >= $listcount) {
 				showmessage('page_number_is_beyond', $mpurl, 0);
 			}
-			//·ÖÒ³Á´½Ó
+			//åˆ†é¡µé“¾æ¥
 			$multi = multi($listcount, $paramarr['perpage'], $_GET['page'], $mpurl);
-			//SQLÎÄ
+			//SQLæ–‡
 			$sqlstring = preg_replace("/ LIMIT(.+?)$/is", '', $sqlstring);
 			$sqlstring .= ' LIMIT '.$start.','.$paramarr['perpage'];
 		}

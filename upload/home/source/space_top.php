@@ -8,17 +8,17 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//·ÖÒ³
+//åˆ†é¡µ
 $perpage = 20;
 $page = empty($_GET['page'])?1:intval($_GET['page']);
 if($page<1) $page=1;
 $start = ($page-1)*$perpage;
 if(empty($_SCONFIG['networkpage'])) $start = 0;
 
-//¼ì²é¿ªÊ¼Êý
+//æ£€æŸ¥å¼€å§‹æ•°
 ckstart($start, $perpage);
 
-//ÆÕÍ¨ä¯ÀÀÄ£Ê½
+//æ™®é€šæµè§ˆæ¨¡å¼
 $cache_file = '';
 $cache_time = $_SCONFIG['topcachetime'];
 if($cache_time<5) $cache_time = 5;
@@ -35,16 +35,16 @@ if ($_GET['view'] == 'show') {
 		LEFT JOIN ".tname('spacefield')." field ON field.uid=main.uid
 		ORDER BY main.credit DESC";
 
-	//ÇåÀí
+	//æ¸…ç†
 	if(substr($_SGLOBAL['timestamp'], -1) == '0') {
-		$_SGLOBAL['db']->query("DELETE FROM ".tname('show')." WHERE credit<1");//ÇåÀíÐ¡ÓÚ1µÄÊý¾Ý
+		$_SGLOBAL['db']->query("DELETE FROM ".tname('show')." WHERE credit<1");//æ¸…ç†å°äºŽ1çš„æ•°æ®
 	}
 
-	//ÎÒµÄ¾º¼Û»ý·Ö
+	//æˆ‘çš„ç«žä»·ç§¯åˆ†
 	$space['showcredit'] = getcount('show', array('uid'=>$space['uid']), 'credit');
 	$space['showcredit'] = intval($space['showcredit']);
 
-	//ÎÒµÄÎ»ÖÃ
+	//æˆ‘çš„ä½ç½®
 	$cookie_name = 'space_top_'.$_GET['view'];
 	if($_SCOOKIE[$cookie_name]) {
 		$now_pos = $_SCOOKIE[$cookie_name];
@@ -65,7 +65,7 @@ if ($_GET['view'] == 'show') {
 		WHERE field.sex='2' AND field.uid=main.uid
 		ORDER BY main.viewnum DESC";
 
-	//ÎÒµÄÎ»ÖÃ
+	//æˆ‘çš„ä½ç½®
 	$cookie_name = 'space_top_'.$_GET['view'];
 	if($_SCOOKIE[$cookie_name]) {
 		$now_pos = $_SCOOKIE[$cookie_name];
@@ -91,7 +91,7 @@ if ($_GET['view'] == 'show') {
 		WHERE field.sex='1' AND field.uid=main.uid
 		ORDER BY main.viewnum DESC";
 
-	//ÎÒµÄÎ»ÖÃ
+	//æˆ‘çš„ä½ç½®
 	$cookie_name = 'space_top_'.$_GET['view'];
 	if($_SCOOKIE[$cookie_name]) {
 		$now_pos = $_SCOOKIE[$cookie_name];
@@ -117,7 +117,7 @@ if ($_GET['view'] == 'show') {
 		LEFT JOIN ".tname('spacefield')." field ON field.uid=main.uid
 		ORDER BY main.credit DESC";
 
-	//ÎÒµÄÎ»ÖÃ
+	//æˆ‘çš„ä½ç½®
 	$cookie_name = 'space_top_'.$_GET['view'];
 	if($_SCOOKIE[$cookie_name]) {
 		$now_pos = $_SCOOKIE[$cookie_name];
@@ -139,7 +139,7 @@ if ($_GET['view'] == 'show') {
 		LEFT JOIN ".tname('spacefield')." field ON field.uid=main.uid
 		ORDER BY main.experience DESC";
 
-	//ÎÒµÄÎ»ÖÃ
+	//æˆ‘çš„ä½ç½®
 	$cookie_name = 'space_top_'.$_GET['view'];
 	if($_SCOOKIE[$cookie_name]) {
 		$now_pos = $_SCOOKIE[$cookie_name];
@@ -161,7 +161,7 @@ if ($_GET['view'] == 'show') {
 		LEFT JOIN ".tname('spacefield')." field ON field.uid=main.uid
 		ORDER BY main.friendnum DESC";
 
-	//ÎÒµÄÎ»ÖÃ
+	//æˆ‘çš„ä½ç½®
 	$cookie_name = 'space_top_'.$_GET['view'];
 	if($_SCOOKIE[$cookie_name]) {
 		$now_pos = $_SCOOKIE[$cookie_name];
@@ -183,7 +183,7 @@ if ($_GET['view'] == 'show') {
 		LEFT JOIN ".tname('spacefield')." field ON field.uid=main.uid
 		ORDER BY main.viewnum DESC";
 
-	//ÎÒµÄÎ»ÖÃ
+	//æˆ‘çš„ä½ç½®
 	$cookie_name = 'space_top_'.$_GET['view'];
 	if($_SCOOKIE[$cookie_name]) {
 		$now_pos = $_SCOOKIE[$cookie_name];
@@ -243,7 +243,7 @@ foreach($list as $key => $value) {
 	$list[$key] = $value;
 }
 
-//ÔÚÏß×´Ì¬
+//åœ¨çº¿çŠ¶æ€
 $ols = array();
 if($fuids) {
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('session')." WHERE uid IN (".simplode($fuids).")");

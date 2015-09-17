@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//权限
+//鏉冮檺
 if(!checkperm('manageconfig')) {
 	cpmessage('no_authority_management_operation');
 }
@@ -18,7 +18,7 @@ if(submitcheck('spamsubmit')) {
 	if(empty($_POST['config']['seccode_login'])) $_POST['config']['seccode_login'] = 0;
 	if(empty($_POST['config']['seccode_register'])) $_POST['config']['seccode_register'] = 0;
 
-	//去除空的
+	//鍘婚櫎绌虹殑
 	$datas = array();
 	foreach ($_POST['data']['question'] as $key => $value) {
 		$value = trim($value);
@@ -42,7 +42,7 @@ if(submitcheck('spamsubmit')) {
 		$_SGLOBAL['db']->query("REPLACE INTO ".tname('config')." (var, datavalue) VALUES ".implode(',', $setarr));
 	}
 
-	//更新缓存
+	//鏇存柊缂撳瓨
 	include_once(S_ROOT.'./source/function_cache.php');
 	config_cache();
 	

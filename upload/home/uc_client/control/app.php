@@ -31,7 +31,7 @@ class appcontrol extends base {
 		return $applist2;
 	}
 
-	//note public Ìá¹©¸ø°²×°³ÌĞòµÄ½Ó¿Ú£¬ĞèÒªĞ£Ñé Founder ÕÊºÅÃÜÂë
+	//note public æä¾›ç»™å®‰è£…ç¨‹åºçš„æ¥å£ï¼Œéœ€è¦æ ¡éªŒ Founder å¸å·å¯†ç 
 	function onadd() {
 	}
 

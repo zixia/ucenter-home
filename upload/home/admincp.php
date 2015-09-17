@@ -8,10 +8,10 @@ define('IN_ADMINCP', TRUE);
 include_once('./common.php');
 include_once(S_ROOT.'./source/function_admincp.php');
 
-//ÊÇ·ñ¹Ø±ÕÕ¾µã
+//æ˜¯å¦å…³é—­ç«™ç‚¹
 checkclose();
 
-//ĞèÒªµÇÂ¼
+//éœ€è¦ç™»å½•
 if(empty($_SGLOBAL['supe_uid'])) {
 	if($_SERVER['REQUEST_METHOD'] == 'GET') {
 		ssetcookie('_refer', rawurlencode($_SERVER['REQUEST_URI']));
@@ -51,13 +51,13 @@ if(empty($_GET['ac']) || (!in_array($_GET['ac'], $acs[0]) && !in_array($_GET['ac
 	$ac = $_GET['ac'];
 }
 
-//À´Ô´
+//æ¥æº
 if(!preg_match("/admincp\.php/", $_SGLOBAL['refer'])) $_SGLOBAL['refer'] = "admincp.php?ac=$ac";
 
-//²Ëµ¥¼¤»î
+//èœå•æ¿€æ´»
 $menuactive = array($ac => ' class="active"');
 
-//È¨ÏŞ
+//æƒé™
 $menus = array();
 $needlogin = 0;
 
@@ -77,13 +77,13 @@ for($i=0; $i<3; $i++) {
 	}
 }
 
-//¹ÜÀí¿Õ¼ä
+//ç®¡ç†ç©ºé—´
 if($isfounder || $megroup['managename'] || $megroup['managespacegroup'] || $megroup['managespaceinfo'] || $megroup['managespacecredit'] || $megroup['managespacenote'] || $megroup['managedelspace']) {
 	$needlogin = 1;
 	$menus[1]['space'] = 1;
 }
 
-//¶ş´ÎµÇÂ¼È·ÈÏ(°ë¸öĞ¡Ê±)
+//äºŒæ¬¡ç™»å½•ç¡®è®¤(åŠä¸ªå°æ—¶)
 if($needlogin) {
 	$cpaccess = 0;
 	$query = $_SGLOBAL['db']->query("SELECT errorcount FROM ".tname('adminsession')." WHERE uid='$_SGLOBAL[supe_uid]' AND dateline+1800>='$_SGLOBAL[timestamp]'");
@@ -105,7 +105,7 @@ if($needlogin) {
 }
 
 switch ($cpaccess) {
-	case '1'://¿ÉÒÔµÇÂ¼
+	case '1'://å¯ä»¥ç™»å½•
 		if(submitcheck('loginsubmit')) {
 			if(!$passport = getpassport($_SGLOBAL['supe_username'], $_POST['password'])) {
 				$_SGLOBAL['db']->query("UPDATE ".tname('adminsession')." SET errorcount=errorcount+1 WHERE uid='$_SGLOBAL[supe_uid]'");
@@ -130,9 +130,9 @@ switch ($cpaccess) {
 			exit();
 		}
 		break;
-	case '2'://µÇÂ¼³É¹¦
+	case '2'://ç™»å½•æˆåŠŸ
 		break;
-	default://³¢ÊÔ´ÎÊıÌ«¶à½ûÖ¹µÇÂ¼
+	default://å°è¯•æ¬¡æ•°å¤ªå¤šç¦æ­¢ç™»å½•
 		cpmessage('excessive_number_of_attempts_to_sign');
 		break;
 }
@@ -143,7 +143,7 @@ if($ac == 'defaultuser') {
 	$acfile = $ac;
 }
 
-//È¡Ïû·­Ò³ÏŞÖÆ
+//å–æ¶ˆç¿»é¡µé™åˆ¶
 $_SCONFIG['maxpage'] = 0;
 
 //log
@@ -151,7 +151,7 @@ if($needlogin) {
 	admincp_log();
 }
 
-//È¥µô¹ã¸æ
+//å»æ‰å¹¿å‘Š
 $_SGLOBAL['ad'] = array();
 
 include_once(S_ROOT.'./admin/admincp_'.$acfile.'.php');

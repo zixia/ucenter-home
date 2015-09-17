@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//¿ÉÒÔÊ¹ÓÃµãÃû¿¨µÄĞÅÏ¢
+//å¯ä»¥ä½¿ç”¨ç‚¹åå¡çš„ä¿¡æ¯
 $mapping = array('blogid'=>'blog', 'tid'=>'thread', 'eventid'=>'event');
 if(!isset($mapping[$idtype])) {
 	showmessage('magicuse_bad_object');
@@ -17,7 +17,7 @@ magic_check_idtype($id, $idtype);
 
 $magic['custom']['maxcall'] = $magic['custom']['maxcall'] ? intval($magic['custom']['maxcall']) : 10;
 
-//µãÃû¿¨
+//ç‚¹åå¡
 if(submitcheck("usesubmit")) {
 
 	$name = $mapping[$idtype];
@@ -31,16 +31,16 @@ if(submitcheck("usesubmit")) {
 		$note_inserts[] = "('$value[fuid]', '$name', '1', '$_SGLOBAL[supe_uid]', '$_SGLOBAL[supe_username]', '$note', '$_SGLOBAL[timestamp]')";
 	}
 	if(empty($ids)) {
-		showmessage('magicuse_has_no_valid_friend');//µÀ¾ßÊ¹ÓÃÊ§°Ü£¬Ã»ÓĞÈÎºÎºÏ·¨µÄºÃÓÑ
+		showmessage('magicuse_has_no_valid_friend');//é“å…·ä½¿ç”¨å¤±è´¥ï¼Œæ²¡æœ‰ä»»ä½•åˆæ³•çš„å¥½å‹
 	}
-	//·¢ËÍÍ¨Öª
+	//å‘é€é€šçŸ¥
 	$_SGLOBAL['db']->query('INSERT INTO '.tname('notification').'(uid, type, new, authorid, author, note, dateline) VALUES '.implode(',',$note_inserts));
 	$_SGLOBAL['db']->query('UPDATE '.tname('space').' SET notenum = notenum + 1 WHERE uid IN ('.simplode($ids).')');
 	magic_use($mid, array('id'=>$id, 'idtype'=>$idtype), true);
 
 	realname_get();
 	
-	//ÏÔÊ¾Í¨Öª³É¹¦µÄºÃÓÑ
+	//æ˜¾ç¤ºé€šçŸ¥æˆåŠŸçš„å¥½å‹
 	$op = 'show';
 }
 

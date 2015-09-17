@@ -8,9 +8,9 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//È¨ÏÞ
+//æƒé™
 if(!$allowmanage = checkperm('managefeed')) {
-	$_GET['uid'] = $_SGLOBAL['supe_uid'];//Ö»ÄÜ²Ù×÷±¾ÈËµÄ
+	$_GET['uid'] = $_SGLOBAL['supe_uid'];//åªèƒ½æ“ä½œæœ¬äººçš„
 	$_GET['username'] = '';
 }
 
@@ -35,7 +35,7 @@ if(submitcheck('feedsubmit')) {
 		$setarr = array();
 	}
 	
-	//Ê±¼äÎÊÌâ
+	//æ—¶é—´é—®é¢˜
 	$_POST['dateline'] = trim($_POST['dateline']);
 	if($_POST['dateline']) {
 		$newtimestamp = sstrtotime($_POST['dateline']);
@@ -138,7 +138,7 @@ if($_GET['op'] == 'add') {
 		
 	$mpurl = 'admincp.php?ac=feed';
 	
-	//´¦ÀíËÑË÷
+	//å¤„ç†æœç´¢
 	$intkeys = array('uid', 'feedid');
 	$strkeys = array('username', 'icon');
 	$randkeys = array(array('sstrtotime','dateline'), array('intval','hot'));
@@ -148,14 +148,14 @@ if($_GET['op'] == 'add') {
 	$wheresql = empty($wherearr)?'1':implode(' AND ', $wherearr);
 	$mpurl .= '&'.implode('&', $results['urls']);
 	
-	//ÅÅÐò
+	//æŽ’åº
 	$orders = getorders(array('dateline','hot'), 'feedid');
 	$ordersql = $orders['sql'];
 	if($orders['urls']) $mpurl .= '&'.implode('&', $orders['urls']);
 	$orderby = array($_GET['orderby']=>' selected');
 	$ordersc = array($_GET['ordersc']=>' selected');
 	
-	//¼¤»î
+	//æ¿€æ´»
 	if(isset($_GET['uid']) && strlen($_GET['uid'])) {
 		$actives = array('site' => ' class="active"');
 	} elseif($_GET['orderby'] == 'hot') {
@@ -170,7 +170,7 @@ if($_GET['op'] == 'add') {
 	$page = empty($_GET['page'])?1:intval($_GET['page']);
 	if($page<1) $page = 1;
 	$start = ($page-1)*$perpage;
-	//¼ì²é¿ªÊ¼Êý
+	//æ£€æŸ¥å¼€å§‹æ•°
 	ckstart($start, $perpage);
 	
 	if($perpage > 100) {

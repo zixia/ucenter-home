@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//ºÃÓÑÔöÈİ¿¨
+//å¥½å‹å¢å®¹å¡
 if(submitcheck("usesubmit")) {
 	
 	$rate = $magic['custom']['addsize'] ? intval($magic['custom']['addsize']) : 10;

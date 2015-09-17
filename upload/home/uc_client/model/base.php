@@ -37,7 +37,7 @@ class base {
 	}
 
 	/**
-	 * ³õÊ¼»¯»ùÀà
+	 * åˆå§‹åŒ–åŸºç±»
 	 *
 	 */
 	function base() {
@@ -73,7 +73,7 @@ class base {
 	}
 
 	/**
-	 * ÊµÀý»¯Êý¾Ý¿âÀà
+	 * å®žä¾‹åŒ–æ•°æ®åº“ç±»
 	 *
 	 */
 	function init_db() {
@@ -83,11 +83,11 @@ class base {
 	}
 
 	/**
-	 * ¼ÓÔØÏàÓ¦µÄ Model, ´æÈë $_ENV ³¬¼¶È«¾Ö±äÁ¿
+	 * åŠ è½½ç›¸åº”çš„ Model, å­˜å…¥ $_ENV è¶…çº§å…¨å±€å˜é‡
 	 *
-	 * @param string $model Ä£¿éÃû³Æ
-	 * @param ¸ÃÄ£¿éÏà¶ÔµÄ»ùÀà $base Ä¬ÈÏÎª¸Ã»ùÀà
-	 * @return ´Ë´¦²»ÐèÒª·µ»Ø
+	 * @param string $model æ¨¡å—åç§°
+	 * @param è¯¥æ¨¡å—ç›¸å¯¹çš„åŸºç±» $base é»˜è®¤ä¸ºè¯¥åŸºç±»
+	 * @return æ­¤å¤„ä¸éœ€è¦è¿”å›ž
 	 */
 	function load($model, $base = NULL) {
 		$base = $base ? $base : $this;
@@ -99,10 +99,10 @@ class base {
 	}
 
 	/**
-	 * ÈÕÆÚ¸ñÊ½»¯ Ä¬ÈÏÎª¸ñÊ½»¯µ½·ÖÖÓ
+	 * æ—¥æœŸæ ¼å¼åŒ– é»˜è®¤ä¸ºæ ¼å¼åŒ–åˆ°åˆ†é’Ÿ
 	 *
 	 * @param int $time
-	 * @param int $type 	1£ºÖ»ÏÔÊ¾Ê±¼ä 2£ºÖ»ÏÔÊ¾ÈÕÆÚ 3£ºÈÕÆÚÊ±¼ä¾ùÏÔÊ¾
+	 * @param int $type 	1ï¼šåªæ˜¾ç¤ºæ—¶é—´ 2ï¼šåªæ˜¾ç¤ºæ—¥æœŸ 3ï¼šæ—¥æœŸæ—¶é—´å‡æ˜¾ç¤º
 	 * @return string
 	 */
 	function date($time, $type = 3) {
@@ -115,11 +115,11 @@ class base {
 	}
 
 	/**
-	 * ¶Ô·­Ò³µÄÆðÊ¼Î»ÖÃ½øÐÐÅÐ¶ÏºÍµ÷Õû
+	 * å¯¹ç¿»é¡µçš„èµ·å§‹ä½ç½®è¿›è¡Œåˆ¤æ–­å’Œè°ƒæ•´
 	 *
-	 * @param int $page Ò³Âë
-	 * @param int $ppp Ã¿Ò³´óÐ¡
-	 * @param int $totalnum ×Ü¼ÍÂ¼Êý
+	 * @param int $page é¡µç 
+	 * @param int $ppp æ¯é¡µå¤§å°
+	 * @param int $totalnum æ€»çºªå½•æ•°
 	 * @return unknown
 	 */
 	function page_get_start($page, $ppp, $totalnum) {
@@ -129,17 +129,17 @@ class base {
 	}
 
 	/**
-	 * ¶Ô×Ö·û»òÕßÊý×é¼Ó¶ººÅÁ¬½Ó, ÓÃÀ´
+	 * å¯¹å­—ç¬¦æˆ–è€…æ•°ç»„åŠ é€—å·è¿žæŽ¥, ç”¨æ¥
 	 *
-	 * @param string/array $arr ¿ÉÒÔ´«ÈëÊý×Ö»òÕß×Ö´®
-	 * @return string ÕâÑùµÄ¸ñÊ½: '1','2','3'
+	 * @param string/array $arr å¯ä»¥ä¼ å…¥æ•°å­—æˆ–è€…å­—ä¸²
+	 * @return string è¿™æ ·çš„æ ¼å¼: '1','2','3'
 	 */
 	function implode($arr) {
 		return "'".implode("','", (array)$arr)."'";
 	}
 
 	/**
-	 * ¼ÓÔØ»º´æÎÄ¼þ, Èç¹û²»´æÔÚ,ÔòÖØÐÂÉú³É
+	 * åŠ è½½ç¼“å­˜æ–‡ä»¶, å¦‚æžœä¸å­˜åœ¨,åˆ™é‡æ–°ç”Ÿæˆ
 	 *
 	 * @param string $cachefile
 	 */
@@ -158,11 +158,11 @@ class base {
 	}
 
 	/**
-	 * µÃµ½ÉèÖÃµÄÖµ
+	 * å¾—åˆ°è®¾ç½®çš„å€¼
 	 *
-	 * @param string $k ÉèÖÃµÄÏî
-	 * @param string $decode ÊÇ·ñ½øÐÐ·´ÐòÁÐ»¯£¬Ò»°ãÎªÊý×éÊ±£¬ÐèÒªÖ¸¶¨ÎªTRUE
-	 * @return string/array ÉèÖÃµÄÖµ
+	 * @param string $k è®¾ç½®çš„é¡¹
+	 * @param string $decode æ˜¯å¦è¿›è¡Œååºåˆ—åŒ–ï¼Œä¸€èˆ¬ä¸ºæ•°ç»„æ—¶ï¼Œéœ€è¦æŒ‡å®šä¸ºTRUE
+	 * @return string/array è®¾ç½®çš„å€¼
 	 */
 	function get_setting($k = array(), $decode = FALSE) {
 		$return = array();
@@ -177,7 +177,7 @@ class base {
 	}
 
 	function init_cache() {
-		//note È«¾ÖÉèÖÃ
+		//note å…¨å±€è®¾ç½®
 		$this->settings = $this->cache('settings');
 		$this->cache['apps'] = $this->cache('apps');
 

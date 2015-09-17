@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//¼ì²é×÷ÓÃ¶ÔÏó¼°ÊÇ·ñÖØ¸´Ê¹ÓÃ
+//æ£€æŸ¥ä½œç”¨å¯¹è±¡åŠæ˜¯å¦é‡å¤ä½¿ç”¨
 if($idtype == 'uid') {
 	$query = $_SGLOBAL['db']->query('SELECT * FROM '.tname('visitor')." WHERE uid = '$id' AND vuid = '$_SGLOBAL[supe_uid]'");
 	$value = $_SGLOBAL['db']->fetch_array($query);
@@ -35,20 +35,20 @@ if($idtype == 'uid') {
 	}
 }
 
-//ÄäÃû¿¨
+//åŒ¿åå¡
 if(submitcheck("usesubmit")) {
 
 	$second = 1;
 	if($idtype == 'uid') {
-		//¿Õ¼ä½ÅÓ¡
+		//ç©ºé—´è„šå°
 		ssetcookie('anonymous_visit_'.$_SGLOBAL['supe_uid'].'_'.$id, '1');
 		updatetable('visitor', array('vusername'=>''), array('uid'=>$id, 'vuid'=>$_SGLOBAL['supe_uid']));
 		$second = 0;
 	} elseif($idtype == 'cid') {
-		//ÆÀÂÛ/ÁôÑÔ
+		//è¯„è®º/ç•™è¨€
 		updatetable('comment', array('author'=>''), array('cid'=>$id, 'authorid'=>$_SGLOBAL['supe_uid']));
 	} else {
-		//±íÌ¬
+		//è¡¨æ€
 		updatetable('clickuser', array('username'=>''), array('id'=>$id, 'idtype'=>$idtype, 'uid'=>$_SGLOBAL['supe_uid']));
 	}
 

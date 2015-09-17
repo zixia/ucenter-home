@@ -10,7 +10,7 @@ if(!defined('IN_UCHOME')) {
 
 $siteurl = getsiteurl();
 
-$maxcount = 50;//×î¶àºÃÓÑÑûÇë
+$maxcount = 50;//æœ€å¤šå¥½å‹é‚€è¯·
 $reward = getreward('invitecode', 0);
 $appid = empty($_GET['app']) ? 0 : intval($_GET['app']);
 
@@ -32,7 +32,7 @@ $mailvar = array(
 	''
 );
 
-//È¡³öÏàÓ¦µÄÓ¦ÓÃ
+//å–å‡ºç›¸åº”çš„åº”ç”¨
 $appinfo = array();
 if($appid) {
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('myapp')." WHERE appid='$appid'");
@@ -44,9 +44,9 @@ if($appid) {
 		$appid = 0;
 	}
 }
-//´¦ÀíÓÊ¼þÑûÇë
+//å¤„ç†é‚®ä»¶é‚€è¯·
 if(submitcheck('emailinvite')) {
-	set_time_limit(0);//ÉèÖÃ³¬Ê±Ê±¼ä
+	set_time_limit(0);//è®¾ç½®è¶…æ—¶æ—¶é—´
 	if($_SCONFIG['closeinvite']) {
 		showmessage('close_invite');
 	}
@@ -61,7 +61,7 @@ if(submitcheck('emailinvite')) {
 		}
 		
 		if($reward['credit']) {
-			//¼ÆËã»ý·Ö¿Û¼õ»ý·Ö
+			//è®¡ç®—ç§¯åˆ†æ‰£å‡ç§¯åˆ†
 			$credit = intval($reward['credit'])*($invitenum+1);
 			if(!isemail($value) || ($reward['credit'] && $credit > $space['credit'])) {
 				$failingmail[] = $value;
@@ -160,7 +160,7 @@ if($_GET['op'] == 'resend') {
 					'id' => $value['id']
 				);
 			} else {
-				$list[] = $inviteurl;//Ã»ÓÐ·¢ËÍµÄ
+				$list[] = $inviteurl;//æ²¡æœ‰å‘é€çš„
 				$count++;
 			}
 		}
@@ -184,14 +184,14 @@ if($_GET['op'] == 'resend') {
 		if($maxinvitenum > $maxcount_my) $maxinvitenum = $maxcount_my;
 		if($maxinvitenum < 0) $maxinvitenum = 0;
 		
-		//Ìá½»
+		//æäº¤
 		if(submitcheck('invitesubmit')) {
 			if($_SCONFIG['closeinvite']) {
 				showmessage('close_invite');
 			}
 			$invitenum = intval($_POST['invitenum']);
 			if($invitenum > $maxinvitenum) $invitenum = $maxinvitenum;
-			//¿Û¼õ»ý·Ö
+			//æ‰£å‡ç§¯åˆ†
 			$credit = intval($reward['credit'])*$invitenum;
 			if(empty($invitenum) || ($reward['credit'] && $credit > $space['credit'])) {
 				showmessage('invite_error');

@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//ºÃÓÑÔöÈİ¿¨
+//å¥½å‹å¢å®¹å¡
 if(submitcheck("usesubmit")) {
 
 	$addnum = $magic['custom']['addnum'] ? intval($magic['custom']['addnum']) : 10;

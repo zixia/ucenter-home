@@ -17,18 +17,18 @@ if($_GET['hash']) {
 }
 
 if($uid && isemail($email)) {
-	//¼ì²éÓÊÏäÎ¨Ò»ĞÔ
+	//æ£€æŸ¥é‚®ç®±å”¯ä¸€æ€§
 	if($_SCONFIG['uniqueemail']) {
 		if(getcount('spacefield', array('email'=>$email, 'emailcheck'=>1))) {
 			showmessage('uniqueemail_recheck');
 		}
 	}
-	//½±Àø»ı·Ö
+	//å¥–åŠ±ç§¯åˆ†
 	getreward('realemail', 1, $uid);
-	//ĞŞ¸Ä×ÊÁÏ
+	//ä¿®æ”¹èµ„æ–™
 	updatetable('spacefield', array('email'=>addslashes($email), 'emailcheck'=>'1', 'newemail'=>''), array('uid'=>$uid));
 
-	//Ìø×ªÒ³Ãæ
+	//è·³è½¬é¡µé¢
 	showmessage('email_check_sucess', '', 1, array($email));
 } else {
 	showmessage('email_check_error');

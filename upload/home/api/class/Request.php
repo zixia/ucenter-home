@@ -31,7 +31,7 @@ class Request extends MyBase {
 			$fields['hash'] = $hash;
 			$fields['myml'] = str_replace('{{MyReqHash}}', $hash, $myml);
 			$result[] = inserttable('myinvite',	$fields, 1);
-			//更新统计
+			//鏇存柊缁熻
 			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET myinvitenum=myinvitenum+1 WHERE uid='$fields[touid]'");
 		}
 		return new APIResponse($result);

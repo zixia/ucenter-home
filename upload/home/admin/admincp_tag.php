@@ -8,14 +8,14 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//È¨ÏŞ
+//æƒé™
 if(!checkperm('managetag')) {
 	cpmessage('no_authority_management_operation');
 }
 
 if(submitcheck('opsubmit')) {
 	
-	//ÑéÖ¤ÊÇ·ñÓĞÅúÁ¿²Ù×÷µÄÈ¨ÏŞ
+	//éªŒè¯æ˜¯å¦æœ‰æ‰¹é‡æ“ä½œçš„æƒé™
 	$allowmanage = checkperm('managetag');
 	$managebatch = checkperm('managebatch');
 	$newids = array();
@@ -48,10 +48,10 @@ if(submitcheck('opsubmit')) {
 		if(strlen($_POST['newtagname']) < 1 || strlen($_POST['newtagname']) > 30) {
 			cpmessage('to_merge_the_tag_name_of_the_length_discrepancies', $_POST['mpurl']);
 		}
-		//¼ìË÷ĞÂtag´æÔÚ·ñ
+		//æ£€ç´¢æ–°tagå­˜åœ¨å¦
 		$newtagid = getcount('tag', array('tagname'=>$_POST['newtagname']), 'tagid');
 		if(empty($newtagid)) {
-			//Ìí¼ÓĞÂtag
+			//æ·»åŠ æ–°tag
 			$setarr = array(
 				'tagname' => $_POST['newtagname'],
 				'uid' => $_SGLOBAL['supe_uid'],
@@ -59,7 +59,7 @@ if(submitcheck('opsubmit')) {
 			);
 			$newtagid = inserttable('tag', $setarr, 1);
 		}
-		//¿ªÊ¼ºÏ²¢
+		//å¼€å§‹åˆå¹¶
 		include_once(S_ROOT.'./source/function_op.php');
 		if(!empty($_POST['ids']) && mergetag($_POST['ids'], $newtagid)) {
 			cpmessage('do_success', $_POST['mpurl']);
@@ -79,7 +79,7 @@ if(submitcheck('opsubmit')) {
 
 $mpurl = 'admincp.php?ac=tag';
 
-//´¦ÀíËÑË÷
+//å¤„ç†æœç´¢
 $intkeys = array('close');
 $strkeys = array();
 $randkeys = array(array('sstrtotime','dateline'), array('intval','blognum'));
@@ -90,14 +90,14 @@ $wherearr = $results['wherearr'];
 $wheresql = empty($wherearr)?'1':implode(' AND ', $wherearr);
 $mpurl .= '&'.implode('&', $results['urls']);
 
-//ÅÅĞò
+//æ’åº
 $orders = getorders(array('dateline', 'blognum'), 'tagid');
 $ordersql = $orders['sql'];
 if($orders['urls']) $mpurl .= '&'.implode('&', $orders['urls']);
 $orderby = array($_GET['orderby']=>' selected');
 $ordersc = array($_GET['ordersc']=>' selected');
 
-//ÏÔÊ¾·ÖÒ³
+//æ˜¾ç¤ºåˆ†é¡µ
 $perpage = empty($_GET['perpage'])?0:intval($_GET['perpage']);
 if(!in_array($perpage, array(20,50,100))) $perpage = 20;
 $mpurl .= '&perpage='.$perpage;
@@ -106,7 +106,7 @@ $perpages = array($perpage => ' selected');
 $page = empty($_GET['page'])?1:intval($_GET['page']);
 if($page<1) $page = 1;
 $start = ($page-1)*$perpage;
-//¼ì²é¿ªÊ¼Êı
+//æ£€æŸ¥å¼€å§‹æ•°
 ckstart($start, $perpage);
 $managebatch = checkperm('managebatch');
 $allowbatch = true;

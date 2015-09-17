@@ -32,11 +32,11 @@ if($_GET['op'] == 'edit') {
 			showmessage('album_name_errors');
 		}
 		
-		//ÒşË½
+		//éšç§
 		$_POST['friend'] = intval($_POST['friend']);
 		$_POST['target_ids'] = '';
 		if($_POST['friend'] == 2) {
-			//ÌØ¶¨ºÃÓÑ
+			//ç‰¹å®šå¥½å‹
 			$uids = array();
 			$names = empty($_POST['target_names'])?array():explode(' ', str_replace(cplang('tab_space'), ' ', $_POST['target_names']));
 			if($names) {
@@ -46,14 +46,14 @@ if($_GET['op'] == 'edit') {
 				}
 			}
 			if(empty($uids)) {
-				$_POST['friend'] = 3;//½ö×Ô¼º¿É¼û
+				$_POST['friend'] = 3;//ä»…è‡ªå·±å¯è§
 			} else {
 				$_POST['target_ids'] = implode(',', $uids);
 			}
 		} elseif($_POST['friend'] == 4) {
-			//¼ÓÃÜ
+			//åŠ å¯†
 			$_POST['password'] = trim($_POST['password']);
-			if($_POST['password'] == '') $_POST['friend'] = 0;//¹«¿ª
+			if($_POST['password'] == '') $_POST['friend'] = 0;//å…¬å¼€
 		}
 		if($_POST['friend'] !== 2) {
 			$_POST['target_ids'] = '';
@@ -85,12 +85,12 @@ if($_GET['op'] == 'edit') {
 		}
 	}
 	
-	//ºÃÓÑ×é
+	//å¥½å‹ç»„
 	$groups = getfriendgroup();
 
 } elseif($_GET['op'] == 'delete') {
 
-	//»ñµÃÏà²á
+	//è·å¾—ç›¸å†Œ
 	$albums = getalbums($_SGLOBAL['supe_uid']);
 	if(empty($albums[$albumid])) {
 		showmessage('no_privilege');
@@ -99,23 +99,23 @@ if($_GET['op'] == 'edit') {
 	if(submitcheck('deletesubmit')) {
 		$_POST['moveto'] = intval($_POST['moveto']);
 		if($_POST['moveto'] < 0) {
-			//³¹µ×É¾³ı
+			//å½»åº•åˆ é™¤
 			include_once(S_ROOT.'./source/function_delete.php');
 			if(!deletealbums(array($albumid))) {
 				showmessage('no_privilege');
 			}
 		} else {
-			//×ªÒÆ
+			//è½¬ç§»
 			if($_POST['moveto'] && empty($albums[$_POST['moveto']])) {
 				$_POST['moveto'] = 0;
 			}
 			if($_POST['moveto'] > 0) {
 				$album = $albums[$albumid];
-				//¸üĞÂÍ¼Æ¬
+				//æ›´æ–°å›¾ç‰‡
 				updatetable('pic', array('albumid'=>$_POST['moveto']), array('albumid'=>$albumid));
 				$_SGLOBAL['db']->query("UPDATE ".tname('album')." SET picnum=picnum+$album[picnum], updatetime='$_SGLOBAL[timestamp]' WHERE albumid='$_POST[moveto]'");
 
-				//É¾³ıÏà²á
+				//åˆ é™¤ç›¸å†Œ
 				$_SGLOBAL['db']->query("DELETE FROM ".tname('album')." WHERE albumid='$albumid'");
 			} else {
 				updatetable('pic', array('albumid'=>0), array('albumid'=>$albumid));
@@ -142,14 +142,14 @@ if($_GET['op'] == 'edit') {
 	
 	if(submitcheck('editpicsubmit')) {
 		if($_GET['subop'] == 'delete') {
-			//É¾³ı
+			//åˆ é™¤
 			$updates = $deleteids = array();
 			foreach ($_POST['title'] as $picid => $value) {
 				if(empty($_POST['ids'][$picid])) {
 					$title = getstr($value, 150, 1, 1, 1);
 					
 					$wherearr = array('picid'=>$picid);
-					if(!$managealbum) $wherearr['uid']  = $_SGLOBAL['supe_uid'];//×Ô¼º
+					if(!$managealbum) $wherearr['uid']  = $_SGLOBAL['supe_uid'];//è‡ªå·±
 					
 					updatetable('pic', array('title'=>$title), $wherearr);
 				} else {
@@ -167,22 +167,22 @@ if($_GET['op'] == 'edit') {
 				$title = getstr($value, 150, 1, 1, 1);
 				
 				$wherearr = array('picid'=>$picid);
-				if(!$managealbum) $wherearr['uid']  = $_SGLOBAL['supe_uid'];//×Ô¼º
+				if(!$managealbum) $wherearr['uid']  = $_SGLOBAL['supe_uid'];//è‡ªå·±
 
 				updatetable('pic', array('title'=>$title), $wherearr);
 			}
 
 		} elseif($_GET['subop'] == 'move') {
-			//ÏÈ¸üĞÂtitle
+			//å…ˆæ›´æ–°title
 			foreach ($_POST['title'] as $picid => $value) {
 				$title = getstr($value, 150, 1, 1, 1);
 				
 				$wherearr = array('picid'=>$picid);
-				if(!$managealbum) $wherearr['uid']  = $_SGLOBAL['supe_uid'];//×Ô¼º
+				if(!$managealbum) $wherearr['uid']  = $_SGLOBAL['supe_uid'];//è‡ªå·±
 				updatetable('pic', array('title'=>$title), $wherearr);
 			}
-			//¿ªÊ¼×ªÒÆ
-			//¼ì²éÏà²áID
+			//å¼€å§‹è½¬ç§»
+			//æ£€æŸ¥ç›¸å†ŒID
 			if($_POST['ids']) {
 				$plussql = $managealbum?'':"AND uid='$_SGLOBAL[supe_uid]'";
 				$_POST['newalbumid'] = intval($_POST['newalbumid']);
@@ -197,12 +197,12 @@ if($_GET['op'] == 'edit') {
 				if($updatecount) {
 					if($albumid>0) {
 						$_SGLOBAL['db']->query("UPDATE ".tname('album')." SET picnum=picnum-$updatecount WHERE albumid='$albumid' $plussql");
-						//¸üĞÂ·âÃæ
+						//æ›´æ–°å°é¢
 						album_update_pic($albumid);
 					}
 					if($_POST['newalbumid']) {
 						$_SGLOBAL['db']->query("UPDATE ".tname('album')." SET picnum=picnum+$updatecount WHERE albumid='$_POST[newalbumid]' $plussql");
-						//¸üĞÂ·âÃæ
+						//æ›´æ–°å°é¢
 						album_update_pic($_POST['newalbumid']);
 					}
 				}
@@ -217,7 +217,7 @@ if($_GET['op'] == 'edit') {
 	$page = empty($_GET['page'])?0:intval($_GET['page']);
 	if($page<1) $page = 1;
 	$start = ($page-1)*$perpage;
-	//¼ì²é¿ªÊ¼Êı
+	//æ£€æŸ¥å¼€å§‹æ•°
 	ckstart($start, $perpage);
 	
 	$picsql = $picid?"picid='$picid' AND ":'';
@@ -238,7 +238,7 @@ if($_GET['op'] == 'edit') {
 		}
 		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('pic')." WHERE $picsql $wheresql ORDER BY dateline DESC LIMIT $start,$perpage");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
-			$value['title'] = html2bbcode($value['title']);//×ª»»
+			$value['title'] = html2bbcode($value['title']);//è½¬æ¢
 			$value['pic'] = pic_get($value['filepath'], $value['thumb'], $value['remote']);
 			$value['bigpic'] = pic_get($value['filepath'], $value['thumb'], $value['remote'], 0);
 			$list[] = $value;
@@ -247,7 +247,7 @@ if($_GET['op'] == 'edit') {
 	
 	$multi = multi($count, $perpage, $page, "cp.php?ac=album&op=editpic&albumid=$albumid");
 	
-	//Ïà²áÁĞ±í
+	//ç›¸å†Œåˆ—è¡¨
 	$albumlist = getalbums($_SGLOBAL['supe_uid']);
 	
 } elseif($_GET['op'] == 'setpic') {
@@ -270,7 +270,7 @@ if($_GET['op'] == 'edit') {
 	$pic = $_SGLOBAL['db']->fetch_array($query);
 	
 } elseif($_GET['op'] == 'edithot') {
-	//È¨ÏŞ
+	//æƒé™
 	if(!checkperm('managealbum')) {
 		showmessage('no_privilege');
 	}
@@ -283,7 +283,7 @@ if($_GET['op'] == 'edit') {
 	if(submitcheck('hotsubmit')) {
 		$_POST['hot'] = intval($_POST['hot']);
 		updatetable('pic', array('hot'=>$_POST['hot']), array('picid'=>$picid));
-		//¶¯Ì¬
+		//åŠ¨æ€
 		if($_POST['hot'] > 0) {
 			include_once(S_ROOT.'./source/function_feed.php');
 			feed_publish($picid, 'picid');

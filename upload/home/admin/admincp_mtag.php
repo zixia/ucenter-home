@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//È¨ÏŞ
+//æƒé™
 if(!checkperm('managemtag')) {
 	cpmessage('no_authority_management_operation');
 }
@@ -30,12 +30,12 @@ if(submitcheck('opsubmit')) {
 		
 		$_POST['merge_newfieldid'] = intval($_POST['merge_newfieldid']);
 		$_POST['newtagname'] = shtmlspecialchars(trim($_POST['newtagname']));
-		//¼ìË÷ĞÂtag´æÔÚ·ñ
+		//æ£€ç´¢æ–°tagå­˜åœ¨å¦
 		$newtagid = getcount('mtag', array('tagname'=>$_POST['newtagname'], 'fieldid'=>$_POST['merge_newfieldid']), 'tagid');
 		if(empty($newtagid)) {
 			cpmessage('designated_to_merge_the_columns_do_not_exist');
 		}
-		//¿ªÊ¼ºÏ²¢
+		//å¼€å§‹åˆå¹¶
 		include_once(S_ROOT.'./source/function_op.php');
 		if(!empty($_POST['ids']) && mergemtag($_POST['ids'], $newtagid)) {
 			cpmessage('the_successful_merger_of_the_designated_columns', $_POST['mpurl']);
@@ -71,7 +71,7 @@ if(submitcheck('opsubmit')) {
 if(empty($_GET['op'])) {
 	$mpurl = 'admincp.php?ac=mtag';
 	
-	//´¦ÀíËÑË÷
+	//å¤„ç†æœç´¢
 	$intkeys = array('close', 'recommend', 'fieldid', 'joinperm', 'viewperm', 'threadperm', 'postperm', 'tagid');
 	$strkeys = array();
 	$randkeys = array(array('intval','membernum'), array('intval','threadnum'), array('intval','postnum'));
@@ -82,7 +82,7 @@ if(empty($_GET['op'])) {
 	$wheresql = empty($wherearr)?'1':implode(' AND ', $wherearr);
 	$mpurl .= '&'.implode('&', $results['urls']);
 
-	//ÅÅĞò
+	//æ’åº
 	$orders = getorders(array('membernum','threadnum','postnum'), 'tagid');
 	$ordersql = $orders['sql'];
 	if($orders['urls']) $mpurl .= '&'.implode('&', $orders['urls']);
@@ -94,7 +94,7 @@ if(empty($_GET['op'])) {
 	$threadperms = array($_GET['threadperm']=>' selected');
 	$postperms = array($_GET['postperm']=>' selected');
 	
-	//ÏÔÊ¾·ÖÒ³
+	//æ˜¾ç¤ºåˆ†é¡µ
 	$perpage = empty($_GET['perpage'])?0:intval($_GET['perpage']);
 	if(!in_array($perpage, array(20,50,100))) $perpage = 20;
 	$mpurl .= '&perpage='.$perpage;
@@ -103,7 +103,7 @@ if(empty($_GET['op'])) {
 	$page = empty($_GET['page'])?1:intval($_GET['page']);
 	if($page<1) $page = 1;
 	$start = ($page-1)*$perpage;
-	//¼ì²é¿ªÊ¼Êı
+	//æ£€æŸ¥å¼€å§‹æ•°
 	ckstart($start, $perpage);
 
 	$list = array();

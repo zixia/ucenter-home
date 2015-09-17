@@ -8,11 +8,11 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//ÇåÀíÍ¨Öª
-$deltime = $_SGLOBAL['timestamp'] - 2*3600*24;//Ö»±£Áô2Ìì
+//æ¸…ç†é€šçŸ¥
+$deltime = $_SGLOBAL['timestamp'] - 2*3600*24;//åªä¿ç•™2å¤©
 
-//Ö´ÐÐ
+//æ‰§è¡Œ
 $_SGLOBAL['db']->query("DELETE FROM ".tname('notification')." WHERE dateline < '$deltime' AND new='0'");
-$_SGLOBAL['db']->query("OPTIMIZE TABLE ".tname('notification'), 'SILENT');//ÓÅ»¯±í
+$_SGLOBAL['db']->query("OPTIMIZE TABLE ".tname('notification'), 'SILENT');//ä¼˜åŒ–è¡¨
 
 ?>

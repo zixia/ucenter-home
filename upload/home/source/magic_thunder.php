@@ -8,12 +8,12 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//À×ÃùÖ®Éù
+//é›·é¸£ä¹‹å£°
 if(submitcheck("usesubmit")) {
 
 	magic_use($mid, array(), true);
 
-	//·¢È«Õ¾feed
+	//å‘å…¨ç«™feed
 	$uid = $_SGLOBAL['supe_uid'];
 	realname_set($_SGLOBAL['supe_uid'], $_SGLOBAL['supe_username']);
 	realname_get();

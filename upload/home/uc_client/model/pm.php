@@ -163,7 +163,7 @@ class pmmodel {
 		if($msgfrom['uid'] && $msgfrom['uid'] == $msgto) {
 			return 0;
 		}
-		//note ¹ýÂË¹Ø¼ü´Ê
+		//note è¿‡æ»¤å…³é”®è¯
 		$_CACHE['badwords'] = $this->base->cache('badwords');
 		if($_CACHE['badwords']['findpattern']) {
 			$subject = @preg_replace($_CACHE['badwords']['findpattern'], $_CACHE['badwords']['replace'], $subject);

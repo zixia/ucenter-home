@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//权限
+//鏉冮檺
 if(!checkperm('managetask')) {
 	cpmessage('no_authority_management_operation');
 }
@@ -45,13 +45,13 @@ if(submitcheck('tasksubmit')) {
 		
 	if(empty($taskid)) {
 		//ADD
-		inserttable('task', $setarr);//返回taskid
+		inserttable('task', $setarr);//杩斿洖taskid
 	} else {
 		//UPDATE
 		updatetable('task', $setarr, array('taskid'=>$taskid));
 	}
 
-	//更新config
+	//鏇存柊config
 	include_once(S_ROOT.'./source/function_cache.php');
 	task_cache();
 		
@@ -75,14 +75,14 @@ if($_GET['op'] == 'edit') {
 	$_SGLOBAL['db']->query("DELETE FROM ".tname('task')." WHERE taskid='$taskid'");
 	$_SGLOBAL['db']->query("DELETE FROM ".tname('usertask')." WHERE taskid='$taskid'");
 	
-	//更新缓存
+	//鏇存柊缂撳瓨
 	include_once(S_ROOT.'./source/function_cache.php');
 	task_cache();
 	
 	cpmessage('do_success', 'admincp.php?ac=task');
 
 } else {
-	//列表
+	//鍒楄〃
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('task')." ORDER BY displayorder");
 	while($task = $_SGLOBAL['db']->fetch_array($query)) {
 		$task['starttime'] = $task['starttime']?sgmdate("Y-m-d H:i:s", $task['starttime']) : 'N/A';

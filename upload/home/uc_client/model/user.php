@@ -148,7 +148,7 @@ class usermodel {
 	function delete_user($uidsarr) {
 		$uidsarr = (array)$uidsarr;
 		$uids = $this->base->implode($uidsarr);
-		//note 保护用户
+		//note 淇濇姢鐢ㄦ埛
 		$arr = $this->db->fetch_all("SELECT uid FROM ".UC_DBTABLEPRE."protectedmembers WHERE uid IN ($uids)");
 		$puids = array();
 		foreach((array)$arr as $member) {
@@ -158,9 +158,9 @@ class usermodel {
 		if($uids) {
 			$this->db->query("DELETE FROM ".UC_DBTABLEPRE."members WHERE uid IN($uids)");
 			$this->db->query("DELETE FROM ".UC_DBTABLEPRE."memberfields WHERE uid IN($uids)");
-			//note 删除用户头像 注意:此处client 和server 不同
+			//note 鍒犻櫎鐢ㄦ埛澶村儚 娉ㄦ剰:姝ゅclient 鍜宻erver 涓嶅悓
 			uc_user_deleteavatar($uidsarr);
-			//note 加到通知队列
+			//note 鍔犲埌閫氱煡闃熷垪
 			$this->base->load('note');
 			$_ENV['note']->add('deleteuser', "ids=$uids");
 			return $this->db->affected_rows();

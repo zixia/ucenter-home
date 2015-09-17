@@ -11,14 +11,14 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 include_once S_ROOT.'./ver.php';
 include_once S_ROOT.'./api/class/MyBase.php';
 
-//权限
+//鏉冮檺
 if(!checkperm('manageapp')) {
 	cpmessage('no_authority_management_operation');
 }
 
-//MY设置
-$my_url = 'http://api.manyou.com/uchome.php';//设置页面
-$my_register_url = 'http://api.manyou.com/uchome.php';//注册接口
+//MY璁剧疆
+$my_url = 'http://api.manyou.com/uchome.php';//璁剧疆椤甸潰
+$my_register_url = 'http://api.manyou.com/uchome.php';//娉ㄥ唽鎺ュ彛
 
 $_SC['language'] = $_SC['language'] ? $_SC['language'] : 'zh_CN';
 	
@@ -27,7 +27,7 @@ if(empty($_SCONFIG['my_siteid']) || empty($_SCONFIG['my_sitekey'])) {
 }
 
 if(submitcheck('mysubmit')) {
-	//启用服务
+	//鍚敤鏈嶅姟
 	$sitekey = trim($_SCONFIG['sitekey']);
 	if(empty($sitekey)) {
 		$sitekey = mksitekey();
@@ -36,7 +36,7 @@ if(submitcheck('mysubmit')) {
 		config_cache(false);
 	}
 	
-	//如果漫游关闭再开启则直接调用更新接口
+	//濡傛灉婕父鍏抽棴鍐嶅紑鍚垯鐩存帴璋冪敤鏇存柊鎺ュ彛
 	if(empty($_SCONFIG['my_status']) && !empty($_SCONFIG['my_siteid']) && !empty($_SCONFIG['my_sitekey'])) {
 		$_SCONFIG['my_status'] = 1;
 	}
@@ -48,17 +48,17 @@ if(submitcheck('mysubmit')) {
 		$res = my_site_refresh($_SCONFIG['my_siteid'], $_SCONFIG['sitename'], getsiteurl(), UC_API, $_SC['charset'], $_SCONFIG['timeoffset'], $_SCONFIG['realname'], $_SCONFIG['avatarreal'], $_SCONFIG['my_sitekey'], $sitekey, $_SC['language'], X_VER, MY_VER);
 	}
 	if($res['errCode']) {
-		//启用失败
+		//鍚敤澶辫触
 		cpmessage('my_register_error', '', 1, array($res['errCode'], $res['errMessage']));
 	} else {
 		include_once(S_ROOT.'./source/function_cache.php');
 		if($register) {
-			//启用成功
+			//鍚敤鎴愬姛
 			$_SGLOBAL['db']->query("REPLACE INTO ".tname('config')." (var, datavalue) VALUES ('my_siteid', '{$res[result][mySiteId]}'), ('my_sitekey', '{$res[result][mySiteKey]}'), ('my_status', '1')");
 			config_cache(false);
 			cpmessage('my_register_sucess', 'admincp.php?ac=userapp');
 		} else {
-			//更新成功
+			//鏇存柊鎴愬姛
 			$_SGLOBAL['db']->query("REPLACE INTO ".tname('config')." (var, datavalue) VALUES ('my_status', '1')");
 			config_cache(false);
 			cpmessage('do_success', 'admincp.php?ac=userapp');
@@ -66,13 +66,13 @@ if(submitcheck('mysubmit')) {
 		
 	}
 } else if(submitcheck('closemysubmit')) {
-	//启用成功
+	//鍚敤鎴愬姛
 	$res = my_site_close($_SCONFIG['my_siteid'], $_SCONFIG['my_sitekey']);
 	$_SGLOBAL['db']->query("REPLACE INTO ".tname('config')." (var, datavalue) VALUES ('my_status', '0')");
 	include_once(S_ROOT.'./source/function_cache.php');
 	config_cache(false);
 	if($res['errCode']) {
-		//启用失败
+		//鍚敤澶辫触
 		cpmessage('my_register_error', '', 1, array($res['errCode'], $res['errMessage']));
 	} else {
 		cpmessage('do_success', 'admincp.php?ac=userapp');
@@ -102,7 +102,7 @@ $delimiter = strrpos($myUrl, '?') ? '&' : '?';
 $url = $myUrl . $delimiter .  's_id=' . $_SCONFIG['my_siteid'] . '&uch_id=' . $_SGLOBAL['supe_uid'] .'&uch_url=' . urlencode($uchUrl) . '&my_suffix=' . $my_suffix . '&timestamp=' . $timestamp . '&my_sign=' . $hash;
 
 
-//my注册
+//my娉ㄥ唽
 function my_site_register($siteKey, $siteName, $siteUrl, $ucUrl, $siteCharset, $siteTimeZone, $siteRealNameEnable, $siteRealAvatarEnable, $siteLanguage, $siteVersion, $myVersion) {
 	global $my_register_url, $_SC, $_SCONFIG;
 	
@@ -124,7 +124,7 @@ function my_site_register($siteKey, $siteName, $siteUrl, $ucUrl, $siteCharset, $
 	
 	return $res;
 }
-//漫游注册更新
+//婕父娉ㄥ唽鏇存柊
 function my_site_refresh($mySiteId, $siteName, $siteUrl, $ucUrl, $siteCharset, $siteTimeZone, $siteEnableRealName, $siteEnableRealAvatar, $mySiteKey, $siteKey, $siteLanguage, $siteVersion, $myVersion) {
 	global $my_register_url, $_SCONFIG;
 	

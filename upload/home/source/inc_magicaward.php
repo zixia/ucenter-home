@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//ÊÇ·ñÒÑ¾­»ñÈ¡¹ý
+//æ˜¯å¦å·²ç»èŽ·å–è¿‡
 $value = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT * FROM ".tname('magicinlog')." WHERE uid='$_SGLOBAL[supe_uid]' AND type='3' AND fromid='$gid'"), 0);
 if(!$value) {
 	$inserts_magicinlog = $inserts_mymagic = $note_award =array();

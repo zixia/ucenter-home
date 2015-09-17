@@ -12,13 +12,13 @@ if(empty($_SCONFIG['videophoto'])) {
 	showmessage('no_open_videophoto');
 }
 
-//视频认证
+//瑙嗛璁よ瘉
 include_once(S_ROOT.'./source/function_cp.php');
 ckvideophoto('viewphoto', $space);
 
 $videophoto = getvideopic($space['videopic']);
 
-//个人头像
+//涓汉澶村儚
 include_once template("space_videophoto");
 
 ?>

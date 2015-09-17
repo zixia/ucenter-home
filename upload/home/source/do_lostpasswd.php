@@ -19,7 +19,7 @@ if(submitcheck('lostpwsubmit')) {
 		showmessage('getpasswd_account_notmatch');
 	}
 	
-	//´´Ê¼ÈË¡¢¹ÜÀíÔ±²»ÔÊĞíÕÒ»ØÃÜÂë
+	//åˆ›å§‹äººã€ç®¡ç†å‘˜ä¸å…è®¸æ‰¾å›å¯†ç 
 	$founderarr = explode(',', $_SC['founder']);
 	if($spaceinfo['flag'] || in_array($spaceinfo['uid'], $founderarr) || checkperm('admin')) {
 		showmessage('getpasswd_account_invalid');
@@ -31,7 +31,7 @@ if(submitcheck('lostpwsubmit')) {
 	
 } elseif(submitcheck('emailsubmit')) {
 	
-	//»ñÈ¡UCHome±¾ÉíµÄÓÊÏäµØÖ·
+	//è·å–UCHomeæœ¬èº«çš„é‚®ç®±åœ°å€
 	$spaceinfo = array();
 	$query = $_SGLOBAL['db']->query('SELECT s.uid, s.groupid, s.username, s.flag, sf.email, sf.emailcheck FROM '.tname('space').' s LEFT JOIN '.tname('spacefield')." sf ON sf.uid=s.uid WHERE s.username='$_POST[username]'");
 	$spaceinfo = $_SGLOBAL['db']->fetch_array($query);
@@ -39,7 +39,7 @@ if(submitcheck('lostpwsubmit')) {
 		showmessage('getpasswd_email_notmatch');
 	}
 	
-	//´´Ê¼ÈË¡¢¹ÜÀíÔ±²»ÔÊĞíÕÒ»ØÃÜÂë
+	//åˆ›å§‹äººã€ç®¡ç†å‘˜ä¸å…è®¸æ‰¾å›å¯†ç 
 	$founderarr = explode(',', $_SC['founder']);
 	if($spaceinfo['flag'] || in_array($spaceinfo['uid'], $founderarr) || checkperm('admin')) {
 		showmessage('getpasswd_account_invalid');
@@ -71,7 +71,7 @@ if(submitcheck('lostpwsubmit')) {
 	$space = $_SGLOBAL['db']->fetch_array($query);
 	checkuser($id, $space);
 	
-	//ÑéÖ¤ÊÇ·ñÊÜ±£»¤¡¢´´Ê¼ÈË¡¢ÓĞÕ¾µãÉèÖÃÈ¨ÏŞµÄÈË½ûÖ¹ÕÒ»ØÃÜÂë·½Ê½ĞŞ¸ÄÃÜÂë
+	//éªŒè¯æ˜¯å¦å—ä¿æŠ¤ã€åˆ›å§‹äººã€æœ‰ç«™ç‚¹è®¾ç½®æƒé™çš„äººç¦æ­¢æ‰¾å›å¯†ç æ–¹å¼ä¿®æ”¹å¯†ç 
 	$founderarr = explode(',', $_SC['founder']);
 	if($space['flag'] || in_array($space['uid'], $founderarr) || checkperm('admin')) {
 		showmessage('reset_passwd_account_invalid');
@@ -94,7 +94,7 @@ if($op == 'reset') {
 
 include template('do_lostpasswd');
 
-//ÑéÖ¤µØÖ·µØ·ñÓĞĞ§
+//éªŒè¯åœ°å€åœ°å¦æœ‰æ•ˆ
 function checkuser($id, $space) {
 	global $_SGLOBAL;
 	if(empty($space)) {

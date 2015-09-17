@@ -16,12 +16,12 @@ $list = array();
 $count = 0;
 
 if($id || $name) {
-	//分页
+	//鍒嗛〉
 	$perpage = 30;
-	//检查开始数
+	//妫�鏌ュ紑濮嬫暟
 	ckstart($start, $perpage);
 	
-	//获取TAG
+	//鑾峰彇TAG
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('tag')." WHERE ".($id?"tagid='$id'":"tagname='$name'")." LIMIT 1");
 	$tag = $_SGLOBAL['db']->fetch_array($query);
 	if(empty($tag)) {
@@ -30,7 +30,7 @@ if($id || $name) {
 		showmessage('tag_locked');
 	}
 	
-	//获取tag关联
+	//鑾峰彇tag鍏宠仈
 	$prinum = 0;
 	$query = $_SGLOBAL['db']->query("SELECT blog.* FROM ".tname('tagblog')." tb , ".tname('blog')." blog WHERE tb.tagid='$tag[tagid]' AND blog.blogid=tb.blogid LIMIT $start,$perpage");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -43,29 +43,29 @@ if($id || $name) {
 		$count++;
 	}
 	
-	//实名
+	//瀹炲悕
 	realname_get();
 	
-	//分页
+	//鍒嗛〉
 	$multi = smulti($start, $perpage, $count, "space.php?uid=$space[uid]&do=$do&id=$id");
 
 	include_once template("space_tag_view");
 	
 } else {
 
-	//分页
+	//鍒嗛〉
 	$perpage = 100;
-	//检查开始数
+	//妫�鏌ュ紑濮嬫暟
 	ckstart($start, $perpage);
 	
-	//处理查询
+	//澶勭悊鏌ヨ
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('tag')." ORDER BY blognum DESC LIMIT $start,$perpage");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$list[] = $value;
 		$count++;
 	}
 	
-	//分页
+	//鍒嗛〉
 	$multi = smulti($start, $perpage, $count, "space.php?uid=$space[uid]&do=$do");
 
 	include_once template("space_tag_list");

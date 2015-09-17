@@ -8,22 +8,22 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//idtypeµ½º¬ÓÐmagiccolor×Ö¶ÎµÄ±íÓ³Éä
+//idtypeåˆ°å«æœ‰magiccolorå­—æ®µçš„è¡¨æ˜ å°„
 $mapping = array('blogid'=>'blogfield', 'tid'=>'thread');
 if(!isset($mapping[$idtype])) {
 	showmessage('magicuse_bad_object');
 }
 magic_check_idtype($id, $idtype);
 
-//²ÊÉ«µÆ
+//å½©è‰²ç¯
 if(submitcheck("usesubmit")) {
 
-	//ÑÕÉ«´úºÅ
+	//é¢œè‰²ä»£å·
 	$tablename = $mapping[$idtype];
 	$_POST['color'] = intval($_POST['color']);
 	updatetable($tablename, array('magiccolor'=>$_POST['color']), array($idtype=>$id, 'uid'=>$_SGLOBAL['supe_uid']));
 
-	//feedÒ²¼ÓÉÏÑÕÉ«
+	//feedä¹ŸåŠ ä¸Šé¢œè‰²
 	$query = $_SGLOBAL['db']->query('SELECT * FROM '.tname('feed')." WHERE id='$id' AND idtype='$idtype' AND uid='$_SGLOBAL[supe_uid]'");
 	$feed = $_SGLOBAL['db']->fetch_array($query);
 	if($feed) {

@@ -8,14 +8,14 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//权限
+//鏉冮檺
 if(!checkperm('managestat')) {
 	cpmessage('no_authority_management_operation');
 }
 
 $turl = 'admincp.php?ac=stat';
 
-//处理统计更新
+//澶勭悊缁熻鏇存柊
 $perpage = empty($_GET['perpage'])?0:intval($_GET['perpage']);
 $counttype = empty($_GET['counttype'])?'':$_GET['counttype'].'_stat';
 if($perpage && $counttype) {

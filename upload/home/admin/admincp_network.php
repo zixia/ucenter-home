@@ -16,7 +16,7 @@ include_once(S_ROOT.'./data/data_network.php');
 
 if(submitcheck('networksubmit')) {
 	
-	//批量处理
+	//鎵归噺澶勭悊
 	foreach ($_POST['network'] as $type => $values) {
 		foreach ($values as $key => $value) {
 			$value = trim($value);
@@ -39,7 +39,7 @@ if(submitcheck('networksubmit')) {
 	
 	data_set('network', $_POST['network']);
 	
-	//更新缓存
+	//鏇存柊缂撳瓨
 	include_once(S_ROOT.'./source/function_cache.php');
 	network_cache();
 	
@@ -48,7 +48,7 @@ if(submitcheck('networksubmit')) {
 
 $network = $_SGLOBAL['network'];
 
-//排序
+//鎺掑簭
 $orders = $scs = array();
 foreach (array('blog','pic','thread','poll','event') as $value) {
 	$orders[$value] = array($network[$value]['order'] => ' selected');

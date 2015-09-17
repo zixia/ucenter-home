@@ -36,7 +36,7 @@ if($_GET['subop'] == 'view') {
 	
 	$filter = in_array($_GET['filter'], array('newpm', 'privatepm', 'systempm', 'announcepm'))?$_GET['filter']:($space['newpm']?'newpm':'privatepm');
 	
-	//分页
+	//鍒嗛〉
 	$perpage = 10;
 	$perpage = mob_perpage($perpage);
 	
@@ -51,7 +51,7 @@ if($_GET['subop'] == 'view') {
 	$multi = multi($count, $perpage, $page, "space.php?do=pm&filter=$filter");
 	
 	if($_SGLOBAL['member']['newpm']) {
-		//取消新短消息提示
+		//鍙栨秷鏂扮煭娑堟伅鎻愮ず
 		updatetable('space', array('newpm'=>0), array('uid'=>$_SGLOBAL['supe_uid']));
 		//UCenter
 		uc_pm_ignore($_SGLOBAL['supe_uid']);
@@ -60,7 +60,7 @@ if($_GET['subop'] == 'view') {
 	$actives = array($filter=>' class="active"');
 }
 
-//实名
+//瀹炲悕
 if($list) {
 	$today = $_SGLOBAL['timestamp'] - ($_SGLOBAL['timestamp'] + $_SCONFIG['timeoffset'] * 3600) % 86400;
 	foreach ($list as $key => $value) {

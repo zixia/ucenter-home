@@ -7,16 +7,16 @@
 if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-//È¨ÏŞ
+//æƒé™
 if(!checkperm('managebackup') || !ckfounder($_SGLOBAL['supe_uid'])) {
 	cpmessage('no_authority_management_operation_backup');
 }
-//»ñÈ¡·Ö¾í±àºÅ
+//è·å–åˆ†å·ç¼–å·
 $volume = isset($_GET['volume']) ? (intval($_GET['volume']) + 1) : 1;
 $backupdir = data_get('backupdir');
 $x_ver = X_VER;
 
-//±¸·İÎÄ¼şÄ¿Â¼
+//å¤‡ä»½æ–‡ä»¶ç›®å½•
 if(empty($backupdir)) {
 	$backupdir = random(6);
 	data_set('backupdir', $backupdir);
@@ -26,7 +26,7 @@ if(!is_dir(S_ROOT.'./data/'.$backupdir)) {
 	@mkdir(S_ROOT.'./data/'.$backupdir, 0777);
 }
 
-//É¾³ı±¸·İÎÄ¼ş
+//åˆ é™¤å¤‡ä»½æ–‡ä»¶
 if(submitcheck('delexportsubmit')) {
 	if(!empty($_POST['delexport']) && is_array($_POST['delexport'])) {
 		foreach($_POST['delexport'] as $value) {
@@ -64,7 +64,7 @@ if(empty($_GET['op'])) {
 	$dbversion = intval($_SGLOBAL['db']->version());
 	$uchome_tablelist = fetchtablelist($_SC['tablepre']);
 
-	//±¸·İÁĞ±í
+	//å¤‡ä»½åˆ—è¡¨
 	$exportlog = array();
 	if(is_dir(S_ROOT.'./data/'.$backupdir)) {
 		$dir = dir(S_ROOT.'./data/'.$backupdir);
@@ -116,23 +116,23 @@ if(empty($_GET['op'])) {
 	$sqlcompat = getval('sqlcompat');
 	$usehex = intval(getval('usehex'));
 	
-	$_SGLOBAL['db']->query('SET SQL_QUOTE_SHOW_CREATE=0', 'SILENT');//ÎŞ±¨´íÖ´ĞĞ¹Ø±ÕÎÒµÄ´´½¨±íºÍÁĞÊ±²»¼ÓÒıºÅ
-	if(empty($filename) || strlen($filename) > 40){	//ÎÄ¼şÃû³¤¶ÈÅĞ¶Ï
+	$_SGLOBAL['db']->query('SET SQL_QUOTE_SHOW_CREATE=0', 'SILENT');//æ— æŠ¥é”™æ‰§è¡Œå…³é—­æˆ‘çš„åˆ›å»ºè¡¨å’Œåˆ—æ—¶ä¸åŠ å¼•å·
+	if(empty($filename) || strlen($filename) > 40){	//æ–‡ä»¶åé•¿åº¦åˆ¤æ–­
 		cpmessage('documents_were_incorrect_length');
 	} else {
 		$filename = preg_replace("/[^a-z0-9_]/i", '',(str_replace('.', '_', $filename)));
 	}
 
 	$tables = array();
-	//±¸·İ·½Ê½
+	//å¤‡ä»½æ–¹å¼
 	if($type == 'uchomes') {
 		$tables = arraykeys2(fetchtablelist($tablepre), 'Name');
 	} elseif($type == 'custom') {
-		if(isset($_POST['setup'])) {//POSTÌá½»±¸·İ
+		if(isset($_POST['setup'])) {//POSTæäº¤å¤‡ä»½
 			$tables = empty($_POST['customtables']) ? array() : $_POST['customtables'];
 			data_set('custombackup', $tables);
 		} else {
-			//×Ô¶¯Ìø×ª±¸·İ
+			//è‡ªåŠ¨è·³è½¬å¤‡ä»½
 			$tables = data_get('custombackup');
 			$tables = unserialize($tables);
 		}
@@ -163,11 +163,11 @@ if(empty($_GET['op'])) {
 		include_once S_ROOT.'./source/class_zib.php';
 	}
 
-	if($method == 'multivol') {//·Ö¾í±¸·İ
+	if($method == 'multivol') {//åˆ†å·å¤‡ä»½
 		$sqldump = '';
 		$sizelimit = intval(getval('sizelimit'));
-		$tableid = intval(getval('tableid'));//±íID
-		$startfrom = intval(getval('startfrom'));//ÆğÊ¼Î»ÖÃ
+		$tableid = intval(getval('tableid'));//è¡¨ID
+		$startfrom = intval(getval('startfrom'));//èµ·å§‹ä½ç½®
 		$tablenum = count($tables);
 		$filesize = $sizelimit * 1000;
 		$complate = true;
@@ -288,7 +288,7 @@ if(empty($_GET['op'])) {
 		}
 
 		$identify = explode(',', base64_decode(preg_replace('/^# Identify:\s*(\w+).*/s', '\\1', substr($unzip->GetData(0), 0, 256))));
-		//¼ì²é°æ±¾ºÅ
+		//æ£€æŸ¥ç‰ˆæœ¬å·
 		$_GET['confirm'] = isset($_GET['confirm']) ? 1 : 0;
 		if(!$_GET['confirm'] && $identify[1] != X_VER) {
 			$showform = 1;
@@ -362,7 +362,7 @@ if(empty($_GET['op'])) {
 			foreach($sqlquery as $sql) {
 				$sql = syntablestruct(trim($sql), $_SGLOBAL['db']->version() > '4.1', $_SC['dbcharset']);
 				if(!empty($sql)) {
-					$_SGLOBAL['db']->query($sql, 'SILENT');//ÆÁ±Î´íÎó
+					$_SGLOBAL['db']->query($sql, 'SILENT');//å±è”½é”™è¯¯
 					if($_SGLOBAL['db']->error() && $_SGLOBAL['db']->errno() != 1062) {
 						$_SGLOBAL['db']->halt('MySQL Query Error', $sql);
 					}
@@ -489,10 +489,10 @@ function sqldumptable($table, $startfrom = 0, $currsize = 0) {
 			}
 			$tabledumped = 1;
 			$query = $_SGLOBAL['db']->query($selectsql);
-			$numfields = $_SGLOBAL['db']->num_fields($query);	//È¡µÃÁĞÊı
+			$numfields = $_SGLOBAL['db']->num_fields($query);	//å–å¾—åˆ—æ•°
 
 			if($numrows = $_SGLOBAL['db']->num_rows($query)) {
-				while($row = $_SGLOBAL['db']->fetch_row($query)) {	//ÒÔÃ¶¾ÙĞÎÊ½È¡µÃĞĞÖµ
+				while($row = $_SGLOBAL['db']->fetch_row($query)) {	//ä»¥æšä¸¾å½¢å¼å–å¾—è¡Œå€¼
 					$dumpsql = $comma = '';
 					for($i = 0; $i < $numfields; ++$i) {
 						$dumpsql .= $comma.($_GET['usehex'] && !empty($row[$i]) && (strexists($tablefields[$i]['Type'], 'char') || strexists($tablefields[$i]['Type'], 'text')) ? '0x'.bin2hex($row[$i]) : '\''.mysql_escape_string($row[$i]).'\'');

@@ -10,13 +10,13 @@ if(!defined('IN_UCHOME')) {
 
 $magic['custom']['maxdetect'] = $magic['custom']['maxdetect'] ? intval($magic['custom']['maxdetect']) : 10;
 
-//Ì½²âµÆ
+//æŽ¢æµ‹ç¯
 if(submitcheck("usesubmit")) {
 
 	magic_use($mid, array(), true);
 	
 	$op = 'show';
-	$limit = $magic['custom']['maxdetect'] + 20;//¶àÈ¡20¸ö
+	$limit = $magic['custom']['maxdetect'] + 20;//å¤šå–20ä¸ª
 	$query = $_SGLOBAL['db']->query('SELECT * FROM '.tname('magicuselog')." WHERE uid != '$_SGLOBAL[supe_uid]' AND mid = 'gift' LIMIT $limit");
 	$list = array();
 	$max = 1;

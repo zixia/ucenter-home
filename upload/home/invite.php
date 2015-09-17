@@ -6,16 +6,16 @@
 
 include_once('./common.php');
 
-//ÊÇ·ñ¹Ø±ÕÕ¾µã
+//æ˜¯å¦å…³é—­ç«™ç‚¹
 checkclose();
 
 $invite = array();
 
 $get = array();
-//»ý·Ö
+//ç§¯åˆ†
 $reward = getreward('invitecode', 0);
 
-//²ÎÊý
+//å‚æ•°
 $_GET['u'] = empty($_GET['u'])?0:intval($_GET['u']);
 $_GET['c'] = empty($_GET['c'])?'':trim($_GET['c']);
 $_GET['app'] = empty($_GET['app'])?'':intval($_GET['app']);
@@ -25,7 +25,7 @@ if($_GET['app']) {
 	$reward['credit'] = '';
 }
 if($_GET['u'] && empty($reward['credit'])) {
-	//Ãâ·ÑÑûÇë
+	//å…è´¹é‚€è¯·
 	$invite['uid'] = $_GET['u'];
 	$theurl = "invite.php?u=$_GET[u]&app=$_GET[app]&c=$_GET[c]";
 	$url_plus = "uid=$invite[uid]&app=$_GET[app]&code=$_GET[c]";
@@ -35,25 +35,25 @@ if($_GET['u'] && empty($reward['credit'])) {
 	$url_plus = "uid=$invite[uid]&invite=$invite[code]";
 }
 
-//»ñÈ¡ÑûÇëÈË
+//èŽ·å–é‚€è¯·äºº
 $space = getspace($invite['uid']);
 if(empty($space)) {
 	showmessage('space_does_not_exist');
 }
-//¼ì²éÑéÖ¤
+//æ£€æŸ¥éªŒè¯
 if($_GET['u'] && empty($reward['credit'])) {
 	if($_GET['c'] != space_key($space, $_GET['app'])) {
 		showmessage('invite_code_error');
 	}
 }
 
-//ÊÇ·ñºÃÓÑ
+//æ˜¯å¦å¥½å‹
 if($space['self']) {
 	showmessage('should_not_invite_your_own');
 }
 $space['isfriend'] = 0;
 if($_SGLOBAL['supe_uid'] && $space['friends'] && in_array($_SGLOBAL['supe_uid'], $space['friends'])) {
-	$space['isfriend'] = 1;//ÊÇºÃÓÑ
+	$space['isfriend'] = 1;//æ˜¯å¥½å‹
 }
 $jumpurl = $_GET['app']?"userapp.php?id=$_GET[app]&my_extra=invitedby_bi_$_GET[u]_$_GET[c]&my_suffix=Lw%3D%3D":"space.php?uid=$space[uid]";
 if($space['isfriend']) {
@@ -70,7 +70,7 @@ if(submitcheck('invitesubmit')) {
 	showmessage('friends_add', $jumpurl, 1, array($_SN[$space['uid']]));
 }
 
-//ºÃÓÑÁÐ±í
+//å¥½å‹åˆ—è¡¨
 $flist = array();
 $query = $_SGLOBAL['db']->query("SELECT fuid AS uid, fusername AS username FROM ".tname('friend')." WHERE uid='$invite[uid]' AND status='1' ORDER BY num DESC, dateline DESC LIMIT 0,12");
 while ($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -87,7 +87,7 @@ $threadnum = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FRO
 $tagspacenum = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('tagspace')." WHERE uid='$invite[uid]'"), 0);
 
 
-//»ñÈ¡Ó¦ÓÃ
+//èŽ·å–åº”ç”¨
 $userapp = array();
 if($_GET['app']) {
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('myapp')." WHERE appid='$_GET[app]'");

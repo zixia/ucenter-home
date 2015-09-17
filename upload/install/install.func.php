@@ -68,13 +68,13 @@ function checkfdperm($path, $isfile=0) {
 		return false;
 	}
 	if(!$isfile) {
-		//ÊÇ·ñ¿ÉÒÔÉ¾³ı
+		//æ˜¯å¦å¯ä»¥åˆ é™¤
 		fwrite($fp, ' ');
 		fclose($fp);
 		if(!@unlink($file)) {
 			return false;
 		}
-		//¼ì²âÊÇ·ñ¿ÉÒÔ´´½¨×ÓÄ¿Â¼
+		//æ£€æµ‹æ˜¯å¦å¯ä»¥åˆ›å»ºå­ç›®å½•
 		if(is_dir($path.'./install_tmpdir')) {
 			if(!@rmdir($path.'./install_tmpdir')) {
 				return false;
@@ -83,7 +83,7 @@ function checkfdperm($path, $isfile=0) {
 		if(!@mkdir($path.'./install_tmpdir')) {
 			return false;
 		}
-		//ÊÇ·ñ¿ÉÒÔÉ¾³ı
+		//æ˜¯å¦å¯ä»¥åˆ é™¤
 		if(!@rmdir($path.'./install_tmpdir')) {
 			return false;
 		}
@@ -130,7 +130,7 @@ function submitchecki($var) {
 	}
 }
 
-//²úÉúform·ÀÎ±Âë
+//äº§ç”Ÿformé˜²ä¼ªç 
 function formhash() {
 	global $_SGLOBAL, $_SCONFIG;
 

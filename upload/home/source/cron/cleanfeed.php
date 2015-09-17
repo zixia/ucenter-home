@@ -8,14 +8,14 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//«Â¿Ìfeed
+//Ê∏ÖÁêÜfeed
 if($_SCONFIG['feedday'] < 3) $_SCONFIG['feedday'] = 3;
 $deltime = $_SGLOBAL['timestamp'] - $_SCONFIG['feedday']*3600*24;
-$f_deltime = $_SGLOBAL['timestamp'] - 3*3600*24;//”¶”√∂ØÃ¨
+$f_deltime = $_SGLOBAL['timestamp'] - 3*3600*24;//Â∫îÁî®Âä®ÊÄÅ
 
-//÷¥––
+//ÊâßË°å
 $_SGLOBAL['db']->query("DELETE FROM ".tname('feed')." WHERE (dateline < '$deltime' AND hot=0) OR (dateline < '$f_deltime' AND appid=0)");
-$_SGLOBAL['db']->query("OPTIMIZE TABLE ".tname('feed'), 'SILENT');//”≈ªØ±Ì
+$_SGLOBAL['db']->query("OPTIMIZE TABLE ".tname('feed'), 'SILENT');//‰ºòÂåñË°®
 
 
 ?>

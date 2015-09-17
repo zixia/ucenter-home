@@ -11,22 +11,22 @@ error_reporting(0);
 
 define('IN_COMSENZ', TRUE);
 define('ROOT_PATH', dirname(__FILE__).'/../');
-//note ´íÎó´úÂë¶¨Òå
-define('EXPLOR_SUCCESS', 0);//note µ¼³ö³É¹¦
-define('IMPORT_SUCCESS', 0);//note µ¼Èë³É¹¦
-define('DELETE_SQLPATH_SUCCESS', 4);//note É¾³ı±¸·İÎÄ¼ş³É¹¦
-define('MKDIR_ERROR', 1);//note ´´½¨Ä¿Â¼Ê§°Ü
-define('DATABASE_EXPORT_FILE_INVALID', 2);//note ±¸·İÎÄ¼şĞ´ÈëÊ§°Ü
-define('RUN_SQL_ERROR', 3);//note sqlÖ´ĞĞ´íÎó
-define('SQLPATH_NULL_NOEXISTS', 4);//note sqlpathÎª¿Õ»òÕßÄ¿Â¼²»´æÔÚ
-define('SQLPATH_NOMATCH_BAKFILE', 5);//note Ö¸¶¨sqlpahtÃ»ÓĞÕÒµ½ºÏ·¨µÄ±¸·İÎÄ¼ş
-define('BAK_FILE_LOSE', 6);//note ±¸·İÎÄ¼şÈ±Ê§
-define('DIR_NO_EXISTS', 7);//note Ö¸¶¨±¸·İÄ¿Â¼²»´æÔÚ
-define('DELETE_DUMPFILE_ERROR', 8);//note É¾³ıÖ¸¶¨µÄÊı¾İ¿â±¸·İÎÄ¼ş´íÎó
-define('DB_API_NO_MATCH', 9);//note ±¸·İ½Ó¿Ú³ÌĞòÔİ²»Ö§³Ö´ËÖÖÓ¦ÓÃµÄ±¸·İ
+//note é”™è¯¯ä»£ç å®šä¹‰
+define('EXPLOR_SUCCESS', 0);//note å¯¼å‡ºæˆåŠŸ
+define('IMPORT_SUCCESS', 0);//note å¯¼å…¥æˆåŠŸ
+define('DELETE_SQLPATH_SUCCESS', 4);//note åˆ é™¤å¤‡ä»½æ–‡ä»¶æˆåŠŸ
+define('MKDIR_ERROR', 1);//note åˆ›å»ºç›®å½•å¤±è´¥
+define('DATABASE_EXPORT_FILE_INVALID', 2);//note å¤‡ä»½æ–‡ä»¶å†™å…¥å¤±è´¥
+define('RUN_SQL_ERROR', 3);//note sqlæ‰§è¡Œé”™è¯¯
+define('SQLPATH_NULL_NOEXISTS', 4);//note sqlpathä¸ºç©ºæˆ–è€…ç›®å½•ä¸å­˜åœ¨
+define('SQLPATH_NOMATCH_BAKFILE', 5);//note æŒ‡å®šsqlpahtæ²¡æœ‰æ‰¾åˆ°åˆæ³•çš„å¤‡ä»½æ–‡ä»¶
+define('BAK_FILE_LOSE', 6);//note å¤‡ä»½æ–‡ä»¶ç¼ºå¤±
+define('DIR_NO_EXISTS', 7);//note æŒ‡å®šå¤‡ä»½ç›®å½•ä¸å­˜åœ¨
+define('DELETE_DUMPFILE_ERROR', 8);//note åˆ é™¤æŒ‡å®šçš„æ•°æ®åº“å¤‡ä»½æ–‡ä»¶é”™è¯¯
+define('DB_API_NO_MATCH', 9);//note å¤‡ä»½æ¥å£ç¨‹åºæš‚ä¸æ”¯æŒæ­¤ç§åº”ç”¨çš„å¤‡ä»½
 
-$sizelimit = 2000;//note ·Ö¾íµÄ´óĞ¡£¬µ¥Î»K£¬Ä¬ÈÏÎª2000K£¬Çë²»ÒªÉèÖÃµÄÌ«´ó£¬Ò»Ãæ³¬³öphp¿É²Ù×÷µÄÄÚ´æ
-$usehex = true;//note Ê¹ÓÃÊ®Áù½øÖÆ£¬¿ÉÒÔ×î´ó³Ì¶È±ÜÃâ×Ö·û¼¯ÎÊÌâ¡£
+$sizelimit = 2000;//note åˆ†å·çš„å¤§å°ï¼Œå•ä½Kï¼Œé»˜è®¤ä¸º2000Kï¼Œè¯·ä¸è¦è®¾ç½®çš„å¤ªå¤§ï¼Œä¸€é¢è¶…å‡ºphpå¯æ“ä½œçš„å†…å­˜
+$usehex = true;//note ä½¿ç”¨åå…­è¿›åˆ¶ï¼Œå¯ä»¥æœ€å¤§ç¨‹åº¦é¿å…å­—ç¬¦é›†é—®é¢˜ã€‚
 
 $code = @$_GET['code'];
 $apptype = @$_GET['apptype'];
@@ -34,9 +34,9 @@ $apptype = @$_GET['apptype'];
 $apptype = strtolower($apptype);
 
 if($apptype == 'discuz') {
-	require ROOT_PATH.'./config.inc.php';//note ¼ÓÔØÅäÖÃÎÄ¼ş
+	require ROOT_PATH.'./config.inc.php';//note åŠ è½½é…ç½®æ–‡ä»¶
 } elseif($apptype == 'uchome' || $apptype == 'supesite' || $apptype == 'supev') {//note uchome or supsite or supev
-	require ROOT_PATH.'./config.php';//note ¼ÓÔØÅäÖÃÎÄ¼ş
+	require ROOT_PATH.'./config.php';//note åŠ è½½é…ç½®æ–‡ä»¶
 } elseif($apptype == 'ucenter') {//note ucenter
 	require ROOT_PATH.'./data/config.inc.php';
 } elseif($apptype == 'ecmall') {//note ecmall
@@ -195,8 +195,8 @@ $db = new dbstuff();
 $version = '';
 if($apptype == 'discuz') {//note discuz
 
-	define('BACKUP_DIR', ROOT_PATH.'forumdata/');//note Êı¾İ¿â±¸·İÎÄ¼ş·ÅÖÃÂ·¾¶
-	$tablepre = $tablepre;//note ±íÇ°×º¸³Öµ£¬²»Í¬µÄ²úÆ·ÇëĞŞ¸Ä´Ë±í´ïÊ½
+	define('BACKUP_DIR', ROOT_PATH.'forumdata/');//note æ•°æ®åº“å¤‡ä»½æ–‡ä»¶æ”¾ç½®è·¯å¾„
+	$tablepre = $tablepre;//note è¡¨å‰ç¼€èµ‹å€¼ï¼Œä¸åŒçš„äº§å“è¯·ä¿®æ”¹æ­¤è¡¨è¾¾å¼
 	if(empty($dbcharset)) {
 		$dbcharset = in_array(strtolower($charset), array('gbk', 'big5', 'utf-8')) ? str_replace('-', '', $charset) : '';
 	}
@@ -207,22 +207,22 @@ if($apptype == 'discuz') {//note discuz
 
 } elseif($apptype == 'uchome' || $apptype == 'supesite') {//note uchome
 
-	define('BACKUP_DIR', ROOT_PATH.'./data/');//note Êı¾İ¿â±¸·İÎÄ¼ş·ÅÖÃÂ·¾¶
-	$tablepre = $_SC['tablepre'];//note ±íÇ°×º¸³Öµ£¬²»Í¬µÄ²úÆ·ÇëĞŞ¸Ä´Ë±í´ïÊ½
+	define('BACKUP_DIR', ROOT_PATH.'./data/');//note æ•°æ®åº“å¤‡ä»½æ–‡ä»¶æ”¾ç½®è·¯å¾„
+	$tablepre = $_SC['tablepre'];//note è¡¨å‰ç¼€èµ‹å€¼ï¼Œä¸åŒçš„äº§å“è¯·ä¿®æ”¹æ­¤è¡¨è¾¾å¼
 	$dbcharset = $_SC['dbcharset'];
 	$db->connect($_SC['dbhost'], $_SC['dbuser'], $_SC['dbpw'], $_SC['dbname'], $dbcharset, $_SC['pconnect'], $tablepre);
 
 } elseif($apptype == 'ucenter') {//note ucenter
 
-	define('BACKUP_DIR', ROOT_PATH.'./data/backup/');//note Êı¾İ¿â±¸·İÎÄ¼ş·ÅÖÃÂ·¾¶
-	$tablepre = UC_DBTABLEPRE;//note ±íÇ°×º¸³Öµ£¬²»Í¬µÄ²úÆ·ÇëĞŞ¸Ä´Ë±í´ïÊ½
+	define('BACKUP_DIR', ROOT_PATH.'./data/backup/');//note æ•°æ®åº“å¤‡ä»½æ–‡ä»¶æ”¾ç½®è·¯å¾„
+	$tablepre = UC_DBTABLEPRE;//note è¡¨å‰ç¼€èµ‹å€¼ï¼Œä¸åŒçš„äº§å“è¯·ä¿®æ”¹æ­¤è¡¨è¾¾å¼
 	$dbcharset = UC_DBCHARSET;
 	$db->connect(UC_DBHOST, UC_DBUSER, UC_DBPW, UC_DBNAME, $dbcharset, UC_DBCONNECT, $tablepre);
 
 } elseif($apptype == 'ecmall') {//note ecmall
 
-	define('BACKUP_DIR', ROOT_PATH.'./data/backup/');//note Êı¾İ¿â±¸·İÎÄ¼ş·ÅÖÃÂ·¾¶
-	$tablepre = DB_PREFIX;//note ±íÇ°×º¸³Öµ£¬²»Í¬µÄ²úÆ·ÇëĞŞ¸Ä´Ë±í´ïÊ½
+	define('BACKUP_DIR', ROOT_PATH.'./data/backup/');//note æ•°æ®åº“å¤‡ä»½æ–‡ä»¶æ”¾ç½®è·¯å¾„
+	$tablepre = DB_PREFIX;//note è¡¨å‰ç¼€èµ‹å€¼ï¼Œä¸åŒçš„äº§å“è¯·ä¿®æ”¹æ­¤è¡¨è¾¾å¼
 	$dbcharset = (CHARSET == 'utf-8') ? 'utf8' : CHARSET;
 	$cfg = parse_url(DB_CONFIG);
 	if(empty($cfg['pass'])) {
@@ -237,8 +237,8 @@ if($apptype == 'discuz') {//note discuz
 
 } elseif($apptype == 'supev') {//note supev
 
-	define('BACKUP_DIR', ROOT_PATH.'data/backup/');//note Êı¾İ¿â±¸·İÎÄ¼ş·ÅÖÃÂ·¾¶
-	$tablepre = $tablepre;//note ±íÇ°×º¸³Öµ£¬²»Í¬µÄ²úÆ·ÇëĞŞ¸Ä´Ë±í´ïÊ½
+	define('BACKUP_DIR', ROOT_PATH.'data/backup/');//note æ•°æ®åº“å¤‡ä»½æ–‡ä»¶æ”¾ç½®è·¯å¾„
+	$tablepre = $tablepre;//note è¡¨å‰ç¼€èµ‹å€¼ï¼Œä¸åŒçš„äº§å“è¯·ä¿®æ”¹æ­¤è¡¨è¾¾å¼
 	if(empty($dbcharset)) {
 		$dbcharset = in_array(strtolower($charset), array('gbk', 'big5', 'utf-8')) ? str_replace('-', '', $charset) : '';
 	}
@@ -246,14 +246,14 @@ if($apptype == 'discuz') {//note discuz
 
 } elseif($apptype == 'ecshop') {//note ecshop
 
-	define('BACKUP_DIR', ROOT_PATH.'data/backup/');//note Êı¾İ¿â±¸·İÎÄ¼ş·ÅÖÃÂ·¾¶
-	$tablepre = $prefix;//note ±íÇ°×º¸³Öµ£¬²»Í¬µÄ²úÆ·ÇëĞŞ¸Ä´Ë±í´ïÊ½
+	define('BACKUP_DIR', ROOT_PATH.'data/backup/');//note æ•°æ®åº“å¤‡ä»½æ–‡ä»¶æ”¾ç½®è·¯å¾„
+	$tablepre = $prefix;//note è¡¨å‰ç¼€èµ‹å€¼ï¼Œä¸åŒçš„äº§å“è¯·ä¿®æ”¹æ­¤è¡¨è¾¾å¼
 	$dbcharset = 'utf8';
 	$db->connect($db_host, $db_user, $db_pass, $db_name, $dbcharset, 0, $tablepre);
 
 }
 
-if($get['method'] == 'export') {//note µ¼³ö±¸·İ
+if($get['method'] == 'export') {//note å¯¼å‡ºå¤‡ä»½
 
 	$db->query('SET SQL_QUOTE_SHOW_CREATE=0', 'SILENT');
 
@@ -262,7 +262,7 @@ if($get['method'] == 'export') {//note µ¼³ö±¸·İ
 	$tables = array();
 	$tables = arraykeys2(fetchtablelist($tablepre), 'Name');
 
-	if($apptype == 'discuz') {//note discuzµÄ±¸·İĞèÒª±¸·İ²å¼ş±í¹ØÁªµÄÊı¾İ
+	if($apptype == 'discuz') {//note discuzçš„å¤‡ä»½éœ€è¦å¤‡ä»½æ’ä»¶è¡¨å…³è”çš„æ•°æ®
 		$query = $db->query("SELECT datatables FROM {$tablepre}plugins WHERE datatables<>''");
 		while($plugin = $db->fetch_array($query)) {
 			foreach(explode(',', $plugin['datatables']) as $table) {
@@ -278,7 +278,7 @@ if($get['method'] == 'export') {//note µ¼³ö±¸·İ
 	$version = $version ? $version : $apptype;
 	$idstring = '# Identify: '.base64_encode("$timestamp,$version,$apptype,multivol,$get[volume]")."\n";
 
-	if(!isset($get['sqlpath']) || empty($get['sqlpath'])) {//note ÈôÃ»ÓĞÖ¸¶¨´æ·ÅÄ¿Â¼£¬ÔòÉè¶¨´æ·Å±¸·İÊı¾İµÄÄ¿Â¼
+	if(!isset($get['sqlpath']) || empty($get['sqlpath'])) {//note è‹¥æ²¡æœ‰æŒ‡å®šå­˜æ”¾ç›®å½•ï¼Œåˆ™è®¾å®šå­˜æ”¾å¤‡ä»½æ•°æ®çš„ç›®å½•
 		$get['sqlpath'] = 'backup_'.date('ymd', $timestamp).'_'.random(6);
 		if(!mkdir(BACKUP_DIR.'./'.$get['sqlpath'], 0777)) {
 			api_msg('mkdir_error', 'make dir error:'.BACKUP_DIR.'./'.$get['sqlpath']);
@@ -289,7 +289,7 @@ if($get['method'] == 'export') {//note µ¼³ö±¸·İ
 		}		
 	}
 
-	if(!isset($get['backupfilename']) || empty($get['backupfilename'])) {//note ÈôÃ»ÓĞÖ¸¶¨±¸·İÎÄ¼şÃû£¬ÔòÉè¶¨±£´æÊı¾İµÄÎÄ¼şÃû
+	if(!isset($get['backupfilename']) || empty($get['backupfilename'])) {//note è‹¥æ²¡æœ‰æŒ‡å®šå¤‡ä»½æ–‡ä»¶åï¼Œåˆ™è®¾å®šä¿å­˜æ•°æ®çš„æ–‡ä»¶å
 		$get['backupfilename'] = date('ymd', $timestamp).'_'.random(6);
 	}
 
@@ -297,7 +297,7 @@ if($get['method'] == 'export') {//note µ¼³ö±¸·İ
 	$get['tableid'] = isset($get['tableid']) ? intval($get['tableid']) : 0;
 	$get['startfrom'] = isset($get['startfrom']) ? intval($get['startfrom']) : 0;
 
-	//note count() ÓĞ´ıÓÚÓÅ»¯
+	//note count() æœ‰å¾…äºä¼˜åŒ–
 	$complete = TRUE;
 	for(; $complete && $get['tableid'] < count($tables) && strlen($sqldump) + 500 < $sizelimit * 1000; $get['tableid']++) {
 		$sqldump .= sqldumptable($tables[$get['tableid']], strlen($sqldump));
@@ -334,7 +334,7 @@ if($get['method'] == 'export') {//note µ¼³ö±¸·İ
 		api_msg('explor_success', 'explor_success');
 	}
 
-} elseif($get['method'] == 'import') {//note µ¼Èë±¸·İ£¬¼´»Ö¸´Êı¾İ
+} elseif($get['method'] == 'import') {//note å¯¼å…¥å¤‡ä»½ï¼Œå³æ¢å¤æ•°æ®
 
 	if(!isset($get['dumpfile']) || empty($get['dumpfile'])) {
 		$get['dumpfile'] = get_dumpfile_by_path($get['sqlpath']);
@@ -356,7 +356,7 @@ if($get['method'] == 'export') {//note µ¼³ö±¸·İ
 	unset($sqldump);
 
 	foreach($sqlquery as $sql) {
-		//note ¼æÈİSQL½¨±í¸ñÊ½£¬µ÷ÕûÎªµ±Ç°°æ±¾ºÍ×Ö·û¼¯ºÏÊÊµÄ½¨±íÓï¾ä
+		//note å…¼å®¹SQLå»ºè¡¨æ ¼å¼ï¼Œè°ƒæ•´ä¸ºå½“å‰ç‰ˆæœ¬å’Œå­—ç¬¦é›†åˆé€‚çš„å»ºè¡¨è¯­å¥
 		$sql = syntablestruct(trim($sql), $db->version() > '4.1', $dbcharset);
 
 		if($sql != '') {
@@ -371,7 +371,7 @@ if($get['method'] == 'export') {//note µ¼³ö±¸·İ
 	$get['dumpfile'] = $next_dumpfile;
 	auto_next($get, BACKUP_DIR.$get['sqlpath'].'/'.$cur_file);
 
-} elseif($get['method'] == 'ping') {//note Ì½²âÄ³¸öÖ¸¶¨Ä¿Â¼ÏÂÊÇ·ñÓĞ±¸·İÊı¾İ
+} elseif($get['method'] == 'ping') {//note æ¢æµ‹æŸä¸ªæŒ‡å®šç›®å½•ä¸‹æ˜¯å¦æœ‰å¤‡ä»½æ•°æ®
 
 	if($get['dir'] && is_dir(BACKUP_DIR.$get['dir'])) {
 		echo "1";exit;
@@ -379,7 +379,7 @@ if($get['method'] == 'export') {//note µ¼³ö±¸·İ
 		echo "-1";exit;
 	}
 
-} elseif($get['method'] == 'list') {//note ÁĞ³ö¿ÉÓÃµÄ±¸·İÄ¿Â¼£¬ÒÔxml¸ñÊ½·µ»Ø
+} elseif($get['method'] == 'list') {//note åˆ—å‡ºå¯ç”¨çš„å¤‡ä»½ç›®å½•ï¼Œä»¥xmlæ ¼å¼è¿”å›
 
 	$str = "<root>\n";
 	$directory = dir(BACKUP_DIR);
@@ -397,7 +397,7 @@ if($get['method'] == 'export') {//note µ¼³ö±¸·İ
 	echo $str;
 	exit;
 
-} elseif($get['method'] == 'view') {//note ÏÔÊ¾¾ßÌåµÄÄ³Ò»¸ö±¸·İÄ¿Â¼ÏÂµÄÏêÇé
+} elseif($get['method'] == 'view') {//note æ˜¾ç¤ºå…·ä½“çš„æŸä¸€ä¸ªå¤‡ä»½ç›®å½•ä¸‹çš„è¯¦æƒ…
 
 	$sqlpath = trim($get['sqlpath']);
 	if(empty($sqlpath) || !is_dir(BACKUP_DIR.$sqlpath)) {
@@ -423,7 +423,7 @@ if($get['method'] == 'export') {//note µ¼³ö±¸·İ
 	echo $str;
 	exit;
 	
-} elseif($get['method'] == 'delete') {//note É¾³ı¾ßÌåµÄÄ³Ò»¸ö±¸·İÄ¿Â¼ÏÂµÄ±¸·İÎÄ¼ş£¬Ä¿Â¼Í¬Ê±Ò²É¾³ı
+} elseif($get['method'] == 'delete') {//note åˆ é™¤å…·ä½“çš„æŸä¸€ä¸ªå¤‡ä»½ç›®å½•ä¸‹çš„å¤‡ä»½æ–‡ä»¶ï¼Œç›®å½•åŒæ—¶ä¹Ÿåˆ é™¤
 
 	$sqlpath = trim($get['sqlpath']);
 	if(empty($sqlpath) || !is_dir(BACKUP_DIR.$sqlpath)) {
@@ -444,26 +444,26 @@ if($get['method'] == 'export') {//note µ¼³ö±¸·İ
 
 function syntablestruct($sql, $version, $dbcharset) {
 
-	//note ÊÇ·ñÎª½¨±íÓï¾ä
+	//note æ˜¯å¦ä¸ºå»ºè¡¨è¯­å¥
 	if(strpos(trim(substr($sql, 0, 18)), 'CREATE TABLE') === FALSE) {
 		return $sql;
 	}
 
-	//note ×Ô¶¯ÅĞ¶Ïµ±Ç°½¨±íÓï¾äµÄ°æ±¾
+	//note è‡ªåŠ¨åˆ¤æ–­å½“å‰å»ºè¡¨è¯­å¥çš„ç‰ˆæœ¬
 	$sqlversion = strpos($sql, 'ENGINE=') === FALSE ? FALSE : TRUE;
 
-	//note Èç¹û¶¼ÎªÍ¬Ò»°æ±¾£¬Ôò²»×ö´¦Àí
+	//note å¦‚æœéƒ½ä¸ºåŒä¸€ç‰ˆæœ¬ï¼Œåˆ™ä¸åšå¤„ç†
 	if($sqlversion === $version) {
 
-		//note Èç¹ûÎª¸ß°æ±¾£¬²¢ÇÒÉèÖÃÁË×ª»»µÄ×Ö·û¼¯£¬Ôò½øĞĞÌæ»»¡£
+		//note å¦‚æœä¸ºé«˜ç‰ˆæœ¬ï¼Œå¹¶ä¸”è®¾ç½®äº†è½¬æ¢çš„å­—ç¬¦é›†ï¼Œåˆ™è¿›è¡Œæ›¿æ¢ã€‚
 		return $sqlversion && $dbcharset ? preg_replace(array('/ character set \w+/i', '/ collate \w+/i', "/DEFAULT CHARSET=\w+/is"), array('', '', "DEFAULT CHARSET=$dbcharset"), $sql) : $sql;
 	}
 
-	//note Èç¹ûµÍ×ª¸ß
+	//note å¦‚æœä½è½¬é«˜
 	if($version) {
 		return preg_replace(array('/TYPE=HEAP/i', '/TYPE=(\w+)/is'), array("ENGINE=MEMORY DEFAULT CHARSET=$dbcharset", "ENGINE=\\1 DEFAULT CHARSET=$dbcharset"), $sql);
 
-	//note Èç¹û¸ß×ªµÍ
+	//note å¦‚æœé«˜è½¬ä½
 	} else {
 		return preg_replace(array('/character set \w+/i', '/collate \w+/i', '/ENGINE=MEMORY/i', '/\s*DEFAULT CHARSET=\w+/is', '/\s*COLLATE=\w+/is', '/ENGINE=(\w+)(.*)/is'), array('', '', 'ENGINE=HEAP', '', '', 'TYPE=\\1\\2'), $sql);
 	}
@@ -588,7 +588,7 @@ function sqldumptable($table, $currsize = 0) {
 
 		$create = $db->fetch_row($createtable);
 
-		//debug ÅĞ¶ÏÊÇ·ñÔÚ²»Í¬Êı¾İ¿â
+		//debug åˆ¤æ–­æ˜¯å¦åœ¨ä¸åŒæ•°æ®åº“
 		if(strpos($table, '.') !== FALSE) {
 			$tablename = substr($table, strpos($table, '.') + 1);
 			$create[1] = str_replace("CREATE TABLE $tablename", 'CREATE TABLE '.$table, $create[1]);

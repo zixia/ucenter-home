@@ -31,7 +31,7 @@ class db {
 	var $tablepre;
 	var $time;
 
-	var $goneaway = 5;//note ×î¶àÖØÊÔ¼¸´Î
+	var $goneaway = 5;//note æœ€å¤šé‡è¯•å‡ æ¬¡
 
 	function connect($dbhost, $dbuser, $dbpw, $dbname = '', $dbcharset = '', $pconnect = 0, $tablepre='', $time = 0) {
 		$this->dbhost = $dbhost;

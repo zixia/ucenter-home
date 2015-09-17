@@ -23,7 +23,7 @@ if(empty($refer)) {
 	$refer = 'space.php?do=home';
 }
 
-//ºÃÓÑÑûÇë
+//å¥½å‹é‚€è¯·
 $uid = empty($_GET['uid'])?0:intval($_GET['uid']);
 $code = empty($_GET['code'])?'':$_GET['code'];
 $app = empty($_GET['app'])?'':intval($_GET['app']);
@@ -32,7 +32,7 @@ $invitearr = array();
 $reward = getreward('invitecode', 0);
 if($uid && $code && !$reward['credit']) {
 	$m_space = getspace($uid);
-	if($code == space_key($m_space, $app)) {//ÑéÖ¤Í¨¹ı
+	if($code == space_key($m_space, $app)) {//éªŒè¯é€šè¿‡
 		$invitearr['uid'] = $uid;
 		$invitearr['username'] = $m_space['username'];
 	}
@@ -43,7 +43,7 @@ if($uid && $code && !$reward['credit']) {
 	$url_plus = "uid=$uid&invite=$invite";
 }
 
-//Ã»ÓĞµÇÂ¼±íµ¥
+//æ²¡æœ‰ç™»å½•è¡¨å•
 $_SGLOBAL['nologinform'] = 1;
 
 if(submitcheck('loginsubmit')) {
@@ -68,7 +68,7 @@ if(submitcheck('loginsubmit')) {
 		}
 	}
 
-	//Í¬²½»ñÈ¡ÓÃ»§Ô´
+	//åŒæ­¥è·å–ç”¨æˆ·æº
 	if(!$passport = getpassport($username, $password)) {
 		showmessage('login_failure_please_re_login', 'do.php?ac='.$_SCONFIG['login_action']);
 	}
@@ -76,11 +76,11 @@ if(submitcheck('loginsubmit')) {
 	$setarr = array(
 		'uid' => $passport['uid'],
 		'username' => addslashes($passport['username']),
-		'password' => md5("$passport[uid]|$_SGLOBAL[timestamp]")//±¾µØÃÜÂëËæ»úÉú³É
+		'password' => md5("$passport[uid]|$_SGLOBAL[timestamp]")//æœ¬åœ°å¯†ç éšæœºç”Ÿæˆ
 	);
 	
 	include_once(S_ROOT.'./source/function_space.php');
-	//¿ªÍ¨¿Õ¼ä
+	//å¼€é€šç©ºé—´
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE uid='$setarr[uid]'");
 	if(!$space = $_SGLOBAL['db']->fetch_array($query)) {
 		$space = space_open($setarr['uid'], $setarr['username'], 0, $passport['email']);
@@ -88,27 +88,27 @@ if(submitcheck('loginsubmit')) {
 	
 	$_SGLOBAL['member'] = $space;
 	
-	//ÊµÃû
+	//å®å
 	realname_set($space['uid'], $space['username'], $space['name'], $space['namestatus']);
 	
-	//¼ìË÷µ±Ç°ÓÃ»§
+	//æ£€ç´¢å½“å‰ç”¨æˆ·
 	$query = $_SGLOBAL['db']->query("SELECT password FROM ".tname('member')." WHERE uid='$setarr[uid]'");
 	if($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$setarr['password'] = addslashes($value['password']);
 	} else {
-		//¸üĞÂ±¾µØÓÃ»§¿â
+		//æ›´æ–°æœ¬åœ°ç”¨æˆ·åº“
 		inserttable('member', $setarr, 0, true);
 	}
 
-	//ÇåÀíÔÚÏßsession
+	//æ¸…ç†åœ¨çº¿session
 	insertsession($setarr);
 	
-	//ÉèÖÃcookie
+	//è®¾ç½®cookie
 	ssetcookie('auth', authcode("$setarr[password]\t$setarr[uid]", 'ENCODE'), $cookietime);
 	ssetcookie('loginuser', $passport['username'], 31536000);
 	ssetcookie('_refer', '');
 	
-	//Í¬²½µÇÂ¼
+	//åŒæ­¥ç™»å½•
 	if($_SCONFIG['uc_status']) {
 		include_once S_ROOT.'./uc_client/client.php';
 		$ucsynlogin = uc_user_synlogin($setarr['uid']);
@@ -116,19 +116,19 @@ if(submitcheck('loginsubmit')) {
 		$ucsynlogin = '';
 	}
 	
-	//ºÃÓÑÑûÇë
+	//å¥½å‹é‚€è¯·
 	if($invitearr) {
-		//³ÉÎªºÃÓÑ
+		//æˆä¸ºå¥½å‹
 		invite_update($invitearr['id'], $setarr['uid'], $setarr['username'], $invitearr['uid'], $invitearr['username'], $app);
 	}
 	$_SGLOBAL['supe_uid'] = $space['uid'];
-	//ÅĞ¶ÏÓÃ»§ÊÇ·ñÉèÖÃÁËÍ·Ïñ
+	//åˆ¤æ–­ç”¨æˆ·æ˜¯å¦è®¾ç½®äº†å¤´åƒ
 	$reward = $setarr = array();
 	$experience = $credit = 0;
 	$avatar_exists = ckavatar($space['uid']);
 	if($avatar_exists) {
 		if(!$space['avatar']) {
-			//½±Àø»ı·Ö
+			//å¥–åŠ±ç§¯åˆ†
 			$reward = getreward('setavatar', 0);
 			$credit = $reward['credit'];
 			$experience = $reward['experience'];

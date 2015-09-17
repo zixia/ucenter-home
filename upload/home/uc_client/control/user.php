@@ -26,12 +26,12 @@ class usercontrol extends base {
 	function usercontrol() {
 		parent::__construct();
 		$this->load('user');
-		//note client ½öÔÚĞèÒªÊ±³õÊ¼»¯ $this->app
+		//note client ä»…åœ¨éœ€è¦æ—¶åˆå§‹åŒ– $this->app
 		$this->app = $this->cache['apps'][UC_APPID];
 	}
 
-	//note public Íâ²¿½Ó¿Ú
-	// -1 Î´¿ªÆô
+	//note public å¤–éƒ¨æ¥å£
+	// -1 æœªå¼€å¯
 	function onsynlogin() {
 		$this->init_input();
 		$uid = $this->input('uid');
@@ -49,7 +49,7 @@ class usercontrol extends base {
 		return '';
 	}
 
-	//note public Íâ²¿½Ó¿Ú
+	//note public å¤–éƒ¨æ¥å£
 	function onsynlogout() {
 		$this->init_input();
 		if($this->app['synlogin']) {
@@ -64,7 +64,7 @@ class usercontrol extends base {
 		return '';
 	}
 
-	//note public Íâ²¿½Ó¿Ú ×¢²áĞ£Ñé½Ó¿Ú
+	//note public å¤–éƒ¨æ¥å£ æ³¨å†Œæ ¡éªŒæ¥å£
 	function onregister() {
 		$this->init_input();
 		$username = $this->input('username');
@@ -83,7 +83,7 @@ class usercontrol extends base {
 		return $uid;
 	}
 
-	//note public Íâ²¿½Ó¿Ú ±à¼­ÕÊ»§ĞÅÏ¢
+	//note public å¤–éƒ¨æ¥å£ ç¼–è¾‘å¸æˆ·ä¿¡æ¯
 	function onedit() {
 		$this->init_input();
 		$username = $this->input('username');
@@ -107,7 +107,7 @@ class usercontrol extends base {
 		return $status;
 	}
 
-	//note public Íâ²¿½Ó¿Ú µÇÂ½½Ó¿Ú
+	//note public å¤–éƒ¨æ¥å£ ç™»é™†æ¥å£
 	function onlogin() {
 		$this->init_input();
 		$isuid = $this->input('isuid');
@@ -123,7 +123,7 @@ class usercontrol extends base {
 		}
 
 		$passwordmd5 = preg_match('/^\w{32}$/', $password) ? $password : md5($password);
-		//note ÓÃ»§Ãû²»´æÔÚ
+		//note ç”¨æˆ·åä¸å­˜åœ¨
 		if(empty($user)) {
 			$status = -1;
 		} elseif($user['password'] != md5($passwordmd5.$user['salt'])) {
@@ -137,14 +137,14 @@ class usercontrol extends base {
 		return array($status, $user['username'], $password, $user['email'], $merge);
 	}
 
-	//note public Íâ²¿½Ó¿Ú ajax Ğ£Ñé EMAIL
+	//note public å¤–éƒ¨æ¥å£ ajax æ ¡éªŒ EMAIL
 	function oncheck_email() {
 		$this->init_input();
 		$email = $this->input('email');
 		return $this->_check_email($email);
 	}
 
-	//note public Íâ²¿½Ó¿Ú ajax Ğ£ÑéÓÃ»§Ãû
+	//note public å¤–éƒ¨æ¥å£ ajax æ ¡éªŒç”¨æˆ·å
 	function oncheck_username() {
 		$this->init_input();
 		$username = $this->input('username');
@@ -155,7 +155,7 @@ class usercontrol extends base {
 		}
 	}
 
-	//note public Íâ²¿½Ó¿Ú
+	//note public å¤–éƒ¨æ¥å£
 	function onget_user() {
 		$this->init_input();
 		$username = $this->input('username');
@@ -172,13 +172,13 @@ class usercontrol extends base {
 	}
 
 
-	//note public µÃµ½±£»¤µÄÓÃ»§ÁĞ±í
+	//note public å¾—åˆ°ä¿æŠ¤çš„ç”¨æˆ·åˆ—è¡¨
 	function ongetprotected() {
 		$protectedmembers = $this->db->fetch_all("SELECT uid,username FROM ".UC_DBTABLEPRE."protectedmembers GROUP BY username");
 		return $protectedmembers;
 	}
 
-	//note ÓÃ»§ÖĞĞÄ, ·ÇÍâ²¿½Ó¿Ú.
+	//note ç”¨æˆ·ä¸­å¿ƒ, éå¤–éƒ¨æ¥å£.
 	function ondelete() {
 		$this->init_input();
 		$uid = $this->input('uid');
@@ -233,7 +233,7 @@ class usercontrol extends base {
 		return NULL;
 	}
 
-	//note private Ğ£ÑéÓÃ»§Ãû
+	//note private æ ¡éªŒç”¨æˆ·å
 	function _check_username($username) {
 		$username = addslashes(trim(stripslashes($username)));
 		if(!$_ENV['user']->check_username($username)) {
@@ -246,7 +246,7 @@ class usercontrol extends base {
 		return 1;
 	}
 
-	//note private Ğ£Ñéemail
+	//note private æ ¡éªŒemail
 	function _check_email($email, $username = '') {
 		if(empty($this->settings)) {
 			$this->settings = $this->cache('settings');
@@ -263,15 +263,15 @@ class usercontrol extends base {
 	}
 
 	/**
-	 * -1 Éí·İ²»ºÏ·¨
-	 * -2 ÉÏ´«µÄÊı¾İÁ÷²»ºÏ·¨
-	 * -3 Ã»ÓĞÉÏ´«Í·Ïó
+	 * -1 èº«ä»½ä¸åˆæ³•
+	 * -2 ä¸Šä¼ çš„æ•°æ®æµä¸åˆæ³•
+	 * -3 æ²¡æœ‰ä¸Šä¼ å¤´è±¡
 	 */
-	//note public Íâ²¿½Ó¿Ú flash ÉÏ´«Í·Ïñ
+	//note public å¤–éƒ¨æ¥å£ flash ä¸Šä¼ å¤´åƒ
 	function onuploadavatar() {
 	}
 
-	//note public Íâ²¿½Ó¿Ú flash ·½Ê½²Ã¼ôÍ·Ïñ COOKIE ÅĞ¶ÏÉí·İ
+	//note public å¤–éƒ¨æ¥å£ flash æ–¹å¼è£å‰ªå¤´åƒ COOKIE åˆ¤æ–­èº«ä»½
 	function onrectavatar() {
 	}
 	function flashdata_decode($s) {

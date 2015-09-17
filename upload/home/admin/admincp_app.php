@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//权限
+//鏉冮檺
 if(!checkperm('manageapp')) {
 	cpmessage('no_authority_management_operation');
 }
@@ -18,7 +18,7 @@ if(submitcheck('appsubmit')) {
 
 	data_set('relatedtag', $_POST['relatedtag']);
 	tagtpl_cache();
-	app_cache();//应用列表缓存
+	app_cache();//搴旂敤鍒楄〃缂撳瓨
 	cpmessage('do_success', 'admincp.php?ac=app');
 }
 
@@ -30,7 +30,7 @@ if(empty($_GET['op'])) {
 	if(empty($relatedtag)) $relatedtag = array();
 }
 
-//更新tag模板文件
+//鏇存柊tag妯℃澘鏂囦欢
 function tagtpl_cache() {
 	$relatedtag = unserialize(data_get('relatedtag'));
 	if(empty($relatedtag)) $relatedtag = array();

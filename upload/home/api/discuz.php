@@ -37,7 +37,7 @@ function getdotstring ($string, $vartype, $allownull=false, $varscope=array(), $
 		if(substr($string, 0, 1) == '$') {
 			return $string;
 		}
-		$string = str_replace('£¬', ',', $string);
+		$string = str_replace('ï¼Œ', ',', $string);
 		$string = str_replace(' ', ',', $string);
 		$stringarr = explode(',', $string);
 	}
@@ -74,7 +74,7 @@ function getdotstring ($string, $vartype, $allownull=false, $varscope=array(), $
 	return $string;
 }
 
-//½«Êı×éÖĞÏàÍ¬µÄÖµÈ¥µô,Í¬Ê±½«ºóÃæµÄ¼üÃûÒ²ºöÂÔµô
+//å°†æ•°ç»„ä¸­ç›¸åŒçš„å€¼å»æ‰,åŒæ—¶å°†åé¢çš„é”®åä¹Ÿå¿½ç•¥æ‰
 function sarray_unique($array) {
 	$newarray = array();
 	if(!empty($array) && is_array($array)) {

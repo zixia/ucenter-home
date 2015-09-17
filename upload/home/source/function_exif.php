@@ -41,13 +41,13 @@ function getexif($img) {
 	} else {
 		@$exif = exif_read_data($img, 0, true);
 		$new_img_info	=	array (
-			//"文件信息"		=>	'',
+			//"鏂囦欢淇℃伅"		=>	'',
 			exif_lang('FileName')			=>	$exif[FILE][FileName],
 			exif_lang('FileType')		=>	$imgtype[$exif[FILE][FileType]],
 			exif_lang('MimeType')		=>	$exif[FILE][MimeType],
 			exif_lang('FileSize')		=>	$exif[FILE][FileSize],
 			exif_lang('FileDateTime')			=>	date("Y-m-d H:i:s",$exif[FILE][FileDateTime]),
-			//"图像信息"		=>	'',
+			//"鍥惧儚淇℃伅"		=>	'',
 			exif_lang('ImageDescription')		=>	$exif[IFD0][ImageDescription],
 			exif_lang('Make')			=>	$exif[IFD0][Make],
 			exif_lang('Model')			=>	$exif[IFD0][Model],
@@ -61,7 +61,7 @@ function getexif($img) {
 			exif_lang('Copyright')			=>	$exif[IFD0][Copyright],
 			exif_lang('Photographer')		=>	$exif[COMPUTED][Copyright.Photographer],
 			exif_lang('Editor')		=>	$exif[COMPUTED][Copyright.Editor],
-			//"拍摄信息"		=>	'',
+			//"鎷嶆憚淇℃伅"		=>	'',
 			exif_lang('ExifVersion')		=>	$exif[EXIF][ExifVersion],
 			exif_lang('FlashPixVersion')	=>	"Ver. ".number_format($exif[EXIF][FlashPixVersion]/100,2),
 			exif_lang('DateTimeOriginal')		=>	$exif[EXIF][DateTimeOriginal],

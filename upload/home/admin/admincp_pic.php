@@ -8,9 +8,9 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//È¨ÏŞ
+//æƒé™
 if(!$allowmanage = checkperm('managealbum')) {
-	$_GET['uid'] = $_SGLOBAL['supe_uid'];//Ö»ÄÜ²Ù×÷±¾ÈËµÄ
+	$_GET['uid'] = $_SGLOBAL['supe_uid'];//åªèƒ½æ“ä½œæœ¬äººçš„
 }
 
 if(submitcheck('batchsubmit')) {
@@ -24,14 +24,14 @@ if(submitcheck('batchsubmit')) {
 
 
 $mpurl = 'admincp.php?ac=pic';
-//´¦ÀíÓÃ»§Ãû
+//å¤„ç†ç”¨æˆ·å
 if($_GET['username']) {
 	$query = $_SGLOBAL['db']->query("SELECT uid FROM ".tname('space')." WHERE username='$_GET[username]'");
 	if($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$_GET['uid'] = $value['uid'];
 	}
 }
-//´¦ÀíËÑË÷
+//å¤„ç†æœç´¢
 $intkeys = array('albumid', 'uid', 'picid');
 $strkeys = array('postip');
 $randkeys = array(array('sstrtotime','dateline'), array('intval','hot'));
@@ -42,24 +42,24 @@ $wherearr = $results['wherearr'];
 $wheresql = empty($wherearr)?'1':implode(' AND ', $wherearr);
 $mpurl .= '&'.implode('&', $results['urls']);
 
-//ÅÅĞò
+//æ’åº
 $orders = getorders(array('dateline', 'size', 'hot'), 'picid');
 $ordersql = $orders['sql'];
 if($orders['urls']) $mpurl .= '&'.implode('&', $orders['urls']);
 $orderby = array($_GET['orderby']=>' selected');
 $ordersc = array($_GET['ordersc']=>' selected');
 
-//ÏÔÊ¾·ÖÒ³
+//æ˜¾ç¤ºåˆ†é¡µ
 $perpage = empty($_GET['perpage'])?0:intval($_GET['perpage']);
 if(!in_array($perpage, array(20,50,100,1000))) $perpage = 20;
 
 $page = empty($_GET['page'])?1:intval($_GET['page']);
 if($page<1) $page = 1;
 $start = ($page-1)*$perpage;
-//¼ì²é¿ªÊ¼Êı
+//æ£€æŸ¥å¼€å§‹æ•°
 ckstart($start, $perpage);
 
-//ÏÔÊ¾·ÖÒ³
+//æ˜¾ç¤ºåˆ†é¡µ
 if($perpage > 100) {
 	$count = 1;
 	$selectsql = 'picid';
@@ -93,14 +93,14 @@ if($count) {
 		$value['size'] = formatsize($value['size']);
 		$list[] = $value;
 	}
-	//Ïà²á
+	//ç›¸å†Œ
 	if($albumids) {
 		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('album')." WHERE albumid IN (".simplode($albumids).")");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 			$albums[$value['albumid']] = $value;
 		}
 	}
-	//ÓÃ»§
+	//ç”¨æˆ·
 	if($uids) {
 		$uidstr = simplode($uids);
 		if($uidstr == "'$_SGLOBAL[supe_uid]'") {
@@ -115,7 +115,7 @@ if($count) {
 	$multi = multi($count, $perpage, $page, $mpurl);
 }
 
-//ÏÔÊ¾·ÖÒ³
+//æ˜¾ç¤ºåˆ†é¡µ
 if($perpage > 100) {
 	$count = count($list);
 }

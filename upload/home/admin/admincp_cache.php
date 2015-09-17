@@ -8,19 +8,19 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//权限
+//鏉冮檺
 if(!checkperm('managecache')) {
 	cpmessage('no_authority_management_operation');
 }
 
 $turl = 'admincp.php?ac=cache';
 
-//更新缓存
+//鏇存柊缂撳瓨
 if(submitcheck('cachesubmit')) {
 	include_once(S_ROOT.'./source/function_cp.php');
 	include_once(S_ROOT.'./source/function_cache.php');
 	
-	//系统缓存
+	//绯荤粺缂撳瓨
 	if(empty($_POST['cachetype']) || in_array('database', $_POST['cachetype'])) {
 		config_cache();
 		usergroup_cache();
@@ -39,17 +39,17 @@ if(submitcheck('cachesubmit')) {
 		network_cache();
 	}
 	
-	//模板编译缓存
+	//妯℃澘缂栬瘧缂撳瓨
 	if(empty($_POST['cachetype']) || in_array('tpl', $_POST['cachetype'])) {
 		tpl_cache();
 	}
 	
-	//模块缓存
+	//妯″潡缂撳瓨
 	if(empty($_POST['cachetype']) || in_array('block', $_POST['cachetype'])) {
 		block_data_cache();
 	}
 	
-	//随便看看缓存
+	//闅忎究鐪嬬湅缂撳瓨
 	if(empty($_POST['cachetype']) || in_array('network', $_POST['cachetype'])) {
 		
 		$fiels = sreaddir(S_ROOT.'./data', array('txt'));

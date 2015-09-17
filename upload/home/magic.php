@@ -4,7 +4,7 @@
 	$Id: cp.php 12352 2009-06-11 06:59:06Z liguode $
 */
 
-//Í¨ÓÃÎÄ¼þ
+//é€šç”¨æ–‡ä»¶
 include_once('./common.php');
 include_once(S_ROOT.'./source/function_cp.php');
 include_once(S_ROOT.'./source/function_magic.php');
@@ -14,58 +14,58 @@ $op = empty($_GET['op'])?'use':$_GET['op'];
 $id = empty($_GET['id'])?0:intval($_GET['id']);
 $idtype = empty($_GET['idtype'])?'':trim($_GET['idtype']);
 
-//È¨ÏÞÅÐ¶Ï
+//æƒé™åˆ¤æ–­
 if(empty($_SGLOBAL['supe_uid'])) {
 	showmessage('to_login', 'do.php?ac='.$_SCONFIG['login_action']);
 }
 
-//Õ¾µã¹Ø±Õ
+//ç«™ç‚¹å…³é—­
 checkclose();
 
-//MID¼ì²é
+//MIDæ£€æŸ¥
 if(empty($mid)) {
 	showmessage('unknown_magic');
 }
 
-//»ñÈ¡¿Õ¼äÐÅÏ¢
+//èŽ·å–ç©ºé—´ä¿¡æ¯
 $space = getspace($_SGLOBAL['supe_uid']);
 if(empty($space)) {
 	showmessage('space_does_not_exist');
 }
 
-//»ñµÃµÀ¾ß
+//èŽ·å¾—é“å…·
 $magic = magic_get($mid);
 
-//ÊÇ·ñÓµÓÐ¸ÃµÀ¾ß
+//æ˜¯å¦æ‹¥æœ‰è¯¥é“å…·
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("usermagic")." WHERE uid='$_SGLOBAL[supe_uid]' AND mid='$mid'");
 $usermagic = $_SGLOBAL['db']->fetch_array($query);
 if(empty($usermagic['count'])) {
 	$op = 'buy';
 }
 
-//Ìá½»¹ºÂò
+//æäº¤è´­ä¹°
 $frombuy = false;
 if(submitcheck('buysubmit')) {
-	//»ñµÃµÀ¾ßÐÅÏ¢
+	//èŽ·å¾—é“å…·ä¿¡æ¯
 	$results = magic_buy_get($magic);
 	extract($results);
 
-	//¹ºÂòµÀ¾ß
+	//è´­ä¹°é“å…·
 	magic_buy_post($magic, $magicstore, $coupon);
 
 	$op = 'use';
-	$frombuy = true;//±ê¼ÇÊÇ¹ºÂòºóÁ¢¼´Ê¹ÓÃ
+	$frombuy = true;//æ ‡è®°æ˜¯è´­ä¹°åŽç«‹å³ä½¿ç”¨
 	$usermagic['count'] += $_POST['buynum'];
 }
 
-//¹ºÂòµÀ¾ß
+//è´­ä¹°é“å…·
 if($op == 'buy') {
 
-	//»ñµÃµÀ¾ßÐÅÏ¢
+	//èŽ·å¾—é“å…·ä¿¡æ¯
 	$results = magic_buy_get($magic);
 	extract($results);
 
-	//Ä³Ð©µÀ¾ßÐèÒª´«µÝµÄ¸½¼ÓÐÅÏ¢
+	//æŸäº›é“å…·éœ€è¦ä¼ é€’çš„é™„åŠ ä¿¡æ¯
 	$extra = '';
 	if($mid == 'doodle') {
 		$extra = "&showid=$_GET[showid]&target=$_GET[target]&from=$_GET[from]";
@@ -76,12 +76,12 @@ if($op == 'buy') {
 
 }
 
-//¼ì²éÔÚÊ¹ÓÃÖÜÆÚÄÚµÄÊ¹ÓÃ´ÎÊý
+//æ£€æŸ¥åœ¨ä½¿ç”¨å‘¨æœŸå†…çš„ä½¿ç”¨æ¬¡æ•°
 if($magic['useperoid'] > 0) {
 	$time = $_SGLOBAL['timestamp'] - $magic['useperoid'];
 	$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('magicuselog')." WHERE uid='$_SGLOBAL[supe_uid]' AND mid='$mid' AND dateline > '$time'"), 0);
 	if($count >= $magic['usecount']) {
-		//È¡ÖÜÆÚÄÚ×îÔçÊ¹ÓÃµÄÒ»Ìõ¼ÇÂ¼£¬¼ÆËãÏÂ´ÎÊ¹ÓÃÊ±¼ä
+		//å–å‘¨æœŸå†…æœ€æ—©ä½¿ç”¨çš„ä¸€æ¡è®°å½•ï¼Œè®¡ç®—ä¸‹æ¬¡ä½¿ç”¨æ—¶é—´
 		$query = $_SGLOBAL['db']->query('SELECT * FROM '.tname('magicuselog')." WHERE uid='$_SGLOBAL[supe_uid]' AND mid='$mid' AND dateline > '$time' ORDER BY dateline LIMIT 1");
 		$value = $_SGLOBAL['db']->fetch_array($query);
 		$nexttime = sgmdate('m-d H:i:s', $value['dateline'] + $magic['useperoid']);

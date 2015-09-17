@@ -13,7 +13,7 @@ if(empty($_SCONFIG['updatestat'])) {
 }
 
 if($_GET['hash']) {
-	//ÉèÖÃhash
+	//è®¾ç½®hash
 	ssetcookie('stat_hash', $_GET['hash']);
 	showmessage('do_success', 'do.php?ac=stat', 0);
 }

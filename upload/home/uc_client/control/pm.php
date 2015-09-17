@@ -9,10 +9,10 @@
 
 !defined('IN_UC') && exit('Access Denied');
 
-define('PMLIMIT1DAY_ERROR', -1);//note ³¬³öÁË24Ğ¡Ê±×î´óÔÊĞí·¢ËÍ¶ÌÏûÏ¢ÊıÄ¿
-define('PMFLOODCTRL_ERROR', -2);//note ²»Âú×ãÁ½´Î·¢ËÍ¶ÌÏûÏ¢×î¶Ì¼ä¸ô
-define('PMMSGTONOTFRIEND', -3);//note Èº·¢¶ÌÏûÏ¢£¬µ«ÊÇÄ¿±ê²¢·Ç·¢ĞÅÕßºÃÓÑ
-define('PMSENDREGDAYS', -4);//note ·¢¶ÌÏûÏ¢×îÉÙ×¢²áÌìÊı
+define('PMLIMIT1DAY_ERROR', -1);//note è¶…å‡ºäº†24å°æ—¶æœ€å¤§å…è®¸å‘é€çŸ­æ¶ˆæ¯æ•°ç›®
+define('PMFLOODCTRL_ERROR', -2);//note ä¸æ»¡è¶³ä¸¤æ¬¡å‘é€çŸ­æ¶ˆæ¯æœ€çŸ­é—´éš”
+define('PMMSGTONOTFRIEND', -3);//note ç¾¤å‘çŸ­æ¶ˆæ¯ï¼Œä½†æ˜¯ç›®æ ‡å¹¶éå‘ä¿¡è€…å¥½å‹
+define('PMSENDREGDAYS', -4);//note å‘çŸ­æ¶ˆæ¯æœ€å°‘æ³¨å†Œå¤©æ•°
 
 class pmcontrol extends base {
 
@@ -81,7 +81,7 @@ class pmcontrol extends base {
 				}
 			}
 			$this->load('friend');
-			if(count($msgto) > 1 && !($is_friend = $_ENV['friend']->is_friend($fromuid, $msgto, 3))) {//note Èç¹ûÓĞÈº·¢µ«ÊÇÄ¿±ê²¢·Ç·¢ĞÅÈËµÄºÃÓÑÔò²»ÔÊĞí·¢ËÍ
+			if(count($msgto) > 1 && !($is_friend = $_ENV['friend']->is_friend($fromuid, $msgto, 3))) {//note å¦‚æœæœ‰ç¾¤å‘ä½†æ˜¯ç›®æ ‡å¹¶éå‘ä¿¡äººçš„å¥½å‹åˆ™ä¸å…è®¸å‘é€
 				return PMMSGTONOTFRIEND;
 			}
 			$pmlimit1day = $this->settings['pmlimit1day'] && $_ENV['pm']->count_pm_by_fromuid($this->user['uid'], 86400) > $this->settings['pmlimit1day'];

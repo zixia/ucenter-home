@@ -8,9 +8,9 @@ if(!defined('IN_UCHOME') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//È¨ÏŞ
+//æƒé™
 if(!$allowmanage = checkperm('managealbum')) {
-	$_GET['uid'] = $_SGLOBAL['supe_uid'];//Ö»ÄÜ²Ù×÷±¾ÈËµÄ
+	$_GET['uid'] = $_SGLOBAL['supe_uid'];//åªèƒ½æ“ä½œæœ¬äººçš„
 	$_GET['username'] = '';
 }
 
@@ -25,7 +25,7 @@ if(submitcheck('deletesubmit')) {
 
 $mpurl = 'admincp.php?ac=album';
 
-//´¦ÀíËÑË÷
+//å¤„ç†æœç´¢
 $intkeys = array('uid', 'friend', 'albumid');
 $strkeys = array('username');
 $randkeys = array(array('sstrtotime','dateline'));
@@ -36,24 +36,24 @@ $wherearr = $results['wherearr'];
 $wheresql = empty($wherearr)?'1':implode(' AND ', $wherearr);
 $mpurl .= '&'.implode('&', $results['urls']);
 
-//ÅÅĞò
+//æ’åº
 $orders = getorders(array('dateline', 'updatetime', 'picnum'), 'albumid');
 $ordersql = $orders['sql'];
 if($orders['urls']) $mpurl .= '&'.implode('&', $orders['urls']);
 $orderby = array($_GET['orderby']=>' selected');
 $ordersc = array($_GET['ordersc']=>' selected');
 
-//ÏÔÊ¾·ÖÒ³
+//æ˜¾ç¤ºåˆ†é¡µ
 $perpage = empty($_GET['perpage'])?0:intval($_GET['perpage']);
 if(!in_array($perpage, array(20,50,100,1000))) $perpage = 20;
 
 $page = empty($_GET['page'])?1:intval($_GET['page']);
 if($page<1) $page = 1;
 $start = ($page-1)*$perpage;
-//¼ì²é¿ªÊ¼Êı
+//æ£€æŸ¥å¼€å§‹æ•°
 ckstart($start, $perpage);
 
-//ÏÔÊ¾·ÖÒ³
+//æ˜¾ç¤ºåˆ†é¡µ
 if($perpage > 100) {
 	$count = 1;
 	$selectsql = 'albumid';
@@ -80,7 +80,7 @@ if($count) {
 	$multi = multi($count, $perpage, $page, $mpurl);
 }
 
-//ÏÔÊ¾·ÖÒ³
+//æ˜¾ç¤ºåˆ†é¡µ
 if($perpage > 100) {
 	$count = count($list);
 }

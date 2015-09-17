@@ -65,7 +65,7 @@ $day3 = gmdate($dateformat, $now - 172800);
 $feeds = get_feed($conf);
 $feeddate = '';$bi = 1;
 foreach($feeds['data'] as $k => $feed) {
-	$trans['{addbuddy}'] = $view == 'all' && $feed['uid'] != $discuz_uid ? '<a href="my.php?item=buddylist&newbuddyid='.$feed['uid'].'&buddysubmit=yes" id="ajax_buddy_'.($bi++).'" title="Ìí¼ÓÎªºÃÓÑ" onclick="ajaxmenu(this, 3000);doane(event);"><img style="vertical-align:middle" src="manyou/images/myadd.gif" /></a>' : '';
+	$trans['{addbuddy}'] = $view == 'all' && $feed['uid'] != $discuz_uid ? '<a href="my.php?item=buddylist&newbuddyid='.$feed['uid'].'&buddysubmit=yes" id="ajax_buddy_'.($bi++).'" title="æ·»åŠ ä¸ºå¥½å‹" onclick="ajaxmenu(this, 3000);doane(event);"><img style="vertical-align:middle" src="manyou/images/myadd.gif" /></a>' : '';
 	$feeds['data'][$k]['title'] = strtr($feed['title'], $trans);
 	$feeds['data'][$k]['body'] = strtr($feed['body'], $trans);
 	if($discuz_uid) {

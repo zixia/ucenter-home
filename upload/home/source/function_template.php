@@ -14,7 +14,7 @@ $_SGLOBAL['block_search'] = $_SGLOBAL['block_replace'] = array();
 function parse_template($tpl) {
 	global $_SGLOBAL, $_SC, $_SCONFIG;
 
-	//°üº¬Ä£°å
+	//åŒ…å«æ¨¡æ¿
 	$_SGLOBAL['sub_tpls'] = array($tpl);
 
 	$tplfile = S_ROOT.'./'.$tpl.'.htm';
@@ -29,23 +29,23 @@ function parse_template($tpl) {
 		exit("Template file : $tplfile Not found or have no access!");
 	}
 
-	//Ä£°å
+	//æ¨¡æ¿
 	$template = preg_replace("/\<\!\-\-\{template\s+([a-z0-9_\/]+)\}\-\-\>/ie", "readtemplate('\\1')", $template);
-	//´¦Àí×ÓÒ³ÃæÖĞµÄ´úÂë
+	//å¤„ç†å­é¡µé¢ä¸­çš„ä»£ç 
 	$template = preg_replace("/\<\!\-\-\{template\s+([a-z0-9_\/]+)\}\-\-\>/ie", "readtemplate('\\1')", $template);
-	//½âÎöÄ£¿éµ÷ÓÃ
+	//è§£ææ¨¡å—è°ƒç”¨
 	$template = preg_replace("/\<\!\-\-\{block\/(.+?)\}\-\-\>/ie", "blocktags('\\1')", $template);
-	//½âÎö¹ã¸æ
+	//è§£æå¹¿å‘Š
 	$template = preg_replace("/\<\!\-\-\{ad\/(.+?)\}\-\-\>/ie", "adtags('\\1')", $template);
-	//Ê±¼ä´¦Àí
+	//æ—¶é—´å¤„ç†
 	$template = preg_replace("/\<\!\-\-\{date\((.+?)\)\}\-\-\>/ie", "datetags('\\1')", $template);
-	//Í·Ïñ´¦Àí
+	//å¤´åƒå¤„ç†
 	$template = preg_replace("/\<\!\-\-\{avatar\((.+?)\)\}\-\-\>/ie", "avatartags('\\1')", $template);
-	//PHP´úÂë
+	//PHPä»£ç 
 	$template = preg_replace("/\<\!\-\-\{eval\s+(.+?)\s*\}\-\-\>/ies", "evaltags('\\1')", $template);
 
-	//¿ªÊ¼´¦Àí
-	//±äÁ¿
+	//å¼€å§‹å¤„ç†
+	//å˜é‡
 	$var_regexp = "((\\\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)(\[[a-zA-Z0-9_\-\.\"\'\[\]\$\x7f-\xff]+\])*)";
 	$template = preg_replace("/\<\!\-\-\{(.+?)\}\-\-\>/s", "{\\1}", $template);
 	$template = preg_replace("/([\n\r]+)\t+/s", "\\1", $template);
@@ -53,27 +53,27 @@ function parse_template($tpl) {
 	$template = preg_replace("/\{(\\\$[a-zA-Z0-9_\[\]\'\"\$\.\x7f-\xff]+)\}/s", "<?=\\1?>", $template);
 	$template = preg_replace("/$var_regexp/es", "addquote('<?=\\1?>')", $template);
 	$template = preg_replace("/\<\?\=\<\?\=$var_regexp\?\>\?\>/es", "addquote('<?=\\1?>')", $template);
-	//Âß¼­
+	//é€»è¾‘
 	$template = preg_replace("/\{elseif\s+(.+?)\}/ies", "stripvtags('<?php } elseif(\\1) { ?>','')", $template);
 	$template = preg_replace("/\{else\}/is", "<?php } else { ?>", $template);
-	//Ñ­»·
+	//å¾ªç¯
 	for($i = 0; $i < 6; $i++) {
 		$template = preg_replace("/\{loop\s+(\S+)\s+(\S+)\}(.+?)\{\/loop\}/ies", "stripvtags('<?php if(is_array(\\1)) { foreach(\\1 as \\2) { ?>','\\3<?php } } ?>')", $template);
 		$template = preg_replace("/\{loop\s+(\S+)\s+(\S+)\s+(\S+)\}(.+?)\{\/loop\}/ies", "stripvtags('<?php if(is_array(\\1)) { foreach(\\1 as \\2 => \\3) { ?>','\\4<?php } } ?>')", $template);
 		$template = preg_replace("/\{if\s+(.+?)\}(.+?)\{\/if\}/ies", "stripvtags('<?php if(\\1) { ?>','\\2<?php } ?>')", $template);
 	}
-	//³£Á¿
+	//å¸¸é‡
 	$template = preg_replace("/\{([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\}/s", "<?=\\1?>", $template);
 	
-	//Ìæ»»
+	//æ›¿æ¢
 	if(!empty($_SGLOBAL['block_search'])) {
 		$template = str_replace($_SGLOBAL['block_search'], $_SGLOBAL['block_replace'], $template);
 	}
 	
-	//»»ĞĞ
+	//æ¢è¡Œ
 	$template = preg_replace("/ \?\>[\n\r]*\<\? /s", " ", $template);
 	
-	//¸½¼Ó´¦Àí
+	//é™„åŠ å¤„ç†
 	$template = "<?php if(!defined('IN_UCHOME')) exit('Access Denied');?><?php subtplcheck('".implode('|', $_SGLOBAL['sub_tpls'])."', '$_SGLOBAL[timestamp]', '$tpl');?>$template<?php ob_out();?>";
 	
 	//write

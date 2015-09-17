@@ -17,7 +17,7 @@ if($_GET['op'] == 'delete') {
 		showmessage('do_success', $_GET['type']=='view'?'space.php?do=share':$_POST['refer'], 0);
 	}
 } elseif($_GET['op'] == 'edithot') {
-	//È¨ÏŞ
+	//æƒé™
 	if(!checkperm('manageshare')) {
 		showmessage('no_privilege');
 	}
@@ -48,13 +48,13 @@ if($_GET['op'] == 'delete') {
 		ckspacelog();
 		showmessage('no_privilege');
 	}
-	//ÊµÃûÈÏÖ¤
+	//å®åè®¤è¯
 	ckrealname('share');
 	
-	//ÊÓÆµÈÏÖ¤
+	//è§†é¢‘è®¤è¯
 	ckvideophoto('share');
 
-	//ĞÂÓÃ»§¼ûÏ°
+	//æ–°ç”¨æˆ·è§ä¹ 
 	cknewuser();
 
 	$type = empty($_GET['type'])?'':$_GET['type'];
@@ -77,7 +77,7 @@ if($_GET['op'] == 'delete') {
 			if(empty($tospace)) {
 				showmessage('space_does_not_exist');
 			}
-			//ºÚÃûµ¥
+			//é»‘åå•
 			if(isblacklist($tospace['uid'])) {
 				showmessage('is_blacklist');
 			}
@@ -93,7 +93,7 @@ if($_GET['op'] == 'delete') {
 			$arr['image'] = ckavatar($id)?avatar($id, 'middle', true):UC_API.'/images/noavatar_middle.gif';
 			$arr['image_link'] = "space.php?uid=$id";
 			
-			//Í¨Öª
+			//é€šçŸ¥
 			$note_uid = $id;
 			$note_message = cplang('note_share_space');
 
@@ -111,12 +111,12 @@ if($_GET['op'] == 'delete') {
 			if($blog['friend']) {
 				showmessage('logs_can_not_share');
 			}
-			//ºÚÃûµ¥
+			//é»‘åå•
 			if(isblacklist($blog['uid'])) {
 				showmessage('is_blacklist');
 			}
 
-			//ÊµÃû
+			//å®å
 			realname_set($blog['uid'], $blog['username']);
 			realname_get();
 
@@ -131,7 +131,7 @@ if($_GET['op'] == 'delete') {
 				$arr['image'] = pic_cover_get($blog['pic'], $blog['picflag']);
 				$arr['image_link'] = "space.php?uid=$blog[uid]&do=blog&id=$blog[blogid]";
 			}
-			//Í¨Öª
+			//é€šçŸ¥
 			$note_uid = $blog['uid'];
 			$note_message = cplang('note_share_blog', array("space.php?uid=$blog[uid]&do=blog&id=$blog[blogid]", $blog['subject']));
 			
@@ -149,12 +149,12 @@ if($_GET['op'] == 'delete') {
 			if($album['friend']) {
 				showmessage('album_can_not_share');
 			}
-			//ºÚÃûµ¥
+			//é»‘åå•
 			if(isblacklist($album['uid'])) {
 				showmessage('is_blacklist');
 			}
 
-			//ÊµÃû
+			//å®å
 			realname_set($album['uid'], $album['username']);
 			realname_get();
 
@@ -166,7 +166,7 @@ if($_GET['op'] == 'delete') {
 			);
 			$arr['image'] = pic_cover_get($album['pic'], $album['picflag']);
 			$arr['image_link'] = "space.php?uid=$album[uid]&do=album&id=$album[albumid]";
-			//Í¨Öª
+			//é€šçŸ¥
 			$note_uid = $album['uid'];
 			$note_message = cplang('note_share_album', array("space.php?uid=$album[uid]&do=album&id=$album[albumid]", $album['albumname']));
 			
@@ -186,14 +186,14 @@ if($_GET['op'] == 'delete') {
 			if($pic['friend']) {
 				showmessage('image_can_not_share');
 			}
-			//ºÚÃûµ¥
+			//é»‘åå•
 			if(isblacklist($pic['uid'])) {
 				showmessage('is_blacklist');
 			}
 			if(empty($pic['albumid'])) $pic['albumid'] = 0;
 			if(empty($pic['albumname'])) $pic['albumname'] = cplang('default_albumname');
 
-			//ÊµÃû
+			//å®å
 			realname_set($pic['uid'], $pic['username']);
 			realname_get();
 
@@ -206,7 +206,7 @@ if($_GET['op'] == 'delete') {
 			);
 			$arr['image'] = pic_get($pic['filepath'], $pic['thumb'], $pic['remote']);
 			$arr['image_link'] = "space.php?uid=$pic[uid]&do=album&picid=$pic[picid]";
-			//Í¨Öª
+			//é€šçŸ¥
 			$note_uid = $pic['uid'];
 			$note_message = cplang('note_share_pic', array("space.php?uid=$pic[uid]&do=album&picid=$pic[picid]", $pic['albumname']));
 			
@@ -223,7 +223,7 @@ if($_GET['op'] == 'delete') {
 			if($thread['uid'] == $space['uid']) {
 				showmessage('share_not_self');
 			}
-			//ºÚÃûµ¥
+			//é»‘åå•
 			if(isblacklist($thread['uid'])) {
 				showmessage('is_blacklist');
 			}
@@ -233,7 +233,7 @@ if($_GET['op'] == 'delete') {
 			$mtag = $_SGLOBAL['db']->fetch_array($query);
 			$mtag['title'] = $_SGLOBAL['profield'][$mtag['fieldid']]['title'];
 
-			//ÊµÃû
+			//å®å
 			realname_set($thread['uid'], $thread['username']);
 			realname_get();
 
@@ -248,7 +248,7 @@ if($_GET['op'] == 'delete') {
 			);
 			$arr['image'] = '';
 			$arr['image_link'] = '';
-			//Í¨Öª
+			//é€šçŸ¥
 			$note_uid = $thread['uid'];
 			$note_message = cplang('note_share_thread', array("space.php?uid=$thread[uid]&do=thread&id=$thread[tid]", $thread['subject']));
 			
@@ -302,7 +302,7 @@ if($_GET['op'] == 'delete') {
 			if($event['uid'] == $space['uid']) {
 				showmessage('share_not_self');
 			}
-			//ºÚÃûµ¥
+			//é»‘åå•
 			if(isblacklist($event['uid'])) {
 				showmessage('is_blacklist');
 			}
@@ -335,12 +335,12 @@ if($_GET['op'] == 'delete') {
 			if($poll['uid'] == $space['uid']) {
 				showmessage('share_not_self');
 			}
-			//ºÚÃûµ¥
+			//é»‘åå•
 			if(isblacklist($poll['uid'])) {
 				showmessage('is_blacklist');
 			}
 
-			//ÊµÃû
+			//å®å
 			realname_set($poll['uid'], $poll['username']);
 			realname_get();
 
@@ -357,14 +357,14 @@ if($_GET['op'] == 'delete') {
 				'subject' => "<a href=\"space.php?uid=$poll[uid]&do=poll&pid=$poll[pid]\">$poll[subject]</a>",
 				'option' => $optionstr
 			);
-			//Í¨Öª
+			//é€šçŸ¥
 			$note_uid = $poll['uid'];
 			$note_message = cplang('note_share_poll', array("space.php?uid=$poll[uid]&do=poll&pid=$poll[pid]", $poll['subject']));
 			
 			$hotarr = array('pid', $poll['pid'], $poll['hotuser']);
 			break;
 		default:
-			//»ñµÃfeed
+			//è·å¾—feed
 			$topic = array();
 			$topicid = $_GET['topicid'] = intval($_GET['topicid']);
 			if($topicid) {
@@ -378,12 +378,12 @@ if($_GET['op'] == 'delete') {
 			break;
 	}
 
-	//Ìí¼Ó·ÖÏí
+	//æ·»åŠ åˆ†äº«
 	if(submitcheck('sharesubmit')) {
 
 		$_POST['topicid'] = topic_check($_POST['topicid'], 'share');
 		
-		//ÑéÖ¤Âë
+		//éªŒè¯ç 
 		if($type == 'link' && checkperm('seccode') && !ckseccode($_POST['seccode'])) {
 			showmessage('incorrect_code');
 		}
@@ -414,13 +414,13 @@ if($_GET['op'] == 'delete') {
 					$arr['body_data']['host'] = $hosts[1];
 				}
 			}
-			// ÅĞ¶ÏÊÇ·ñÒôÀÖ mp3¡¢wma
+			// åˆ¤æ–­æ˜¯å¦éŸ³ä¹ mp3ã€wma
 			if(preg_match("/\.(mp3|wma)$/i", $link)) {
 				$arr['title_template'] = cplang('share_music');
 				$arr['body_data']['musicvar'] = $link;
 				$type = 'music';
 			}
-			// ÅĞ¶ÏÊÇ·ñ Flash
+			// åˆ¤æ–­æ˜¯å¦ Flash
 			if(preg_match("/\.swf$/i", $link)) {
 				$arr['title_template'] = cplang('share_flash');
 				$arr['body_data']['flashaddr'] = $link;
@@ -435,21 +435,21 @@ if($_GET['op'] == 'delete') {
 		$arr['username'] = $_SGLOBAL['supe_username'];
 		$arr['dateline'] = $_SGLOBAL['timestamp'];
 		$arr['topicid'] = $_POST['topicid'];
-		$arr['body_data'] = serialize($arr['body_data']);//Êı×é×ª»¯
+		$arr['body_data'] = serialize($arr['body_data']);//æ•°ç»„è½¬åŒ–
 		
-		//Èë¿â
-		$setarr = saddslashes($arr);//Ôö¼Ó×ªÒå
+		//å…¥åº“
+		$setarr = saddslashes($arr);//å¢åŠ è½¬ä¹‰
 		$sid = inserttable('share', $setarr, 1);
 
-		//Í³¼Æ
+		//ç»Ÿè®¡
 		updatestat('share');
 	
-		//±»·ÖÏíÍ¨Öªµ±ÊÂÈË
+		//è¢«åˆ†äº«é€šçŸ¥å½“äº‹äºº
 		if($note_uid && $note_uid != $_SGLOBAL['supe_uid']) {
 			notification_add($note_uid, 'sharenotice', $note_message);
 		}
 	
-		//¸üĞÂÓÃ»§Í³¼Æ
+		//æ›´æ–°ç”¨æˆ·ç»Ÿè®¡
 		if(empty($space['sharenum'])) {
 			$space['sharenum'] = getcount('share', array('uid'=>$space['uid']));
 			$sharenumsql = "sharenum=".$space['sharenum'];
@@ -457,12 +457,12 @@ if($_GET['op'] == 'delete') {
 			$sharenumsql = 'sharenum=sharenum+1';
 		}
 		
-		//»ı·Ö
+		//ç§¯åˆ†
 		$needle = $id ? $type.$id : '';
 		$reward = getreward('createshare', 0, 0, $needle);
 		$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET {$sharenumsql}, lastpost='$_SGLOBAL[timestamp]', updatetime='$_SGLOBAL[timestamp]', credit=credit+$reward[credit], experience=experience+$reward[experience] WHERE uid='$_SGLOBAL[supe_uid]'");
 
-		//¶¯Ì¬
+		//åŠ¨æ€
 		if(ckprivacy('share', 1)) {
 			include_once(S_ROOT.'./source/function_feed.php');
 			feed_publish($sid, 'sid', 1);
@@ -478,8 +478,8 @@ if($_GET['op'] == 'delete') {
 		showmessage('do_success', $url, 0);
 	}
 
-	//ÏÔÊ¾
-	$arr['body_data'] = serialize($arr['body_data']);//Êı×é×ª»¯
+	//æ˜¾ç¤º
+	$arr['body_data'] = serialize($arr['body_data']);//æ•°ç»„è½¬åŒ–
 	$arr = mkshare($arr);
 
 	realname_get();

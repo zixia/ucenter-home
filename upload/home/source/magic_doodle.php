@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//Ϳѻ��
+//涂鸦板
 if(submitcheck("usesubmit")) {
 
 	//magic_use($mid, array(), true);

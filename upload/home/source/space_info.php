@@ -8,14 +8,14 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//ÊµÃûÈÏÖ¤
+//å®åè®¤è¯
 if($space['namestatus']) {
 	include_once(S_ROOT.'./source/function_cp.php');
 	ckrealname('viewspace');
 }
 
-//¸öÈË×ÊÁÏ
-//ĞÔ±ğ
+//ä¸ªäººèµ„æ–™
+//æ€§åˆ«
 $space['sex_org'] = $space['sex'];
 $space['sex'] = $space['sex']=='1'?'<a href="cp.php?ac=friend&op=search&sex=1&searchmode=1">'.lang('man').'</a>':($space['sex']=='2'?'<a href="cp.php?ac=friend&op=search&sex=2&searchmode=1">'.lang('woman').'</a>':'');
 $space['birth'] = ($space['birthyear']?"$space[birthyear]".lang('year'):'').($space['birthmonth']?"$space[birthmonth]".lang('month'):'').($space['birthday']?"$space[birthday]".lang('day'):'');
@@ -26,11 +26,11 @@ $space['qq'] = empty($space['qq'])?'':"<a target=\"_blank\" href=\"http://wpa.qq
 
 @include_once(S_ROOT.'./data/data_usergroup.php');
 
-//×Ô¶¨Òå
+//è‡ªå®šä¹‰
 @include_once(S_ROOT.'./data/data_profilefield.php');
 $fields = empty($_SGLOBAL['profilefield'])?array():$_SGLOBAL['profilefield'];
 
-//¸ü¶à×ÊÁÏ
+//æ›´å¤šèµ„æ–™
 $base_farr = $contact_farr = array();
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('spaceinfo')." WHERE uid='$space[uid]'");
 while ($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -41,7 +41,7 @@ while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		if($v_friend) $space[$value['type']][] = $value;
 	}
 }
-//»ù±¾×ÊÁÏÊÇ·ñÓĞ
+//åŸºæœ¬èµ„æ–™æ˜¯å¦æœ‰
 $space['profile_base'] = 0;
 foreach (array('sex','birthday','blood','marry','residecity','birthcity') as $value) {
 	if($space[$value]) $space['profile_base'] = 1;
@@ -49,13 +49,13 @@ foreach (array('sex','birthday','blood','marry','residecity','birthcity') as $va
 foreach ($fields as $fieldid => $value) {
 	if($space["field_$fieldid"] && empty($value['invisible'])) $space['profile_base'] = 1;
 }
-//ÁªÏµ×ÊÁÏ
+//è”ç³»èµ„æ–™
 $space['profile_contact'] = 0;
 foreach (array('mobile','qq','msn') as $value) {
 	if($space[$value]) $space['profile_contact'] = 1;
 }
 
-//»ı·Ö
+//ç§¯åˆ†
 $space['star'] = getstar($space['experience']);
 
 $_TPL['css'] = 'space';

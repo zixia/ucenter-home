@@ -26,14 +26,14 @@ if($taskid) {
 		
 	if($_GET['view'] == 'member') {
 				
-		//·ÖÒ³
+		//åˆ†é¡µ
 		$perpage = 20;
 		$page = empty($_GET['page'])?1:intval($_GET['page']);
 		if($page<1) $page=1;
 		$start = ($page-1)*$perpage;
 		$list = array();
 
-		//¼ì²é¿ªÊ¼Êı
+		//æ£€æŸ¥å¼€å§‹æ•°
 		ckstart($start, $perpage);
 			
 		$theurl = "cp.php?ac=task&taskid=$taskid&view=$_GET[view]";
@@ -57,11 +57,11 @@ if($taskid) {
 		
 	} else {
 
-		//ÓÃ»§Ö´ĞĞÇé¿ö
+		//ç”¨æˆ·æ‰§è¡Œæƒ…å†µ
 		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('usertask')." WHERE uid='$_SGLOBAL[supe_uid]' AND taskid='$taskid'");
 		if($usertask = $_SGLOBAL['db']->fetch_array($query)) {
 			if($task['maxnum'] && $task['maxnum']<=$task['num']) {
-				$task['done'] = 1;//×î´ó´ÎÊı
+				$task['done'] = 1;//æœ€å¤§æ¬¡æ•°
 			} else {
 				$allownext = 0;
 				$lasttime = $usertask['dateline'];
@@ -88,7 +88,7 @@ if($taskid) {
 			$task['ignore'] = $task['done']?$usertask['isignore']:0;
 		}
 		
-		//ÖØĞÂÖ´ĞĞÈÎÎñ
+		//é‡æ–°æ‰§è¡Œä»»åŠ¡
 		if($task['done'] && $task['ignore'] && $_GET['op']=='redo') {
 			$_SGLOBAL['db']->query("DELETE FROM ".tname('usertask')." WHERE uid='$_SGLOBAL[supe_uid]' AND taskid='$taskid'");
 			showmessage('do_success', 'cp.php?ac=task&taskid='.$taskid, 0);
@@ -110,13 +110,13 @@ if($taskid) {
 			}
 		}
 			
-		//×î´óÈÎÎñÊı
+		//æœ€å¤§ä»»åŠ¡æ•°
 		if(empty($task['done'])) {
-			//Ö´ĞĞÈÎÎñ
+			//æ‰§è¡Œä»»åŠ¡
 			$task['result'] = '';
 			$task['guide'] = '';
 		
-			//Ìí¼Ó
+			//æ·»åŠ 
 			$setarr = array(
 				'uid' => $_SGLOBAL['supe_uid'],
 				'username' => $_SGLOBAL['supe_username'],
@@ -126,13 +126,13 @@ if($taskid) {
 			);
 				
 			if($_GET['op'] == 'ignore') {
-				//·ÅÆúÈÎÎñ
+				//æ”¾å¼ƒä»»åŠ¡
 				$setarr['isignore'] = 1;
 				inserttable('usertask', $setarr, 0, true);
 				showmessage('do_success', 'cp.php?ac=task&taskid='.$taskid, 0);
 			}
 			
-			//Ö´ĞĞÈÎÎñ½Å±¾
+			//æ‰§è¡Œä»»åŠ¡è„šæœ¬
 			include_once(S_ROOT.'./source/task/'.$task['filename']);
 			
 			if($task['done']) {
@@ -140,16 +140,16 @@ if($taskid) {
 				$task['dateline'] = $_SGLOBAL['timestamp'];
 				inserttable('usertask', $setarr, 0, true);
 				
-				//¸üĞÂÈÎÎñÍê³ÉÊı
+				//æ›´æ–°ä»»åŠ¡å®Œæˆæ•°
 				$_SGLOBAL['db']->query("UPDATE ".tname('task')." SET num=num+1 WHERE taskid='$task[taskid]'");
 				
-				//Ôö¼Ó»ı·Ö
+				//å¢åŠ ç§¯åˆ†
 				if($task['credit']) {
 					$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET credit=credit+$task[credit] WHERE uid='$_SGLOBAL[supe_uid]'");
 					$space['credit'] = $space['credit'] + $task['credit'];
 				}
 				
-				//²úÉúfeed
+				//äº§ç”Ÿfeed
 				if(ckprivacy('task', 1)) {
 					$fs = array(
 						'title_template' => $task['credit']?cplang('feed_task_credit'):cplang('feed_task'),
@@ -161,7 +161,7 @@ if($taskid) {
 					feed_add('task', $fs['title_template'], $fs['title_data']);
 				}
 				
-				//ÅĞ¶ÁÊÇ·ñÍê³É
+				//åˆ¤è¯»æ˜¯å¦å®Œæˆ
 				if($task['maxnum'] && $task['maxnum'] <= $task['num']+1) {
 					include_once(S_ROOT.'./source/function_cache.php');
 					task_cache();
@@ -171,7 +171,7 @@ if($taskid) {
 			include_once(S_ROOT.'./source/task/'.$task['filename']);
 		}
 		
-		//¸Õ¸Õ²ÎÓëÈÎÎñ
+		//åˆšåˆšå‚ä¸ä»»åŠ¡
 		$taskspacelist = array();
 		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('usertask')." WHERE taskid='$taskid' AND isignore='0' ORDER BY dateline DESC LIMIT 0,15");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -185,7 +185,7 @@ if($taskid) {
 	
 } else {
 	
-	//»ñÈ¡ÓÃ»§Ö´ĞĞÈÎÎñÇé¿ö
+	//è·å–ç”¨æˆ·æ‰§è¡Œä»»åŠ¡æƒ…å†µ
 	$done_per = $todo_num = $all_num = 0;
 	$usertasks = array();
 	$taskids = array();
@@ -196,12 +196,12 @@ if($taskid) {
 		$done_num++;
 	}
 
-	//È«²¿ÈÎÎñÁĞ±í
+	//å…¨éƒ¨ä»»åŠ¡åˆ—è¡¨
 	$tasklist = array();
 	$query = '';
 	if($_GET['view'] == 'done') {
 		if($taskids) {
-			//ÒÑ¾­Íê³É
+			//å·²ç»å®Œæˆ
 			$query = $_SGLOBAL['db']->query('SELECT * FROM '.tname('task')." WHERE taskid IN (".simplode($taskids).") ORDER BY displayorder");
 			while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 				$value['image'] = empty($value['image'])?'image/task.gif':$value['image'];
@@ -211,7 +211,7 @@ if($taskid) {
 			}
 		}
 	} else {
-		//Ã»ÓĞÍê³É
+		//æ²¡æœ‰å®Œæˆ
 		$query = $_SGLOBAL['db']->query('SELECT * FROM '.tname('task')." WHERE available='1' ORDER BY displayorder");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 			if((empty($value['maxnum']) || $value['maxnum']>$value['num']) &&
@@ -223,7 +223,7 @@ if($taskid) {
 				$allownext = 0;
 				$lasttime = $usertasks[$value['taskid']]['dateline'];
 				if(empty($lasttime)) {
-					$allownext = 1;//´ÓÎ´Ö´ĞĞ¹ı
+					$allownext = 1;//ä»æœªæ‰§è¡Œè¿‡
 				} elseif($value['nexttype'] == 'day') {
 					if(sgmdate('Ymd', $_SGLOBAL['timestamp']) != sgmdate('Ymd', $lasttime)) {
 						$allownext = 1;
@@ -249,7 +249,7 @@ if($taskid) {
 		$done_per = empty($all_num)?100:intval(($all_num-$todo_num)*100/$all_num);
 	}
 	
-	//¸Õ¸Õ²ÎÓëÈÎÎñ
+	//åˆšåˆšå‚ä¸ä»»åŠ¡
 	$taskspacelist = array();
 	@include_once(S_ROOT.'./data/data_task.php');
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('usertask')." WHERE isignore='0' ORDER BY dateline DESC LIMIT 0,20");

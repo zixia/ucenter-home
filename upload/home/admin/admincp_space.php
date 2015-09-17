@@ -13,7 +13,7 @@ include_once(S_ROOT.'./data/data_usergroup.php');
 @include_once(S_ROOT.'./data/data_profilefield.php');
 $profilefields = empty($_SGLOBAL['profilefield'])?array():$_SGLOBAL['profilefield'];
 
-//È¨ÏŞ
+//æƒé™
 $managename = checkperm('managename');
 $managespacegroup = checkperm('managespacegroup');
 $managespaceinfo = checkperm('managespaceinfo');
@@ -38,7 +38,7 @@ if($uid) {
 	}
 	$member['addsize'] = intval($member['addsize']/(1024*1024));
 	$member['ip'] = strlen($member['ip'])<9?'-':intval(substr($member['ip'], 0, 3)).'.'.intval(substr($member['ip'], 3, 3)).'.'.intval(substr($member['ip'], 6, 3)).'.1~255';
-	//ÊÓÆµ
+	//è§†é¢‘
 	if($_SCONFIG['videophoto'] && $member['videopic'] && $member['videostatus']) {
 		include_once(S_ROOT.'./source/function_cp.php');
 		$videopic = getvideopic($member['videopic']);
@@ -47,7 +47,7 @@ if($uid) {
 	}
 }
 if($uid != $_SGLOBAL['supe_uid']) {
-	//´´Ê¼ÈË
+	//åˆ›å§‹äºº
 	if(ckfounder($uid)) {
 		cpmessage('not_have_permission_to_operate_founder');
 	}
@@ -74,11 +74,11 @@ if(submitcheck('usergroupsubmit')) {
 	}
 
 	if($managespaceinfo) {
-		//ÊÓÆµÈÏÖ¤ÕÕÆ¬
+		//è§†é¢‘è®¤è¯ç…§ç‰‡
 		if($_FILES['newvideopic']['size']) {
 			include_once(S_ROOT.'./source/function_cp.php');
 			if($newvideopic = videopic_upload($_FILES['newvideopic'], $uid)) {
-				//É¾³ıÔ­À´µÄ
+				//åˆ é™¤åŸæ¥çš„
 				if($member['videopic']) {
 					@unlink(S_ROOT.'./'.getvideopic($member['videopic']));
 				}
@@ -91,7 +91,7 @@ if(submitcheck('usergroupsubmit')) {
 		$email = getstr($_POST['email'], 100, 1, 1);
 		$emailcheck = intval($_POST['emailcheck']);
 		
-		//¼¤»îÓÊÏä½±Àø»ı·Ö
+		//æ¿€æ´»é‚®ç®±å¥–åŠ±ç§¯åˆ†
 		if($emailcheck && $email) {
 			$reward = getreward('realemail', 0, $uid, '', 0);
 			if($reward['credit']) {
@@ -107,7 +107,7 @@ if(submitcheck('usergroupsubmit')) {
 	}
 
 	if($managespacegroup) {
-		//É¾³ı±£»¤
+		//åˆ é™¤ä¿æŠ¤
 		if($member['flag'] != -1) {
 			include_once(S_ROOT.'./uc_client/client.php');
 			if($_POST['flag'] == 1) {
@@ -136,7 +136,7 @@ if(submitcheck('usergroupsubmit')) {
 				cpmessage('no_authority_management_operation');
 			}
 			
-			//ÓĞĞ§ÆÚ
+			//æœ‰æ•ˆæœŸ
 			if($expiration) {
 				$setlogarr = array(
 					'uid' => $member['uid'],
@@ -154,13 +154,13 @@ if(submitcheck('usergroupsubmit')) {
 		}
 	}
 	
-	//ÊµÃû¹ÜÀíÈ¨ÏŞ
+	//å®åç®¡ç†æƒé™
 	if($managename) {
 		
 		$setarr['name'] = getstr($_POST['name'], 20, 1, 1);
 		$setarr['namestatus'] = intval($_POST['namestatus']);
 		
-		//ÊµÃûÈÏÖ¤Í¨¹ı½±Àø»ı·Ö
+		//å®åè®¤è¯é€šè¿‡å¥–åŠ±ç§¯åˆ†
 		if($setarr['namestatus'] && $setarr['name']) {
 			$reward = getreward('realname', 0, $uid, '', 0);
 			if($reward['credit']) {
@@ -178,7 +178,7 @@ if(submitcheck('usergroupsubmit')) {
 	}
 
 	if($managespaceinfo) {
-		//¸½Êô±í
+		//é™„å±è¡¨
 		$setarr = array(
 			'email' => $email,
 			'emailcheck' => $emailcheck,
@@ -201,13 +201,13 @@ if(submitcheck('usergroupsubmit')) {
 			$setarr['field_'.$field] = getstr($_POST['field_'.$field], $value['maxsize'], 1, 1);
 		}
 		
-		//Çå¿Õ
+		//æ¸…ç©º
 		if($_POST['clearcss']) $setarr['css'] = '';
 		
 		updatetable('spacefield', $setarr, array('uid'=>$uid));
 	}
 
-	//Éú³ÉÓÃ»§±ä¸üÈÕÖ¾
+	//ç”Ÿæˆç”¨æˆ·å˜æ›´æ—¥å¿—
 	if($_SCONFIG['my_status']) inserttable('userlog', array('uid'=>$uid, 'action'=>'update', 'dateline'=>$_SGLOBAL['timestamp']), 0, true);
 
 	cpmessage('do_success', "admincp.php?ac=space&op=manage&uid=$uid");
@@ -224,7 +224,7 @@ if(submitcheck('usergroupsubmit')) {
 
 			case '1':
 				if($managename) {
-					//Í¨¹ıÊµÃûÈÏÖ¤
+					//é€šè¿‡å®åè®¤è¯
 					$url .= 'namestatus=0';
 					foreach($_POST['uids'] as $key => $uid) {
 						$reward = getreward('realname', 0, $uid, '', 0);
@@ -235,7 +235,7 @@ if(submitcheck('usergroupsubmit')) {
 				break;
 			case '2':
 				if($managename) {
-					//È¡ÏûÊµÃûÈÏÖ¤
+					//å–æ¶ˆå®åè®¤è¯
 					$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET namestatus='0' WHERE uid IN (".simplode($_POST['uids']).")");
 					$url .= 'namestatus=1';
 					$createlog = true;
@@ -243,14 +243,14 @@ if(submitcheck('usergroupsubmit')) {
 				break;
 			case '3':
 				if($managename) {
-					//Çå¿ÕĞÕÃû
+					//æ¸…ç©ºå§“å
 					$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET name='',namestatus='0' WHERE uid IN (".simplode($_POST['uids']).")");
 				}
 				break;
 			case '4':
 				if($managespacenote) {
-					//·¢ËÍÓÊ¼şÍ¨Öª
-					//ÅúÁ¿·¢ËÍÓÊ¼ş
+					//å‘é€é‚®ä»¶é€šçŸ¥
+					//æ‰¹é‡å‘é€é‚®ä»¶
 					$uids = implode(',', $_POST['uids']);
 					include template('admin/tpl/space_manage');
 					exit();
@@ -258,7 +258,7 @@ if(submitcheck('usergroupsubmit')) {
 				break;
 			case '5':
 				if($managespacenote) {
-					//ÅúÁ¿´òÕĞºô
+					//æ‰¹é‡æ‰“æ‹›å‘¼
 					$uids = implode(',', $_POST['uids']);
 					include template('admin/tpl/space_manage');
 					exit();
@@ -266,14 +266,14 @@ if(submitcheck('usergroupsubmit')) {
 				break;
 			case '6':
 				if($managespaceinfo) {
-					//Çå¿ÕÓÃ»§¸öĞÔÉèÖÃ
+					//æ¸…ç©ºç”¨æˆ·ä¸ªæ€§è®¾ç½®
 					$_SGLOBAL['db']->query("UPDATE ".tname('spacefield')." SET css='' WHERE uid IN (".simplode($_POST['uids']).")");
 					$createlog = true;
 				}
 				break;
 			case '7':
 				if($manageconfig) {
-					//ÔùËÍµÀ¾ß
+					//èµ é€é“å…·
 					$uids = implode(',', $_POST['uids']);
 					include_once(S_ROOT.'./data/data_magic.php');
 					include template('admin/tpl/space_manage');
@@ -319,7 +319,7 @@ if(submitcheck('usergroupsubmit')) {
 	if(!$managespacenote) {
 		cpmessage('no_authority_management_operation');
 	}
-	//´òÕĞºô
+	//æ‰“æ‹›å‘¼
 	$touids = empty($_POST['uids'])?array():explode(',', $_POST['uids']);
 	$note = getstr($_POST['note'], 50, 1, 1);
 	$uids = array();
@@ -337,7 +337,7 @@ if(submitcheck('usergroupsubmit')) {
 				unset($uids[$value['uid']]);
 			}
 			$_SGLOBAL['db']->query("REPLACE INTO ".tname('poke')." (uid,fromuid,fromusername,note,dateline) VALUES ".implode(',', $replaces));
-			//Ôö¼Ó´òÕĞºôÊı
+			//å¢åŠ æ‰“æ‹›å‘¼æ•°
 			if($uids) {
 				$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET pokenum=pokenum+1 WHERE uid IN(".simplode($uids).")");
 			}
@@ -351,7 +351,7 @@ if(submitcheck('usergroupsubmit')) {
 		cpmessage('no_authority_management_operation');
 	}
 	
-	//ÔùËÍµÀ¾ß
+	//èµ é€é“å…·
 	$touids = empty($_POST['uids'])?array():explode(',', $_POST['uids']);
 	$presents = $mids = array();
 	foreach ($_POST['magicaward'] as $value) {
@@ -425,10 +425,10 @@ if($_GET['op'] == 'delete') {
 } elseif($_GET['op'] == 'manage') {
 
 	if($managespaceinfo) {
-		//ĞÔ±ğ
+		//æ€§åˆ«
 		$sexarr = array($member['sex']=>' checked');
 	
-		//ÉúÈÕ:Äê
+		//ç”Ÿæ—¥:å¹´
 		$birthyeayhtml = '';
 		$nowy = sgmdate('Y');
 		for ($i=0; $i<80; $i++) {
@@ -436,28 +436,28 @@ if($_GET['op'] == 'delete') {
 			$selectstr = $they == $member['birthyear']?' selected':'';
 			$birthyeayhtml .= "<option value=\"$they\"$selectstr>$they</option>";
 		}
-		//ÉúÈÕ:ÔÂ
+		//ç”Ÿæ—¥:æœˆ
 		$birthmonthhtml = '';
 		for ($i=1; $i<13; $i++) {
 			$selectstr = $i == $member['birthmonth']?' selected':'';
 			$birthmonthhtml .= "<option value=\"$i\"$selectstr>$i</option>";
 		}
-		//ÉúÈÕ:ÈÕ
+		//ç”Ÿæ—¥:æ—¥
 		$birthdayhtml = '';
 		for ($i=1; $i<32; $i++) {
 			$selectstr = $i == $member['birthday']?' selected':'';
 			$birthdayhtml .= "<option value=\"$i\"$selectstr>$i</option>";
 		}
-		//ÑªĞÍ
+		//è¡€å‹
 		$bloodhtml = '';
 		foreach (array('A','B','O','AB') as $value) {
 			$selectstr = $value == $member['blood']?' selected':'';
 			$bloodhtml .= "<option value=\"$value\"$selectstr>$value</option>";
 		}
-		//»éÒö
+		//å©šå§»
 		$marryarr = array($member['marry'] => ' selected');
 	
-		//À¸Ä¿±íµ¥
+		//æ ç›®è¡¨å•
 		$profilefields = array();
 		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('profilefield')." ORDER BY displayorder");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -465,7 +465,7 @@ if($_GET['op'] == 'delete') {
 			$value['formhtml'] = '';
 	
 			if($value['formtype'] == 'text') {
-				//input¿ò³¤¶È
+				//inputæ¡†é•¿åº¦
 				$value['note'] = empty($value['note'])?'':$value['note'];
 				$value['formhtml'] = "<input type=\"text\" name=\"field_$fieldid\" value=\"".$member["field_$fieldid"]."\" class=\"t_input\">";
 			} else {
@@ -498,7 +498,7 @@ if($_GET['op'] == 'delete') {
 			$member['expiration'] = $value['expiration']?sgmdate('Y-m-d H:i', $value['expiration']):'';
 		}
 		
-		//ÓÃ»§×é
+		//ç”¨æˆ·ç»„
 		$usergroups = array();
 		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('usergroup')." WHERE system!='0'");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -514,7 +514,7 @@ if($_GET['op'] == 'delete') {
 $mpurl = 'admincp.php?ac='.$ac;
 
 $pre = 's.';
-//´¦ÀíËÑË÷
+//å¤„ç†æœç´¢
 $intkeys = array('uid', 'groupid', 'namestatus', 'avatar', 'videostatus', 'opuid', 'flag');
 $strkeys = array('username', 'opusername');
 $randkeys = array(array('sstrtotime','dateline'), array('sstrtotime','updatetime'), array('sstrtotime','lastpost'), array('sstrtotime','lastlogin'), array('intval','credit'), array('intval', 'experience'));
@@ -528,7 +528,7 @@ if(isset($_GET['namestatus']) && $_GET['namestatus']=='0') {
 	$wheresql.=" AND s.name!=''";
 }
 
-//¼¤»î
+//æ¿€æ´»
 $actives = array($_GET['tab'] => ' class="active"');
 if(!isset($_GET['tab'])) {
 	$actives = array('all' => ' class="active"');
@@ -536,21 +536,21 @@ if(!isset($_GET['tab'])) {
 	$mpurl .= '&tab='.$_GET['tab'];
 }
 
-//ÅÅĞò
+//æ’åº
 $orders = getorders(array('dateline', 'updatetime', 'friendnum', 'credit', 'viewnum', 'experience'), 'uid', $pre);
 $ordersql = $orders['sql'];
 if($orders['urls']) $mpurl .= '&'.implode('&', $orders['urls']);
 $orderby = array($_GET['orderby']=>' selected');
 $ordersc = array($_GET['ordersc']=>' selected');
 
-//ÓÃ»§×é
+//ç”¨æˆ·ç»„
 $usergroups = array();
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('usergroup'));
 while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 	$usergroups[$value['gid']] = $value;
 }
 
-//ÏÔÊ¾·ÖÒ³
+//æ˜¾ç¤ºåˆ†é¡µ
 $perpage = empty($_GET['perpage'])?0:intval($_GET['perpage']);
 if(!in_array($perpage, array(20,50,100))) $perpage = 20;
 $mpurl .= '&perpage='.$perpage;
@@ -559,7 +559,7 @@ $perpages = array($perpage => ' selected');
 $page = empty($_GET['page'])?1:intval($_GET['page']);
 if($page<1) $page = 1;
 $start = ($page-1)*$perpage;
-//¼ì²é¿ªÊ¼Êı
+//æ£€æŸ¥å¼€å§‹æ•°
 ckstart($start, $perpage);
 
 $list = array();
@@ -578,7 +578,7 @@ if($count) {
 	$multi = multi($count, $perpage, $page, $mpurl);
 }
 
-//ÌØÊâÓÃ»§
+//ç‰¹æ®Šç”¨æˆ·
 $fusers = array();
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('spacelog')." WHERE uid IN (".simplode($uids).")");
 while ($value = $_SGLOBAL['db']->fetch_array($query)) {

@@ -8,7 +8,7 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//¼ì²éĞÅÏ¢
+//æ£€æŸ¥ä¿¡æ¯
 $pid = empty($_GET['pid'])?0:intval($_GET['pid']);
 $op = empty($_GET['op'])?'':$_GET['op'];
 
@@ -23,7 +23,7 @@ if($pid) {
 	realname_set($poll['uid'], $poll['username']);
 }
 
-//È¨ÏŞ¼ì²é
+//æƒé™æ£€æŸ¥
 if(empty($poll)) {
 	
 	if(!checkperm('allowpoll')) {
@@ -31,16 +31,16 @@ if(empty($poll)) {
 		showmessage('no_authority_to_add_poll');
 	}
 
-	//ÊµÃûÈÏÖ¤
+	//å®åè®¤è¯
 	ckrealname('poll');
 	
-	//ÊÓÆµÈÏÖ¤
+	//è§†é¢‘è®¤è¯
 	ckvideophoto('poll');
 
-	//ĞÂÓÃ»§¼ûÏ°
+	//æ–°ç”¨æˆ·è§ä¹ 
 	cknewuser();
 	
-	//ÅĞ¶ÏÊÇ·ñ·¢²¼Ì«¿ì
+	//åˆ¤æ–­æ˜¯å¦å‘å¸ƒå¤ªå¿«
 	$waittime = interval_check('post');
 	if($waittime > 0) {
 		showmessage('operating_too_fast','',1,array($waittime));
@@ -58,18 +58,18 @@ if(submitcheck('pollsubmit')) {
 	
 	$_POST['topicid'] = topic_check($_POST['topicid'], 'poll');
 	
-	//ÑéÖ¤Âë
+	//éªŒè¯ç 
 	if(checkperm('seccode') && !ckseccode($_POST['seccode'])) {
 		showmessage('incorrect_code');
 	}
 	
-	//ÏŞÖÆ×î¶à20Ïî
+	//é™åˆ¶æœ€å¤š20é¡¹
 	$maxoption = 20;
 	$newoption = $preview = $optionarr = $setarr = array();
 	$_POST['subject'] = getstr(trim($_POST['subject']), 80, 1, 1, 1);
 	if(strlen($_POST['subject']) < 2) showmessage('title_not_too_little');
 	
-	//ÕûÀíÍ¶Æ±Ïî
+	//æ•´ç†æŠ•ç¥¨é¡¹
 	$_POST['option'] = array_unique($_POST['option']);
 	foreach($_POST['option'] as $key => $val) {
 		$option = getstr(trim($val), 80, 1, 1, 1);
@@ -89,7 +89,7 @@ if(submitcheck('pollsubmit')) {
 	
 	$_POST['credit'] = intval($_POST['credit']);
 	$_POST['percredit'] = intval($_POST['percredit']);
-	//ÑéÖ¤ĞüÉÍ×Ü¶îÅäÖÃ
+	//éªŒè¯æ‚¬èµæ€»é¢é…ç½®
 	if($_POST['credit'] > $space['credit']) {
 		showmessage('the_total_reward_should_not_overrun', '', 1, array($space['credit']));
 	} elseif($_POST['credit'] < $_POST['percredit']) {
@@ -101,7 +101,7 @@ if(submitcheck('pollsubmit')) {
 			showmessage('average_reward_should_not_be_empty');
 		}
 	}
-	//ÑéÖ¤×î¸ßĞüÉÍ
+	//éªŒè¯æœ€é«˜æ‚¬èµ
 	if($_POST['percredit'] && $_POST['percredit'] > $_SCONFIG['maxreward']) {
 		showmessage('average_reward_can_not_exceed', '', 1, array($_SCONFIG['maxreward']));
 	}
@@ -142,13 +142,13 @@ if(submitcheck('pollsubmit')) {
 		$optionarr[] = "('$pid', '$value')";
 	}
 	
-	//²åÈëÑ¡ÏîÖµ
+	//æ’å…¥é€‰é¡¹å€¼
 	$_SGLOBAL['db']->query("INSERT INTO ".tname('polloption')." (`pid`, `option`) VALUES ".implode(',', $optionarr));
 	
-	//Í³¼Æ
+	//ç»Ÿè®¡
 	updatestat('poll');
 	
-	//¸üĞÂÓÃ»§Í³¼Æ
+	//æ›´æ–°ç”¨æˆ·ç»Ÿè®¡
 	if(empty($space['pollnum'])) {
 		$space['pollnum'] = getcount('poll', array('uid'=>$space['uid']));
 		$pollnumsql = "pollnum=".$space['pollnum'];
@@ -156,10 +156,10 @@ if(submitcheck('pollsubmit')) {
 		$pollnumsql = 'pollnum=pollnum+1';
 	}
 	
-	//»ı·Ö
+	//ç§¯åˆ†
 	$reward = getreward('createpoll', 0);
 	$updatecredit = $reward['credit'];
-	//ÅĞ¶ÏÊÇ·ñÓĞĞü³£
+	//åˆ¤æ–­æ˜¯å¦æœ‰æ‚¬å¸¸
 	if($_POST['credit']) {
 		$updatecredit = $updatecredit - $_POST['credit'];
 	}
@@ -184,7 +184,7 @@ if(submitcheck('pollsubmit')) {
 
 if($op == 'addopt') {
 
-	//ÑéÖ¤ÊÇ·ñ³¬¹ı×î´óÍ¶Æ±Ïî
+	//éªŒè¯æ˜¯å¦è¶…è¿‡æœ€å¤§æŠ•ç¥¨é¡¹
 	$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('polloption')." p WHERE pid='$pid'"),0);
 	if($count >= 20) {
 		showmessage("option_exceeds_the_maximum_number_of", $_POST['refer']);
@@ -204,7 +204,7 @@ if($op == 'addopt') {
 	
 } elseif($op == 'delete') {
 	
-	//É¾³ıÍ¶Æ±
+	//åˆ é™¤æŠ•ç¥¨
 	if(submitcheck('deletesubmit')) {
 
 		include_once(S_ROOT.'./source/function_delete.php');
@@ -217,7 +217,7 @@ if($op == 'addopt') {
 	
 } elseif($op == 'modify') {
 	
-	//ĞŞ¸Ä½áÊøÊ±¼ä
+	//ä¿®æ”¹ç»“æŸæ—¶é—´
 	if(submitcheck('modifysubmit')) {
 		$expiration = 0;
 		if($_POST['expiration']) {
@@ -232,28 +232,28 @@ if($op == 'addopt') {
 	
 } elseif($op == 'summary') {
 	
-	//Ğ´Ğ´Í¶Æ±×Ü½á
+	//å†™å†™æŠ•ç¥¨æ€»ç»“
 	if(submitcheck('summarysubmit')) {
 		
 		$summary = getstr($_POST['summary'], 0, 1, 1, 1, 2);
 		updatetable('pollfield', array('summary' => $summary), array('pid' => $pid));
 		showmessage('do_success', 'space.php?uid='.$space['uid'].'&do=poll&pid='.$pid, 0);
 	}
-	//bbcode×ª»»
-	$poll['summary'] = html2bbcode(str_replace('<br/>', "\n",$poll['summary']));//ÏÔÊ¾ÓÃ
+	//bbcodeè½¬æ¢
+	$poll['summary'] = html2bbcode(str_replace('<br/>', "\n",$poll['summary']));//æ˜¾ç¤ºç”¨
 	
 } elseif($op == 'vote') {
 	
-	//¼ÆÆ±
+	//è®¡ç¥¨
 	if(submitcheck('votesubmit')) {
 		if(empty($poll)) {
 			showmessage("voting_does_not_exist");
 		}
-		//ÑéÖ¤ĞÔ±ğ
+		//éªŒè¯æ€§åˆ«
 		if($poll['sex'] && $poll['sex'] != $space['sex']) {
 			showmessage('no_privilege');
 		}
-		//ÑéÖ¤ÊÇ·ñÍ¶¹ıÆ±
+		//éªŒè¯æ˜¯å¦æŠ•è¿‡ç¥¨
 		$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('polluser')." WHERE uid='$_SGLOBAL[supe_uid]' AND pid='$pid'"),0);
 		if($count) {
 			showmessage("already_voted");
@@ -273,7 +273,7 @@ if($op == 'addopt') {
 		if(empty($list)) {
 			showmessage('please_select_items_to_vote');
 		}
-		//ÀÛ¼ÆÍ¶Æ±Êı
+		//ç´¯è®¡æŠ•ç¥¨æ•°
 		$_SGLOBAL['db']->query("UPDATE ".tname('polloption')." SET votenum=votenum+1 WHERE oid IN ('".implode("','", $optionarr)."') AND pid='$pid'");
 		$setarr = array(
 			'uid' => $_SGLOBAL['supe_uid'],
@@ -285,7 +285,7 @@ if($op == 'addopt') {
 		inserttable('polluser', $setarr);
 		
 		$sql = '';
-		//ÅĞ¶ÏÊÇ·ñÓĞĞü³£
+		//åˆ¤æ–­æ˜¯å¦æœ‰æ‚¬å¸¸
 		if($poll['credit'] && $poll['percredit'] && $poll['uid'] != $_SGLOBAL['supe_uid']) {
 			if($poll['credit'] <= $poll['percredit']) {
 				$poll['percredit'] = $poll['credit'];
@@ -298,23 +298,23 @@ if($op == 'addopt') {
 		
 		$_SGLOBAL['db']->query("UPDATE ".tname('poll')." SET voternum=voternum+1, lastvote='$_SGLOBAL[timestamp]', credit=credit-$poll[percredit] $sql WHERE pid='$pid'");
 		
-		//ÊµÃû
+		//å®å
 		realname_get();
 		if($poll['uid'] != $_SGLOBAL['supe_uid']) {
-			//½±ÉÍ»ı·Ö
+			//å¥–èµç§¯åˆ†
 			getreward('joinpoll', 1, 0, $pid);
 		}
 		
 		
-		//ÈÈµã
+		//çƒ­ç‚¹
 		if($poll['uid'] != $_SGLOBAL['supe_uid']) {
 			hot_update('pid', $poll['pid'], $poll['hotuser']);
 		}
 		
-		//Í³¼Æ
+		//ç»Ÿè®¡
 		updatestat('pollvote');
 
-		//ÊÂ¼şfeed
+		//äº‹ä»¶feed
 		
 		if(!isset($_POST['anonymous']) && $_SGLOBAL['supe_uid']!=$poll['uid'] && ckprivacy('joinpoll', 1)) {
 			$fs = array();
@@ -341,7 +341,7 @@ if($op == 'addopt') {
 	
 } elseif($op == 'endreward') {
 	
-	//ÖÕÖ¹ĞüÉÍ
+	//ç»ˆæ­¢æ‚¬èµ
 	if(submitcheck('endrewardsubmit')) {
 		updatetable('poll', array('credit' => 0, 'percredit' => 0), array('pid' => $pid));
 		$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET credit=credit+$poll[credit] WHERE uid='$poll[uid]'");
@@ -349,7 +349,7 @@ if($op == 'addopt') {
 	}
 } elseif($op == 'addreward') {
 	
-	//×·¼ÓĞüÉÍ
+	//è¿½åŠ æ‚¬èµ
 	if(submitcheck('addrewardsubmit')) {
 		$credit = $_POST['addcredit'] ? intval($_POST['addcredit']) : 0;
 		$percredit = $_POST['addpercredit'] ? intval($_POST['addpercredit']) : 0;
@@ -362,7 +362,7 @@ if($op == 'addopt') {
 			showmessage('wrong_total_reward');
 		}
 		
-		//ÑéÖ¤×î¸ßĞüÉÍ
+		//éªŒè¯æœ€é«˜æ‚¬èµ
 		if($percredit && ($percredit+$poll['percredit']) > $_SCONFIG['maxreward']) {
 			showmessage('average_reward_can_not_exceed', '', 1, array($_SCONFIG['maxreward']));
 		}
@@ -380,17 +380,17 @@ if($op == 'addopt') {
 	$page = empty($_GET['page'])?0:intval($_GET['page']);
 	if($page<1) $page=1;
 	$start = ($page-1)*$perpage;
-	//¼ì²é¿ªÊ¼Êı
+	//æ£€æŸ¥å¼€å§‹æ•°
 	ckstart($start, $perpage);
 
-	//È¡³öÍ¶Æ±¼ÇÂ¼
+	//å–å‡ºæŠ•ç¥¨è®°å½•
 	$_GET['filtrate'] = empty($_GET['filtrate']) ? 'new' : trim($_GET['filtrate']);
 	
 	$wherearr = $voteresult = array();
 	$multi = '';
 	
 	if($_GET['filtrate'] == 'we') {
-		if(empty($space['feedfriend']))	$space['feedfriend'] = 0;	//·µ»Ø¿ÕÄÚÈİ
+		if(empty($space['feedfriend']))	$space['feedfriend'] = 0;	//è¿”å›ç©ºå†…å®¹
 		$wherearr[] = "uid IN ($space[feedfriend])";
 	}
 	$wherearr[] = "pid='$pid'";
@@ -400,24 +400,24 @@ if($op == 'addopt') {
 	if($count) {
 		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('polluser')." $wheresql ORDER BY dateline DESC LIMIT $start,$perpage");
 		while($value = $_SGLOBAL['db']->fetch_array($query)) {
-			realname_set($value['uid'], $value['username']);//ÊµÃû
+			realname_set($value['uid'], $value['username']);//å®å
 			$voteresult[] = $value;
 		}
 		$multi = multi($count, $perpage, $page, "cp.php?ac=poll&op=get&pid=$pid&filtrate=".$_GET['filtrate'], 'showvoter');
-		//ÊµÃû
+		//å®å
 		realname_get();
 	}
 	
 } elseif($op == 'invite') {
-	//ÑûÇë
+	//é‚€è¯·
 	
 	$uidarr = explode(',', $poll['invite']);
-	//·´×ªÊı×é
+	//åè½¬æ•°ç»„
 	$newuid = array_flip($uidarr);
 	if(submitcheck('invitesubmit')) {
 		$ids = empty($_POST['ids'])?array():$_POST['ids'];
 		if($ids) {
-			//¹ıÂËÒÑÑûÇëµÄÓÃ»§
+			//è¿‡æ»¤å·²é‚€è¯·çš„ç”¨æˆ·
 			foreach($ids as $key => $uid) {
 				if(isset($newuid[$uid])) {
 					unset($ids[$key]);
@@ -426,26 +426,26 @@ if($op == 'addopt') {
 				}
 			}
 			
-			//ÑéÖ¤ÓÃ»§µÄÕæÊµĞÔ
+			//éªŒè¯ç”¨æˆ·çš„çœŸå®æ€§
 			$query = $_SGLOBAL['db']->query("SELECT uid FROM ".tname('space')." WHERE uid IN (".simplode($ids).")");
 			$ids = array();
 			while($value = $_SGLOBAL['db']->fetch_array($query)) {
 				$ids[$value['uid']] = $value['uid'];
 			}
 			
-			//¹ıÂËÒÑÍ¶Æ±µÄÓÃ»§
+			//è¿‡æ»¤å·²æŠ•ç¥¨çš„ç”¨æˆ·
 			$query = $_SGLOBAL['db']->query("SELECT uid FROM ".tname('polluser')." WHERE uid IN (".simplode($ids).") AND pid='$pid'");
 			while($value = $_SGLOBAL['db']->fetch_array($query)) {
 				unset($ids[$value['uid']]);
 			}
-			//ºÏ²¢ĞÂÊı×é
+			//åˆå¹¶æ–°æ•°ç»„
 			$newinvite = array_merge($uidarr, $ids);
 			
-			//´æÈëÊı¾İ¿â
+			//å­˜å…¥æ•°æ®åº“
 			if($newinvite) {
 				$_SGLOBAL['db']->query("UPDATE ".tname('pollfield')." SET invite='".implode(',', $newinvite)."' WHERE pid='$pid'");
 			}
-			//Í¨Öª
+			//é€šçŸ¥
 			$note = cplang('note_poll_invite', array("space.php?uid=$poll[uid]&do=poll&pid=$poll[pid]", $poll['subject'], $poll['percredit']?cplang('reward'):''));
 			foreach($ids as $key => $uid) {
 				if($uid && $uid != $_SGLOBAL['supe_uid']) {
@@ -456,13 +456,13 @@ if($op == 'addopt') {
 		showmessage('do_success', 'space.php?uid='.$poll['uid'].'&do=poll&pid='.$pid);
 	}
 	
-	//·ÖÒ³
+	//åˆ†é¡µ
 	$perpage = 20;
 	$page = empty($_GET['page'])?0:intval($_GET['page']);
 	if($page<1) $page = 1;
 	$start = ($page-1)*$perpage;
 		
-	//¼ì²é¿ªÊ¼Êı
+	//æ£€æŸ¥å¼€å§‹æ•°
 	ckstart($start, $perpage);
 		
 	$list = array();
@@ -493,27 +493,27 @@ if($op == 'addopt') {
 	}
 	$invitearr = array();
 	
-	//ÒÑ¾­²ÎÓÚÍ¶Æ±
+	//å·²ç»å‚äºæŠ•ç¥¨
 	$query = $_SGLOBAL['db']->query("SELECT uid FROM ".tname('polluser')." WHERE uid IN (".simplode($fuids).") AND pid='$pid'");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$invitearr[$value['uid']] = $value['uid'];
 	}
 	
-	//ÒÑÑûÇë
+	//å·²é‚€è¯·
 	foreach($uidarr as $key => $uid) {
 		$invitearr[$uid] = $uid;
 	}
 	
 	realname_get();
 		
-	//ÓÃ»§×é
+	//ç”¨æˆ·ç»„
 	$groups = getfriendgroup();
 	$groupselect = array($_GET['group'] => ' selected');
 		
 	$multi = multi($count, $perpage, $page, "cp.php?ac=poll&op=invite&pid=$poll[pid]&group=$_GET[group]&key=$_GET[key]");
 	
 } elseif($_GET['op'] == 'edithot') {
-	//È¨ÏŞ
+	//æƒé™
 	if(!checkperm('managepoll')) {
 		showmessage('no_privilege');
 	}
@@ -533,7 +533,7 @@ if($op == 'addopt') {
 	
 } else {
 	
-	//²ÎÓëÈÈµã
+	//å‚ä¸çƒ­ç‚¹
 	$topic = array();
 	$topicid = $_GET['topicid'] = intval($_GET['topicid']);
 	if($topicid) {

@@ -8,28 +8,28 @@ if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
 
-//ÅĞ¶ÏÊÇ·ñÓĞÈ¨ÏŞ
+//åˆ¤æ–­æ˜¯å¦æœ‰æƒé™
 if(!checkperm('allowblog')) {
 	ckspacelog();
 	showmessage('no_privilege');
 }
 	
-//ÊµÃûÈÏÖ¤
+//å®åè®¤è¯
 ckrealname('blog');
 
-//ÊÓÆµÈÏÖ¤
+//è§†é¢‘è®¤è¯
 ckvideophoto('blog');
 
-//ĞÂÓÃ»§¼ûÏ°
+//æ–°ç”¨æˆ·è§ä¹ 
 cknewuser();
 
-//ÅĞ¶ÏÊÇ·ñ·¢²¼Ì«¿ì
+//åˆ¤æ–­æ˜¯å¦å‘å¸ƒå¤ªå¿«
 $waittime = interval_check('post');
 if($waittime > 0) {
 	showmessage('operating_too_fast','',1,array($waittime));
 }
 		
-//¼ì²éÊÇ·ñÖ§³Ö
+//æ£€æŸ¥æ˜¯å¦æ”¯æŒ
 if(!function_exists('fsockopen')) {
 	showmessage('support_function_has_not_yet_opened fsockopen');
 }
@@ -46,23 +46,23 @@ $siteurl = getsiteurl();
 
 if(submitcheck('importsubmit')) {
 	
-	//ÑéÖ¤¾­ÑéÖµ
+	//éªŒè¯ç»éªŒå€¼
 	if($space['experience'] < $reward['experience']) {
 		showmessage('experience_inadequate', '', 1, array($space['experience'], $reward['experience']));
 	}
 				
-	//¼ì²é»ı·Ö
+	//æ£€æŸ¥ç§¯åˆ†
 	if($space['credit'] < $reward['credit']) {
 		showmessage('integral_inadequate','',1,array($space['credit'],$reward['credit']));
 	}
 	
-	//Õ¾µãURL
+	//ç«™ç‚¹URL
 	$_POST['url'] = trim($_POST['url']);
 	if(empty($_POST['url']) || !$urls = parse_url($_POST['url'])) {
 		showmessage('url_is_not_correct');
 	}
 	
-	//¹¹½¨´®
+	//æ„å»ºä¸²
 	$xmldata  = '<?xml version="1.0" encoding="utf-8"?>';
 	$xmldata .= '<methodCall><methodName>metaWeblog.getRecentPosts</methodName>';
 	$xmldata .= '<params>';
@@ -73,7 +73,7 @@ if(submitcheck('importsubmit')) {
 	$xmldata .= '</params>';
 	$xmldata .= '</methodCall>';
 	
-	//·¢ÉúÇëÇó
+	//å‘ç”Ÿè¯·æ±‚
 	$result = '';
 	$urls['port'] = empty($urls['port'])?'80':$urls['port'];
 	
@@ -105,7 +105,7 @@ if(submitcheck('importsubmit')) {
 		showmessage('blog_import_no_result', '', 1, array(shtmlspecialchars($org_result)));
 	}
 	
-	//½âÎö½á¹û
+	//è§£æç»“æœ
 	$results = xmltoarray($result);
 	$ones = array_pop(array_slice($results, -1));
 	if(!isset($ones['postid'])) {
@@ -117,7 +117,7 @@ if(submitcheck('importsubmit')) {
 		showmessage('blog_import_no_data', '', 1, array($return));
 	}
 	
-	//»º´æ½á¹û
+	//ç¼“å­˜ç»“æœ
 	swritefile($userfile, serialize($results));
 
 } elseif (submitcheck('import2submit')) {
@@ -129,7 +129,7 @@ if(submitcheck('importsubmit')) {
 	}
 	
 	$allcount = $incount = 0;
-	krsort($results);//µ¹Ğò
+	krsort($results);//å€’åº
 	foreach ($results as $key => $value) {
 		$allcount = $allcount + 1;
 		if(in_array($key, $_POST['ids'])) {
@@ -149,7 +149,7 @@ if(submitcheck('importsubmit')) {
 				continue;
 			}
 						
-			//¿ªÊ¼µ¼Èë
+			//å¼€å§‹å¯¼å…¥
 			$blogarr = array(
 				'uid' => $_SGLOBAL['supe_uid'],
 				'username' => $_SGLOBAL['supe_username'],
@@ -159,7 +159,7 @@ if(submitcheck('importsubmit')) {
 			);
 			$blogid = inserttable('blog', $blogarr, 1);
 			
-			//²åÈëÄÚÈİ
+			//æ’å…¥å†…å®¹
 			$fieldarr = array(
 				'blogid' => $blogid,
 				'uid' => $_SGLOBAL['supe_uid'],
@@ -168,7 +168,7 @@ if(submitcheck('importsubmit')) {
 			);
 			inserttable('blogfield', $fieldarr);
 			
-			//Í³¼Æ
+			//ç»Ÿè®¡
 			$incount = $incount + 1;
 			
 			$results[$key]['status'] = 'OK';
@@ -179,7 +179,7 @@ if(submitcheck('importsubmit')) {
 		}
 	}
 	if($incount) {
-		//¿Û³ı»ı·Ö
+		//æ‰£é™¤ç§¯åˆ†
 		getreward('blogimport');
 		@unlink($userfile);
 	}
@@ -190,7 +190,7 @@ if(submitcheck('importsubmit')) {
 
 include template('cp_import');
 
-//xmlrpc½á¹û½âÎö
+//xmlrpcç»“æœè§£æ
 function xmltoarray($xmldata){
 	global $_SC;
 	

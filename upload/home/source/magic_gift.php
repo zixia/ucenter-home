@@ -7,9 +7,9 @@
 if(!defined('IN_UCHOME')) {
 	exit('Access Denied');
 }
-//ºì°ü¿¨
+//çº¢åŒ…å¡
 
-//ÉÏ¸öºì°üµÄÊ£Óà»ı·Ö
+//ä¸Šä¸ªçº¢åŒ…çš„å‰©ä½™ç§¯åˆ†
 $leftcredit = 0;
 $query = $_SGLOBAL['db']->query('SELECT * FROM '.tname('magicuselog')." WHERE uid='$_SGLOBAL[supe_uid]' AND mid='$mid'");
 $value = $_SGLOBAL['db']->fetch_array($query);
@@ -18,7 +18,7 @@ if($value && $value['data']) {
 	$leftcredit = intval($data['left']);
 }
 
-//Ã¿·İ×î´óÊı
+//æ¯ä»½æœ€å¤§æ•°
 $magic['custom']['maxchunk'] = $magic['custom']['maxchunk'] ? intval($magic['custom']['maxchunk']) : 20;
 
 if(submitcheck("usesubmit")) {

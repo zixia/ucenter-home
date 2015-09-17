@@ -21,32 +21,32 @@ if($op == 'send' || $op == 'reply') {
 		showmessage('no_privilege');
 	}
 	
-	//ÊµÃûÈÏÖ¤
+	//å®žåè®¤è¯
 	ckrealname('poke');
 
-	//ÐÂÓÃ»§¼ûÏ°
+	//æ–°ç”¨æˆ·è§ä¹ 
 	cknewuser();
 	
 	$tospace = array();
 	
-	//»ñÈ¡¶ÔÏó
+	//èŽ·å–å¯¹è±¡
 	if($uid) {
 		$tospace = getspace($uid);
 	} elseif ($_POST['username']) {
 		$tospace = getspace($_POST['username'], 'username');
 	}
 	
-	//ÊÓÆµÈÏÖ¤
+	//è§†é¢‘è®¤è¯
 	if($tospace['videostatus']) {
 		ckvideophoto('poke', $tospace);
 	}
 
-	//ºÚÃûµ¥
+	//é»‘åå•
 	if($tospace && isblacklist($tospace['uid'])) {
 		showmessage('is_blacklist');
 	}
 	
-	//´òÕÐºô
+	//æ‰“æ‹›å‘¼
 	if(submitcheck('pokesubmit')) {
 		if(empty($tospace)) {
 			showmessage('space_does_not_exist');
@@ -63,26 +63,26 @@ if($op == 'send' || $op == 'reply') {
 		);
 		inserttable('poke', $setarr, 0, true);
 		
-		//¸üÐÂÍ³¼Æ
+		//æ›´æ–°ç»Ÿè®¡
 		if(!$oldpoke) {
 			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET pokenum=pokenum+1 WHERE uid='$uid'");
 		}
 		
-		//¸üÐÂÎÒµÄºÃÓÑ¹ØÏµÈÈ¶È
+		//æ›´æ–°æˆ‘çš„å¥½å‹å…³ç³»çƒ­åº¦
 		addfriendnum($tospace['uid'], $tospace['username']);
 
-		//·¢ËÍÓÊ¼þÍ¨Öª
+		//å‘é€é‚®ä»¶é€šçŸ¥
 		smail($uid, '',cplang('poke_subject',array($_SN[$space['uid']], getsiteurl().'cp.php?ac=poke')), '', 'poke');
 		
 		if($op == 'reply') {
-			//É¾³ýÕÐºô
+			//åˆ é™¤æ‹›å‘¼
 			$_SGLOBAL['db']->query("DELETE FROM ".tname('poke')." WHERE uid='$_SGLOBAL[supe_uid]' AND fromuid='$uid'");
 			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET pokenum=pokenum-1 WHERE uid='$_SGLOBAL[supe_uid]' AND pokenum>0");
 		}
-		//½±Àø
+		//å¥–åŠ±
 		getreward('poke', 1, 0, $uid);
 		
-		//Í³¼Æ
+		//ç»Ÿè®¡
 		updatestat('poke');
 
 		showmessage('poke_success', $_POST['refer'], 1, array($_SN[$tospace['uid']]));
@@ -92,7 +92,7 @@ if($op == 'send' || $op == 'reply') {
 
 	$where = empty($uid)?'':"AND fromuid='$uid'";
 	$_SGLOBAL['db']->query("DELETE FROM ".tname('poke')." WHERE uid='$_SGLOBAL[supe_uid]' $where");
-	//Í³¼Æ¸üÐÂ
+	//ç»Ÿè®¡æ›´æ–°
 	$pokenum = getcount('poke', array('uid'=>$space['uid']));
 	if($pokenum != $space['pokenum']) {
 		updatetable('space', array('pokenum'=>$pokenum), array('uid'=>$space['uid']));
@@ -105,10 +105,10 @@ if($op == 'send' || $op == 'reply') {
 	$page = empty($_GET['page'])?0:intval($_GET['page']);
 	if($page<1) $page = 1;
 	$start = ($page-1)*$perpage;
-	//¼ì²é¿ªÊ¼Êý
+	//æ£€æŸ¥å¼€å§‹æ•°
 	ckstart($start, $perpage);
 	
-	//´òÕÐºô
+	//æ‰“æ‹›å‘¼
 	$list = array();
 	$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('poke')." WHERE uid='$space[uid]'"), 0);
 	if($count) {
@@ -123,7 +123,7 @@ if($op == 'send' || $op == 'reply') {
 	}
 	$multi = multi($count, $perpage, $page, "cp.php?ac=poke");
 	
-	//Í³¼Æ¸üÐÂ
+	//ç»Ÿè®¡æ›´æ–°
 	if($count != $space['pokenum']) {
 		updatetable('space', array('pokenum'=>$count), array('uid'=>$space['uid']));
 	}
