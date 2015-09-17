@@ -10,6 +10,7 @@ https://github.com/zixia/ucenter-home
 * http://download.comsenz.com/UC_UCH_DZ/UC1.5.1_UCH2.0_DZ7.2_SC_UTF8.zip
 
 ## Install
+1. read "readme.txt" first
 1. fix file permission:
 
     ```bash
