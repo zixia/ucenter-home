@@ -8,9 +8,9 @@ https://github.com/zixia/ucenter-home
 
 ## Install
 1. fix file permission:
- ```bash
- sudo chmod -R 777 ucenter/data/ home/config.php home/attachment/ home/data/ home/uc_client/data/ bbs/config.inc.php bbs/attachments/ bbs/templates/ bbs/forumdata/ bbs/uc_client/data/
- ```
+    ```bash
+    sudo chmod -R 777 ucenter/data/ home/config.php home/attachment/ home/data/ home/uc_client/data/ bbs/config.inc.php bbs/attachments/ bbs/templates/ bbs/forumdata/ bbs/uc_client/data/
+    ```
 1. setup by isit http://ip/
  1. /install
  1. /home/install
