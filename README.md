@@ -13,7 +13,7 @@ https://github.com/zixia/ucenter-home
     sudo chmod -R 777 ucenter/data/ home/config.php home/attachment/ home/data/ home/uc_client/data/ bbs/config.inc.php bbs/attachments/ bbs/templates/ bbs/forumdata/ bbs/uc_client/data/
     ```
 
-1. setup by isit http://ip/
+1. setup by visit http://ip/
  1. /install
  1. /home/install
  1. /bbs/install
