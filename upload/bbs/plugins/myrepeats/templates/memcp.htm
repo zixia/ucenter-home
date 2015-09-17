@@ -1,0 +1,87 @@
+{template header}
+
+<div id="nav">
+	<a href="$indexname">$bbname</a> &raquo; {lang myrepeats:myrepeats}
+</div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+
+		<h1>{lang myrepeats:myrepeats}</h1>
+
+		<div class="datalist">
+		<form method="post" action="plugin.php?id=myrepeats:memcp&op=add">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<table cellspacing="0" cellpadding="0" class="datatable" style="table-layout:fixed;margin-top:10px;">
+		<thead class="colplural">
+			<tr><td>{lang myrepeats:adduser}</td></tr>
+		</thead>
+		<tbody>
+			<tr><td>
+				<span style="line-height:2em">
+				<!--{if !$singleprem}-->
+					{lang username} <input name="usernamenew" type="text" value="$username" size="15" tabindex="1" />&nbsp;
+				<!--{else}-->
+					{lang username} <select name="usernamenew">
+					<!--{loop $permusers $user}-->
+						<option value="$user"{if $user == $username} selected{/if}>$user</option>
+					<!--{/loop}-->
+					</select>
+				<!--{/if}-->
+				{lang password} <input name="passwordnew" type="password" size="15" tabindex="2" />&nbsp;
+				<select name="questionidnew" tabindex="3" onchange="if(this.value > 0) {$('answernew').style.display='';} else {$('answernew').style.display='none';}">
+					<option value="0">{lang security_question}</option>
+					<option value="1">{lang security_question_1}</option>
+					<option value="2">{lang security_question_2}</option>
+					<option value="3">{lang security_question_3}</option>
+					<option value="4">{lang security_question_4}</option>
+					<option value="5">{lang security_question_5}</option>
+					<option value="6">{lang security_question_6}</option>
+					<option value="7">{lang security_question_7}</option>
+				</select>
+				<span id="answernew" style="display:none">{lang security_answer} <input type="text" name="answernew" size="15" class="txt" tabindex="4" /></span></span>
+				<br />
+				{lang myrepeats:comment} <input name="commentnew" type="text" size="40" tabindex="5" />&nbsp;
+				<button type="submit" class="submit" name="adduser" value="yes" >{lang myrepeats:add}</button>
+				<br />
+			</td></tr>
+		</tbody>
+		</table>
+		</form>
+		<form method="post" action="plugin.php?id=myrepeats:memcp&op=update">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<table cellspacing="0" cellpadding="0" class="datatable" style="table-layout:fixed;margin-top:10px;">
+		<thead class="colplural">
+			<tr><td width="40"></td><td>{lang username}</td><td width="300">{lang myrepeats:commentrow}</td><td>{lang myrepeats:lastswitch}</td></tr>
+		</thead>
+		<!--{if $repeatusers}-->
+			<!--{loop $repeatusers $user}-->
+			<tr>
+				<td><input name="delete[]" type="checkbox" class="checkbox" value="$user[username]" /></td>
+				<td><b><!--{if !$user[locked]}--><a href="plugin.php?id=myrepeats:switch&username=$user[usernameenc]">$user[username]</a></b><!--{else}-->$user[username] ({lang myrepeats:locked})<!--{/if}--></td>
+				<td><input name="comment[{$user[username]}]" value="$user[comment]" size="40" /></td>
+				<td><!--{if $user[lastswitch]}-->$user[lastswitch]<!--{else}-->{lang myrepeats:nouse}<!--{/if}--></td>
+			</tr>
+			<!--{/loop}-->
+			<tr><td><input class="checkbox" type="checkbox" id="chkall" name="chkall" onclick="checkall(this.form);" /> <label for="chkall">{lang delete_check}</label></td>
+			<td><button type="submit" class="submit" name="updateuser" value="yes" >{lang submit}</button></td></tr>
+		<!--{else}-->
+			<tr><td colspan="4"><p class="nodata">{lang data_nonexistence}</p></td></tr>
+		<!--{/if}-->
+		</table>
+		</form>
+		</div>
+		</div>
+	</div>
+	<div class="side">
+		{subtemplate personal_navbar}
+	</div>
+</div>
+
+<script>
+function deletemruser(href) {
+	showDialog('{lang myrepeats:deleteconfirm}', 'confirm', '', function () { location.href=href });
+}
+</script>
+
+{template footer}

@@ -1,0 +1,6 @@
+{template header}
+<b>$member[useip]</b> $member[iplocation]
+<!--{if $allowviewip}-->
+	<br /><a href="admincp.php?action=members&operation=ipban&ip=$member[useip]&frames=yes" target="_blank" class="lightlink">{lang admin_ban_this_ip}</a>
+<!--{/if}-->
+{template footer}

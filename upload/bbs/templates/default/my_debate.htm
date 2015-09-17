@@ -1,0 +1,64 @@
+<table cellspacing="0" cellpadding="0" class="datatable">
+	<thead class="colplural">
+		<tr>
+			<td class="folder">&nbsp;</td>
+			<td class="icon">&nbsp;</td>
+			<th>{lang thread}</th>
+			<td class="forum">{lang forum}</td>
+			<td class="nums">
+				<select onchange="window.location='my.php?item=debate&type=$type&filter=' + this.value">
+					<option value="">{lang status}</option>
+					<option value="recyclebin"<!--{if $filter == 'recyclebin'}--> selected="selected"<!--{/if}-->>{lang forum_recyclebin}</option>
+					<option value="aduit"<!--{if $filter == 'aduit'}--> selected="selected"<!--{/if}-->>{lang my_threads_aduit}</option>
+					<option value="close"<!--{if $filter == 'close'}--> selected="selected"<!--{/if}-->>{lang my_threads_close}</option>
+					<option value="common"<!--{if $filter == 'common'}--> selected="selected"<!--{/if}-->>{lang my_threads_common}</option>
+				</option>
+			</td>
+			<td class="lastpost"><cite><!--{if $type == 'orig'}-->{lang lastpost}<!--{else}-->{lang debate_dateline}<!--{/if}--></cite></td>
+		</tr>
+	</thead>
+	<!--{if $debatelist}-->
+		<tbody>
+			<!--{loop $debatelist $key $debate}-->
+				<tr>
+					<td class="folder">
+						<a href="viewthread.php?tid=$debate[tid]" target="_blank">
+						<!--{if $debate[folder] == 'lock'}-->
+							<img src="{IMGDIR}/folder_lock.gif" /></a>
+						<!--{else}-->
+							<img src="{IMGDIR}/folder_$debate[folder].gif" /></a>
+						<!--{/if}-->
+					</td>
+					<td class="icon">
+					<img src="{IMGDIR}/debatesmall.gif" alt="{lang thread_debate}" />
+					</td>
+					<th><a href="{if $type == 'orig'}viewthread.php?tid=$debate[tid]{else}redirect.php?goto=findpost&pid=$debate[pid]&ptid=$debate[tid]{/if}" target="_blank">$debate[subject]</a></th>
+					<td class="forum"><a href="forumdisplay.php?fid=$debate[fid]" target="_blank">$debate[forumname]</a></td>
+					<td class="nums"><!--{if $debate[displayorder] == '-1'}-->{lang forum_recyclebin}<!--{elseif $debate[displayorder] == '-2'}-->{lang my_threads_aduit}<!--{elseif $debate[closed] == '1'}-->{lang my_threads_close}<!--{else}-->{lang my_threads_common}<!--{/if}--></td>
+					<td class="lastpost">
+						<!--{if $type == 'orig'}-->
+							<cite><!--{if $debate['lastposter']}--><a href="space.php?username=$debate[lastposterenc]" target="_blank">$debate[lastposter]</a><!--{else}-->{lang anonymous}<!--{/if}--></cite>
+							<em><a href="redirect.php?tid=$debate[tid]&goto=lastpost#lastpost" target="_blank">$debate[lastpost]</a></em>
+						<!--{else}-->
+							<cite>$debate[dateline]</cite>
+						<!--{/if}-->
+					</td>
+				</tr>
+				<!--{if $type == 'reply'}-->
+					<tr>
+						<td class="folder">&nbsp;</td>
+						<td class="icon">&nbsp;</td>
+						<th colspan="4" class="lighttxt">$debate[message]</th>
+					</tr>
+				<!--{/if}-->
+			<!--{/loop}-->
+		</tbody>
+	<!--{else}-->
+		<tr>
+			<td class="folder">&nbsp;</td>
+			<td class="icon">&nbsp;</td>
+			<th colspan="4"><p class="nodata">{lang data_nonexistence}</p></th>
+		</tr>
+	<!--{/if}-->
+</table>
+<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->

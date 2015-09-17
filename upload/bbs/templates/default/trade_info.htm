@@ -1,0 +1,143 @@
+{template header}
+<!--{if empty($inajax)}-->
+<style type="text/css">
+.main { overflow: hidden; }
+.content { margin: 5px; min-height: 400px; }
+	* html .content { height: 400px; overflow: auto; }
+</style>
+
+<link rel="stylesheet" type="text/css" href="forumdata/cache/style_{STYLEID}_special.css?{VERHASH}" />
+
+<script type="text/javascript" src="{$jspath}viewthread.js?{VERHASH}"></script>
+
+<div id="nav">
+	<!--{if $forumjump == 1}--><a href="$indexname">$bbname</a><!--{else}--><a href="$indexname">$bbname</a><!--{/if}-->$navigation
+</div>
+
+<div id="wrap" class="wrap s_clear"><div class="main"><div class="content">
+<!--{/if}-->
+
+<div class="viewthread tradeinfo s_clear"{if !empty($inajax)} style="border:0"{/if}>
+	<div class="tradethumb">
+	<!--{if $trade['thumb']}-->
+		<a href="javascript:;"><img src="$trade[thumb]" onclick="zoom(this, '$trade[attachurl]')" onload="thumbImg(this, 1)" _width="240" _height="240" alt="$trade[subject]" /></a>
+	<!--{else}-->
+		<img src="{IMGDIR}/trade_nophoto.gif" alt="$trade[subject]" />
+	<!--{/if}-->
+	</div>
+
+	<div class="tradeattribute">
+		<!--{if !empty($inajax)}--><span class="infoview"><a href="javascript:;" onclick="$('tradeinfo$trade[pid]').style.display = 'none';display('trade$trade[pid]');">{lang close}</a></span><!--{/if}-->
+		<h4><a href="viewthread.php?tid=$tid&do=tradeinfo&pid=$post[pid]" class="lightlink" target="_blank">$trade[subject]</a></h4>
+		<dl>
+		<dt>{lang trade_type_viewthread}:</dt>
+		<dd>
+			<!--{if $trade['quality'] == 1}-->{lang trade_new}<!--{/if}-->
+			<!--{if $trade['quality'] == 2}-->{lang trade_old}<!--{/if}-->
+			{lang trade_type_buy}
+		</dd>
+		<dt>{lang trade_transport}:</dt>
+		<dd>
+			<!--{if $trade['transport'] == 1}-->{lang post_trade_transport_seller}<!--{/if}-->
+			<!--{if $trade['transport'] == 2 || $trade['transport'] == 4}-->
+				<!--{if $trade['transport'] == 4}-->{lang post_trade_transport_physical}<!--{/if}-->
+				<!--{if !empty($trade['ordinaryfee']) || !empty($trade['expressfee']) || !empty($trade['emsfee'])}-->
+					<!--{if !empty($trade['ordinaryfee'])}-->{lang post_trade_transport_mail} $trade[ordinaryfee] {lang payment_unit}<!--{/if}-->
+					<!--{if !empty($trade['expressfee'])}--> {lang post_trade_transport_express} $trade[expressfee] {lang payment_unit}<!--{/if}-->
+					<!--{if !empty($trade['emsfee'])}--> EMS $trade[emsfee] {lang payment_unit}<!--{/if}-->
+				<!--{elseif $trade['transport'] == 2}-->
+					{lang post_trade_transport_none}
+				<!--{/if}-->
+			<!--{/if}-->
+			<!--{if $trade['transport'] == 3}-->{lang post_trade_transport_virtual}<!--{/if}-->
+		</dd>
+		<dt>{lang trade_remaindays}:</dt>
+		<dd>
+		<!--{if $trade[closed]}-->
+			<em>{lang trade_timeout}</em>
+		<!--{elseif $trade[expiration] > 0}-->
+			{$trade[expiration]}{lang days}{$trade[expirationhour]}{lang trade_hour}
+		<!--{elseif $trade[expiration] == -1}-->
+			<em>{lang trade_timeout}</em>
+		<!--{else}-->
+			&nbsp;
+		<!--{/if}-->
+		</dd>
+		<dt>{lang post_trade_number}:</dt><dd>$trade[amount]</dd>
+		<!--{if $trade[locus]}--><dt>{lang trade_locus}:</dt><dd>$trade[locus]</dd><!--{/if}-->
+		<dt>{lang post_trade_buynumber}:</dt><dd>$trade[totalitems]</dd>
+		<!--{if $trade[price] && $trade['costprice'] > 0 || $creditstransextra[5] != -1 && $trade[credit] && $trade['costcredit'] > 0}-->
+			<dt>{lang trade_costprice}:</dt>
+			<dd>
+				<!--{if $trade['costprice'] > 0}-->
+					<del>$trade[costprice] {lang payment_unit}</del>&nbsp;&nbsp;
+				<!--{/if}-->
+				<!--{if $creditstransextra[5] != -1 && $trade['costcredit'] > 0}-->
+					<del>{$extcredits[$creditstransextra[5]][title]} $trade[costcredit] {$extcredits[$creditstransextra[5]][unit]}</del>
+				<!--{/if}-->
+			</dd>
+		<!--{/if}-->
+		<dt>{lang trade_price}:</dt>
+		<dd>
+			<!--{if $trade[price] > 0}-->
+				<strong class="price">$trade[price]</strong>&nbsp;{lang payment_unit}&nbsp;&nbsp;
+			<!--{/if}-->
+			<!--{if $creditstransextra[5] != -1 && $trade[credit]}-->
+				{$extcredits[$creditstransextra[5]][title]}&nbsp;<strong class="price">$trade[credit]</strong>&nbsp;{$extcredits[$creditstransextra[5]][unit]}
+			<!--{/if}-->
+		</dd>
+	</dl>
+	<!--{if $post['authorid'] != $discuz_uid && empty($thread['closed']) && empty($trade['closed'])}-->
+		<!--{if $trade[amount]}--><button onclick="window.open('trade.php?tid=$post[tid]&pid=$post[pid]','','')">{lang trade_buy}</button> &nbsp;<!--{/if}-->
+		<!--{if $discuz_uid}--><button onclick="showWindow('sendpm', 'pm.php?action=new&uid=$post[authorid]&operation=trade&pid=$post[pid]')">{lang trade_bargain}</button><!--{/if}-->
+	<!--{/if}-->
+	<!--{if $trade['account']}-->
+		<br /><em>({lang post_trade_supportalipay})</em>
+	<!--{/if}-->
+	</div>
+
+	<div class="postmessage">
+
+		<!--{if $typetemplate}-->
+			$typetemplate
+		<!--{elseif $optionlist}-->
+			<div class="box typeoption">
+				<h4>$tradetypes[$tradetypeid]</h4>
+				<table summary="{lang threadtype_option}" cellpadding="0" cellspacing="0" class="formtable datatable">
+				<!--{loop $optionlist $option}-->
+					<tr class="{echo swapclass('colplural')}">
+						<th>$option[title]</th>
+						<td><!--{if $option['value']}-->$option[value]<!--{else}-->-<!--{/if}--></td>
+					</tr>
+				<!--{/loop}-->
+				</table>
+			</div>
+		<!--{/if}-->
+
+		$post[message]
+		<!--{if $post['attachment']}-->
+			<div class="notice postattach">{lang attachment}: <em>{lang attach_nopermission}</em></div>
+		<!--{elseif $hideattach[$post[pid]] && $post['attachments']}-->
+			<div class="notice postattach">{lang attachment}: <em>{lang attachment_reply_show}</em></div>
+		<!--{elseif $post['imagelist'] || $post['attachlist']}-->
+			<div class="postattachlist">
+				<!--{if $post['imagelist']}-->
+					$post['imagelist']
+				<!--{/if}-->
+				<!--{if $post['attachlist']}-->
+					$post[attachlist]
+				<!--{/if}-->
+			</div>
+		<!--{/if}-->
+	</div>
+</td></tr>
+</td></tr></table></div>
+
+<!--{if $aimgs[$post[pid]]}-->
+<script type="text/javascript" reload="1">var aimgcount = new Array();aimgcount[$pid] = [{echo implode(',', $aimgs[$pid]);}];attachimgshow($pid);</script>
+<!--{/if}-->
+
+<!--{if empty($inajax)}-->
+	</div></div></div>
+<!--{/if}-->
+{template footer}

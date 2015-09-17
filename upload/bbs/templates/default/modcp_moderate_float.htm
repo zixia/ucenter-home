@@ -1,0 +1,48 @@
+{template header}
+
+<div class="fcontent">
+	<h3 class="float_ctrl">
+		<em id="return_mods">
+			<!--{if $mod == 'delete'}-->{lang delete}<!--{elseif $mod == 'ignore'}-->{lang ignore}<!--{elseif $mod=='invalidate'}-->{lang invalidate}<!--{else}-->{lang validate}<!--{/if}-->
+			<!--{if $op == 'members'}-->{lang mod_moderate_member}<!--{elseif $op == 'threads'}-->{lang mod_moderate_thread}<!--{elseif $op == 'replies'}-->{lang mod_moderate_reply}<!--{/if}-->
+			({echo count($list)})</em>
+		<span>
+			<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('mods')" title="{lang close}">{lang close}</a><!--{/if}-->
+		</span>
+	</h3>
+
+	<div class="postbox">
+	<!--{if $list}-->
+		<form id="moderateform" method="post" action="{$cpscript}?action=$action&op=$op&modsubmit=yes&infloat=yes" onsubmit="ajaxpost('moderateform', 'return_mods', 'return_mods', 'onerror');return false;">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="filter" value="$filter" />
+			<input type="hidden" name="mod" value="$mod" />
+			<!--{if !empty($infloat)}--><input type="hidden" name="handlekey" value="$handlekey" /><!--{/if}-->
+			<!--{loop $list $id}-->
+				<input type="hidden" name="moderate[]" value="$id" />
+			<!--{/loop}-->
+			<p>{lang mod_moderate_reason}: </p>
+			<p><textarea class="txtarea" style="margin:5px 0;" cols="60" rows="3" name="reason"></textarea></p>
+			<p>
+				<button type="submit" class="submit" name="modsubmit" id="modsubmit" value="true" tabindex="2">{lang submit}</button>
+				<!--{if $op=='members'}--> <input type="checkbox" name="sendemail" id="sendemail" value="1" /> <label for="sendemail">{lang mod_moderate_member_sendemail}</label><!--{/if}-->
+			</p>
+		</form>
+	<!--{else}-->
+		{lang mod_moderate_nonexistence}
+	<!--{/if}-->
+	</div>
+</div>
+
+<script type="text/javascript" reload="1">
+function submithandle_$handlekey(locationhref) {
+	<!--{loop $list $id}-->
+		$('pidcheck_$id').parentNode.removeChild($('pidcheck_$id'));
+		$('pid_$id').style.display = 'none';		
+	<!--{/loop}-->
+	recountobj();
+	hideWindow('mods');
+}
+</script>
+
+{template footer}

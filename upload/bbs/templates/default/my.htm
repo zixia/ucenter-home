@@ -1,0 +1,128 @@
+{subtemplate header}
+<div id="nav">
+	<a href="$indexname">$bbname</a> &raquo;
+	<!--{if $srchfid}--><a href="my.php?item=$item$extra"><!--{/if}-->
+	<!--{if empty($item) || in_array($item, array('threads', 'posts', 'polls', 'tradestats', 'selltrades', 'buytrades', 'tradethreads', 'reward', 'activities', 'debate'))}-->{lang my_posts}
+	<!--{elseif $item == 'favorites'}-->{lang my_favorite}
+	<!--{elseif $item == 'attention'}-->{lang my_attention}
+	<!--{elseif $item == 'buddylist'}-->{lang my_buddylist}<!--{/if}-->
+	<!--{if $srchfid}--></a> &raquo; $forumname<!--{/if}-->
+</div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+		<!--{if $item != 'buddylist'}-->
+			<div class="itemtitle s_clear">
+				<!--{if empty($item) || in_array($item, array('threads', 'posts', 'polls', 'tradestats', 'selltrades', 'buytrades', 'tradethreads', 'reward', 'activities', 'debate'))}-->
+					<h1>{lang my_posts}</h1>
+					<div class="right"><select onchange="location.href='my.php?item=$item{if $type}&type=$type{/if}{if $filter}&filter=$filter{/if}&srchfid=' + this.value"><option>{lang my_allforums}</option>$forumselect</select></div>
+					<ul>
+						<li<!--{if empty($item) || $item == 'threads'}--> class="current"<!--{/if}-->><a href="my.php?item=threads$extrafid" hidefocus="true"><span>{lang thread}</span></a></li>
+						<li<!--{if $item == 'posts'}--> class="current"<!--{/if}-->><a href="my.php?item=posts$extrafid" hidefocus="true"><span>{lang reply}</span></a></li>
+						<li class="pipe">|</li>
+						<li id="polls" <!--{if $item == 'polls'}--> class="current"<!--{/if}-->><a href="my.php?item=polls" hidefocus="true"><span>{lang thread_poll}</span></a></li>
+						<li id="rewards" onmouseover="showMenu({'ctrlid':this.id})"<!--{if $item == 'reward'}--> class="current"<!--{/if}-->><a href="my.php?item=reward&amp;type=stats$extrafid" hidefocus="true" class="dropmenu"><span>{lang thread_reward}</span></a></li>
+						<li id="activities" onmouseover="showMenu({'ctrlid':this.id})"<!--{if $item == 'activities'}--> class="current"<!--{/if}-->><a href="my.php?item=activities&type=orig$extrafid" hidefocus="true" class="dropmenu"><span>{lang thread_activity}</span></a></li>
+						<li id="debates" onmouseover="showMenu({'ctrlid':this.id})"<!--{if $item == 'debate'}--> class="current"<!--{/if}-->><a href="my.php?item=debate&type=orig$extrafid" hidefocus="true" class="dropmenu"><span>{lang thread_debate}</span></a></li>
+						<!--{if $tradeopen}--><li id="trades" onmouseover="showMenu({'ctrlid':this.id})"<!--{if in_array($item, array('tradestats', 'selltrades', 'buytrades', 'tradethreads'))}--> class="current"<!--{/if}-->><a href="my.php?item=tradestats$extrafid" hidefocus="true" class="dropmenu"><span>{lang thread_trade}</span></a></li><!--{/if}-->
+						$pluginhooks[my_navextra]
+					</ul>
+				<!--{elseif $item == 'favorites'}-->
+					<h1>{lang my_favorite}</h1>
+					<ul>
+						<li id="favorite_threads" {if $type == 'thread'} class="current"{/if}><a href="my.php?item=favorites&type=thread$extrafid"><span>{lang threads}</span></a></li>
+						<li id="favorite_forums" {if $type == 'forum'} class="current"{/if}><a href="my.php?item=favorites&type=forum$extrafid"><span>{lang forums}</span></a></li>
+					</ul>
+				<!--{elseif $item == 'attention'}-->
+					<h1>{lang my_attention}</h1>
+					<ul>
+						<li id="favorite_threads" {if $type == 'thread'} class="current"{/if}><a href="my.php?item=attention&type=thread$extrafid"><span>{lang threads}</span></a></li>
+						<li id="favorite_forums" {if $type == 'forum'} class="current"{/if}><a href="my.php?item=attention&type=forum$extrafid"><span>{lang forums}</span></a></li>
+					</ul>
+				<!--{/if}-->
+			</div>
+			<!--{if $forumname}--><div class="c_header"><strong>{lang my_forum}: $forumname</strong> <a href="my.php?item=$item{if $type}&type=$type{/if}" class="lightlink">({lang my_forum_all})</a></div><!--{/if}-->
+		<!--{/if}-->
+			<div class="<!--{if !in_array($item, array('tradestats', 'selltrades', 'buytrades', 'tradethreads'))}-->threadlist <!--{/if}-->datalist">
+		<!--{if empty($item) || $item == 'threads'}-->
+			{template my_threads}
+		<!--{elseif $item == 'posts'}-->
+			{template my_posts}
+		<!--{elseif $item == 'polls'}-->
+			{template my_polls}
+		<!--{elseif in_array($item, array('tradestats', 'selltrades', 'buytrades', 'tradethreads'))}-->
+			<!--{if $item == 'tradestats'}-->
+				{template my_tradestats}
+			<!--{elseif $item == 'selltrades' || $item == 'buytrades'}-->
+				{template my_trades}
+			<!--{elseif $item == 'tradethreads'}-->
+				{template my_tradethreads}
+			<!--{/if}-->
+		<!--{elseif $item == 'reward'}-->
+			{template my_rewards}
+		<!--{elseif $item == 'activities'}-->
+			{template my_activities}
+		<!--{elseif $item == 'debate'}-->
+			{template my_debate}
+		<!--{elseif $item == 'attention'}-->
+			<!--{if $type == 'forum'}-->
+				<!--{if $action == 'detail'}-->
+					{template my_attention_forums_detail}
+				<!--{else}-->
+					{template my_attention_forums}
+				<!--{/if}-->
+			<!--{else}-->
+				{template my_attention}
+			<!--{/if}-->
+		<!--{elseif $item == 'favorites'}-->
+			{template my_favorites}
+		<!--{elseif $item == 'buddylist'}-->
+			{template my_buddylist}
+		<!--{/if}-->
+			</div>
+			<ul class="popupmenu_popup titlemenu_popup" id="rewards_menu" style="display: none">
+				<li <!--{if $type == 'question'}--> class="current"<!--{/if}-->><a href="my.php?item=reward&type=question$extrafid">{lang my_mypost}</a></li>
+				<li <!--{if $type == 'answer'}--> class="current"<!--{/if}-->><a href="my.php?item=reward&type=answer$extrafid">{lang my_join}</a></li>
+				<li <!--{if $type == 'stats'}--> class="current"<!--{/if}-->><a href="my.php?item=reward&type=stats$extrafid">{lang statistics}</a></li>
+			</ul>
+			<ul class="popupmenu_popup titlemenu_popup" id="activities_menu" style="display: none">
+				<li <!--{if $type == 'orig'}--> class="current"<!--{/if}-->><a href="my.php?item=activities&type=orig$extrafid">{lang my_mypost}</a></li>
+				<li <!--{if $type == 'apply'}--> class="current"<!--{/if}-->><a href="my.php?item=activities&type=apply$extrafid">{lang my_join}</a></li>
+			</ul>
+			<ul class="popupmenu_popup titlemenu_popup" id="debates_menu" style="display: none">
+				<li <!--{if $item == 'debate' && $type == 'orig'}--> class="current"<!--{/if}-->><a href="my.php?item=debate&type=orig$extrafid">{lang my_mypost}</a></li>
+				<li <!--{if $item == 'debate' && $type == 'reply'}--> class="current"<!--{/if}-->><a href="my.php?item=debate&type=reply$extrafid">{lang my_join}</a></li>
+			</ul>
+			<ul class="popupmenu_popup titlemenu_popup" id="trades_menu" style="display: none">
+				<li <!--{if $item == 'buytrades'}--> class="current"<!--{/if}-->><a href="my.php?item=buytrades$extrafid">{lang buy}</a></li>
+				<li <!--{if $item == 'tradethreads'}--> class="current"<!--{/if}-->><a href="my.php?item=tradethreads$extrafid">{lang sell}</a></li>
+				<li <!--{if $item == 'selltrades'}--> class="current"<!--{/if}-->><a href="my.php?item=selltrades&filter=all">{lang my_trade_seller_log}</a></li>
+				<li <!--{if $item == 'tradestats'}--> class="current"<!--{/if}-->><a href="my.php?item=tradestats$extrafid">{lang my_trade_stat}</a></li>
+				<li><a href="eccredit.php?uid=$discuz_uid" target="_blank">{lang trade_rate}</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="side">
+		{subtemplate personal_navbar}
+	</div>
+</div>
+
+<script type="text/javascript">
+function attentionToggleShow(id) {
+	checkbox = $(id);
+	url = window.location.href;
+	if(checkbox.checked) {
+		url = url.replace('&filter=new', '');
+		url = url.replace('filter=new&', '');
+	} else {
+		if(url.indexOf('filter=all') != -1) {
+			url = url.replace('filter=all', 'filter=new');
+		} else {
+			url += '&filter=new';
+		}
+	}
+	window.location = url;
+}
+</script>
+
+{subtemplate footer}

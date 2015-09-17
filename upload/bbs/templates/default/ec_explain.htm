@@ -1,0 +1,11 @@
+{template header}
+<div style="width: 400px" class="popupmenu_option" id="ajax_explain_menu">
+	<p style="overflow:hidden"><a href="javascript:;" onclick="hideMenu()" class="deloption" style="float:right"><img align="right" src="{IMGDIR}/close.gif" /></a></p>
+	<form method="post" id="explainform_$id" action="eccredit.php?action=explain&explainsubmit=yes">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="id" value="$id" />
+		<textarea name="explanation" rows="5" cols="50" class="txtarea" style="width:98%" /></textarea><br /><br />
+		<button class="submit" type="button" name="explainsubmit" value="true"  onclick="ajaxpost('explainform_$id', '$ajaxmenuid')">{lang submit}</button>
+	</form>
+</div>
+{template footer}

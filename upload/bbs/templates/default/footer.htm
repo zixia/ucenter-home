@@ -1,0 +1,44 @@
+
+</div>
+
+{subtemplate jsmenu}
+<!--{if $prompts['newbietask'] && $newbietasks}-->{template task_newbie_js}<!--{/if}-->
+
+<!--{if $admode && !empty($advlist)}-->
+	<div class="ad_footerbanner" id="ad_footerbanner1">$advlist[footerbanner1]</div><!--{if $advlist[footerbanner2]}--><div class="ad_footerbanner" id="ad_footerbanner2">$advlist[footerbanner2]</div><!--{/if}--><!--{if $advlist[footerbanner3]}--><div class="ad_footerbanner" id="ad_footerbanner3">$advlist[footerbanner3]</div><!--{/if}-->
+<!--{else}-->
+	<div id="ad_footerbanner1"></div><div id="ad_footerbanner2"></div><div id="ad_footerbanner3"></div>
+<!--{/if}-->
+
+$pluginhooks[global_footer]
+<div id="footer">
+	<div class="wrap s_clear">
+		<div id="footlink">
+			<p>
+				<strong><a href="$siteurl" target="_blank">$sitename</a></strong>
+				<!--{if $icp}-->( <a href="http://www.miibeian.gov.cn/" target="_blank">$icp</a>)<!--{/if}-->
+				<span class="pipe">|</span><a href="mailto:$adminemail">{lang contactus}</a>
+				<!--{if $allowviewstats}--><span class="pipe">|</span><a href="stats.php">{lang stats}</a><!--{/if}-->
+				<!--{if $archiverstatus}--><span class="pipe">|</span><a href="archiver/" target="_blank">Archiver</a><!--{/if}-->
+				<!--{if $wapstatus}--><span class="pipe">|</span><a href="wap/" target="_blank">WAP</a><!--{/if}-->
+				<!--{if $statcode}--><span class="pipe">| $statcode</span><!--{/if}-->
+				$pluginhooks[global_footerlink]
+			</p>
+			<p class="smalltext">
+				{lang time_now}
+				<!--{if debuginfo()}-->, <span id="debuginfo">Processed in $debuginfo[time] second(s), $debuginfo[queries] queries<!--{if $gzipcompress}-->, Gzip enabled<!--{/if}--></span><!--{/if}-->.
+			</p>
+		</div>
+		<div id="rightinfo">
+			<p>Powered by <strong><a href="http://www.discuz.net" target="_blank">Discuz!</a></strong> <em>$version</em><!--{if !empty($boardlicensed)}--> <a href="http://license.comsenz.com/?pid=1&host=$_SERVER[HTTP_HOST]" target="_blank">Licensed</a><!--{/if}--></p>
+			<p class="smalltext">&copy; 2001-2009 <a href="http://www.comsenz.com" target="_blank">Comsenz Inc.</a></p>
+		</div>
+		{eval updatesession();}
+	</div>
+</div>
+<!--{if $_DCACHE['settings']['frameon'] && in_array(CURSCRIPT, array('index', 'forumdisplay', 'viewthread')) && $_DCOOKIE['frameon'] == 'yes'}-->
+	<script type="text/javascript" src="{$jspath}iframe.js?{VERHASH}"></script>
+<!--{/if}-->
+{eval output();}
+</body>
+</html>

@@ -1,0 +1,39 @@
+{template header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang notice}</div>
+
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+			<div class="itemtitle s_clear">
+				<h1>{lang notice}</h1>
+			</div>
+			
+			<div class="pm_header colplural itemtitle s_clear">
+				<ul>
+					<li{if !$filter} class="current"{/if}><a href="notice.php" hidefocus="true"><span>{lang all}</span></a></li>
+					<!--{loop $prompts $promptkey $promptdata}-->
+						<!--{if !$promptdata[script]}--><li{if $filter == $promptkey} class="current"{/if}><a href="notice.php?filter=$promptkey"><span>$promptdata[name]<!--{if $promptdata[new]}-->($promptdata[new])<!--{/if}--></span></a></li><!--{/if}-->
+					<!--{/loop}-->
+					</ul>
+				</ul>
+			</div>
+
+			<!--{if $pmlist}-->
+				<ul class="feed">
+				<!--{loop $pmlist $key $pm}-->
+					<li class="s_clear">$pm[message]</li>
+				<!--{/loop}-->
+				</ul>
+				<div>$multipage</div>
+			<!--{else}-->
+				<p class="nodata">{lang data_nonexistence}</p>
+			<!--{/if}-->
+		</div>
+	</div>
+	<div class="side">
+		{subtemplate personal_navbar}
+	</div>
+
+</div>
+
+{template footer}

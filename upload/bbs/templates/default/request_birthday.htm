@@ -1,0 +1,12 @@
+<!--{block writedata}-->
+<!--{if $birthdaymembers}-->
+	<div class="sidebox">
+	<h4>{lang todays_birthdays}</h4>
+	<ul class="avt_list s_clear">
+	<!--{loop $birthdaymembers $member}-->
+		<li><a href="space.php?uid=$member[uid]" target="_blank"><img src="{UC_API}/avatar.php?uid=$member[uid]&size=small" title="$member[username]" /></a></li>
+	<!--{/loop}-->
+	</ul>
+	</div>
+<!--{/if}-->
+<!--{/block}-->

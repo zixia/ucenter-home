@@ -1,0 +1,42 @@
+<div id="list_magics_mine_c" class="c_header">
+	<h3 class="noarrow">{lang magics_user}</h3>
+</div>
+<div id="list_magics_mine" class="mymagic">
+	<!--{if $magicsdiscount || $maxmagicsweight}-->
+		<!--{if $maxmagicsweight}-->
+			<p>{lang magics_capacity}: $totalweight/$maxmagicsweight&nbsp;&nbsp;&nbsp;<a href="magic.php?action=log&operation=uselog" class="lightlink">{lang magics_view_logs}</a></p>
+		<!--{/if}-->
+	<!--{/if}-->
+	<ul class="inlinelist s_clear">
+		<!--{if $mymagiclist}-->
+				<!--{eval $i=0;}-->
+				<!--{loop $mymagiclist $key $mymagic}-->
+					<li>
+						<div class="magicimg"><img src="images/magics/$mymagic[pic]" alt="$mymagic[name]" /></div>
+						<div class="magicdetail">
+							<h5>$mymagic[name]</h5>
+							<p>$mymagic[description]</p>
+							<p>{lang magics_num}: $mymagic[num]&nbsp;&nbsp;&nbsp;{lang magics_user_totalnum}: $mymagic[weight]</p>
+							<p>
+								<!--{if $mymagic[type] > 2}-->
+									<a href="magic.php?action=mybox&operation=use&magicid=$mymagic[magicid]" onclick="showWindow('magics', this.href, 'get', 0);return false;"><strong>{lang magics_operation_use}</strong></a>&nbsp;|&nbsp;
+								<!--{/if}-->
+								<!--{if $allowmagics > 1}-->
+									<a href="magic.php?action=mybox&operation=give&magicid=$mymagic[magicid]" onclick="showWindow('magics', this.href, 'get', 0);return false;">{lang magics_operation_present}</a>&nbsp;|&nbsp;
+								<!--{/if}-->
+								<a href="magic.php?action=mybox&operation=drop&magicid=$mymagic[magicid]" onclick="showWindow('magics', this.href, 'get', 0);return false;">{lang magics_operation_drop}</a>&nbsp;|&nbsp;
+								<!--{if $magicmarket && $allowmagics > 1}-->
+									<a href="magic.php?action=mybox&operation=sell&magicid=$mymagic[magicid]" onclick="showWindow('magics', this.href, 'get', 0);return false;">{lang magics_operation_sell}</a>&nbsp;
+								<!--{/if}-->
+							</p>
+						</div>
+					</li>
+					<!--{if $i%2}--><li class="clear"></li><!--{/if}-->
+					<!--{eval $i++;}-->
+				<!--{/loop}-->
+				<!--{if !empty($mymultipage)}--><li class="clear"><div class="pages_btns">$mymultipage</div></li><!--{/if}-->
+		<!--{else}-->
+			<li class="clear">{lang data_nonexistence}</li>
+		<!--{/if}-->
+	</ul>
+</div>

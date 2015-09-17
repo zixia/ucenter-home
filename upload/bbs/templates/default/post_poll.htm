@@ -1,0 +1,41 @@
+<input type="hidden" name="polls" value="yes" />
+<div class="specialpost s_clear">
+	<p><em>{lang post_poll_options}:</em>{lang post_poll_comment}</p>
+	<div class="specialinfo sppoll">
+		<!--{if $action == 'newthread'}-->
+			<span id="polloption_new"></span>
+			<p id="polloption_hidden" style="display: none"><input name="polloption[]" class="optioninfo txt" tabindex="1" /><a href="javascript:;" class="deloption" title="del" onclick="this.parentNode.parentNode.removeChild(this.parentNode)">del</a></p>
+			<p><a href="javascript:;" onclick="addpolloption()">+{lang post_poll_add}</a></p>
+		<!--{else}-->
+			<!--{loop $poll['polloption'] $key $option}-->
+				<p>
+				<input type="hidden" name="polloptionid[{$poll[polloptionid][$key]}]" value="$poll[polloptionid][$key]" />
+				<input name="displayorder[{$poll[polloptionid][$key]}]" type="text" class="optionnum txt" tabindex="1" value="$poll[displayorder][$key]" />
+				<input name="polloption[{$poll[polloptionid][$key]}]" type="text" class="optioninfo txt" tabindex="1" value="$option"<!--{if !$alloweditpoll}--> readonly{/if} />
+				</p>
+			<!--{/loop}-->
+			<span id="polloption_new"></span>
+			<p id="polloption_hidden" style="display: none"><input name="displayorder[]" type="text" class="optionnum txt" tabindex="1" /><input name="polloption[]" class="optioninfo txt" tabindex="1" /><a href="javascript:;" class="deloption" title="del" onclick="this.parentNode.parentNode.removeChild(this.parentNode)">del</a></p>
+			<p><a href="javascript:;" onclick="addpolloption()">+{lang post_poll_add}</a></p>
+		<!--{/if}-->
+	</div>
+	<div class="specialaddons">
+		<p><label for="pollnum"><input name="multiplepoll" type="checkbox" value="1"{if $poll[multiple]} checked{/if} tabindex="1" />{lang post_poll_allowmultiple}</label> <input name="maxchoices" class="spshortinput txt" value="$poll[maxchoices]" type="text" tabindex="1" /></p>
+		<p><label for="polldatas"><input name="expirationchecked" type="checkbox" value="1" tabindex="1" />{lang post_poll_expiration}</label> <input id="polldatas" name="expiration" class="spshortinput txt" type="text" value="{if !$poll[expiration]}0{elseif $poll[expiration] < 0}{lang poll_close}{elseif $poll[expiration] < $timestamp}{lang poll_finish}{else}{eval print_r(round(($poll[expiration] - $timestamp) / 86400))} {/if}" tabindex="1" /></p>
+		<p><input name="visibilitypoll" type="checkbox" value="1"{if $action == 'edit' && !$poll[visible]} checked{/if} tabindex="1" />{lang poll_after_result}</p>
+		<p><input name="overt" type="checkbox" value="1"{if $action == 'edit' && $poll[overt]} checked{/if} tabindex="1" />{lang post_poll_overt}</p>
+	</div>
+</div>
+
+<script type="text/javascript" reload="1">
+function addpolloption() {
+	$('polloption_new').outerHTML = '<p>' + $('polloption_hidden').innerHTML + '</p>' + $('polloption_new').outerHTML
+}
+{if $action == 'newthread'}
+	addpolloption();
+	addpolloption();
+	addpolloption();
+	addpolloption();
+	addpolloption();
+{/if}
+</script>

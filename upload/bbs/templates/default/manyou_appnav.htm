@@ -1,0 +1,82 @@
+<style type="text/css">
+.uappmain { background: #FFF url(manyou/images/uappbg.gif) repeat-y scroll -50px 0}
+.content { background:; padding: 20px 5px; }
+.uapplist { float: left; width: 120px; }
+	.uapplist ul { margin: auto; width: 110px; }
+	.uapplist li { margin: 0 0 12px; width: 110px; height: 20px; line-height: 21px; overflow: hidden; position: relative; }
+		.uapplist li a { color: {HIGHLIGHTLINK}; }
+		.uapplist li img { margin: 0 5px 0 0; vertical-align: middle; }
+.uappframe { margin-left: 130px; }
+	.uappfeed li{ padding: 10px 0px 10px 20px; border-bottom: 1px solid {COMMONBORDER}; overflow: hidden; }
+		.uappfeed li a { color: {HIGHLIGHTLINK}; }
+		.apptype { margin: 1px 0 0 -20px !important; position: absolute; }
+		.uappfeed li em { float: right; color: {MIDTEXT}; }
+		.feed_content { padding: 6px 0 0 0; color: {LIGHTTEXT}; }
+		.uappfeed .quote { color: {MIDTEXT}; }
+	.topic_list { margin-bottom: 8px; *width: 99%; }
+		.topic_list td { border-bottom: 1px solid {COMMONBORDER}; padding-top: 4px; }
+		.topic_list td br { height: 8px; line-height: 8px; font-size: 1px; }
+		.topic_list td a { color: {HIGHLIGHTLINK}; }
+	.buttons .submit { background: none; border: none; color: {HIGHLIGHTLINK}; cursor: pointer; }
+	.avatar48 img{ margin: 5px 20px; width: 48px; height: 48px; }
+</style>
+
+<!--{if $script == 'user'}-->
+	<script type="text/javascript">
+	function my_sync_tip(msg, close_time) {;
+		$('appsetting_msg').innerHTML = msg;
+		if(close_time) {
+			setTimeout("$('appsetting_msg').innerHTML=''", close_time);
+		}
+	}
+	function my_sync_friend() {
+		$('appsetting_msg').innerHTML = '{lang manyou:syncing_friend}';
+		var my_scri = document.createElement("script");
+		my_scri.charset = "UTF-8";
+		document.getElementsByTagName("head")[0].appendChild(my_scri);
+		my_scri.src = 'http://uchome.manyou.com/user/syncFriends?sId=$my_siteid&uUchId=$discuz_uid&ts=$timestamp&key={echo md5($my_siteid.$my_sitekey.$discuz_uid.$timestamp)}';		
+	}
+	</script>
+	<div id="appsetting_menu" class="popupmenu_popup" style="display:none;width:300px">
+		<form method="post" id="appsetting_form" action="userapp.php?script=cp&action=appsetting&appid=$my_appId&settingsubmit=yes" onsubmit="return false">
+		<input name="allowfeednew" type="checkbox" class="checkbox" value="1"{if $userapp[allowfeed]} checked="checked"{/if}> {lang manyou:allowfeed}<br />
+		<input name="allowprofilelinknew" type="checkbox" class="checkbox" value="1"{if $userapp[allowprofilelink]} checked="checked"{/if}> {lang manyou:allowprofilelink}<br />
+		<button class="submit" value="true" name="settingsubmit" type="submit" onclick="ajaxpost('appsetting_form', 'appsetting_msg', 'appsetting_msg')">{lang manyou:submit}</button>
+		&nbsp;<button type="button" onclick="my_sync_friend()">{lang manyou:sync_friend}</button>
+		</form>
+	</div>
+<!--{/if}-->
+
+<div class="s_clear uapplist">
+<ul>
+	<!--{loop $myapps $value}-->
+		<!--{if $discuz_uid}-->
+			<li><a href="userapp.php?script=user&id=$value[appid]&from=leftmenu"><span><img src="http://appicon.manyou.com/icons/$value[appid]"> $value[appname]</span></a></li>
+		<!--{else}-->
+			<li><a href="$regname" onclick="showWindow('register', this.href);"><span><img src="http://appicon.manyou.com/icons/$value[appid]"> $value[appname]</span></a></li>
+		<!--{/if}-->
+	<!--{/loop}-->
+</ul>
+</div>
+
+<div class="uappframe">
+
+<!--{if $script == 'feed' && $discuz_uid}-->
+	<div class="itemtitle s_clear" style="clear:none; float: right;">
+		<ul>
+		<li{if $view == 'friend'} class="current"{/if}><a href="userapp.php?view=friend"><span>{lang manyou:friend}</span></a></li>
+		<li{if $view == 'all'} class="current"{/if}><a href="userapp.php?view=all"><span>{lang manyou:all}</span></a></li>
+		<li{if $view == 'me'} class="current"{/if}><a href="userapp.php?view=me"><span>{lang manyou:self}</span></a></li>
+		</ul>
+	</div>
+<!--{/if}-->
+
+<div class="itemtitle s_clear" style="clear: none">
+	<ul>
+		<li{if $script == 'feed'} class="current"{/if}><a href="userapp.php?script=feed"><span>{lang manyou:feed}</span></a></li>
+		<!--{if $noticenum}--><li{if $script == 'notice' && $action == ''} class="current"{/if}><a href="userapp.php?script=notice"><span>{lang manyou:notice} ($noticenum)</span></a></li><!--{/if}-->
+		<!--{if $invitenum}--><li{if $script == 'notice' && $action == 'invite'} class="current"{/if}><a href="userapp.php?script=notice&action=invite"><span>{lang manyou:invite} ($invitenum)</span></a></li><!--{/if}-->
+		<!--{if $isfounder}--><li class="pipe">|</li><li><a href="userapp.php?script=admincp"><span>{lang manyou:admincp}</span></a></li><!--{/if}-->
+		<!--{if $script == 'user'}--><li class="pipe">|</li><li><a id="appsetting" href="javascript:;" onclick="showMenu({'ctrlid':this.id,'evt':'click','pos':'11'})" class="dropmenu"><span>{lang manyou:setting}</span></a></li><li id="appsetting_msg"></li><!--{/if}-->
+	</ul>
+</div>

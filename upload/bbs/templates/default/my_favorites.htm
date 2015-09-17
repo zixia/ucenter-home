@@ -1,0 +1,72 @@
+<!--{if $favlist}-->
+	<!--{if $type == 'forum'}-->
+		<form method="post" action="my.php?item=favorites&type=forum">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<table cellspacing="0" cellpadding="0" summary="{lang my_favorite_forums}" class="datatable">
+				<thead class="colplural">
+					<tr>
+						<td width="6%"></td>
+						<td>{lang forum}</td>
+						<td>{lang forum_threads}</td>
+						<td>{lang forum_posts}</td>
+						<td>{lang forum_todayposts}</td>
+					</tr>
+				</thead>
+				<tbody>
+					<!--{loop $favlist $fav}-->
+						<tr>
+							<td><input class="checkbox" type="checkbox" name="delete[]" value="$fav[fid]" /></td>
+							<th><a href="forumdisplay.php?fid=$fav[fid]&from=favorites" target="_blank">$fav[name]</a></th>
+							<td>$fav[threads]</td>
+							<td>$fav[posts]</td>
+							<td>$fav[todayposts]</td>
+						</tr>
+					<!--{/loop}-->
+					<tr>
+						<td><input class="checkbox" type="checkbox" name="chkall" id="chkall" onclick="checkall(this.form)" /> <label for="chkall">{lang delete_check}</label></td>
+						<th><button type="submit" class="submit" name="favsubmit" value="true">{lang submit}</button></th>
+						<td colspan="3"><!--{if !empty($multipage)}-->$multipage<!--{/if}--></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	<!--{elseif $type == 'thread'}-->
+		<form method="post" action="my.php?item=favorites&type=thread">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<table cellspacing="0" cellpadding="0" summary="{lang my_favorite_threads}" class="datatable">
+				<thead class="colplural">
+					<tr>
+						<td width="6%"></td>
+						<th>{lang subject}</th>
+						<td class="forum">{lang forum}</td>
+						<td class="nums">{lang replies}</td>
+						<td class="lastpost"><cite>{lang lastpost}</cite></td>
+					</tr>
+				</thead>
+				<tbody>
+					<!--{loop $favlist $fav}-->
+						<tr>
+							<td><input class="checkbox" type="checkbox" name="delete[]" value="$fav[tid]"></td>
+							<th><a href="viewthread.php?tid=$fav[tid]&from=favorites" target="_blank">$fav[subject]</a></th>
+							<td class="forum"><a href="forumdisplay.php?fid=$fav[fid]&from=favorites" target="_blank">$fav[name]</a></td>
+							<td class="nums">$fav[replies]</td>
+							<td class="lastpost">
+								<cite><!--{if $fav['lastposter']}--><a href="space.php?username=$fav[lastposterenc]&from=favorites" target="_blank">$fav[lastposter]</a><!--{else}-->{lang anonymous}<!--{/if}--></cite>
+								<em><a href="redirect.php?tid=$fav[tid]&from=favorites&goto=lastpost#lastpost">$fav[lastpost]</a></em>
+							</td>
+						</tr>
+					<!--{/loop}-->
+					<tr>
+						<td><input class="checkbox" type="checkbox" name="chkall" id="chkall" onclick="checkall(this.form)" /> <label for="chkall">{lang delete_check}</label></td>
+						<th><button type="submit" class="submit" name="favsubmit" value="true">{lang submit}</button></th>
+						<td colspan="3"><!--{if !empty($multipage)}-->$multipage<!--{/if}--></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	<!--{/if}-->
+<!--{else}-->
+	<table cellspacing="0" cellpadding="0" class="datatable">
+		<tr><th><p class="nodata">{lang data_nonexistence}</p></th></tr>
+	</table>
+<!--{/if}-->

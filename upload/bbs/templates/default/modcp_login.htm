@@ -1,0 +1,18 @@
+<h1>{lang mod_login}</h1>
+<div class="channelinfo">{lang mod_notice_login}</div>
+<form method="post" action="{$cpscript}?action=login" class="filterform">
+<input type="hidden" name="formhash" value="{FORMHASH}">
+<input type="hidden" name="fid" value="{$fid}">
+<input type="hidden" name="submit" value="yes">
+<table summary="{lang stats_main_member}" cellspacing="0" cellpadding="5">
+	<tr>
+		<th width="60">{lang mod_login_username}:</th><td>$discuz_userss</td>
+	</tr>
+	<tr>
+		<th>{lang mod_login_password}:</th><td><input type="password" name="cppwd" class="txt" /></td>
+	</tr>
+	<tr>
+		<th></th><td><button type="submit" class="submit" name="submit" id="submit" value="true">{lang submit}</button></td>
+	</tr>
+</table>
+</form>

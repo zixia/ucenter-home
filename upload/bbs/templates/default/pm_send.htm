@@ -1,0 +1,85 @@
+{template header}
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+
+<div class="fcontent" id="pmsendfloat">
+	<h3 class="float_ctrl">
+		<em id="return_$handlekey">{lang pm_send}</em>
+		<span>
+			<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('$handlekey')" title="{lang close}">{lang close}</a><!--{/if}-->
+		</span>
+	</h3>
+	<div id="sendpmmsg" class="postbox">
+		<form id="sendpmform" method="post" action="pm.php?action=send&pmsubmit=yes&infloat=yes&sendnew=yes" onsubmit="$('pmsendmessage').value = parseurl($('pmsendmessage').value);{if !empty($infloat)}ajaxpost('sendpmform', 'return_$handlekey', 'return_$handlekey', 'onerror');return false;{/if}">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<!--{if !empty($infloat)}--><input type="hidden" name="handlekey" value="$handlekey" /><!--{/if}-->
+			<div class="floatwrap">
+				<table class="formtable" cellspacing="0" cellpadding="0">
+					<tr>
+						<td width="60">{lang pm_receiver}: </td>
+						<td>
+							<input name="msgto" value="$username" class="txt" tabindex="1" />
+							<!--{if $buddyarray}--><a href="javascript:display('buddies');" class="dropmenu">{lang pm_to_buddy}</a><!--{/if}-->
+						</td>
+					</tr>
+					<!--{if $buddyarray}-->
+					<tbody id="buddies" style="display: none;">
+					<tr>
+						<td width="60"></td>
+						<td>
+							<ul class="s_clear">
+							<!--{loop $buddyarray $buddy}-->
+								<li><label for="msgto_$buddy[uid]"><input id="msgto_$buddy[uid]" name="msgtos[]" type="checkbox" value="$buddy[uid]"> $buddy[username]</label></li>
+							<!--{/loop}-->
+							</ul>
+						</td>
+					</tr>
+					</tbody>
+					<!--{/if}-->
+					<tr>
+						<td valign="top">{lang content}: </td>
+						<td>
+						<div class="editor_tb" style="width: 454px;">
+							{eval $seditor = array('pmsend', array('bold', 'img', 'link', 'quote', 'code', 'smilies'));}
+							{subtemplate seditor}
+						</div>
+						<textarea id="pmsendmessage" name="message" cols="60" rows="10" class="txtarea" tabindex="1" onKeyDown="seditor_ctlent(event, '$(\'sendpmform\').pmsubmit.click()');" style="width: 450px; height: 160px;" prompt="sendpm_message">$message</textarea></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><button type="submit" name="pmsubmit" value="true" id="sendpm_submit" prompt="sendpm_submit">{lang send}</button>
+						{eval $policymsgs = $p = '';}
+						<!--{loop $creditspolicy['sendpm'] $id $policy}-->
+						<!--{block policymsg}--><!--{if $extcredits[$id][img]}-->$extcredits[$id][img] <!--{/if}-->$extcredits[$id][title] $policy $extcredits[$id][unit]<!--{/block}-->
+						{eval $policymsgs .= $p.$policymsg;$p = ', ';}
+						<!--{/loop}-->
+						<!--{if $policymsgs}-->&nbsp;{lang pm_credit_msg}<!--{/if}-->
+						</td>
+					</tr>
+				</table>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript" reload="1">
+function messagehandle_$handlekey(key, msg) {
+	if(key == 1) {
+		hideWindow('$handlekey');
+		showDialog(msg, 'info');
+		setTimeout(function () { hideMenu('fwin_dialog', 'dialog'); }, 3000);
+		showCreditPrompt();
+		$('return_$handlekey').innerHTML = '{lang pm_send}';
+		$('return_$handlekey').className = '';
+	}
+}
+</script>
+
+<!--{if empty($infloat)}-->
+	</div></div>
+</div>
+<!--{/if}-->
+{template footer}

@@ -1,0 +1,63 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; <!--{if $type != 'birthdays'}-->{lang member_list}<!--{else}-->{lang todays_birthdays_members}<!--{/if}--></div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+			<div class="datalist">
+				<div class="c_header">
+					<h3 class="noarrow"><!--{if $type != 'birthdays'}-->{lang member_list}<!--{else}-->{lang todays_birthdays_members}<!--{/if}--></h3>
+					<div class="c_header_action">
+						<!--{if $type != 'birthdays'}-->
+						<div id="footfilter" class="c_header_ext">
+							<form method="post" action="member.php?action=list">
+								<input type="hidden" name="formhash" value="{FORMHASH}" />
+								<input type="text" size="15" name="srchmem" class="txt" />
+								&nbsp;<button type="submit">{lang search}</button>
+							</form>
+						</div>
+						<!--{/if}-->
+					</div>
+				</div>
+				<table id="list_member" summary="<!--{if $type != 'birthdays'}-->{lang member_list}<!--{else}-->{lang todays_birthdays_members}<!--{/if}-->" cellspacing="0" cellpadding="0" style="margin-bottom: 10px;">
+					<thead class="colplural">
+						<tr>
+							<td><a href="member.php?action=list&order=username" class="dropmenu">{lang username}</a></td>
+							<td>{lang uid}</td>
+							<td><a href="member.php?action=list&order=gender" class="dropmenu">{lang gender}</a></td>
+							<td><a href="member.php?action=list&order=regdate" class="dropmenu">{lang regdate}</a></td>
+							<td>{lang lastvisit}</td>
+							<td>{lang posts}</td>
+							<!--{if $type != 'birthdays'}-->
+								<td><a href="member.php?action=list&order=credits" class="dropmenu">{lang credits}</a></td>
+							<!--{else}-->
+								<td><a href="member.php?action=list&type=birthdays" class="dropmenu">{lang todays_birthdays}</a></td>
+							<!--{/if}-->
+						</tr>
+					</thead>
+					<tbody>
+					<!--{loop $memberlist $member}-->
+						<tr class="{echo swapclass('colplural')}">
+							<td><a href="space.php?uid=$member[uid]" class="bold">$member[username]</a></td>
+							<td >$member[uid]</td>
+							<td><!--{if $member['gender'] == '1'}-->{lang male}<!--{elseif $member['gender'] == 2}-->{lang female}<!--{else}-->&nbsp;<!--{/if}--></td>
+							<td>$member[regdate]</td>
+							<td>$member[lastvisit]</td>
+							<td>$member[posts]</td>
+							<!--{if $type != 'birthdays'}-->
+								<td>$member[credits]</td>
+							<!--{else}-->
+								<td>$member[bday]</td>
+							<!--{/if}-->
+						</tr>
+					<!--{/loop}-->
+					</tbody>
+				</table>
+				<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+			</div>
+		</div>
+	</div>
+	<div class="side">
+		{subtemplate stats_navbar}
+	</div>
+</div>
+{subtemplate footer}

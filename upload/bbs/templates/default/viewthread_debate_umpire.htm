@@ -1,0 +1,34 @@
+<!--{if $debate[endtime]}-->
+	<p>{lang endtime}: <strong>$debate[endtime]</strong>
+	<!--{if !$debate[umpire]}--></p><!--{/if}-->
+<!--{/if}-->
+<!--{if $debate[umpire]}-->
+	<!--{if $debate[endtime]}-->,<!--{/if}-->
+	{lang debate_umpire}: <strong>$debate[umpire]</strong></p>
+	<!--{if $debate[umpire] && $discuz_user && $debate[umpire] == $discuz_userss}-->
+		<!--{if $debate[remaintime] && !$debate[umpirepoint]}-->
+			<p><button type="button" onclick="showWindow('debate', 'misc.php?action=debateumpire&tid=$tid&pid=$post[pid]')">{lang debate_umpire_end}</button></p>
+		<!--{elseif $timestamp - $debate['dbendtime'] < 3600}-->
+			<p><button type="button" onclick="showWindow('debate', 'misc.php?action=debateumpire&tid=$tid&pid=$post[pid]')">{lang debate_umpirepoint_edit}</button></p>
+		<!--{/if}-->
+	<!--{/if}-->
+
+	<!--{if $debate['umpirepoint']}-->
+	<div id="umpirepoint">
+		<p class="dbresult">
+			<!--{if $debate[winner]}-->
+			<!--{if $debate[winner] == 1}-->
+			<label class="winner_1"><strong>{lang debate_square}</strong>{lang debate_winner}</label>
+			<!--{elseif $debate[winner] == 2}-->
+			<label class="winner_2"><strong>{lang debate_opponent}</strong>{lang debate_winner}</label>
+			<!--{else}-->
+			<label class="winner_0"><strong>{lang debate_draw}</strong></label>
+			<!--{/if}-->
+			<!--{/if}-->
+			<em>{lang debate_comment_dateline}: $debate[endtime]</em>
+		</p>
+		<!--{if $debate[umpirepoint]}--><p class="umpirepoint"><strong>{lang debate_umpirepoint}</strong>: $debate[umpirepoint]</p><!--{/if}-->
+		<!--{if $debate[bestdebater]}--><p class="bestdebater"><strong>{lang debate_bestdebater}</strong>: $debate[bestdebater]</p><!--{/if}-->
+	</div>
+	<!--{/if}-->
+<!--{/if}-->

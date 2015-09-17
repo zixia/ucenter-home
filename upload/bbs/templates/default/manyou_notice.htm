@@ -1,0 +1,83 @@
+{subtemplate header}
+
+<div id="nav">
+	<a href="$indexname">$bbname</a> &raquo; <a href="userapp.php">{lang manyou:myop}</a> &raquo; {lang manyou:notice}
+</div>
+<script type="text/javascript">
+function manyou_add_userapp(hash, url) {
+	if(isUndefined(url)) {
+		loading = "{lang manyou:deletenotice}";
+	} else {
+		loading = "{lang manyou:noticewaiting}...";
+	}
+	ajaxget('userapp.php?script=notice&action=$action&option=deluserapp&hash='+hash, hash, null, loading, null, '$(\'t'+hash+'\').style.display=\'none\';' + (!isUndefined(url) ? 'location.href = \'' + url + '\'' : ''));
+}
+</script>
+
+<div id="wrap" class="wrap s_clear uappmain">
+	<div class="main">
+	<div class="content">
+
+		{subtemplate manyou_appnav}
+
+		<!--{if $list}-->
+			<!--{if $action == 'invite'}-->
+				<!--{loop $list $key $invite}-->
+					<h3>				
+						<img src="http://appicon.manyou.com/icons/$invite[0][appid]" align="absmiddle" />
+						{lang manyou:youhave} <!--{eval echo count($invite);}--> {lang manyou:unit} $invite[0][typename] <!--{if $invite[0][type]}-->{lang manyou:require}<!--{else}-->{lang manyou:invite}<!--{/if}-->
+						&nbsp;&nbsp;<span><a href="userapp.php?script=notice&option=del&appid=$invite[0][appid]&from=del_invitenotice" class="lightlink">{lang manyou:delete}</a></span>
+					</h3>
+					<table cellpadding="0" cellspacing="0" width="100%" class="topic_list">
+					<!--{loop $invite $value}-->
+						<tbody id="t$value[hash]">
+						<tr>
+							<td width="70" valign="top">
+								<div class="avatar48">
+									<a href="space.php?uid=$value[fromuid]&from=invitenotice" class="avatarlink"><img src="{echo discuz_uc_avatar($value[fromuid],small,1)}" /></a>
+								</div>
+							</td>
+							<td id="$value[hash]">
+								$value[myml]
+							</td>
+						</tr>
+						</tbody>
+					<!--{/loop}-->
+					</table>
+				<!--{/loop}-->
+			<!--{else}-->
+				{eval $bi = 1;}
+				<!--{loop $list $key $notice}-->
+					<div id="t$notice[id]">
+					<table cellpadding="0" cellspacing="0" width="100%" class="topic_list">
+						<tr>
+						<td width="70" valign="top">
+							<div class="avatar48">
+								<a href="space.php?uid=$notice[authorid]&from=notice" class="avatarlink"><img src="{echo discuz_uc_avatar($notice[authorid],small,1)}" /></a>
+							</div>
+						</td>
+						<td>
+						<img src="http://appicon.manyou.com/icons/$notice[type]" align="absmiddle" />
+						<a href="space.php?uid=$notice[authorid]&from=notice" class="lightlink" target="_blank">$notice[author]</a>
+						<a href="my.php?item=buddylist&newbuddyid=$notice[authorid]&buddysubmit=yes&from=notice" id="ajax_buddy_$bi" title="{lang manyou:addfriend}" onclick="ajaxmenu(this, 3000);doane(event);"><img style="vertical-align:middle" src="manyou/images/myadd.gif" /></a>
+						&nbsp;&nbsp;<span class="lighttxt">$notice[dateline]</span>
+						&nbsp;&nbsp;<span><a href="javascript:;" onclick="manyou_add_userapp('$notice[id]')">{lang manyou:delete}</a></span>
+						<br /><br />
+						$notice[note]
+						</td>
+						</tr>
+					</table>
+					</div>
+					{eval $bi++;}
+				<!--{/loop}-->
+			<!--{/if}-->
+			<div class="page">$multi</div>
+		<!--{else}-->
+			<p class="nodata">{lang manyou:nonotice}</p>			
+		<!--{/if}-->		
+
+	</div></div></div>
+	
+</div>
+
+{subtemplate footer}

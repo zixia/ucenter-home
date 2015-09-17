@@ -1,0 +1,95 @@
+{template header}
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+
+<div class="fcontent">
+	<h3 class="float_ctrl">
+		<em id="return_credit"><!--{if $operation == 'transfer'}-->{lang memcp_credits_transfer}<!--{elseif $operation == 'exchange'}-->{lang memcp_credits_exchange}<!--{elseif $operation == 'addfunds'}-->{lang memcp_credits_addfunds}<!--{/if}--></em>
+		<span><a title="{lang close}" onclick="hideWindow('credit')" class="float_close" href="javascript:;">{lang close}</a></span>
+	</h3>
+	<div class="postbox">
+		<form id="confirmform" class="postbox" method="post" action="memcp.php?action=credits&confirm=yes&infloat=yes" onsubmit="ajaxpost('confirmform', 'return_credit', 'return_credit', 'onerror');return false;">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<!--{if !empty($infloat)}--><input type="hidden" name="handlekey" value="credit" /><!--{/if}-->
+			<!--{if $operation == 'transfer'}-->
+				<!--{if !$to}-->
+					<p style="margin-bottom:8px;">{lang memcp_credits_transfer_msg_user_incorrect}</p>
+				<!--{elseif !$transferamount}-->
+					<p style="margin-bottom:8px;">{lang memcp_credits_transfer_msg_num_incorrect}</p>
+				<!--{else}-->
+					<input type="hidden" name="operation" value="transfer" />
+					<input type="hidden" name="transfersubmit" value="yes" />
+					<input type="hidden" name="amount" value="$transferamount" />
+					<input type="hidden" name="to" value="$to" />
+					<p>{lang memcp_credits_transfer_user}$extcredits[$creditstrans][title] $transferamount $extcredits[$creditstrans][unit]{lang credits_give} {$to}, {lang memcp_credits_password}: </p>
+					<p style="margin-bottom:8px;"><input type="password" name="password" value="" class="txt" /></p>
+					<p>{lang memcp_credits_transfer_message}</p>
+					<p><input name="transfermessage" size="40" class="txt" /> <input name="confirm" type="submit" value="{lang confirms}" /></p>
+				<!--{/if}-->
+			<!--{elseif $operation == 'exchange'}-->
+
+				<!--{if $fromcredits == $tocredits}-->
+					<p style="margin-bottom:8px;">{lang memcp_credits_exchange_msg_num_invalid}</p>
+				<!--{elseif !$netamount}-->
+					<p style="margin-bottom:8px;">{lang memcp_credits_exchange_msg_balance_insufficient}</p>
+				<!--{else}-->
+					<input type="hidden" name="operation" value="exchange" />
+					<!--{if $outexange}-->
+						<input type="hidden" name="outexange" value="1" />
+					<!--{else}-->
+						<input type="hidden" name="outexange" value="0" />
+					<!--{/if}-->
+					<input type="hidden" name="amount" value="$exchangeamount" />
+					<input type="hidden" name="fromcredits" value="$fromcredits" />
+					<input type="hidden" name="tocredits" value="$tocredits" />
+					<input type="hidden" name="exchangesubmit" value="yes" />
+					<p style="margin-bottom:8px;">{lang memcp_credits_exchange_you_need}<strong>
+						<!--{if $outexange}-->
+							$outextcredits[$tocredits][title] $exchangeamount $outextcredits[$tocredits][unit]
+						<!--{else}-->
+							$extcredits[$tocredits][title] $exchangeamount $extcredits[$tocredits][unit]
+						<!--{/if}-->
+						</strong>, {lang memcp_credits_exchange_you_pay}</p>
+						{lang memcp_credits_exchange_password}: <br />
+					<input type="password" name="password" value="" class="txt" size="20"/> <input name="confirm" type="submit" value="{lang confirms}" />
+				<!--{/if}-->
+			<!--{elseif $operation == 'addfunds'}-->
+				<!--{if !$addfundamount}-->
+					<p style="margin-bottom:8px;">{lang memcp_credits_addfunds_msg_incorrect}</p>
+				<!--{else}-->
+					<input type="hidden" name="operation" value="addfunds" />
+					<input type="hidden" name="amount" value="$addfundamount" />
+					<input type="hidden" name="addfundssubmit" value="yes" />
+					<p style="margin-bottom:8px;">{lang memcp_credits_addfunds_msg}</p>
+					<p>
+					<!--{if $ec_account}-->
+						<label><input name="apitype" type="radio" value="alipay" id="apitype_alipay" checked> <img title="{lang apitype_alipay}" alt="{lang apitype_alipay}" onclick="$('apitype_alipay').checked=true" src="images/common/alipay_logo.gif" /></label>
+					<!--{/if}-->
+					<!--{if $ec_tenpay_bargainor}-->
+						<label><input name="apitype" type="radio" value="tenpay" id="apitype_tenpay" <!--{if !$ec_account}-->checked<!--{/if}-->> <img title="{lang apitype_tenpay}" alt="{lang apitype_tenpay}" onclick="$('apitype_tenpay').checked=true" src="images/common/tenpay_logo.gif" /></label><br />
+					<!--{/if}-->
+					</p>
+					<input name="confirm" type="submit" value="{lang confirms}" />
+				<!--{/if}-->
+			<!--{/if}-->
+		</form>
+	</div>
+</div>
+<script type="text/javascript" reload="1">
+function messagehandle_credit(key, message) {
+	if(key != 0) {
+		$('confirmform').style.display = 'none';
+		$('return_credit').className = 'onright';
+		showCreditPrompt();
+	}
+}
+</script>
+
+<!--{if empty($infloat)}-->
+	</div></div>
+</div>
+<!--{/if}-->
+{template footer}

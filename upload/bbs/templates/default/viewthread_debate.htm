@@ -1,0 +1,49 @@
+	<div class="debatesquare">
+		<table summary="{lang debate_all_point}" cellspacing="0" cellpadding="0">
+			<tr>
+				<td class="stand_1">
+					<div class="point_chart">
+						<label>$debate[affirmvotes]</label>
+						<div class="chart" style="height: {echo $debate[affirmvoteswidth]}%;">
+							<label>$debate[affirmvotes]</label>
+						</div>
+					</div>
+					<div class="point">{lang debate_square}</div>
+				</td>
+				<td class="piont_info">
+					<p>$debate[affirmpoint]</p>
+					<p><button href="misc.php?action=debatevote&tid=$tid&stand=1" id="affirmbutton" onclick="ajaxmenu(this);doane(event);">{lang debate_support_square}</button></p>
+				</td>
+				<th></th>
+				<td class="stand_2">
+					<div class="point_chart">
+						<label>$debate[negavotes]</label>
+						<div class="chart" style="height: {echo $debate[negavoteswidth]}%;">
+							<label>$debate[negavotes]</label>
+						</div>
+					</div>
+					<div class="point">{lang debate_opponent}</div>
+				</td>
+				<td class="piont_info">
+					<p>$debate[negapoint]</p>
+					<p><button href="misc.php?action=debatevote&tid=$tid&stand=2" id="negabutton" onclick="ajaxmenu(this);doane(event);">{lang debate_support_opponent}</button></p>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="debater">
+		<table summary="{lang debate_all_point}" cellspacing="0" cellpadding="0">
+			<tr class="button">
+				<td class="stand_1">
+					<h5><a href="post.php?action=reply&fid=$fid&tid=$tid&stand=1" onclick="showWindow('reply', this.href);return false;">{lang debater_square}</a>{lang debater}: $debate[affirmdebaters]</h5>
+					<div class="debateuser">$debate[affirmavatars]</div>
+				</td>
+				<th></th>
+				<td class="stand_2">
+					<h5><a href="post.php?action=reply&fid=$fid&tid=$tid&stand=2" onclick="showWindow('reply', this.href);return false;">{lang debater_opponent}</a>{lang debater}: $debate[negadebaters]</h5>
+					<div class="debateuser">$debate[negaavatars]</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+

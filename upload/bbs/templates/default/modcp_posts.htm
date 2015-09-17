@@ -1,0 +1,151 @@
+<div class="itemtitle s_clear">
+	<h1>{lang mod_option_subject}</h1>
+	<ul>
+		<li {if $action == 'threads' && $op == 'threads'} class="current" {/if}><a href="{$cpscript}?action=threads&op=threads{$forcefid}" hidefocus="true"><span>{lang mod_option_subject_forum}</span></a></li>
+		<li {if $action == 'threads' && $op == 'posts'} class="current" {/if}><a href="{$cpscript}?action=threads&op=posts{$forcefid}" hidefocus="true"><span>{lang mod_option_subject_delete}</span></a></li>
+		<li {if $action == 'recyclebins'} class="current" {/if}><a href="{$cpscript}?action=recyclebins{$forcefid}" hidefocus="true"><span>{lang mod_option_subject_recyclebin}</span></a></li>
+	</ul>
+</div>
+<script type="text/javascript" src="{$jspath}calendar.js?{VERHASH}"></script>
+<div class="datalist">
+	<form method="post" action="{$cpscript}?action=$action&op=$op">
+		<input type="hidden" name="do" value="search">
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<div class="filterform">
+			<table cellspacing="0" cellpadding="0">
+				<tr>
+					<td width="15%">{lang mod_option_selectforum}:</td>
+					<td width="35%">
+						<select name="fid" style="width: 180px">
+							<option value=""></option>
+							<!--{loop $modforums[list] $id $name}-->
+							<option value="$id" {if $id == $fid}selected{/if}>$name</option>
+							<!--{/loop}-->
+						</select>
+					</td>
+					<td width="15%">{lang modcp_posts_type}</td>
+					<td width="35%">
+						<select name="threadoption" style="width: 180px">
+							<option value="0" $threadoptionselect[0]>{lang all}</option>
+							<option value="1" $threadoptionselect[1]>{lang modcp_posts_threadfirst}</option>
+							<option value="2" $threadoptionselect[2]>{lang modcp_posts_threadreply}</option>
+						</select>					
+					</td>		
+				</tr>		
+				<tr>
+					<td>{lang modcp_posts_author}:</td>
+					<td><input type="text" class="txt" size="20" value="$result[users]" name="users" style="width: 180px"/></td>
+					<td>{lang modcp_posts_dateline_range}:</td>
+					<td><input type="text" class="txt" size="10" value="$result[starttime]" name="starttime" onclick="showcalendar(event, this)"/> {lang modcp_posts_to} 
+						<!--{if $adminid == 1}-->
+							<input type="text" class="txt" size="10" value="$result[endtime]" name="endtime" onclick="showcalendar(event, this)"/>
+						<!--{else}-->
+							<input type="text" class="txt" size="10" value="$result[endtime]" name="endtime" readonly disabled /> 
+							<!--{if $adminid == 2}-->
+								<br />{lang modcp_posts_week_2}
+							<!--{elseif $adminid == 3}-->
+								<br />{lang modcp_posts_week_1}
+							<!--{/if}-->
+							
+						<!--{/if}-->
+					
+					 </td>
+				</tr>		
+				<tr>
+					<td>{lang modcp_posts_keyword}:</td>
+					<td><input type="text" class="txt" size="20" value="$result[keywords]" name="keywords" style="width: 180px"/></td>
+					<td>{lang modcp_posts_ip}:</td>
+					<td><input type="text" class="txt" value="$result[useip]" name="useip" style="width: 180px" /></td>
+				<tr>		
+				<tr>
+					<td></td>
+					<td colspan="3">
+						<button value="true" id="searchsubmit" name="searchsubmit" class="submit" type="submit">{lang submit}</button> 
+				
+					</td>
+				</tr>
+			</table>	
+		</div>
+	</form>
+</div>
+<!--{if $error == 1}-->
+	<p style="padding: 4px; color: red">{lang modcp_posts_error_1}</p>
+<!--{elseif $error == 2}-->
+	<p style="padding: 4px; color: red">{lang modcp_posts_error_2}</p>
+<!--{elseif $error == 3}-->
+	<p style="padding: 4px; color: red">{lang modcp_posts_error_3}</p>
+<!--{elseif $error == 4}-->
+	<p style="padding: 4px; color: red">{lang modcp_posts_error_4}</p>
+<!--{elseif $do=='list' && empty($error)}-->
+	<div class="c_header"><h2>{lang modcp_posts_search}</h2></div>
+	<div id="threadlist" class="threadlist datalist">
+		<form method="post" name="moderate" id="moderate" action="{$cpscript}?action=$action&op=$op">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="fid" value="$fid" />
+		<input type="hidden" name="do" value="delete" />
+		<table cellspacing="0" cellpadding="0" class="datatable" width="100%" style="table-layout:fixed">
+			<thead class="colplural">
+				<tr>
+					<td class="icon">&nbsp;</td>
+					<td >&nbsp;</td>
+					<td class="author">{lang forum}</td>
+					<td class="lastpost"><cite>{lang author}</cite></td>
+				</tr>
+			</thead>
+			<!--{loop $postlist $post}-->
+			<tbody>
+				<tr>
+					<td>{if $allowmassprune}<input class="checkbox" type="checkbox" name="delete[]" value="$post[pid]" />{/if}</td>
+					<th class="subject">
+						<span  class="lightlink">{lang modcp_posts_thread}: &nbsp;<a target="_blank" href="redirect.php?goto=findpost&pid=$post[pid]&ptid=$post[tid]&modthreadkey=$post[modthreadkey]">$post[tsubject]</a></span><br />
+						$post[message]
+					</th>
+	
+					<td class="author">
+						<cite><a href="forumdisplay.php?fid=$post[fid]">$post['forum']</a>
+						</cite>
+					</td>
+	
+					<td class="lastpost">
+						<cite>
+							<!--{if $post['authorid'] && $post['author']}-->
+								<a href="space.php?uid=$post[authorid]" target="_blank">$post[author]</a>
+							<!--{else}-->
+								<a href="space.php?uid=$post[authorid]" target="_blank">{lang anonymous}</a>
+							<!--{/if}-->
+						</cite>
+						<em>$post[dateline]</em>
+					</td>
+				</tr>
+			</tbody>
+			<!--{/loop}-->
+			
+			<!--{if $postlist && $allowmassprune}-->
+				<tbody class="notelistbg">
+				<tr>
+					<td>{if $allowmassprune}<input type="checkbox" name="chkall" onclick="checkall(this.form, 'delete')" class="checkbox"/>{/if}</td>
+					<th class="subject">
+						<input type="submit" name="deletesubmit" value="{lang modcp_posts_select_delete}">
+						&nbsp;<input type="checkbox" class="checkbox" name="nocredit" value="1" checked> {lang modcp_posts_member_credits}
+					</th>
+	
+					<td class="author">			
+					</td>
+	
+					<td class="lastpost">
+						<cite>&nbsp;</cite>
+						<em>&nbsp;</em>
+					</td>
+				</tr>
+				</tbody>
+			<!--{/if}-->
+		</table>
+		<!--{if $multipage}-->$multipage <!--{/if}-->
+		</form>
+	</div>
+<!--{/if}-->
+<br />
+<br />
+<br />
+<br />
+<br />

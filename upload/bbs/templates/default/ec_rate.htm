@@ -1,0 +1,52 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> $navigation &raquo; {lang eccredit}</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="content">
+		<form method="post" action="eccredit.php?action=rate" id="postform">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="referer" value="$referer" />
+			<h1>{lang eccredit_post}</h1>
+			<table cellspacing="0" cellpadding="0" class="formtable">
+				<tr>
+					<th>{lang eccredit_retee}</span></th>
+					<td>
+					<!--{if $discuz_uid == $order[buyerid]}-->
+						<a href="space.php?uid=$order[sellerid]" target="_blank">$order[seller]</a>
+					<!--{else}-->
+						<a href="space.php?uid=$order[buyerid]" target="_blank">$order[buyer]</a>
+					<!--{/if}-->
+					</td>
+				</tr>
+				<tr>
+					<th>{lang eccredit_tradegoods}</th>
+					<td><a href="redirect.php?goto=findpost&pid=$order[pid]" target="_blank">$order[subject]</a></td>
+				</tr>
+				<tr>
+					<th>{lang rate}</th>
+					<td>
+						<input id="rate_good" name="score" value="1" type="radio" class="radio" checked="checked" />
+						<label for="rate_good"><span style="color:red"><img src="images/rank/good.gif" border="0" width="14" height="16" /> <strong>{lang eccredit_good}</strong><!--{if !$order[offline]}-->{lang eccredit_good_comment}<!--{/if}--></span></label>&nbsp;&nbsp;
+						<input id="rate_soso" name="score" value="0" type="radio" class="radio" />
+						<label for="rate_soso"><span style="color:green"><img src="images/rank/soso.gif" border="0" width="14" height="16" /> <strong>{lang eccredit_soso}</strong><!--{if !$order[offline]}-->{lang eccredit_soso_comment}<!--{/if}--></span></label>&nbsp;&nbsp;
+						<input id="rate_bad" name="score" value="-1" type="radio" class="radio" />
+						<label for="rate_bad"><img src="images/rank/bad.gif" border="0" width="14" height="16" /> <strong>{lang eccredit_bad}</strong><!--{if !$order[offline]}-->{lang eccredit_bad_comment}<!--{/if}--></label>
+						<!--{if $order['offline'] && !$order['credit']}-->&nbsp;&nbsp;({lang eccredit_offline})<!--{/if}-->
+					</td>
+				</tr>
+				<tr>
+					<th valign="top">{lang eccredit1}</th>
+					<td><textarea name="message" rows="5" cols="67" maxlength="50" class="txtarea"></textarea></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td>
+						<input type="hidden" name="orderid" value="$orderid">
+						<input type="hidden" name="type" value="$type">
+						<button type="submit" class="submit" id="postsubmit" name="ratesubmit" value="true">{lang submit}</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+{subtemplate footer}

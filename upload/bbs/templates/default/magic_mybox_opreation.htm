@@ -1,0 +1,111 @@
+{template header}
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+
+<div id="floatlayout_magics" class="fcontent">
+	<h3 class="float_ctrl">
+		<em>
+		<!--{if $operation == 'give'}-->
+			{lang magics_operation_present}
+		<!--{elseif $operation == 'drop'}-->
+			{lang magics_operation_drop}
+		<!--{elseif $operation == 'sell'}-->
+			{lang magics_operation_sell}
+		<!--{elseif $operation == 'use'}-->
+			{lang magics_operation_use}
+		<!--{/if}-->
+		</em>
+		<span><!--{if !empty($infloat)}--><a title="{lang close}" onclick="hideWindow('magics')" class="float_close" href="javascript:;">{lang close}</a><!--{/if}--></span>
+	</h3>
+	<div class="postbox">
+		<div id="return_magics"></div>
+		<form id="magicform" method="post" action="magic.php?action=mybox&infloat=yes" onsubmit="ajaxpost('magicform', 'return_magics', 'return_magics', 'onerror');return false;">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="handlekey" value="magics" />
+			<input type="hidden" name="operation" value="$operation" />
+			<input type="hidden" name="magicid" value="$magicid" />
+			<!--{if $operation == 'give'}-->
+				<div class="magicnum">
+					<div class="mymagic fixed s_clear">
+						<div class="magicimg"><img src="images/magics/$magic[pic]" alt="$magic[name]"></div>
+						<div class="magicdetail">
+							<!--{if $allowmagics > 1 }-->
+								<p>{lang magics_target_present}: </p>
+									<div class="hasdropdownbtn ratelist s_clear">
+									<input type="text" id="selectedusername" name="tousername" size="12"  value="" class="txt" />
+									<!--{if $buddyarray}-->
+									<a href="javascript:;" class="dropdownbtn" onclick="showselect(this, 'selectedusername', 'selectusername')"></a>
+									<ul id="selectusername" style="display:none">
+										<!--{loop $buddyarray $buddy}-->
+										<li>$buddy[username]</li>
+										<!--{/loop}-->
+									</ul>
+									<!--{/if}-->
+									</div>
+							<!--{/if}-->
+							<p>{lang magics_present_message}: </p>
+							<textarea name="givemessage" class="txtarea" style="height:60px;width:230px">{lang magics_present_message_text}</textarea>
+							<p>{lang magics_num}: </p>
+							<input name="magicnum" type="text" size="12" value="1" class="txt" />
+							<p><input type="hidden" name="operatesubmit" value="yes" />
+							<button class="submit fixedbtn" type="submit" name="operatesubmit" id="operatesubmit" value="true"  onclick="return confirmMagicOp(e)">{lang magics_operation_present}</button></p>
+						</div>
+				</div>
+			<!--{elseif $operation == 'use'}-->
+				<!--{if $magiclist}-->
+					<select name="magicid" onchange="showWindow('magics', 'magic.php?action=mybox&operation=use&&infloat=yes&type=$typeid&pid=$pid&typeid=$typeid&magicid='+this.options[this.selectedIndex].value)" class="chosemagic">
+						<option value="0">{lang magics_select}</option>
+						<!--{loop $magiclist $magics}-->
+							<option value="$magics[magicid]" $magicselect[$magics[magicid]]>$magics[name] - $magics[description]</option>
+						<!--{/loop}-->
+					</select>
+				<!--{/if}-->
+				<div class="mymagic fixed s_clear">
+					<div class="magicimg"><img src="images/magics/$magic[pic]" alt="$magic[name]"></div>
+					<div class="magicdetail">
+						{eval showmagic();}
+						<input type="hidden" name="usesubmit" value="yes" />
+						<input type="hidden" name="operation" value="use" />
+						<input type="hidden" name="magicid" value="$magicid" />
+						<button class="submit fixedbtn" type="submit" name="usesubmit" id="usesubmit" value="true">{lang magics_operation_use}</button>
+					<!--{elseif $operation == 'sell'}-->
+						<h5 class="magicnum">$magic[name]</h5>
+						<p class="magicnum">{lang magics_num}: <input name="magicnum" type="text" size="5" value="1" class="txt" /> {lang magics_price}: <input name="price" type="text" size="5" class="txt" /></p>
+						<input type="hidden" name="operatesubmit" value="yes" />
+						<button class="submit fixedbtn" type="submit" name="operatesubmit" id="operatesubmit" value="true"  onclick="return confirmMagicOp(e)">{lang magics_operation_sell}</button>
+					<!--{elseif $operation == 'drop'}-->
+						<div class="magicnum">
+							<p>{lang magics_num}: <input name="magicnum" type="text" size="12" value="1" class="txt" /></p>
+						</div>
+						<input type="hidden" name="operatesubmit" value="yes" />
+						<button class="submit fixedbtn" type="submit" name="operatesubmit" id="operatesubmit" value="true" onclick="return confirmMagicOp(e)">{lang magics_operation_drop}</button>
+					<!--{/if}-->
+					</div>
+				</div>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript" reload="1">
+	function confirmMagicOp(e) {
+		e = e ? e : window.event;
+		showDialog('{lang magics_confirm}', 'confirm', '', 'ajaxpost(\'magicform\', \'return_magics\', \'return_magics\', \'onerror\');');
+		doane(e);
+		return false;
+	}
+	function messagehandle_magics(key) {
+		if(key != 0) {
+			$('magicform').style.display = 'none';
+			$('return_magics').className = 'onright';
+		}
+	}
+</script>
+
+<!--{if empty($infloat)}-->
+	</div></div>
+</div>
+<!--{/if}-->
+{template footer}

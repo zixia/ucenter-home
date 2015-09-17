@@ -1,0 +1,55 @@
+<!--{if !$inajax}-->
+	{subtemplate header}
+<!--{else}-->
+	{template header_ajax}
+<!--{/if}-->
+{eval $allowreturn = $url_forward || !stristr($show_message, '{lang return}') ? 0 : 1;$alerttype = $url_forward ? (preg_match('/\_succeed$/', $message) ? 'alert_right' : 'alert_info') : ($allowreturn ? 'alert_error' : 'alert_info');}
+<!--{if !$inajax}-->
+	<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang board_message}</div>
+
+	<div id="wrap" class="wrap s_clear"><div class="main"><div class="content nofloat">
+		<div class="fcontent alert_win">
+			<h3 class="float_ctrl"><em>$bbname {lang board_message}</em></h3>
+			<hr class="shadowline" />
+			<div class="postbox"><div class="$alerttype">
+				<p>$show_message</p>
+				<!--{if $url_forward}-->
+					<!--{if empty($forwardtype)}-->
+						<p class="alert_btnleft"><a href="$url_forward">{lang message_forward}</a></p>
+					<!--{else}-->
+						<p class="alert_btnleft"><a href="$url_forward">{lang attach_forward}</a></p>
+					<!--{/if}-->
+				<!--{elseif $allowreturn}-->
+					<p class="alert_btnleft"><a href="javascript:history.back()">{lang message_go_back}</a></p>
+				<!--{/if}-->
+			</div></div>
+		</div>
+	</div></div></div>
+<!--{elseif !empty($infloat) && (empty($_POST) || !empty($nopost))}-->
+	<div class="fcontent alert_win">
+		<h3 class="float_ctrl"><em>{lang board_message}</em><span><a href="javascript:;" class="float_close" onclick="hideWindow('$handlekey');" title="{lang close}">{lang close}</a></span></h3>
+		<hr class="shadowline" />
+		<div class="postbox">
+			<div class="$alerttype">$show_message</div>
+			<!--{if $messagehandle == 'NOPERM' && !$discuz_uid}-->
+				<div class="alert_btn"><input type="button" onclick="hideWindow('$handlekey');showWindow('login', 'logging.php?action=login');" value="&nbsp;{lang confirms}&nbsp;" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onclick="hideWindow('$handlekey');" value="&nbsp;{lang cancel}&nbsp;" /></div>
+			<!--{else}-->
+				<div class="alert_btn"><input type="button" onclick="hideWindow('$handlekey');" value="{lang close}" /></div>
+			<!--{/if}-->
+		</div>
+	</div>
+<!--{else}-->{echo str_replace(array({lang return_search}), array({lang return_replace}), $show_message)}<!--{if $extra == 'HALTED' || $extra == 'NOPERM'}-->
+	<script type="text/javascript" reload="1">
+	function ajaxerror() {
+		hideMenu();
+		showDialog('$show_message', 'notice', '', null, 0);
+	}
+	ajaxerror();
+	</script>
+<!--{/if}-->
+<!--{/if}-->
+<!--{if !$inajax}-->
+	{subtemplate footer}
+<!--{else}-->
+	{template footer_ajax}
+<!--{/if}-->

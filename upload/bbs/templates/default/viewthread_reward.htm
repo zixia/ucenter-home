@@ -1,0 +1,39 @@
+	<!--{if $thread['price'] > 0}-->
+		<p class="reward_button"><button name="answer" value="ture" onclick="showWindow('reply', 'post.php?action=reply&fid=$fid&tid=$tid');return false;">{lang reward_answer}</button></p>
+	<!--{/if}-->
+</div><br />
+
+<!--{if $bestpost}-->
+<div class="reward_bestpost">
+	<table cellpadding="0" cellspacing="0" border="0" id="bestpost">
+		<thead>
+			<tr><th>{lang reward_bestanswer}</th><td> <a  href="space.php?username=$bestpost[author]" >$bestpost[author]</a></td></tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th><a target="_blank" href="space.php?uid=$bestpost[uid]">{echo discuz_uc_avatar($bestpost[uid], 'small')}</a></th>
+				<td>
+					<div class="t_msgfont">$bestpost[message]</div>
+					<!--{if $bestpost['attachment']}-->
+						<div class="notice postattach">{lang attachment}: <em>{lang attach_nopermission}</em></div>
+					<!--{elseif $hideattach[$post[pid]] && $bestpost['attachments']}-->
+						<div class="notice postattach">{lang attachment}: <em>{lang attachment_reply_show}</em></div>
+					<!--{elseif $bestpost['imagelist'] || $bestpost['attachlist']}-->
+						<div class="box postattachlist">
+							<!--{if $bestpost['imagelist']}-->
+								$bestpost[imagelist]
+							<!--{/if}-->
+							<!--{if $bestpost['attachlist']}-->
+								$bestpost[attachlist]
+							<!--{/if}-->
+						</div>
+					<!--{/if}-->
+					<!--{if $aimgs[$bapid]}-->
+					<script type="text/javascript" reload="1">aimgcount[$bapid] = [{echo implode(',', $aimgs[$bapid]);}];attachimgshow($bapid);</script>
+					<!--{/if}-->
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<!--{/if}-->

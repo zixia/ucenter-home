@@ -1,0 +1,63 @@
+{subtemplate header}
+{eval $mode = 1;}
+
+<div id="nav">
+	<a href="$indexname">$bbname</a> &raquo; <a href="userapp.php">{lang manyou:myop}</a> &raquo; $app[appname]
+</div>
+
+<div id="wrap" class="wrap s_clear uappmain">
+	<div class="main">
+	<div class="content">
+
+		<script language="javascript">
+			if(top != self) {
+				top.location.href = location.href;
+			}
+		</script>
+
+		{subtemplate manyou_appnav}
+
+		<script type="text/javascript" src="http://static.manyou.com/scripts/my_iframe.js"></script>
+		<script language="javascript">
+		var prefixURL = "$my_prefix";
+		var suffixURL = "$my_suffix";
+		var queryString = '';
+		var url = "http://apps.manyou.com/{$my_appId}";
+		var oldHash = null;
+		var timer = null;
+		var appId = '$my_appId';
+
+		var server = new MyXD.Server("ifm0");
+		server.registHandler('iframeHasLoaded');
+		server.registHandler('setTitle');
+		server.start();
+
+		function iframeHasLoaded(ifm_id) {
+		        MyXD.Util.showIframe(ifm_id);
+		        document.getElementById('loading').style.display = 'none';
+		}
+
+		function setTitle(x) {
+			document.title = x + ' - <!--{eval echo addslashes($discuz_user.' - '.$bbname);}--> - Powered by Discuz!';
+		}
+
+		</script>		
+		<iframe id="ifm0" frameborder="0" width="810" scrolling="no" height="810" style="{if !$mode}position:absolute; top:-5000px; left:-5000px;{/if}" src="{$url}"></iframe>
+
+
+		<div id="mx2note" style="display:none; padding:150px 0 150px 0; margin:1px; text-align:center; background-color:#FFFFBF;  font-size:12px; line-height:14px; color:#DB0000; letter-spacing:1px;">
+			{lang manyou:notice_browser}
+		</div>
+		<!--{if !$mode}-->
+			<div id="loading" style="display:block; padding:100px 0 100px 0;text-align:center;color:#999999;font-size:12px;">
+				<img src="manyou/images/loading.gif" alt="loading..." style="position:relative;top:11px;"/>  {lang manyou:manyou_admincp_htm_22}...
+			</div>
+		<!--{else}-->
+			<div id="loading" style="display:none"></div>
+		<!--{/if}-->
+
+	</div></div></div>
+
+</div>
+
+{subtemplate footer}

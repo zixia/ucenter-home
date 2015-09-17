@@ -1,0 +1,87 @@
+<!--{block writedata}-->
+	<div class="sidebox">
+	<!--{if $thread[special] == 1}-->
+		<h4>{lang thread_poll}</h4>
+	<!--{elseif $thread[special] == 2}-->
+		<h4>{lang thread_trade}</h4>
+	<!--{elseif $thread[special] == 3}-->
+		<h4>{lang thread_reward}</h4>
+	<!--{elseif $thread[special] == 4}-->
+		<h4>{lang thread_activity}</h4>
+	<!--{elseif $thread[special] == 5}-->
+		<h4>{lang thread_debate}</h4>
+	<!--{/if}-->
+	<a href="viewthread.php?tid=$tid" target="_blank">$thread[subject]</a>
+
+	<!--{if $thread[special] == 1}-->
+		<form method="post" action="misc.php?action=votepoll&fid=$fid&tid=$tid">
+		<ul class="side_poll">
+		<!--{loop $polloptions $key $option}-->
+			<li>
+			<input class="checkbox" type="$optiontype" id="option_$key" name="pollanswers[]" value="$option[polloptionid]" />
+			$option[polloption]
+			</li>
+		<!--{/loop}-->
+		</ul>
+		<button class="submit" type="submit" name="pollsubmit" id="pollsubmit" value="true">{lang submit}</button>
+		</form>
+	<!--{elseif $thread[special] == 2}-->
+		<ul class="side_trade">
+		<!--{loop $trades $key $trade}-->
+			<li class="s_clear">{eval $aid = aidencode($trade['aid']);}
+				<strong>
+					<!--{if $trade[aid]}-->
+						<a href="viewthread.php?do=tradeinfo&tid=$tid&pid=$trade[pid]" target="_blank"><img style="vertical-align: top;" src="attachment.php?aid=$aid&noupdate=yes" onload="thumbImg(this, 1)" width="64" _width="64" _height="64" /></a>
+					<!--{else}-->
+						<a href="viewthread.php?do=tradeinfo&tid=$tid&pid=$trade[pid]" target="_blank"><img src="{IMGDIR}/trade_nophoto.gif" width="64" /></a>
+					<!--{/if}-->
+				<p>$trade[price]</p>
+				</strong>
+				<a href="viewthread.php?do=tradeinfo&tid=$tid&pid=$trade[pid]" target="_blank">$trade[subject]
+			</li>
+		<!--{/loop}-->
+		</ul>
+	<!--{elseif $thread[special] == 3}-->
+		<div>$message</div>
+		<p>
+			<!--{if $rewardend}-->
+				$thread[price] {$extcredits[$creditstransextra[2]][unit]}{$extcredits[$creditstransextra[2]][title]}
+			<!--{else}-->
+				{lang thread_reward}: 
+				$rewardprice {$extcredits[$creditstransextra[2]][unit]}{$extcredits[$creditstransextra[2]][title]}
+				<button name="answer" value="ture" onclick="showWindow('reply', 'post.php?action=reply&fid=$fid&tid=$tid');return false;">{lang reward_answer}</button>
+			<!--{/if}-->
+		</p>
+	<!--{elseif $thread[special] == 4}-->
+		<div>$message</div>
+		<p>{lang activity_already} $applynumbers</p>
+		<!--{if $number}-->
+			<p>{lang activity_about_member}: $aboutmembers</p>
+		<!--{/if}-->
+	<!--{elseif $thread[special] == 5}-->
+		<div>
+			<p>$message</p>
+			<div class="debatesquare">
+			<table cellpadding="2" cellspacing="0" border="0" summary="debate" width="100%">
+				<tr>
+					<td width="24px">{lang debate_square}</td>
+					<td style="width:80px;">
+						<div style="width: $debate[affirmvoteswidth]%; background: #0099CC;">&nbsp;</div>
+					</td>
+					<td style="text-align:right;">$debate[affirmdebaters]</td>
+				</tr>
+				<tr>
+					<td>{lang debate_opponent}</td>
+					<td>
+						<div style="width: $debate[negavoteswidth]%; background: #FF6600;">&nbsp;</div>
+					</td>
+					<td style="text-align:right;">$debate[negadebaters]</td>
+				</tr>
+			</table>
+			</div>
+		</div>
+	<!--{else}-->
+		<div>$message</div>
+	<!--{/if}-->
+	</div>
+<!--{/block}-->

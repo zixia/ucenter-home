@@ -1,0 +1,135 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; <!--{if empty($action)}-->{lang faq}<!--{else}--><a href="faq.php">{lang faq}</a> $navigation<!--{/if}--> &raquo; {lang credits_policy}</div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="side">
+		{subtemplate faq_navbar}
+	</div>
+
+	<div class="main">
+		<div class="content">
+			<div class="itemtitle s_clear">
+				<select class="right" onchange="location.href='faq.php?action=credits&fid=' + this.value"><option value="">{lang credits_policy_global}</option>$forumlist</select>
+				<h1>{lang credits_policy}<!--{if $forum}--> - $forum[name]<!--{/if}--></h1>
+			</div>
+			<div class="datalist">
+				<table summary="{lang credits_policy}" cellspacing="0" cellpadding="0">
+					<thead>
+						<tr class="colplural">
+							<th>&nbsp;</th>
+							<!--{loop $extcredits $id $credit}-->
+								<td>$credit[title]</td>
+							<!--{/loop}-->
+						</tr>
+					</thead>
+					<tbody>
+					<!--{loop $policyarray $operation $policy}-->
+						<tr class="{echo swapclass('colplural')}">
+							<th>
+							<!--{if $forum}-->
+								<!--{if $operation == 'post'}-->
+									{lang credits_policy_post}
+								<!--{elseif $operation == 'reply'}-->
+									{lang credits_policy_reply}
+								<!--{elseif $operation == 'digest'}-->
+									{lang credits_policy_digest}
+								<!--{elseif $operation == 'postattach'}-->
+									{lang credits_policy_postattach}
+								<!--{elseif $operation == 'getattach'}-->
+									{lang credits_policy_getattach}
+								<!--{/if}-->
+							<!--{else}-->
+								<!--{if $operation == 'post'}-->
+									{lang credits_policy_post}
+								<!--{elseif $operation == 'reply'}-->
+									{lang credits_policy_reply}
+								<!--{elseif $operation == 'digest'}-->
+									{lang credits_policy_digest}
+								<!--{elseif $operation == 'postattach'}-->
+									{lang credits_policy_postattach}
+								<!--{elseif $operation == 'getattach'}-->
+									{lang credits_policy_getattach}
+								<!--{elseif $operation == 'sendpm'}-->
+									{lang credits_policy_pm}
+								<!--{elseif $operation == 'search'}-->
+									{lang credits_policy_search}
+								<!--{elseif $operation == 'promotion_visit'}-->
+									{lang credits_policy_promotion_visit}
+								<!--{elseif $operation == 'promotion_register'}-->
+									{lang credits_policy_promotion_register}
+								<!--{elseif $operation == 'tradefinished'}-->
+									{lang credits_policy_trade}
+								<!--{elseif $operation == 'votepoll'}-->
+									{lang credits_policy_poll}
+								<!--{elseif $operation == 'lowerlimit'}-->
+									{lang credits_policy_lowerlimit}
+								<!--{/if}-->
+							<!--{/if}-->
+							</th>
+							<!--{loop $extcredits $id $credit}-->
+								<td>
+								<!--{if $creditsarray[$operation][$id]}-->
+									{$creditsarray[$operation][$id]}
+								<!--{else}-->
+									-
+								<!--{/if}-->
+								</td>
+							<!--{/loop}-->
+						</tr>
+					<!--{/loop}-->
+					</tbody>
+				</table>
+			</div>
+			<div class="notice">
+				<!--{if !$forum}--><p>{lang credits_policy_lowerlimit}: {lang credits_policy_lowerlimit_comment}</p><!--{/if}-->
+				<p>{lang credits_policy_formula}: $creditsformulaexp</p>
+				<p>{lang credits_now}: <a href="memcp.php?action=credits">$credits</a></p>
+			</div>
+
+			<br />
+			<div class="datalist">
+			<table id="list_memcp_extgroup" cellspacing="0" cellpadding="0" class="datatable" style="margin-bottom:30px;">
+				<thead class="colplural">
+					<tr>
+						<td></td>
+						<!--{if !$forum}-->
+							<td>{lang permission_member_level}</td>
+							<td>{lang permission_group_credit}</td>
+							<td>{lang permission_basic_read}</td>
+						<!--{else}-->
+							<td>{lang permission_group_credit}</td>
+							<td>{lang credits_perm_viewperm}</td>
+							<td>{lang credits_perm_postperm}</td>
+							<td>{lang credits_perm_replyperm}</td>
+							<td>{lang credits_perm_getattachperm}</td>
+							<td>{lang credits_perm_postattachperm}</td>
+						<!--{/if}-->
+						<td>{lang action}</td>
+					</tr>
+				</thead>
+				<tbody>
+					<!--{loop $extgroups $gp}-->
+					<tr{if $gp[groupid] == $groupid} class="colplural"{/if}>
+						<td><strong>$gp[grouptitle]<strong></td>
+						<!--{if !$forum}-->
+							<td>{eval showstars($gp[stars]);}</td>
+							<td>$gp[creditshigher]</td>
+							<td>$gp[readaccess]</td>
+						<!--{else}-->
+							<td><!--{if $gp[type] == 'member'}-->$gp[creditshigher]<!--{/if}--></td>
+							<td><!--{if $gp[perm][viewperm]}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $gp[perm][postperm]}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $gp[perm][replyperm]}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $gp[perm][getattachperm]}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $gp[perm][postattachperm]}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+						<!--{/if}-->
+						<td><a href="faq.php?action=grouppermission&searchgroupid={$gp[groupid]}" class="lightlink">{lang permission_group_detail}</a></td>
+					</tr>
+					<!--{/loop}-->
+				</tbody>
+			</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+{subtemplate footer}

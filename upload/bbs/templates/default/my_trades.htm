@@ -1,0 +1,103 @@
+<div id="list_trade_selles_c" class="c_header">
+	<h3 onclick="toggle_collapse('list_trade_selles', 1, 1);"><!--{if $item == 'selltrades'}-->{lang my_trade_seller_log}<!--{else}-->{lang my_trade_buyer_log}<!--{/if}--><!--{if $tid || $srchkey}-->&nbsp;&nbsp;[<a href="my.php?item=$item$extrafid&filter=$filter">{lang my_trade_view_all}</a>]<!--{/if}--></h3>
+	<div class="c_header_action">
+		<div class="c_header_ext">
+			<form action="my.php?item=$item$extratid$extrafid&filter=$filter" method="post">
+				{lang my_trade_goods_name}: <input name="srchkey" value="$srchkey" size="20" class="txt" />&nbsp;<button class="submit" type="submit" name="submit" value="true">{lang search}</button>
+			</form>
+		</div>
+		<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_trade_selles', 1, 1);">[ {lang open} ]</p>
+	</div>
+</div>
+
+<table id="list_trade_selles" cellspacing="0" cellpadding="0" class="datatable">
+	<thead class="colplural">
+		<tr>
+			<td colspan="2">{lang my_trade_goods_name}</td>
+			<td>{lang my_trade_thread}</td>
+			<td><!--{if $item == 'selltrades'}-->{lang my_trade_buyer}<!--{else}-->{lang my_trade_seller}<!--{/if}--></td>
+			<td>{lang my_trade_amount}</td>
+			<td>
+				<!--{if $item == 'selltrades'}-->
+					<select onchange="window.location=this.value">
+						<option value="my.php?item=selltrades$extratid$extrafid$extrasrchkey&filter=all"<!--{if $filter == 'all'}--> selected="selected"<!--{/if}-->>{lang my_trade_all}</option>
+						<option value="my.php?item=selltrades$extratid$extrafid$extrasrchkey"<!--{if $filter == ''}--> selected="selected"<!--{/if}-->>{lang my_trade_trading}</option>
+						<option value="my.php?item=selltrades$extratid$extrafid$extrasrchkey&filter=attention"<!--{if $filter == 'attention'}--> selected="selected"<!--{/if}-->>{lang my_trade_attention}</option>
+						<option value="my.php?item=selltrades$extratid$extrafid$extrasrchkey&filter=eccredit"<!--{if $filter == 'eccredit'}--> selected="selected"<!--{/if}-->>{lang my_trade_eccredit}</option>
+						<option value="my.php?item=selltrades$extratid$extrafid$extrasrchkey&filter=success"<!--{if $filter == 'success'}--> selected="selected"<!--{/if}-->>{lang my_trade_success}</option>
+						<option value="my.php?item=selltrades$extratid$extrafid$extrasrchkey&filter=refund"<!--{if $filter == 'refund'}--> selected="selected"<!--{/if}-->>{lang my_trade_refund}</option>
+						<option value="my.php?item=selltrades$extratid$extrafid$extrasrchkey&filter=closed"<!--{if $filter == 'closed'}--> selected="selected"<!--{/if}-->>{lang my_trade_closed}</option>
+						<option value="my.php?item=selltrades$extratid$extrafid$extrasrchkey&filter=unstart"<!--{if $filter == 'unstart'}--> selected="selected"<!--{/if}-->>{lang my_trade_unstart}</option>
+					</select>
+				<!--{else}-->
+					<select onchange="window.location=this.value">
+						<option value="my.php?item=buytrades$extratid$extrafid$extrasrchkey&filter=all"<!--{if $filter == 'all'}--> selected="selected"<!--{/if}-->>{lang my_trade_all}</option>
+						<option value="my.php?item=buytrades$extratid$extrafid$extrasrchkey"<!--{if $filter == ''}--> selected="selected"<!--{/if}-->>{lang my_trade_trading}</option>
+						<option value="my.php?item=buytrades$extratid$extrafid$extrasrchkey&filter=attention"<!--{if $filter == 'attention'}--> selected="selected"<!--{/if}-->>{lang my_trade_attention}</option>
+						<option value="my.php?item=buytrades$extratid$extrafid$extrasrchkey&filter=eccredit"<!--{if $filter == 'eccredit'}--> selected="selected"<!--{/if}-->>{lang my_trade_eccredit}</option>
+						<option value="my.php?item=buytrades$extratid$extrafid$extrasrchkey&filter=success"<!--{if $filter == 'success'}--> selected="selected"<!--{/if}-->>{lang my_trade_success}</option>
+						<option value="my.php?item=buytrades$extratid$extrafid$extrasrchkey&filter=refund"<!--{if $filter == 'refund'}--> selected="selected"<!--{/if}-->>{lang my_trade_refund}</option>
+						<option value="my.php?item=buytrades$extratid$extrafid$extrasrchkey&filter=closed"<!--{if $filter == 'closed'}--> selected="selected"<!--{/if}-->>{lang my_trade_closed}</option>
+						<option value="my.php?item=buytrades$extratid$extrafid$extrasrchkey&filter=unstart"<!--{if $filter == 'unstart'}--> selected="selected"<!--{/if}-->>{lang my_trade_trading}</option>
+					</select>
+				<!--{/if}-->
+			</td>
+			<!--{if $filter == 'success' || $filter == 'refund' || $filter == 'eccredit'}--><td>{lang trade_rate}</td><!--{/if}-->
+		</tr>
+	</thead>
+<tbody>
+<!--{if $tradeloglist}-->
+	<!--{loop $tradeloglist $tradelog}-->
+		<tr height="80" class="{echo swapclass('colplural')}">
+			<td width="80" valign="middle">
+				<a href="viewthread.php?do=tradeinfo&tid=$tradelog[tid]&pid=$tradelog[pid]" target="_blank"><!--{if $tradelog['aid']}--><img src="attachment.php?aid={echo aidencode($tradelog[aid]);}&noupdate=yes" onload="thumbImg(this, 1)" width="80" _width="80" _height="80" /><!--{else}--><img src="{IMGDIR}/trade_nophotosmall.gif" /><!--{/if}--></a>
+			</td>
+			<td><a target="_blank" href="trade.php?orderid=$tradelog[orderid]">$tradelog[subject]</a></td>
+			<td><a target="_blank" href="viewthread.php?do=tradeinfo&tid=$tradelog[tid]&pid=$tradelog[pid]">$tradelog[threadsubject]</a></td>
+			<td>
+				<!--{if $item == 'selltrades'}-->
+					<!--{if $tradelog['buyerid']}--><a target="_blank" href="space.php?uid=$tradelog[buyerid]">$tradelog[buyer]</a><!--{else}-->$tradelog[buyer]<!--{/if}-->
+				<!--{else}-->
+					<a target="_blank" href="space.php?uid=$tradelog[sellerid]">$tradelog[seller]</a>
+				<!--{/if}-->
+			</td>
+			<td>
+				<!--{if $tradelog[price] > 0}-->
+					$tradelog[price] {lang trade_units}&nbsp;&nbsp;
+				<!--{/if}-->
+				<!--{if $tradelog[credit] > 0}-->
+					{$extcredits[$creditstransextra[5]][title]} $tradelog[credit] {$extcredits[$creditstransextra[5]][unit]}
+				<!--{/if}-->
+			</td>
+			<td>
+				<a target="_blank" href="trade.php?orderid=$tradelog[orderid]">
+					<!--{if $tradelog['attend']}-->
+						<b>$tradelog[status]</b>
+					<!--{else}-->
+						$tradelog[status]
+					<!--{/if}-->
+				</a><br />$tradelog[lastupdate]
+			</td>
+			<!--{if $filter == 'success' || $filter == 'refund' || $filter == 'eccredit'}-->
+				<td>
+					<!--{if $tradelog[ratestatus] == 3}-->
+						{lang eccredit_post_between}
+					<!--{elseif ($item == 'buytrades' && $tradelog[ratestatus] == 1) || ($item == 'selltrades' && $tradelog[ratestatus] == 2)}-->
+						{lang eccredit_post_waiting}
+					<!--{else}-->
+						<!--{if ($item == 'buytrades' && $tradelog[ratestatus] == 2) || ($item == 'selltrades' && $tradelog[ratestatus] == 1)}-->{lang eccredit_post_already}<br /><!--{/if}-->
+						<!--{if $item == 'buytrades'}-->
+							<a href="eccredit.php?action=rate&orderid=$tradelog[orderid]&type=0" target="_blank">{lang eccredit1}</a>
+						<!--{else}-->
+							<a href="eccredit.php?action=rate&orderid=$tradelog[orderid]&type=1" target="_blank">{lang eccredit1}</a>
+						<!--{/if}-->
+					<!--{/if}-->
+				</td>
+			<!--{/if}-->
+		</tr>
+	<!--{/loop}-->
+<!--{else}-->
+	<td colspan="7"><p class="nodata">{lang data_nonexistence}</p></td></tr>
+<!--{/if}-->
+</tbody>
+</table>

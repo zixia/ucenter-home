@@ -1,0 +1,61 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang memcp_validating}</div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+			<h1>{lang memcp_validating}</h1>
+			<form method="post" action="member.php?action=regverify">
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<table summary="{lang memcp_validating}" cellpadding="0" cellspacing="0" class="formtable">
+					<thead>
+						<tr>
+							<th>&nbsp;</th>
+							<td>{lang memcp_validating_info}</td>
+						</tr>
+					</thead>
+					<tr>
+						<th>{lang memcp_validating_status}</th>
+						<td><strong><!--{if $validating['status'] == 0}-->{lang memcp_validating_status_0}<!--{elseif $validating['status'] == 1}-->{lang memcp_validating_status_1}<!--{/if}--></strong></td>
+					</tr>
+					<!--{if $validating['admin']}-->
+					<tr>
+						<th>{lang memcp_validating_admin}</th>
+						<td><a href="space.php?username=$validating[adminenc]">$validating[admin]</a></td>
+					</tr>
+					<!--{/if}-->
+					<!--{if $validating['moddate']}-->
+					<tr>
+						<th>{lang memcp_validating_time}</th>
+						<td>$validating[moddate]</td>
+					</tr>
+					<!--{/if}-->
+					<!--{if $validating['remark']}-->
+					<tr>
+						<th>{lang memcp_validating_remark}</th>
+						<td>$validating[remark]</td>
+					</tr>
+					<!--{/if}-->
+					<!--{if $validating['status'] == 1}-->
+						<tr>
+							<th valign="top"><label for="regmessagenew">{lang register_message}</label></th>
+							<td><textarea rows="5" cols="50" id="regmessagenew" name="regmessagenew" class="txtarea">$validating[message]</textarea></td>
+						</tr>
+						<tr>
+							<th></th>
+							<td><button type="submit" class="submit" name="verifysubmit" id="verifysubmit" value="true">{lang submit}</button></td>
+						</tr>
+					<!--{else}-->
+						<tr>
+							<th valign="top"><label for="regmessagenew">{lang register_message}</label></th>
+							<td>$validating[message]</td>
+						</tr>
+					<!--{/if}-->
+				</table>
+			</form>
+		</div>
+	</div>
+	<div class="side">
+		{subtemplate personal_navbar}
+	</div>
+</div>
+{subtemplate footer}

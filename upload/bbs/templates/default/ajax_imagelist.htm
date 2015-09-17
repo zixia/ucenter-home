@@ -1,0 +1,28 @@
+<!--{if $imagelist}-->
+	<!--{eval $i = 0;}-->
+	<table cellspacing="2" cellpadding="2" class="imglist"><tr>
+	<!--{loop $imagelist $image}-->
+		<!--{eval $i++;}-->
+		<td valign="bottom" id="image_td_$image[aid]" width="25%">
+			<a href="javascript:;" title="$image[filename]"><img src="$image[url]/$image[attachment]" id="image_$image[aid]" onclick="insertAttachimgTag('$image[aid]')" width="$image[width]" _width="$image[width]" _height="110" onload="thumbImg(this, 1)" /></a>
+			<p class="imginfo">
+				<span class="right"><a href="javascript:;" onclick="delImgAttach($image[aid],{if !$attach[pid]}1{else}0{/if})" class="deloption">{lang e_attach_del}</a></span>
+				{if $image['description']}
+					<input type="text" name="attachnew[{$image[aid]}][description]" class="txt" value="$image[description]" id="image_desc_$image[aid]" />
+				{else}
+					<input type="text" class="txt lighttxt" value="{lang description}" onclick="this.style.display='none';$('image_desc_$image[aid]').style.display='';$('image_desc_$image[aid]').focus();" />
+					<input type="text" name="attachnew[{$image[aid]}][description]" class="txt" style="display: none" id="image_desc_$image[aid]" />
+				{/if}
+			</p>
+		</td>
+		<!--{if $i % 4 == 0 && isset($imagelist[$i])}--></tr><tr><!--{/if}-->
+	<!--{/loop}-->
+	<!--{if ($imgpad = $i % 4) > 0}-->{echo str_repeat('<td width="25%"></td>', 4 - $imgpad);}<!--{/if}-->
+	</tr></table>
+	<!--{if !empty($inajax)}-->
+		<script type="text/javascript" reload="1">
+		ATTACHNUM['imageunused'] += {echo count($imagelist)};
+		updateattachnum('image');
+		</script>
+	<!--{/if}-->
+<!--{/if}-->

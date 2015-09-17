@@ -1,0 +1,20 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+
+<div id="wrap" class="wrap s_clear"><div class="main"><div class="content nofloat">
+	<div class="fcontent alert_win">
+		<form method="post" action="forumdisplay.php?fid=$fid&action=pwverify">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<div class="postbox"><div class="alert_info">			
+				<h1>{lang forum_password_require}</h1>
+			</div>
+			<div class="alert_act">
+				<input type="password" name="pw" size="25">
+				&nbsp;<button class="submit" type="submit" name="loginsubmit" value="true">{lang submit}</button>
+			</div>
+			</div>
+		</form>
+	</div>
+</div></div></div>
+
+{subtemplate footer}

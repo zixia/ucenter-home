@@ -1,0 +1,20 @@
+<div class="pages_btns s_clear">
+	<span class="postbtn" id="prompt_index_postbtn"><a href="misc.php?action=nav" onclick="showWindow('nav', this.href);return false;">{lang send_posts}</a></span>
+	<!--{if !$discuz_uid}-->
+		{lang home_welcome_guest}
+	<!--{else}-->
+		{lang home_welcome} {$discuz_userss}, <!--{if $lastvisit}-->{lang home_lastvisit} {$lastvisit}, <!--{/if}--><a href="my.php?item=threads" class="lightlink" target="_blank">{lang my_posts}</a>, <a href="search.php?srchfrom=$newthreads&amp;searchsubmit=yes" class="lightlink">{lang show_newthreads}</a>, <a href="member.php?action=markread" id="ajax_markread" onclick="ajaxmenu(this);doane(event);" class="lightlink">{lang mark_read}</a>
+	<!--{/if}-->
+</div>
+
+<!--{if empty($gid) && $announcements}-->
+	<div id="ann">
+		<dl>
+			<dt>{lang announcements}:</dt>
+			<dd>
+				<div id="annbody"><ul id="annbodylis">$announcements</ul></div>
+			</dd>
+		</dl>
+	</div>
+	<script type="text/javascript">announcement();</script>
+<!--{/if}-->

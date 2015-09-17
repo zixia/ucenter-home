@@ -1,0 +1,33 @@
+<div class="specialpost s_clear">
+	<div class="specialinfo">
+		<h4><label for="affirmpoint">{lang debate_square}:</label></h4>
+		<div><textarea name="affirmpoint" id="affirmpoint" class="txtarea" tabindex="1">$debate[affirmpoint]</textarea></div>
+		<h4><label for="negapoint">{lang debate_opponent}:</label></h4>
+		<div><textarea name="negapoint" id="negapoint" class="txtarea" tabindex="1">$debate[negapoint]</textarea></div>
+	</div>
+	<div class="specialaddons">
+		<label for="endtime">{lang endtime}:</label>
+		<p class="hasdropdownbtn">
+			<input onclick="showcalendar(event, this, true)" type="text" autocomplete="off" id="endtime" name="endtime" class="txt" value="$debate[endtime]" tabindex="1" />
+			<a href="javascript:;" class="dropdownbtn" onclick="showselect(this, 'endtime')">^</a>
+		</p>
+		<label for="umpire">{lang debate_umpire}:</label>
+		<p><input type="text" id="umpire" class="splonginput txt" name="umpire" onblur="checkuserexists(this.value, 'checkuserinfo')" value="$debate[umpire]" tabindex="1" /></p>
+		<span id="checkuserinfo"></span>
+	</div>
+</div>
+
+<script type="text/javascript" reload="1">
+	function checkuserexists(username, objname) {
+		if(!username) {
+			$(objname).innerHTML = '';
+			return;
+		}
+		var x = new Ajax();
+		username = BROWSER.ie && document.charset == 'utf-8' ? encodeURIComponent(username) : username;
+		x.get('ajax.php?inajax=1&action=checkuserexists&username=' + username, function(s){
+			var obj = $(objname);
+			obj.innerHTML = s;
+		});
+	}
+</script>

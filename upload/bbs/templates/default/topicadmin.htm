@@ -1,0 +1,356 @@
+{template header}
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+
+<div class="fcontent" id="floatlayout_topicadmin">
+	<h3 class="float_ctrl">
+		<em id="return_mods">{lang admin_select_piece}</em>
+		<span>
+			<a href="javascript:;" class="float_close" onclick="hideWindow('mods')" title="{lang close}">{lang close}</a>
+		</span>
+	</h3>
+	<form id="moderateform" method="post" action="topicadmin.php?action=moderate&optgroup=$optgroup&modsubmit=yes&infloat=yes" onsubmit="ajaxpost('moderateform', 'return_mods', 'return_mods', 'onerror');return false;">
+		<input type="hidden" name="frommodcp" value="$frommodcp" />
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="fid" value="$fid" />
+		<input type="hidden" name="listextra" value="$listextra" />
+		<!--{if !empty($infloat)}--><input type="hidden" name="handlekey" value="$handlekey" /><!--{/if}-->
+		<!--{loop $threadlist $thread}-->
+			<input type="hidden" name="moderate[]" value="$thread[tid]" />
+		<!--{/loop}-->
+		<div class="postbox">
+			<!--{if $optgroup == 1}-->
+				<ul class="listtopicadmin">
+				<!--{if count($threadlist) > 1 || !$defaultcheck[recommend]}-->
+					<!--{if $allowstickthread}-->
+					<li id="itemcp_stick">
+						<table cellspacing="0" cellpadding="5">
+							<tr>
+							<td width="15"><input name="operations[]" onclick="if(this.checked) switchitemcp('itemcp_stick')" type="checkbox" value="stick" $defaultcheck[stick] /></td>
+							<td>
+								<label onclick="switchitemcp('itemcp_stick')" class="labeltxt">{lang thread_stick}</label>
+								<div class="detailopt">
+									<select name="sticklevel">
+										<option value="0">{lang none}</option>
+										<option value="1" $stickcheck[1]>$threadsticky[2]</option>
+										<!--{if $allowstickthread >= 2}-->
+											<option value="2" $stickcheck[2]>$threadsticky[1]</option>
+											<!--{if $allowstickthread == 3}-->
+												<option value="3" $stickcheck[3]>$threadsticky[0]</option>
+											<!--{/if}-->
+										<!--{/if}-->
+									</select>
+								</div>
+							</td>
+							</tr>
+							<tr class="detailopt">
+							<td></td>
+							<td>
+								<p class="hasdropdownbtn">
+									<label for="expirationstick" class="labeltxt">{lang expire}</label>
+									<input onclick="showcalendar(event, this, true)" type="text" autocomplete="off" id="expirationstick" name="expirationstick" class="txt" value="$expirationstick" tabindex="1" />
+									<a href="javascript:;" class="dropdownbtn" onclick="showselect(this, 'expirationstick')">^</a>
+								</p>
+							</td>
+							</tr>
+						</table>
+					</li>
+					<!--{/if}-->
+					<!--{if $allowdigestthread}-->
+					<li id="itemcp_digest">
+						<table cellspacing="0" cellpadding="5">
+							<tr>
+							<td width="15"><input name="operations[]" onclick="if(this.checked) switchitemcp('itemcp_digest')" type="checkbox" value="digest" $defaultcheck[digest] /></td>
+							<td>
+								<label onclick="switchitemcp('itemcp_digest')" class="labeltxt">{lang admin_digest_add}</label>
+								<div class="detailopt">
+									<select name="digestlevel">
+										<option value="0">{lang admin_digest_remove}</option>
+										<option value="1" $digestcheck[1]>{lang thread_digest} 1</option>
+										<!--{if $allowdigestthread >= 2}-->
+											<option value="2" $digestcheck[2]>{lang thread_digest} 2</option>
+											<!--{if $allowdigestthread == 3}-->
+												<option value="3" $digestcheck[3]>{lang thread_digest} 3</option>
+											<!--{/if}-->
+										<!--{/if}-->
+									</select>
+								</div>
+							</td>
+						</tr>
+						<tr class="detailopt">
+							<td></td>
+							<td>
+								<p class="hasdropdownbtn">
+									<label for="expirationdigest" class="labeltxt">{lang expire}</label>
+									<input onclick="showcalendar(event, this, true)" type="text" autocomplete="off" id="expirationdigest" name="expirationdigest" class="txt" value="$expirationdigest" tabindex="1" />
+									<a href="javascript:;" class="dropdownbtn" onclick="showselect(this, 'expirationdigest')">^</a>
+								</p>
+							</td>
+							</tr>
+						</table>
+					</li>
+					<!--{/if}-->
+					<!--{if $allowbumpthread}-->
+					<li>
+						<table cellspacing="0" cellpadding="5">
+							<tr>
+								<td width="15"><input name="operations[]" type="checkbox" value="bump" $defaultcheck[bump] /></td>
+								<td><label for="">{lang bump}</label></td>
+							</tr>
+						</table>
+					</li>
+					<!--{/if}-->
+					<!--{if $allowhighlightthread}-->
+					<li id="itemcp_highlight">
+						<table cellspacing="0" cellpadding="5">
+							<tr>
+							<td width="15"><input name="operations[]" onclick="if(this.checked) switchitemcp('itemcp_highlight')" type="checkbox" value="highlight" $defaultcheck[highlight] /></td>
+							<td>
+								{eval $colorarray = array(1=>'#EE1B2E', 2=>'#EE5023', 3=>'#996600', 4=>'#3C9D40', 5=>'#2897C5', 6=>'#2B65B7', 7=>'#8F2A90', 8=>'#EC1282');}
+								<label onclick="switchitemcp('itemcp_highlight')" class="labeltxt">{lang thread_highlight}</label>
+								<div class="detailopt">
+									<span class="hasdropdownbtn">
+										<input type="hidden" id="highlight_color" name="highlight_color" value="$colorcheck" />
+										<input type="hidden" id="highlight_style_1" name="highlight_style[1]" value="$stylecheck[1]" />
+										<input type="hidden" id="highlight_style_2" name="highlight_style[2]" value="$stylecheck[2]" />
+										<input type="hidden" id="highlight_style_3" name="highlight_style[3]" value="$stylecheck[3]" />
+										<input id="highlight_color_show" type="text" class="txt" readonly="readonly" {if $colorcheck}style="background: $colorarray[$colorcheck]" {/if}/>
+										<a href="javascript:;" id="highlight_color_ctrl" onclick="showHighLightColor('highlight_color')" class="dropdownbtn">^</a>
+									</span>
+									<a href="javascript:;" id="highlight_op_1" onclick="switchhl(this, 1)" class="detailopt_bold{if $stylecheck[1]} current{/if}" style="text-indent:0;text-decoration:none;font-weight:700;" title="{lang e_bold}">B</a>
+									<a href="javascript:;" id="highlight_op_2" onclick="switchhl(this, 2)" class="detailopt_italic{if $stylecheck[2]} current{/if}" style="text-indent:0;text-decoration:none;font-style:italic;" title="{lang e_italic}">I</a>
+									<a href="javascript:;" id="highlight_op_3" onclick="switchhl(this, 3)" class="detailopt_underline{if $stylecheck[3]} current{/if}" style="text-indent:0;text-decoration:underline;" title="{lang e_underline}">U</a>
+								</div>
+							</td>
+							</tr>
+							<tr class="detailopt">
+							<td></td>
+							<td>
+								<p class="hasdropdownbtn">
+									<label for="expirationhighlight" class="labeltxt">{lang expire}</label>
+									<input onclick="showcalendar(event, this, true)" type="text" autocomplete="off" id="expirationhighlight" name="expirationhighlight" class="txt" value="$expirationhighlight" tabindex="1" />
+									<a href="javascript:;" class="dropdownbtn" onclick="showselect(this, 'expirationhighlight')">^</a>
+								</p>
+							</td>
+							</tr>
+						</table>
+					</li>
+					<!--{/if}-->
+				<!--{/if}-->
+				<!--{if $allowrecommendthread && $forum['modrecommend']['open'] && $forum['modrecommend']['sort'] != 1}-->
+					<li id="itemcp_recommend">
+						<table cellspacing="0" cellpadding="5">
+							<tr>
+								<td width="15"><input name="operations[]" onclick="if(this.checked) switchitemcp('itemcp_recommend')" type="checkbox" value="recommend" $defaultcheck[recommend] /></td>
+								<td>
+									<label onclick="switchitemcp('itemcp_recommend')"  class="labeltxt">{lang recommend}</label>
+									<div class="detailopt">
+										<label><input class="radio" type="radio" name="isrecommend" value="1" checked="checked" /> {lang recommend}</label>
+										<label><input class="radio" type="radio" name="isrecommend" value="0" /> {lang admin_unrecommend}</label>
+									</div>
+								</td>
+							</tr>
+							<tr class="detailopt">
+								<td></td>
+								<td>
+									<p class="hasdropdownbtn">
+										<label for="expirationrecommend" class="labeltxt">{lang expire}</label>
+										<input onclick="showcalendar(event, this, true)" type="text" autocomplete="off" id="expirationrecommend" name="expirationrecommend" class="txt" value="$expirationrecommend" tabindex="1" />
+										<a href="javascript:;" class="dropdownbtn" onclick="showselect(this, 'expirationrecommend')">^</a>
+									</p>
+								</td>
+							</tr>
+							<!--{if $defaultcheck[recommend] && count($threadlist) == 1}-->
+								<!--{if $frommodcp == 2 && $show}-->
+									<input type="hidden" name="show" value="{$show}" />
+								<!--{/if}-->
+								<input type="hidden" name="position" value="1" />
+								<tr class="detailopt">
+									<td></td>
+									<td>
+										<label for="reducetitle" class="labeltxt">{lang forum_recommend_reducetitle}</label>
+										<input type="text" id="reducetitle" name="reducetitle" class="txt" style="width: 125px" value="$thread[subject]" tabindex="2" />
+									</td>
+								</tr>
+								<!--{if $imgattach}-->
+									<tr class="detailopt">
+										<td></td>
+										<td>
+											<label class="labeltxt">{lang forum_recommend_image}</label>
+											<select name="selectattach" onchange="updateimginfo(this.value)" style="width: 125px">
+												<option value="">{lang forum_recommend_noimage}</option>
+												<!--{loop $imgattach $imginfo}-->
+													<option value="$imginfo[aid]"{if $selectattach == $imginfo[aid]} selected="selected"{/if}>$imginfo[filename]</option>
+												<!--{/loop}-->
+											</select>
+										</td>
+									</tr>
+									<tr class="detailopt">
+										<td></td>
+										<td>
+											<label class="labeltxt">&nbsp;</label>
+											<img id="selectimg" src="images/common/none.gif"  width="120" height="80" />
+											<script type="text/javascript" reload="1">
+											var imgk = new Array();
+											<!--{loop $imgattach $imginfo}-->
+												{eval $k = $imginfo['aid'].'&size=120x80&key='.rawurlencode(authcode($imginfo['aid']."\t120\t80", 'ENCODE', $_DCACHE['settings']['authkey'])).'&nocache=yes';}
+												imgk[{$imginfo[aid]}] = '$k';
+											<!--{/loop}-->
+											function updateimginfo(aid) {
+												if(aid) {
+													$('selectimg').src='image.php?aid=' + imgk[aid];
+												} else {
+													$('selectimg').src='images/common/none.gif';
+												}
+											}
+											{if $selectattach}updateimginfo('$selectattach');{/if}
+											</script>
+										</td>
+									</tr>
+								<!--{/if}-->
+							<!--{/if}-->
+						</table>
+					</li>
+				<!--{/if}-->
+				</ul>
+			<!--{elseif $optgroup == 2}-->
+				<div class="topicadminlow">
+					<!--{if $operation != 'type'}-->
+						<input type="hidden" name="operations[]" value="move" />
+						<p class="tah_body tah_fixiesel">
+							{lang admin_target}: <select id="moveto" name="moveto" onchange="if(this.value) {$('moveext').style.display='';} else {$('moveext').style.display='none';}">
+								$forumselect
+							</select>
+						</p>
+						<p class="tah_body">
+							<ul class="inlinelist" id="moveext" style="display:none;margin:5px 0;">
+								<li class="wide"><label><input class="radio" type="radio" name="type" value="normal" checked="checked" /> {lang admin_move}</label></li>
+								<li class="wide"><label><input class="radio" type="radio" name="type" value="redirect" /> {lang admin_move_hold}</label></li>
+							</ul>
+						</p>
+					<!--{else}-->
+						<!--{if $typeselect}-->
+							<input type="hidden" name="operations[]" value="type" />
+							<p>{lang types}: $typeselect</p>
+						<!--{else}-->
+							{lang admin_type_msg}{eval $hiddensubmit = true;}
+						<!--{/if}-->
+					<!--{/if}-->
+				</div>
+			<!--{elseif $optgroup == 3}-->
+				<div class="topicadminlow">
+				<ul class="inlinelist">
+					<!--{if $operation == 'delete'}-->
+						<!--{if $allowdelpost}-->
+							<input name="operations[]" type="hidden" value="delete"/>
+							<p>{lang admin_delthread_confirm}</p>
+						<!--{else}-->
+							<p>{lang admin_delthread_nopermission}</p>
+						<!--{/if}-->
+					<!--{elseif $operation == 'down' || $operation='bump'}-->
+						<li class="wide"><label><input class="radio" type="radio" name="operations[]" value="bump" checked="checked"/> {lang admin_bump}</label></li>
+						<li class="wide"><label><input class="radio" type="radio" name="operations[]" value="down" /> {lang admin_down}</label></li>
+					<!--{/if}-->
+				</ul>
+				</div>
+			<!--{elseif $optgroup == 4}-->
+				<table cellspacing="0" cellpadding="0">
+					<tr>
+						<td>{lang expire}:&nbsp;</td>
+						<td>
+							<p class="hasdropdownbtn">
+								<input onclick="showcalendar(event, this, true)" type="text" autocomplete="off" id="expirationclose" name="expirationclose" class="txt" value="$expirationclose" tabindex="1" />
+								<a href="javascript:;" class="dropdownbtn" onclick="showselect(this, 'expirationclose')">^</a>
+							</p>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding: 5px 0;">
+							<ul class="inlinelist">
+								<li class="wide"><label><input class="radio" type="radio" name="operations[]" value="open" $closecheck[0] />{lang admin_open}</label></li>
+								<li class="wide"><label><input class="radio" type="radio" name="operations[]" value="close" $closecheck[1] />{lang admin_close}</label></li>
+							</ul>
+						</td>
+					</tr>
+				</table>
+			<!--{/if}-->
+			<div class="topicadminlog">
+				<!--{if empty($hiddensubmit)}-->
+				<h4>
+					<span class="hasdropdownbtn right"><a onclick="showselect(this, 'reason', 'reasonselect')" class="dropdownbtn" href="javascript:;">^</a></span>
+					{lang admin_reason}:
+				</h4>
+				<p>
+				<textarea id="reason" name="reason" class="txtarea" onkeyup="seditor_ctlent(event, '$(\'moderateform\').submit()')"></textarea>
+				</p>
+				<ul id="reasonselect" style="display: none">{echo modreasonselect()}</ul>
+				<p>
+					<input name="modsubmit" type="submit" value="{lang confirms}" />
+					<input type="checkbox" name="sendreasonpm" id="sendreasonpm" class="checkbox"{if $reasonpm == 2 || $reasonpm == 3} checked="checked" disabled="disabled"{/if} /> <label for="sendreasonpm" />{lang admin_pm}</label>
+				</p>
+				<!--{/if}-->
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript" src="{$jspath}calendar.js?{VERHASH}" reload="1"></script>
+
+<script type="text/javascript" reload="1">
+function submithandle_mods(locationhref) {
+	hideWindow('mods');
+	{if !empty($from)}
+		location.href = 'viewthread.php?tid=$from&extra=$listextra';
+	{else}
+		location.href = locationhref;
+	{/if}
+}
+var lastsel = null;
+function switchitemcp(id) {
+	if(lastsel) {
+		lastsel.className = '';
+	}
+	$(id).className = 'currentopt';
+	lastsel = $(id);
+}
+{if !empty($operation)}
+	if($('itemcp_$operation')) {
+		switchitemcp('itemcp_$operation');
+	}
+{/if}
+function switchhl(obj, v) {
+	if(parseInt($('highlight_style_' + v).value)) {
+		$('highlight_style_' + v).value = 0;
+		obj.className = obj.className.replace(/ current/, '');
+	} else {
+		$('highlight_style_' + v).value = 1;
+		obj.className += ' current';
+	}
+}
+function showHighLightColor(hlid) {
+	var showid = hlid + '_show';
+	if(!$(showid + '_menu')) {
+		var str = '';
+		var coloroptions = {'0' : '#000', '1' : '#EE1B2E', '2' : '#EE5023', '3' : '#996600', '4' : '#3C9D40', '5' : '#2897C5', '6' : '#2B65B7', '7' : '#8F2A90', '8' : '#EC1282'};
+		var menu = document.createElement('div');
+		menu.id = showid + '_menu';
+		menu.className = 'color_menu';
+		menu.style.display = 'none';
+		for(var i in coloroptions) {
+			str += '<a href="javascript:;" onclick="$(\'' + hlid + '\').value=' + i + ';$(\'' + showid + '\').style.backgroundColor=\'' + coloroptions[i] + '\';hideMenu(\'' + menu.id + '\')" style="background:' + coloroptions[i] + ';color:' + coloroptions[i] + ';">' + coloroptions[i] + '</a>';
+		}
+		menu.innerHTML = str;
+		$('append_parent').appendChild(menu);
+	}
+	showMenu({'ctrlid':hlid + '_ctrl','evt':'click','showid':showid});
+}
+</script>
+
+<!--{if empty($infloat)}-->
+	</div></div>
+</div>
+<!--{/if}-->
+{template footer}

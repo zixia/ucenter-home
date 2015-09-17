@@ -1,0 +1,41 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang task}</div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+		<!--{if empty($action)}-->
+			{subtemplate task_list}
+		<!--{elseif $action == 'view'}-->
+			{subtemplate task_detail}
+		<!--{/if}-->
+
+		</div>
+	</div>
+	<div class="side">
+		{subtemplate personal_navbar}
+	</div>
+</div>
+<script type="text/javascript" reload="1">
+	function tasknoticewin(taskid) {
+		var x = new Ajax();
+		x.get('task.php?action=draw&inajax=1&id='+taskid, function(s){
+			s = s.split('|');
+			csc = parseFloat(s[0]);
+			s = s[1].toString();
+			if(csc > 0) {
+				$('csc_'+taskid).innerHTML = csc;
+				$('cscbar_'+taskid).style.width = csc+'%';
+				if(csc == '100') {
+					$('reward_'+taskid).innerHTML = '{lang task_done}';
+					showPrompt(null, null, s, 10000);
+				} else {
+					showDialog(s, 'notice');
+				}
+			} else {
+				if(csc == '-1') $('reward_'+taskid).innerHTML = '{lang task_failed}';
+				showDialog(s);
+			}
+		});
+	}
+</script>
+{subtemplate footer}

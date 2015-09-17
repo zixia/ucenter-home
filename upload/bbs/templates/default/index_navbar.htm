@@ -1,0 +1,8 @@
+<ul>
+	<li{if $indexfile == 'classics'} class="current"{/if}><a href="$indexname?op=classics"><span>{lang feeds_forum}</span></a></li>
+	<li{if $indexfile == 'feeds' && !$type} class="current"{/if}><a href="$indexname?op=feeds"><span>{lang feeds_discuz}</span></a></li>
+	<!--{if $my_status}-->
+		<li{if $indexfile == 'feeds' && $type == 'manyou'} class="current"{/if}><a href="$indexname?op=feeds&type=manyou"><span>{lang feeds_apps}</span></a></li>
+	<!--{/if}-->
+	$pluginhooks[index_navbar]
+</ul>

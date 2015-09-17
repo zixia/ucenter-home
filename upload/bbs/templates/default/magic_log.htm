@@ -1,0 +1,138 @@
+<div class="datalist">
+	<div id="list_magics_shop_c" class="c_header">
+		<h3 class="noarrow">
+			<!--{if $operation == 'uselog'}-->
+				{lang magics_log_use}
+			<!--{elseif $operation == 'buylog'}-->
+				{lang magics_log_buy}
+			<!--{elseif $operation == 'givelog'}-->
+				{lang magics_log_present}
+			<!--{elseif $operation == 'receivelog'}-->
+				{lang magics_log_receive}
+			<!--{elseif $operation == 'marketlog'}-->
+				{lang magics_log_market}
+			<!--{/if}-->
+		</h3>					
+	</div>
+	<!--{if $operation == 'uselog'}-->
+		<table summary="{lang magics_log_use}" cellspacing="0" cellpadding="0" class="datatable">
+			<!--{if $loglist}-->
+				<thead class="colplural">
+					<tr>
+						<td>{lang magics_name}</td>
+						<td width="20%">{lang magics_dateline_use}</td>
+						<td width="20%">{lang magics_target_use}</td>
+					</tr>
+				</thead>
+				<!--{loop $loglist $log}-->
+					<tr class="{echo swapclass('colplural')}">
+						<td><a href="magic.php?action=index&operation=buy&magicid=$log[magicid]" target="_blank">$log[name]</a></td>
+						<td>$log[dateline]</td>
+						<td><!--{if $log['target']}--><a href="$log[target]" target="_blank">{lang magics_target}</a><!--{else}-->{lang magics_operation_drop}<!--{/if}--></td>
+					</tr>
+				<!--{/loop}-->
+			<!--{else}-->
+				<tr><td><p class="nodata">{lang data_nonexistence}</p></td></tr>
+			<!--{/if}-->
+		</table>
+		<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+	<!--{elseif $operation == 'buylog'}-->
+		<table summary="{lang magics_log_buy}" cellspacing="0" cellpadding="0" class="datatable">
+			<!--{if $loglist}-->
+				<thead class="colplural">
+					<tr>
+						<td>{lang magics_name}</td>
+						<td width="20%">{lang magics_dateline_buy}</td>
+						<td width="20%">{lang magics_amount_buy}</td>
+						<td width="20%">{lang magics_price_buy} ($extcredits[$creditstransextra[3]][title])</td>
+					</tr>
+				</thead>
+				<!--{loop $loglist $log}-->
+					<tr class="{echo swapclass('colplural')}">
+						<td><a href="magic.php?action=index&operation=buy&magicid=$log[magicid]" target="_blank">$log[name]</a></td>
+						<td>$log[dateline]</td>
+						<td>$log[amount]</td>
+						<td>$log[price]</td>
+					</tr>
+				<!--{/loop}-->
+			<!--{else}-->
+				<tr><td><p class="nodata">{lang data_nonexistence}</p></td></tr>
+			<!--{/if}-->
+		</table>
+		<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+	<!--{elseif $operation == 'givelog'}-->
+		<table summary="{lang magics_log_present}" cellspacing="0" cellpadding="0" class="datatable">
+			<!--{if $loglist}-->
+				<thead class="colplural">
+					<tr>
+						<td>{lang magics_name}</td>
+						<td width="20%">{lang magics_dateline_present}</td>
+						<td width="20%">{lang magics_amount_present}</td>
+						<td width="20%">{lang magics_target_present}</td>
+					</tr>
+				</thead>
+				<!--{loop $loglist $log}-->
+					<tr class="{echo swapclass('colplural')}">
+						<td><a href="magic.php?action=index&operation=buy&magicid=$log[magicid]" target="_blank">$log[name]</a></td>
+						<td>$log[dateline]</td>
+						<td>$log[amount]</td>
+						<td><a href="space.php?uid=$log[targetuid]" target="_blank">$log[username]</a></td>
+					</tr>
+				<!--{/loop}-->
+			<!--{else}-->
+				<tr><td><p class="nodata">{lang data_nonexistence}</p></td></tr>
+			<!--{/if}-->
+		</table>
+		<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+	<!--{elseif $operation == 'receivelog'}-->
+		<table summary="{lang magics_log_receive}" cellspacing="0" cellpadding="0" class="datatable">
+			<!--{if $loglist}-->
+				<thead class="colplural">
+					<tr>
+						<td>{lang magics_name}</td>
+						<td width="20%">{lang magics_dateline_receive}</td>
+						<td width="20%">{lang magics_amount_receive}</td>
+						<td width="20%">{lang magics_target_receive}</td>
+					</tr>
+				</thead>
+				<!--{loop $loglist $log}-->
+					<tr class="{echo swapclass('colplural')}">
+						<td><a href="magic.php?action=index&operation=buy&magicid=$log[magicid]" target="_blank">$log[name]</a></td>
+						<td>$log[dateline]</td>
+						<td>$log[amount]</td>
+						<td class="user"><a href="space.php?uid=$log[targetuid]" target="_blank">$log[username]</a></td>
+					</tr>
+				<!--{/loop}-->
+			<!--{else}-->
+				<tr><td><p class="nodata">{lang data_nonexistence}</p></td></tr>
+			<!--{/if}-->
+		</table>
+		<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+	<!--{elseif $operation == 'marketlog'}-->
+		<table summary="{lang magics_log_market}" cellspacing="0" cellpadding="0" class="datatable">
+			<!--{if $loglist}-->
+				<thead class="colplural">
+					<tr>
+						<td>{lang magics_name}</td>
+						<td width="20%">{lang magics_dateline_operation}</td>
+						<td width="10%">{lang magics_amount_operation}</td>
+						<td width="15%">{lang magics_price_operation} ($extcredits[$creditstransextra[3]][title])</td>
+						<td width="10%">{lang magics_operation}</td>
+					</tr>
+				</thead>
+				<!--{loop $loglist $log}-->
+					<tr class="{echo swapclass('colplural')}">
+						<td><a href="magic.php?action=index&operation=buy&magicid=$log[magicid]" target="_blank">$log[name]</a></td>
+						<td>$log[dateline]</td>
+						<td>$log[amount]</td>
+						<td>$log[price]</td>
+						<td><!--{if $log['action'] == '4'}-->{lang magics_operation_sell}<!--{elseif $log['action'] =='5'}-->{lang magics_operation_buy}<!--{elseif $log['action'] == '6'}-->{lang magics_operation_down}<!--{/if}--></td>
+					</tr>
+				<!--{/loop}-->
+			<!--{else}-->
+				<tr><td><p class="nodata">{lang data_nonexistence}</p></td></tr>
+			<!--{/if}-->
+		</table>
+		<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+	<!--{/if}-->
+</div>

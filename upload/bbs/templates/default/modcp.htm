@@ -1,0 +1,101 @@
+{template header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; <a href="modcp.php">{lang modcp}</a></div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+			<!--{if $script == 'noperm'}-->
+				<div class="mainbox">
+					<h3>{lang mod_option_error}</h3>
+					<table cellspacing="0" cellpadding="0">
+						<tr>
+							<td>{lang mod_error_invalid}</td>
+						</tr>
+					</table>
+					</form>
+				</div>
+
+				<div class="notice">{lang mod_notice}</div>
+			<!--{elseif !empty($modtpl)}-->
+				{eval include(template($modtpl));}
+			<!--{/if}-->
+		</div>
+	</div>
+	<div class="side">
+		<h2>{lang modcp}</h2>
+		<div class="sideinner noborder">
+			<ul class="tabs">
+				<li{if $action == 'home'} class="current"{/if}><!--{if $notenum}--><span class="numbg">$notenum</span><!--{/if}--><a href="{$cpscript}">{lang mod_notice_title}</a></li>
+				<!--{if $modforums['fids']}-->
+					<!--{if $allowviewreport}--><li{if $action == 'report'} class="current"{/if}><!--{if $reportnum}--><span class="numbg">$reportnum</span><!--{/if}--><a href="{$cpscript}?action=report$forcefid">{lang mod_option_subject_report}</a></li><!--{/if}-->
+					<!--{if $allowmodpost || $allowmoduser}-->
+						<li{if $action == 'moderate'} class="current"{/if}><!--{if $modnum}--><span class="numbg">$modnum</span><!--{/if}--><a href="{$cpscript}?action=moderate&op={if $allowmodpost}threads{$forcefid}{else}members{/if}">{lang forum_moderate}</a></li>
+					<!--{/if}-->
+				<!--{/if}-->
+				<!--{if !empty($plugins['modcp_base'])}-->
+					<!--{loop $plugins['modcp_base'] $id $module}-->
+						<li{if $_GET[id] == $id} class="current"{/if}><a href="{$cpscript}?action=plugin&op=base&id=$id">$module[name]</a></li>
+					<!--{/loop}-->
+				<!--{/if}-->
+			</ul>
+		</div>
+
+		<hr class="shadowline" />
+
+		<!--{if $allowedituser || $allowbanuser || $allowbanip}-->
+			<div class="sideinner">
+				<ul class="tabs">
+					<!--{if $allowbanuser}--><li{if $action == 'members' && $op == 'ban'} class="current"{/if}><a href="{$cpscript}?action=members&op=ban">{lang mod_option_member_ban}</a></li><!--{/if}-->
+					<!--{if $allowbanip}--><li{if $action == 'members' && $op == 'ipban'} class="current"{/if}><a href="{$cpscript}?action=members&op=ipban">{lang mod_option_member_ipban}</a></li><!--{/if}-->
+					<!--{if $modforums['fids']}--><li{if $action == 'forumaccess'} class="current"{/if}><a href="{$cpscript}?action=forumaccess{$forcefid}">{lang mod_option_member_access}</a></li><!--{/if}-->
+					<!--{if $allowedituser}--><li{if $action == 'members' && $op == 'edit'} class="current"{/if}><a href="{$cpscript}?action=members&op=edit">{lang mod_option_member_edit}</a></li><!--{/if}-->
+				</ul>
+			</div>
+
+			<hr class="shadowline" />
+		<!--{/if}-->
+
+		<!--{if $modforums['fids']}-->
+			<div class="sideinner">
+				<ul class="tabs">
+					<li{if $action == 'threads' || $action == 'recyclebins'} class="current"{/if}><a href="{$cpscript}?action=threads&op=threads{$forcefid}">{lang mod_option_subject}</a></li>
+					<!--{if $allowrecommendthread}--><li{if $action == 'forums' && $op == 'recommend'} class="current"{/if}><a href="{$cpscript}?action=forums&op=recommend&show=all{$forcefid}">{lang mod_option_forum_recommend}</a></li><!--{/if}-->
+					<!--{if $alloweditforum}--><li{if $action == 'forums' && $op == 'editforum'} class="current"{/if}><a href="{$cpscript}?action=forums&op=editforum{$forcefid}">{lang mod_option_forum_edit}</a></li><!--{/if}-->
+				</ul>
+			</div>
+
+			<hr class="shadowline" />
+		<!--{/if}-->
+
+		<!--{if $allowpostannounce || $allowviewlog}-->
+			<div class="sideinner">
+				<ul class="tabs">
+					<!--{if $allowpostannounce}--><li{if $action == 'announcements'} class="current"{/if}><a href="{$cpscript}?action=announcements">{lang announcements}</a></li><!--{/if}-->
+					<!--{if $allowviewlog}--><li{if $action == 'logs'} class="current"{/if}><a href="{$cpscript}?action=logs">{lang modcp_logs}</a></li><!--{/if}-->
+				</ul>
+			</div>
+
+			<hr class="shadowline" />
+		<!--{/if}-->
+
+		<!--{if !empty($plugins['modcp_tools'])}-->
+			<div class="sideinner">
+				<ul class="tabs">
+				<!--{loop $plugins['modcp_tools'] $id $module}-->
+					<li{if $_GET[id] == $id} class="current"{/if}><a href="{$cpscript}?action=plugin&op=tools&id=$id">$module[name]</a></li>
+				<!--{/loop}-->
+				</ul>
+			</div>
+
+			<hr class="shadowline" />
+		<!--{/if}-->
+
+		<div class="sideinner">
+			<ul class="tabs">
+				<li><a href="{if $forcefid}forumdisplay.php?{$forcefid}{else}$indexname{/if}">{lang mod_option_return}</a></li>
+				<li><a href="{$cpscript}?action=logout">{lang mod_option_logout}</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+{subtemplate footer}

@@ -1,0 +1,37 @@
+<div class="datalist">
+	<div id="list_magics_shop_c" class="c_header">
+		<h3 class="noarrow">{lang magics_shop}</h3>
+	</div>
+	<div id="list_magics_shop" class="mymagic">
+	<!--{if $magicsdiscount}-->
+		<!--{if $magicsdiscount}-->
+			<p>{lang magics_discount}: $magicsdiscount {lang discount}</p>
+		<!--{/if}-->
+	<!--{/if}-->
+	<ul class="inlinelist s_clear">
+		<!--{if $magiclist}-->
+				<!--{eval $i=0;}-->
+				<!--{loop $magiclist $key $magic}-->
+					<li>
+						<div class="magicimg"><img src="images/magics/$magic[pic]" alt="$magic[name]" /></div>
+						<div class="magicdetail">
+							<h5>$magic[name]</h5>
+							<p>$magic[description]</p>
+							<p>{lang magics_price}&nbsp;&nbsp;<strong>$magic[price]{$extcredits[$creditstransextra[3]][title]}/{lang unit}</strong>&nbsp;&nbsp;
+							<a href="magic.php?action=shop&operation=buy&magicid=$magic[magicid]" onclick="showWindow('magics', this.href);return false;">{lang magics_operation_buy}</a>
+							<!--{if $allowmagics > 1}-->
+								<a href="magic.php?action=shop&operation=give&magicid=$magic[magicid]" onclick="showWindow('magics', this.href);return false;">{lang magics_operation_present}</a>
+							<!--{/if}-->
+							</p>
+						</div>
+					</li>
+					<!--{if $i%2}--><li class="clear"></li><!--{/if}-->
+					<!--{eval $i++;}-->
+				<!--{/loop}-->
+				<!--{if !empty($mymultipage)}--><li class="clear"><div class="pages_btns">$mymultipage</div></li><!--{/if}-->
+		<!--{else}-->
+			<li class="clear">{lang data_nonexistence}</li>
+		<!--{/if}-->
+	</ul>
+	</div>
+</div>

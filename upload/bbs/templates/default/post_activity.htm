@@ -1,0 +1,76 @@
+<div class="specialpost s_clear">
+	<div class="specialinfo">
+		<dl>
+			<dt><label for="starttime">{lang activity_starttime}:</label></dt>
+			<dd>
+				<div id="certainstarttime" class="hasdropdownbtn s_clear" {if $activity['starttimeto']}style="display: none"{/if}>
+					<span><input onclick="showcalendar(event, this, true)" type="text" autocomplete="off" name="starttimefrom[0]" id="starttimefrom_0" class="spmediuminput txt" value="$activity[starttimefrom]" tabindex="1" /></span>
+				</div>
+				<div id="uncertainstarttime" class="hasdropdownbtn s_clear" {if !$activity['starttimeto']}style="display: none"{/if}>
+					<span><input onclick="showcalendar(event, this, true)" type="text" autocomplete="off" name="starttimefrom[1]" id="starttimefrom_1" class="left spmediuminput txt" value="$activity[starttimefrom]" tabindex="1" /></span>
+					<strong class="left">~</strong>
+					<input onclick="showcalendar(event, this, true)" type="text" autocomplete="off" id="starttimeto" name="starttimeto" class="spmediuminput txt" value="{if $activity['starttimeto']}$activity[starttimeto]{/if}" tabindex="1" />
+				</div>
+			</dd>
+			<dt></dt>
+			<dd>
+				<input type="checkbox" id="activitytime" name="activitytime" onclick="if(this.checked) {$('certainstarttime').style.display='none';$('uncertainstarttime').style.display='';} else {$('certainstarttime').style.display='';$('uncertainstarttime').style.display='none';}" value="1" {if $activity['starttimeto']}checked{/if} tabindex="1" /><label for="activitytime">{lang activity_starttime_endtime}</label>
+			</dd>
+			<dt><label for="activityplace">{lang activity_space}:</label></dt>
+			<dd>
+				<input id="activityplace" class="spslonginput txt" type="text" name="activityplace" value="$activity[place]" tabindex="1" />
+			</dd>
+			<dt>{lang activiy_sort}:</dt>
+			<dd>
+				<!--{if $activitytypelist}-->
+					<ul id="activitytypelist" style="display: none">
+					<!--{loop $activitytypelist $type}-->
+						<li>$type</li>
+					<!--{/loop}-->
+					</ul>
+				<!--{/if}-->
+				<p class="hasdropdownbtn">
+					<span><input type="text" id="activityclass" class="spmediuminput txt" name="activityclass" value="$activity[class]" tabindex="1" /></span>
+					<!--{if $activitytypelist}-->
+						<a href="javascript:;" class="dropdownbtn" onclick="showselect(this, 'activityclass', 'activitytypelist')">^</a>
+					<!--{/if}-->
+				</p>
+			</dd>
+			<dt><label for="cost">{lang activity_payment}:</label></dt>
+			<dd>
+				<input onkeyup="checkvalue(this.value, 'costmessage')" type="text" id="cost" class="spmediuminput txt" name="cost" value="$activity[cost]" tabindex="1" /> {lang payment_unit} <span id="costmessage"></span>
+			</dd>
+		</dl>
+	</div>
+	<div class="specialaddons">
+		<dl>
+			<!--{if $action == 'newthread'}-->
+				<dt><label for="activitycity">{lang activity_city}:</label></dt>
+				<dd><input name="activitycity" id="activitycity" class="spmediuminput txt" type="text" tabindex="1" /></dd>
+			<!--{/if}-->
+			<dt><label for="activitynumber">{lang activity_need_member}:</label></dt>
+			<dd><input onkeyup="checkvalue(this.value, 'activitynumbermessage')" name="activitynumber" id="activitynumber" class="spmediuminput txt" type="text" value="$activity[number]" tabindex="1" /> <span id="activitynumbermessage"></span></dd>
+			<dt></dt>
+			<dd class="spaoptlist s_clear">
+				<p><input name="gender" type="radio" value="0" id="nolimit" {if !$activity['gender']}checked{/if} tabindex="1" /><label for="nolimit">{lang unlimited}</label></p>
+				<p><input name="gender" type="radio" value="1" id="male" {if $activity['gender'] == 1}checked{/if} tabindex="1" /><label for="male">{lang male}</label></p>
+				<p><input name="gender" type="radio" value="2" id="female" {if $activity['gender'] == 2}checked{/if} tabindex="1" /><label for="female">{lang female}</label></p>
+			</dd>
+		</dl>
+		<p><label for="activityexpiration">{lang activity_totime}:</label></p>
+		<p class="hasdropdownbtn">
+			<input onclick="showcalendar(event, this, true)" type="text" autocomplete="off" id="activityexpiration" name="activityexpiration" class="txt" value="$activity[expiration]" tabindex="1" />
+			<a href="javascript:;" class="dropdownbtn" onclick="showselect(this, 'activityexpiration')">^</a>
+		</p>
+	</div>
+</div>
+
+<script type="text/javascript" reload="1">
+	function checkvalue(value, message){
+		if(!value.search(/^\d+$/)) {
+			$(message).innerHTML = '';
+		} else {
+			$(message).innerHTML = '<b>{lang input_invalid}</b>';
+		}
+	}
+</script>

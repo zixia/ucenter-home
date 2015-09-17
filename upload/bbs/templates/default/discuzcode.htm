@@ -1,0 +1,196 @@
+<!--{eval
+function tpl_hide_credits_hidden($creditsrequire) {
+global $hideattach;
+}-->
+<!--{block return}--><div class="locked">{lang post_hide_credits_hidden}</div><!--{/block}-->
+<!--{eval return $return;}-->
+<!--{eval
+}
+
+function tpl_hide_credits($creditsrequire, $message) {
+global $hideattach;
+}-->
+<!--{block return}--><div class="locked">{lang post_hide_credits}</div>
+$message<br /><br />
+<br /><!--{/block}-->
+<!--{eval return $return;}-->
+<!--{eval
+}
+
+function tpl_codedisp($discuzcodes, $code) {
+}-->
+<!--{block return}--><div class="blockcode"><div id="code$discuzcodes[codecount]"><ol><li>$code</ol></div><em onclick="copycode($('code$discuzcodes[codecount]'));">{lang discuzcode_copyclipboard}</em></div><!--{/block}-->
+<!--{eval return $return;}-->
+<!--{eval
+}
+
+function tpl_quote() {
+}-->
+<!--{block return}--><div class="quote"><blockquote>\\1</blockquote></div><!--{/block}-->
+<!--{eval return $return;}-->
+<!--{eval
+}
+
+function tpl_free() {
+}-->
+<!--{block return}--><div class="quote"><blockquote>\\1</blockquote></div><!--{/block}-->
+<!--{eval return $return;}-->
+<!--{eval
+}
+
+function tpl_hide_reply() {
+global $hideattach;
+}-->
+<!--{block return}--><div class="showhide"><h4>{lang post_hide_reply_hidden}</h4>\\1</div>
+<!--{/block}-->
+<!--{eval return $return;}-->
+<!--{eval
+}
+
+function tpl_hide_reply_hidden() {
+}-->
+<!--{block return}--><div class="locked">{lang post_hide_reply_hidden}</div><!--{/block}-->
+<!--{eval return $return;}-->
+<!--{eval
+}
+
+function attachlist($attach) {
+global $attachrefcheck, $extcredits, $creditstrans, $creditstransextra, $ftp, $thumbstatus, $authkey, $attachimgpost, $fid;
+$attach['refcheck'] = (!$attach['remote'] && $attachrefcheck) || ($attach['remote'] && ($ftp['hideurl'] || ($attach['isimage'] && $attachimgpost && strtolower(substr($ftp['attachurl'], 0, 3)) == 'ftp')));
+$aidencode = aidencode($attach[aid]);
+}-->
+<!--{block return}-->
+	<!--{if $attach['attachimg']}-->
+	<!--{if !IS_ROBOT}-->
+		<dl class="t_attachlist attachimg">
+			<dt>
+			</dt>
+			<dd>
+				<p class="imgtitle">
+					<a href="attachment.php?aid=$aidencode&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid$attach[aid]" class="bold" target="_blank">$attach[filename]</a>
+					<em>($attach[attachsize])</em>
+				</p>
+				<div  class="attach_popup" id="aid$attach[aid]_menu" style="display: none">
+					<div class="cornerlayger">
+						<p>{lang downloads}:$attach[downloads]</p>
+						<p>$attach[dateline]</p>
+					</div>
+					<div class="minicorner"></div>
+				</div>
+				<p>
+					<!--{if $attach['readperm']}-->{lang readperm}: <strong>$attach[readperm]</strong><!--{/if}-->
+					<!--{if $attach['price']}-->{lang price}: <strong>{$extcredits[$creditstransextra[1]][title]} $attach[price] {$extcredits[$creditstransextra[1]][unit]}</strong> &nbsp;[<a href="misc.php?action=viewattachpayments&amp;aid=$attach[aid]" onclick="showWindow('attachpay', this.href);return false;" target="_blank">{lang pay_view}</a>]
+						<!--{if !$attach['payed']}-->
+							&nbsp;[<a href="misc.php?action=attachpay&amp;aid=$attach[aid]" onclick="showWindow('attachpay', this.href);return false;" target="_blank">{lang attachment_buy}</a>]
+						<!--{/if}-->
+					<!--{/if}-->
+				</p>
+				<!--{if $attach['description']}--><p>{$attach[description]}</p><!--{/if}-->
+				<!--{if !$attach['price'] || $attach['payed']}-->
+					<p>
+					<!--{if $thumbstatus && $attach['thumb']}-->
+						<a href="javascript:;"><img onclick="zoom(this, '{if $attach[refcheck]}attachment.php?aid=$aidencode&amp;noupdate=yes&amp;nothumb=yes{else}$attach[url]/$attach[attachment]{/if}')" src="{if $attach[refcheck]}attachment.php?aid=$aidencode{else}$attach[url]/$attach[attachment].thumb.jpg{/if}" alt="$attach[filename]" /></a>
+					<!--{else}-->
+						{eval $GLOBALS[aimgs][$attach[pid]][] = $attach[aid];}{eval $widthcode = attachwidth($attach['width']);}
+						<img src="images/common/none.gif" file="{if $attach[refcheck]}attachment.php?aid=$aidencode&amp;noupdate=yes{else}$attach[url]/$attach[attachment]{/if}" $widthcode id="aimg_$attach[aid]" alt="$attach[filename]" />
+					<!--{/if}-->
+					</p>
+				<!--{/if}-->
+			</dd>
+	<!--{else}-->
+		<dl class="t_attachlist attachimg">
+		<!--{if !$attach['price'] || $attach['payed']}-->
+			<!--{if $attach['description']}--><p>{$attach[description]}</p><!--{/if}-->
+			<img src="{if $attach[refcheck]}attachment.php?aid=$aidencode&amp;noupdate=yes{else}$attach[url]/$attach[attachment]{/if}" alt="$attach[filename]" />
+		<!--{/if}-->
+	<!--{/if}-->
+	<!--{else}-->
+	<dl class="t_attachlist">
+		<dt>
+			$attach[attachicon]
+		</dt>
+		<dd>
+			<p class="attachname">
+				<!--{if !$attach['price'] || $attach['payed']}-->
+					<a href="attachment.php?aid=$aidencode"  onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid$attach[aid]" target="_blank"{if $GLOBALS[attachcredits]} onclick="return creditconfirm('{$GLOBALS[attachcredits]}');"{/if}>$attach[filename]</a>
+				<!--{else}-->
+					<a href="misc.php?action=attachpay&amp;aid=$attach[aid]" onclick="showWindow('attachpay', this.href);return false;">$attach[filename]</a>
+				<!--{/if}-->
+				($attach[attachsize])
+				<div  class="attach_popup" id="aid$attach[aid]_menu" style="display: none">
+					<div class="cornerlayger">
+						<p>{lang downloads}:$attach[downloads]</p>
+						<p>$attach[dateline]</p>
+						<!--{if $GLOBALS[attachcredits]}--><p>{lang attachcredits} $GLOBALS[attachcredits]</p><!--{/if}-->
+					</div>
+					<div class="minicorner"></div>
+				</div>
+			</p>
+			<p>
+				<!--{if $attach['readperm']}-->{lang readperm}: <strong>$attach[readperm]</strong><br /><!--{/if}-->
+				<!--{if $attach['price']}-->
+					{lang price}: <strong>{$extcredits[$creditstransextra[1]][title]} $attach[price] {$extcredits[$creditstransextra[1]][unit]}</strong> &nbsp;[<a href="misc.php?action=viewattachpayments&amp;aid=$attach[aid]" onclick="showWindow('attachpay', this.href);return false;" target="_blank">{lang pay_view}</a>]
+					<!--{if !$attach['payed']}-->
+						&nbsp;[<a href="misc.php?action=attachpay&amp;aid=$attach[aid]" onclick="showWindow('attachpay', this.href);return false;">{lang attachment_buy}</a>]					
+					<!--{/if}-->
+				<!--{/if}-->
+			</p>
+			<!--{if $attach['description']}--><p>{$attach[description]}</p><!--{/if}-->
+		</dd>
+	<!--{/if}-->
+	</dl>
+<!--{/block}-->
+<!--{eval return $return;}-->
+<!--{eval
+}
+
+function attachinpost($attach) {
+global $attachrefcheck, $extcredits, $creditstrans, $creditstransextra, $ftp, $thumbstatus, $attachimgpost;
+$attach['refcheck'] = (!$attach['remote'] && $attachrefcheck) || ($attach['remote'] && ($ftp['hideurl'] || ($attach['isimage'] && $attachimgpost && strtolower(substr($ftp['attachurl'], 0, 3)) == 'ftp')));
+$aidencode = aidencode($attach[aid]);
+}-->
+<!--{block return}-->
+	<!--{if !isset($attach['unpayed'])}-->
+		<!--{if $attach['attachimg']}-->
+			<!--{if !IS_ROBOT}-->
+				<span style="position: absolute; display: none" id="attach_$attach[aid]" onmouseover="showMenu({'ctrlid':this.id,'pos':'13'})"><img src="{IMGDIR}/attachimg.gif" border="0"></span>
+				<!--{if $thumbstatus && $attach['thumb']}-->
+					<a href="javascript:;"><img onclick="zoom(this, '{if $attach[refcheck]}attachment.php?aid=$aidencode&amp;noupdate=yes&amp;nothumb=yes{else}$attach[url]/$attach[attachment]{/if}')" src="{if $attach[refcheck]}attachment.php?aid=$aidencode{else}$attach[url]/$attach[attachment].thumb.jpg{/if}" border="0" id="aimg_$attach[aid]" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" /></a>
+				<!--{else}-->
+					{eval $GLOBALS[aimgs][$attach[pid]][] = $attach[aid];}{eval $widthcode = attachwidth($attach['width']);}
+					<img src="images/common/none.gif" file="{if $attach[refcheck]}attachment.php?aid=$aidencode&amp;noupdate=yes{else}$attach[url]/$attach[attachment]{/if}" $widthcode id="aimg_$attach[aid]" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" alt="$attach[filename]" />
+				<!--{/if}-->
+				<div class="t_attach" id="aimg_$attach[aid]_menu" style="position: absolute; display: none">				
+				<a href="attachment.php?aid=$aidencode&amp;nothumb=yes" title="$attach[filename]" target="_blank"><strong>{lang download}</strong></a> ($attach[attachsize])<br />
+				<!--{if $attach[description]}-->$attach[description]<br /><!--{/if}-->
+			<!--{else}-->
+				<dl class="t_attachlist attachimg">
+				<!--{if !$attach['price'] || $attach['payed']}-->
+					<!--{if $attach['description']}--><p>{$attach[description]}</p><!--{/if}-->
+					<img src="{if $attach[refcheck]}attachment.php?aid=$aidencode&amp;noupdate=yes{else}$attach[url]/$attach[attachment]{/if}" alt="$attach[filename]" />
+				<!--{/if}-->
+				<div style="display: none">
+			<!--{/if}-->
+		<!--{else}-->
+			$attach[attachicon] <span style="white-space: nowrap" id="attach_$attach[aid]" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})"><a href="attachment.php?aid=$aidencode" target="_blank"{if !$attach['attachimg'] && $GLOBALS[attachcredits]} onclick="return creditconfirm('{$GLOBALS[attachcredits]}');"{/if}><strong>$attach[filename]</strong></a></span> ($attach[attachsize])
+			<div class="t_attach" id="attach_$attach[aid]_menu" style="position: absolute; display: none">
+			<!--{if $attach['description']}-->$attach[description]<br /><!--{/if}-->
+			{lang downloads}: $attach[downloads]<br />
+			<!--{if $attach['readperm']}-->{lang readperm}: $attach[readperm]<br /><!--{/if}-->
+		<!--{/if}-->
+		<!--{if $attach['price']}-->
+			{lang price}: {$extcredits[$creditstransextra[1]][title]} $attach[price] {$extcredits[$creditstransextra[1]][unit]}<br />
+			<a href="misc.php?action=viewattachpayments&amp;aid=$attach[aid]" onclick="showWindow('attachpay', this.href);return false;" target="_blank">[{lang pay_view}]</a>
+		<!--{/if}-->
+		<div class="t_smallfont">$attach[dateline]</div>
+		<!--{if !$attach['attachimg'] && $GLOBALS['attachcredits']}-->{lang attachcredits} $GLOBALS[attachcredits]<br /><!--{/if}-->
+		</div>
+	<!--{else}-->
+		$attach[attachicon] <strong>{lang attach_pay}: $attach[filename]</strong>
+	<!--{/if}-->
+<!--{/block}-->
+<!--{eval return $return;}-->
+<!--{eval
+}
+
+}-->

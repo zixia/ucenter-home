@@ -1,0 +1,57 @@
+<table cellspacing="0" cellpadding="0" summary="{lang my_polls}" class="datatable">
+	<thead class="colplural">
+		<tr>
+			<td class="folder">&nbsp;</td>
+			<td class="icon">&nbsp;</td>
+			<th>{lang thread}</th>
+			<td class="forum">{lang forum}</td>
+			<td class="nums">
+				<select onchange="window.location='my.php?item=polls&filter=' + this.value + '$fidadd'">
+					<option value="">{lang status}</option>
+					<option value="recyclebin"<!--{if $filter == 'recyclebin'}--> selected="selected"<!--{/if}-->>{lang forum_recyclebin}</option>
+					<option value="aduit"<!--{if $filter == 'aduit'}--> selected="selected"<!--{/if}-->>{lang my_threads_aduit}</option>
+					<option value="close"<!--{if $filter == 'close'}--> selected="selected"<!--{/if}-->>{lang my_threads_close}</option>
+					<option value="common"<!--{if $filter == 'common'}--> selected="selected"<!--{/if}-->>{lang my_threads_common}</option>
+				</option>
+			</td>
+			<td class="lastpost"><cite>{lang dateline}</cite></td>
+		</tr>
+	</thead>
+	<!--{if $polllist}-->
+		<tbody>
+			<!--{loop $polllist $key $poll}-->
+				<tr>
+					<td class="folder">
+						<a href="viewthread.php?tid=$poll[tid]" target="_blank">
+						<!--{if $poll[folder] == 'lock'}-->
+							<img src="{IMGDIR}/folder_lock.gif" /></a>
+						<!--{else}-->
+							<img src="{IMGDIR}/folder_$poll[folder].gif" /></a>
+						<!--{/if}-->
+					</td>
+					<td class="icon">
+					<img src="{IMGDIR}/pollsmall.gif" alt="{lang thread_poll}" />
+					</td>
+					<th><a href="viewthread.php?tid=$poll[tid]" target="_blank">$poll[subject]</a></th>
+					<td class="forum"><a href="forumdisplay.php?fid=$poll[fid]" target="_blank">$poll[forumname]</a></td>
+					<td class="nums"><!--{if $poll[displayorder] == '-1'}-->{lang forum_recyclebin}<!--{elseif $poll[displayorder] == '-2'}-->{lang my_threads_aduit}<!--{elseif $poll[closed] == '1'}-->{lang my_threads_close}<!--{else}-->{lang my_threads_common}<!--{/if}--></td>
+					<td class="lastpost">
+						<!--{if $type == 'poll'}-->
+							<cite><!--{if $poll['lastposter']}--><a href="space.php?username=$poll[lastposterenc]" target="_blank">$poll[lastposter]</a><!--{else}-->{lang anonymous}<!--{/if}--></cite>
+							<em><a href="redirect.php?tid=$poll[tid]&goto=lastpost#lastpost" target="_blank">$poll[lastpost]</a></em>
+						<!--{else}-->
+							<cite>$poll[dateline]</cite>
+						<!--{/if}-->
+					</td>
+				</tr>
+			<!--{/loop}-->
+		</tbody>
+	<!--{else}-->
+		<tr>
+			<td class="folder">&nbsp;</td>
+			<td class="icon">&nbsp;</td>
+			<th colspan="4"><p class="nodata">{lang data_nonexistence}</p></th>
+		</tr>
+	<!--{/if}-->
+</table>
+<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->

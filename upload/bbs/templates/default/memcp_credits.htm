@@ -1,0 +1,214 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang credits}</div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+			<h1>{lang credits}</h1>
+			<div class="datalist">
+				<div class="c_header"><h3 class="noarrow">{lang my_credits}</h3><div class="c_header_action"><a href="faq.php?action=credits">{lang credits_policy}</a></div></div>
+				<table cellspacing="0" cellpadding="0" summary="{lang invite_logs}" class="datatable" style="margin-bottom:30px;">
+					<tr class="colplural">
+						<!--{loop $extcredits $credit}-->
+							<th>{$credit[img]} $credit[title]</th>
+						<!--{/loop}-->
+					</tr>
+					<tr>
+					<!--{loop $extcredits $id $credit}-->
+							<td>$GLOBALS['extcredits'.$id]</td>
+					<!--{/loop}-->
+					</tr>
+				</table>
+
+				<!--{if $exchangestatus || $transferstatus || $ec_ratio}-->
+					<div class="c_header"><h3 class="noarrow">{lang credits_manage}</h3></div>
+					<table cellspacing="0" cellpadding="0" summary="{lang invite_logs}" class="datatable creditstable" style="margin-bottom:30px;">
+						<!--{if $exchangestatus || $outextcredits}-->
+						<tbody>
+							<form id="exchangeform" name="exchangeform" method="post" action="memcp.php?action=credits&infloat=yes&exchangesubmit=yes" onsubmit="showWindow('credit', 'exchangeform', 'post');return false;">
+								<input type="hidden" name="formhash" value="{FORMHASH}">
+								<input type="hidden" name="operation" value="exchange">
+								<input type="hidden" name="outi" value="">
+								<tr class="colplural">
+									<td class="cre_title" valign="top">{lang memcp_credits_exchange}</td>
+									<td class="cre_opt" valign="top"><input type="text" class="txt" size="5" name="exchangeamount" id="exchangeamount" value="0" onkeyup="exchangecalcredit()" />
+										<select name="tocredits" onChange="exchangecalcredit()">
+										<!--{loop $extcredits $id $ecredits}-->
+											<!--{if $ecredits[allowexchangein] && $ecredits[ratio]}-->
+												<option value="$id" unit="$ecredits[unit]" title="$ecredits[title]" ratio="$ecredits[ratio]">$ecredits[title]</option>
+											<!--{/if}-->
+										<!--{/loop}-->
+										{eval $i=0;}
+										<!--{loop $outextcredits $id $data}-->{eval $i++;}
+											<!--{if $data[title]}-->
+											<option value="$id" outi="$i">$data[title]</option>
+											<!--{/if}-->
+										<!--{/loop}-->
+										</select>
+										<p class="cre_btn"><button class="submit" type="submit" name="exchangesubmit" id="exchangesubmit" value="true" tabindex="2">{lang memcp_credits_exchange}</button></p>
+									</td>
+									<td class="cre_arrow" valign="top">{lang credits_need}</td>
+									<td class="cre_opt" valign="top">
+										<input type="text" size="5" id="exchangedesamount" value="0" disabled="disabled" class="txt"/>
+										<select name="fromcredits" id="fromcredits_0" style="display: none" onChange="exchangecalcredit();">
+										<!--{loop $extcredits $id $credit}-->
+											<!--{if $credit[allowexchangeout] && $credit[ratio]}-->
+												<option value="$id" unit="$credit[unit]" title="$credit[title]" ratio="$credit[ratio]">$credit[title]</option>
+											<!--{/if}-->
+										<!--{/loop}-->
+										</select>
+										{eval $i=0;}
+										<!--{loop $outextcredits $id $data}-->{eval $i++;}
+											<select name="fromcredits_$i" id="fromcredits_$i" style="display: none" onChange="exchangecalcredit()">
+											<!--{loop $data[creditsrc] $id $ratio}-->
+												<option value="$id" unit="$extcredits[$id][unit]" title="$extcredits[$id][title]" ratiosrc="$data[ratiosrc][$id]" ratiodesc="$data[ratiodesc][$id]">$extcredits[$id][title]</option>
+											<!--{/loop}-->
+											</select>
+										<!--{/loop}-->
+									</td>
+									<td valign="top">
+										<!--{if $exchangemincredits}-->
+											{lang memcp_credits_exchange_min_balance}$exchangemincredits <br />
+										<!--{/if}-->
+										<span id="taxpercent">
+										<!--{if intval($taxpercent) > 0}-->
+											{lang credits_tax}$taxpercent
+										<!--{/if}-->
+										</span>
+										<br /><a href="memcp.php?action=creditslog&operation=creditslog" class="lightlink">{lang memcp_credits_log_exchange}</a>
+									</td>
+								</tr>
+							</form>
+						</tbody>
+						<script type="text/javascript">
+							function exchangecalcredit() {
+								with($('exchangeform')) {
+									tocredit = tocredits[tocredits.selectedIndex];
+									{eval $i=0;}
+									<!--{loop $outextcredits $id $data}-->{eval $i++;}
+										$('fromcredits_$i').style.display = 'none';
+									<!--{/loop}-->
+									if(tocredit.getAttribute('outi')) {
+										outi.value = tocredit.getAttribute('outi');
+										fromcredit = $('fromcredits_' + tocredit.getAttribute('outi'));
+										$('taxpercent').style.display = $('fromcredits_0').style.display = 'none';
+										fromcredit.style.display = '';
+										fromcredit = fromcredit[fromcredit.selectedIndex];
+										$('exchangeamount').value = $('exchangeamount').value.toInt();
+										if($('exchangeamount').value != 0) {
+											$('exchangedesamount').value = Math.floor( fromcredit.getAttribute('ratiosrc') / fromcredit.getAttribute('ratiodesc') * $('exchangeamount').value);
+										} else {
+											$('exchangedesamount').value = '';
+										}
+									} else {
+										outi.value = 0;
+										$('taxpercent').style.display = $('fromcredits_0').style.display = '';
+										fromcredit = fromcredits[fromcredits.selectedIndex];
+										$('exchangeamount').value = $('exchangeamount').value.toInt();
+										if(fromcredit.getAttribute('title') != tocredit.getAttribute('title') && $('exchangeamount').value != 0) {
+											if(tocredit.getAttribute('ratio') < fromcredit.getAttribute('ratio')) {
+												$('exchangedesamount').value = Math.ceil( tocredit.getAttribute('ratio') / fromcredit.getAttribute('ratio') * $('exchangeamount').value * (1 + $creditstax));
+											} else {
+												$('exchangedesamount').value = Math.floor( tocredit.getAttribute('ratio') / fromcredit.getAttribute('ratio') * $('exchangeamount').value * (1 + $creditstax));
+											}
+										} else {
+											$('exchangedesamount').value = '';
+										}
+									}
+								}
+							}
+							String.prototype.toInt = function() {
+								var s = parseInt(this);
+								return isNaN(s) ? 0 : s;
+							}
+							exchangecalcredit();
+						</script>
+						<!--{/if}-->
+
+						<!--{if $transferstatus}-->
+							<tbody>
+								<form id="transferform" name="transferform" method="post" action="memcp.php?action=credits&infloat=yes&transfersubmit=yes" onsubmit="showWindow('credit', 'transferform', 'post');return false;">
+									<input type="hidden" name="formhash" value="{FORMHASH}" />
+									<input type="hidden" name="operation" value="transfer" />
+									<tr>
+										<td class="cre_title" valign="top">{lang memcp_credits_transfer}</td>
+										<td class="cre_opt" valign="top">
+											<input type="text" size="5" id="transferamount" name="transferamount" value="0" class="txt" />&nbsp;&nbsp;{$extcredits[$creditstrans][title]}
+											<p class="cre_btn"><button class="submit" type="submit" name="transfersubmit" id="transfersubmit" value="true" tabindex="1">{lang memcp_credits_transfer}</button></p>
+										</td>
+										<td class="cre_arrow" valign="top">{lang credits_give}</td>
+										<td class="cre_opt" valign="top"><input type="text" size="15" name="to" id="to" class="txt" /></td>
+										<td valign="top">
+											{lang memcp_credits_transfer_min_balance}$transfermincredits {$extcredits[$creditstrans][unit]}<br />
+											{lang credits_tax} $taxpercent
+											<br /><a href="memcp.php?action=creditslog&operation=creditslog" class="lightlink">{lang memcp_credits_log_transfer}</a>
+										</td>
+									</tr>
+								</form>
+							</tbody>
+						<!--{/if}-->
+
+						<!--{if $ec_ratio && ($ec_account || $ec_tenpay_bargainor)}-->
+							<tbody>
+								<form id="addfundsform" name="addfundsform" method="post" action="memcp.php?action=credits&infloat=yes&addfundssubmit=yes" onsubmit="showWindow('credit', 'addfundsform', 'post');return false;">
+									<input type="hidden" name="formhash" value="{FORMHASH}" />
+									<input type="hidden" name="operation" value="addfunds" />
+									<tr class="colplural">
+										<td class="cre_title" valign="top">{lang memcp_credits_addfunds}</td>
+										<td class="cre_opt" valign="top">
+											<input type="text" size="5" id="addfundamount" name="addfundamount" value="0" onkeyup="addcalcredit()" class="txt" />&nbsp;&nbsp;{$extcredits[$creditstrans][title]}
+											<p class="cre_btn"><button class="submit" type="submit" name="addfundssubmit" id="addfundssubmit" value="true" tabindex="1">{lang memcp_credits_addfunds}</button></p>
+										</td>
+										<td class="cre_arrow" valign="top">{lang credits_need}</td>
+										<td class="cre_opt" valign="top">{lang memcp_credits_addfunds_caculate_radio}</td>
+										<td valign="top">
+											{lang memcp_credits_addfunds_rules_ratio} = {$extcredits[$creditstrans][title]} <b>$ec_ratio</b> {$extcredits[$creditstrans][unit]}
+											<!--{if $ec_mincredits}--><br />{lang memcp_credits_addfunds_rules_min} {$extcredits[$creditstrans][title]} <b>$ec_mincredits</b> {$extcredits[$creditstrans][unit]}<!--{/if}-->
+											<!--{if $ec_maxcredits}--><br />{lang memcp_credits_addfunds_rules_max} {$extcredits[$creditstrans][title]} <b>$ec_maxcredits</b> {$extcredits[$creditstrans][unit]}<!--{/if}-->
+											<!--{if $ec_maxcreditspermonth}--><br />{lang memcp_credits_addfunds_rules_month} {$extcredits[$creditstrans][title]} <b>$ec_maxcreditspermonth</b> {$extcredits[$creditstrans][unit]}<!--{/if}-->
+											<br /><a href="memcp.php?action=creditslog&operation=creditslog" class="lightlink">{lang memcp_credits_log_addfunds}</a>
+										</td>
+									</tr>
+								</form>
+							</tbody>
+							<script type="text/javascript">
+								function addcalcredit() {
+									var addfundamount = $('addfundamount').value.replace(/^0/, '');
+									var addfundamount = parseInt(addfundamount);
+									$('desamount').innerHTML = !isNaN(addfundamount) ? Math.ceil(((addfundamount / $ec_ratio) * 100)) / 100 : 0;
+								}
+							</script>
+						<!--{/if}-->
+					</table>
+				<!--{/if}-->
+				<!--{if $creditspolicy['promotion_visit'] || $creditspolicy['promotion_register']}-->
+					<div class="c_header"><h3 class="noarrow">{lang post_my_advisit}</h3></div>
+					<div class="channelinfo">
+						<!--{if $promotion_visit}--><p>{lang my_promotion_url}</p><!--{/if}-->
+						<!--{if $promotion_register && $promotion_visit}--><p>{lang my_promotion_reg}</p><!--{/if}-->
+						<!--{if $promotion_register && !$promotion_visit}--><p>{lang my_promotion}</p><!--{/if}-->
+					</div>
+					<table cellspacing="0" cellpadding="0" class="datatable">
+						<tr class="colplural">
+							<td>
+								{lang post_promotion_url1}
+								<input type="text" class="txt" onclick="this.select();setCopy(this.value, '{lang promotion_url_copied}');" value="$boardurl?fromuid=$discuz_uid" size="50" />
+								&nbsp;&nbsp;<button type="submit" class="submit" onclick="setCopy('$boardurl?fromuid=$discuz_uid', '{lang promotion_url_copied}');" type="submit">{lang copy}</button>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								{lang post_promotion_url2}
+								<input type="text" class="txt" onclick="this.select();setCopy(this.value, '{lang promotion_url_copied}');" value="$boardurl?fromuser={echo rawurlencode($discuz_userss)}" size="50" />
+								&nbsp;&nbsp;<button type="submit" class="submit" onclick="setCopy('$boardurl?fromuser={echo rawurlencode($discuz_userss)}', '{lang promotion_url_copied}');">{lang copy}</button>
+							</td>
+						</tr>
+					</table>
+				<!--{/if}-->
+			</div>
+		</div>
+	</div>
+	<div class="side">
+		{subtemplate personal_navbar}
+	</div>
+</div>
+{subtemplate footer}

@@ -1,0 +1,18 @@
+<h2>{lang stats_options}</h2>
+<div class="sideinner">
+	<ul class="tabs">
+		<li><a href="stats.php">{lang stats_main}</a></li>
+		<!--{if $statstatus}--><li><a href="stats.php?type=views">{lang stats_views}</a></li><!--{/if}-->
+		<!--{if $statstatus}--><li><a href="stats.php?type=agent">{lang stats_agent}</a></li><!--{/if}-->
+		<!--{if $statstatus}--><li><a href="stats.php?type=posts">{lang stats_posthist}</a></li><!--{/if}-->
+		<li><a href="stats.php?type=forumsrank">{lang stats_forums_rank}</a></li>
+		<li><a href="stats.php?type=threadsrank">{lang stats_threads_rank}</a></li>
+		<li><a href="stats.php?type=postsrank">{lang stats_posts_rank}</a></li>
+		<li><a href="stats.php?type=creditsrank">{lang stats_credits_rank}</a></li>
+		<li><a href="stats.php?type=trade">{lang stats_trade_rank}</a></li>
+		<!--{if $oltimespan}--><li><a href="stats.php?type=onlinetime">{lang stats_onlinetime}</a></li><!--{/if}-->
+		<li><a href="stats.php?type=team">{lang stats_team}</a></li>
+		<!--{if $modworkstatus}--><li><a href="stats.php?type=modworks">{lang stats_modworks}</a></li><!--{/if}-->
+		<li><a href="member.php?action=list">{lang member_list}</a></li>
+	</ul>
+</div>

@@ -1,0 +1,86 @@
+<div class="searchlist threadlist datalist">
+	<div class="itemtitle s_clear">
+		<h1><!--{if $keyword}-->{lang search_result_keyword}<!--{else}-->{lang search_result}<!--{/if}--></h1>
+		<!--{if !empty($multipage)}-->$multipage<!--{/if}-->
+	</div>
+	<table summary="{lang search}" cellspacing="0" cellpadding="0" width="100%" class="datatable">
+		<thead>
+			<tr class="colplural">
+				<td class="folder">&nbsp;</td>
+				<td class="icon">&nbsp;</td>
+				<th>{lang subject}</th>
+				<td class="forum">{lang forum}</td>
+				<td class="author">{lang author}</td>
+				<td class="nums">{lang replies}/{lang views}</td>
+				<td class="lastpost"><cite>{lang lastpost}</cite></td>
+			</tr>
+		</thead>
+
+		<!--{loop $threadlist $thread}-->
+			<tbody>
+			<tr>
+				<td class="folder">
+					<a href="viewthread.php?tid=$thread[tid]&highlight=$index[keywords]" title="{lang target_blank}" target="_blank">
+					<!--{if $thread[folder] == 'lock'}-->
+						<img src="{IMGDIR}/folder_lock.gif" /></a>
+					<!--{else}-->
+						<img src="{IMGDIR}/folder_$thread[folder].gif" /></a>
+					<!--{/if}-->
+				</td>
+				<td class="icon">
+					<!--{if $thread['special'] == 1}-->
+						<img src="{IMGDIR}/pollsmall.gif" alt="{lang thread_poll}" />
+					<!--{elseif $thread['special'] == 2}-->
+						<img src="{IMGDIR}/tradesmall.gif" alt="{lang thread_trade}" />
+					<!--{elseif $thread['special'] == 3}-->
+						<img src="{IMGDIR}/rewardsmall.gif" alt="{lang thread_reward}" />
+					<!--{elseif $thread['special'] == 4}-->
+						<img src="{IMGDIR}/activitysmall.gif" alt="{lang thread_activity}" />
+					<!--{elseif $thread['special'] == 5}-->
+						<img src="{IMGDIR}/debatesmall.gif" alt="{lang thread_debate}" />
+					<!--{else}-->
+						$thread['icon']
+					<!--{/if}-->
+				</td>
+				<th class="subject">
+					<label>
+					<!--{if $thread['digest'] > 0}-->
+						<img src="{IMGDIR}/digest_$thread[digest].gif" alt="{lang thread_digest} $thread[digest]" />
+					<!--{/if}-->
+					&nbsp;
+					</label>
+					<a href="viewthread.php?tid=$thread[tid]&highlight=$index[keywords]" target="_blank" $thread[highlight]>$thread[subject]</a>
+					<!--{if $thread['attachment'] == 2}-->
+						<img src="images/attachicons/image_s.gif" alt="{lang attach_img}" class="attach" />
+					<!--{elseif $thread['attachment'] == 1}-->
+						<img src="images/attachicons/common.gif" alt="{lang attachment}" class="attach" />
+					<!--{/if}-->
+					<!--{if $thread[multipage]}--><span class="threadpages">$thread[multipage]</span><!--{/if}-->
+				</th>
+				<td class="forum"><a href="forumdisplay.php?fid=$thread[fid]">$thread[forumname]</a></td>
+				<td class="author">
+					<cite>
+					<!--{if $thread['authorid'] && $thread['author']}-->
+						<a href="space.php?uid=$thread[authorid]">$thread[author]</a>
+					<!--{else}-->
+						<!--{if $forum['ismoderator']}--><a href="space.php?uid=$thread[authorid]">{lang anonymous}</a><!--{else}-->{lang anonymous}<!--{/if}-->
+					<!--{/if}-->
+					</cite>
+					<em>$thread[dateline]</em>
+				</td>
+				<td class="nums"><strong>$thread[replies]</strong> / <em>$thread[views]</em></td>
+				<td class="lastpost">
+					<cite><!--{if $thread['lastposter']}--><a href="space.php?username=$thread[lastposterenc]">$thread[lastposter]</a><!--{else}-->{lang anonymous}<!--{/if}--></cite>
+					<em><a href="redirect.php?tid=$thread[tid]&amp;goto=lastpost$highlight#lastpost">$thread[lastpost]</a></em>
+				</td>
+			</tr>
+			</tbody>
+		<!--{/loop}-->
+
+		<!--{if empty($threadlist)}-->
+			<tbody><tr><th colspan="7">{lang search_nomatch}</th></tr></tbody>
+		<!--{/if}-->
+
+	</table>
+<!--{if !empty($multipage)}--><div class="pages_btns s_clear">$multipage</div><!--{/if}-->
+</div>

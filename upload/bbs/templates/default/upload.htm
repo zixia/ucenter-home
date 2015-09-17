@@ -1,0 +1,21 @@
+{template header}
+
+<div class="fcontent">
+	<h3 class="float_ctrl">
+		<em id="return_upload">{lang upload}</em>
+		<span><a href="javascript:;" class="float_close" onclick="hideWindow('upload')" title="{lang close}">{lang close}</a></span>
+	</h3>
+	
+	<form id="uploadform" method="post" target="uploadattachframe" onsubmit="uploadWindowstart()" action="misc.php?action=swfupload&operation=upload&type=$type&inajax=yes&infloat=yes&simple=2" enctype="multipart/form-data">
+	<input type="hidden" name="handlekey" value="upload" />
+	<input type="hidden" name="uid" value="$discuz_uid">
+	<input type="hidden" name="hash" value="{echo md5(substr(md5($_DCACHE['settings']['authkey']), 8).$discuz_uid)}">
+	<input type="file" name="Filedata" size="30" class="filedata" />
+	<p class="uploadbtn" id="uploadwindowing" style="visibility:hidden"><img src="{IMGDIR}/uploading.gif" style="vertical-align: middle;" /></p>
+	<button tabindex="1" class="submit" type="submit" id="uploadsubmit" name="uploadsubmit" value="true">{lang upload}</button>
+	<!--{if $type == 'image'}-->{lang attachment_allow_exts}: <strong>$imgexts</strong><!--{elseif $attachextensions}-->{lang attachment_allow_exts}: <strong>$attachextensions</strong><!--{/if}-->
+	</form>	
+	<iframe name="uploadattachframe" id="uploadattachframe" style="display: none;" onload="uploadWindowload();"></iframe>
+</div>
+
+{template footer}

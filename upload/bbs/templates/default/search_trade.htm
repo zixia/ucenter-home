@@ -1,0 +1,56 @@
+{subtemplate header}
+<div id="nav">
+<a href="$indexname">$bbname</a> &raquo; {lang search_trade}
+</div>
+
+<div id="wrap" class="wrap s_clear">
+	<div class="main">
+		<div class="content">
+		<div class="searchlist datalist">
+			<div class="itemtitle s_clear">
+				<h1>{lang search_trade}</h1>
+				<!--{if !empty($multipage)}-->$multipage<!--{/if}-->
+			</div>
+			<table cellspacing="0" cellpadding="0" width="100%" class="datatable">
+			<thead>
+				<tr class="colplural">
+					<td colspan="2">{lang my_trade_goods_name}</td>
+					<td style="width: 10%"><a href="search.php?searchid=$searchid&srchtype=trade&orderby=price&searchsubmit=yes">{lang post_trade_price}</a></td>
+					<td style="width: 10%">{lang post_trade_locus}</td>
+					<td style="width: 15%"><a href="search.php?searchid=$searchid&srchtype=trade&orderby=expiration&searchsubmit=yes">{lang trade_remaindays}</a></td>
+				</tr>
+			</thead>
+			<!--{if $tradelist}-->
+				<!--{loop $tradelist $key $trade}-->
+				<tbody>
+				<tr height="90">
+					<td width="80" align="center">
+					<a href="viewthread.php?do=tradeinfo&tid=$trade[tid]&pid=$trade[pid]" target="_blank"><!--{if $trade['aid']}--><img class="absmiddle" src="attachment.php?aid={echo aidencode($trade[aid]);}&noupdate=yes" onload="thumbImg(this, 1)" width="80" _width="80" _height="80" /><!--{else}--><img class="absmiddle" src="{IMGDIR}/trade_nophotosmall.gif" /><!--{/if}--></a></td>
+					<td><!--{if $tradetypes[$trade[typeid]]}-->[{$tradetypes[$trade[typeid]]}]<!--{/if}--> <a href="viewthread.php?do=tradeinfo&tid=$trade[tid]&pid=$trade[pid]" target="_blank">$trade[subject]</a><br />
+					<em class="tips">{lang my_trade_seller}: <a href="space.php?$trade[sellerid]/mytrades">$trade[seller]</a></em>
+					</td>
+					<td><strong><b>$trade[price]</b></strong></td>
+					<td>$trade[locus]&nbsp;</td>
+					<td>
+					<!--{if $trade[closed]}-->
+						{lang trade_timeout}
+					<!--{elseif $trade[expiration] > 0}-->
+						{$trade[expiration]}{lang days}{$trade[expirationhour]}{lang trade_hour}
+					<!--{elseif $trade[expiration] == -1}-->
+						{lang trade_timeout}
+					<!--{/if}-->&nbsp;
+					</td>
+				</tr>
+				</tbody>
+				<!--{/loop}-->
+			<!--{else}-->
+				<tr><td colspan="6">{lang search_nomatch}</td></tr>
+			<!--{/if}-->
+			</table>
+			<!--{if !empty($multipage)}--><div class="pages_btns s_clear">$multipage</div><!--{/if}-->
+		</div>
+		</div>
+	</div>
+</div>
+
+{subtemplate footer}

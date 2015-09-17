@@ -1,0 +1,68 @@
+<div class="itemtitle s_clear">
+<h1>{lang task}</h1>
+<ul>
+	<li{if $item == 'new'} class="current"{/if}><a href="task.php?item=new" hidefocus="true"><span>{lang task_new}</span></a></li>
+	<li{if $item == 'doing'} class="current"{/if}><a href="task.php?item=doing" hidefocus="true"><span>{lang task_doing}</span></a></li>
+	<li{if $item == 'done'} class="current"{/if}><a href="task.php?item=done" hidefocus="true"><span>{lang task_done}</span></a></li>
+	<li{if $item == 'failed'} class="current"{/if}><a href="task.php?item=failed" hidefocus="true"><span>{lang task_failed}</span></a></li>
+</ul>
+</div>
+<div class="datalist">
+	<table cellspacing="0" cellpadding="0" class="datatable">
+		<!--{if $tasklist}-->
+			<thead class="colplural">
+				<tr>
+					<th></th>
+					<th></th>
+					<th width="200">{lang task_reward}</th>
+					<th width="120"></th>
+				<tr>
+			</thead>
+			<!--{loop $tasklist $task}-->
+				<tr class="{echo swapclass('colplural')}">
+					<td width="70"><img src="$task[icon]" width="64" height="64" alt="Icon" /></td>
+					<td>
+						<p><strong><a href="task.php?action=view&id=$task[taskid]">$task[name]</a></strong>&nbsp;&nbsp;&nbsp;({lang task_applies}: <a href="task.php?action=view&id=$task[taskid]#parter">$task[applicants]</a> )</p>
+						<!--{if $item == 'doing'}-->
+						<div class="taskbar">
+							<div class="taskbar_text">{lang task_complete} <span id="csc_$task[taskid]">$task[csc]</span>%</div>
+							<div class="optionbar" id="cscbar_$task[taskid]" style="width: $task[csc]%"></div>
+						</div>
+						<!--{/if}-->
+					</td>
+					<td class="emfont"><!--{if $task['reward'] == 'credit'}-->{lang credits} $extcredits[$task[prize]][title] $task[bonus] $extcredits[$task[prize]][unit]<!--{elseif $task['reward'] == 'magic'}-->{lang magics_title} $magics[$task[prize]] $task[bonus]<!--{elseif $task['reward'] == 'medal'}-->{lang medals} $medals[$task[prize]] {if $task['bonus']}{lang expire} $task[bonus] {lang days} {/if}<!--{elseif $task['reward'] == 'invite'}-->{lang invite_code} $task[prize] {lang expire} $task[bonus] {lang days}<!--{elseif $task['reward'] == 'group'}-->{lang usergroup} $groups[$task[prize]] {if $task['bonus']} $task[bonus] {lang days} {/if}<!--{/if}--></td>
+					<td>
+						<!--{if $item == 'new'}-->
+							<!--{if $task['newbietask'] == '1'}-->
+								<a href="javascript:;" onclick="showDialog('{lang task_newbie_dependence_dialog}')"><img src="images/tasks/coming.gif" title="{lang task_newbie_dependence}" border="0" /></a>
+							<!--{else}-->
+								<!--{if $task['applyperm'] && $task['applyperm'] != 'all' && !(($task['applyperm'] == 'member'&& $adminid == '0') || ($task['applyperm'] == 'admin' && $adminid > '0') || forumperm($task['applyperm']))}-->
+									<a href="javascript:;" onclick="doane(event);showDialog('{lang task_group_nopermission}')"><img src="images/tasks/disallow.gif" title="{lang task_group_nopermission}" border="0" /></a>
+								<!--{elseif $task['tasklimits'] && $task['achievers'] >= $task['tasklimits']}-->
+									<a href="javascript:;" onclick="doane(event);showDialog('{lang task_applies_full}')"><imgsrc="images/tasks/disallow.gif" title="{lang task_applies_full}" border="0" /></a>
+								<!--{else}-->
+									<a href="task.php?action=apply&id=$task[taskid]"><img src="images/tasks/apply.gif" border="0" /></a>
+								<!--{/if}-->
+							<!--{/if}-->
+						<!--{elseif $item == 'doing'}-->
+							<!--{if $task['newbietask'] == '1'}-->
+								<a href="$task[entrance]"><img src="images/tasks/start.gif" alt="{lang task_newbie_start}" /></a>
+							<!--{else}-->
+								<p id="reward_$task[taskid]"><a href="task.php?action=draw&id=$task[taskid]" onclick="tasknoticewin('$task[taskid]');return false;"><img src="images/tasks/{if $task[csc] >=100}reward.gif{else}rewardless.gif{/if}" border="0" /></a></p>
+							<!--{/if}-->
+						<!--{elseif $item == 'done'}-->
+							<p style="white-space:nowrap">{lang task_complete_on} $task[dateline]
+						{if $task['period'] && $task[t]}<br />{if $task[allowapply]}<a href="task.php?action=apply&id=$task[taskid]">{lang task_applyagain_now}</a>{else}{$task[t]}{lang task_applyagain}{/if}{/if}</p>
+						<!--{elseif $item == 'failed'}-->
+							<p style="white-space:nowrap">{lang task_lose_on} $task[dateline]
+						{if $task['period'] && $task[t]}<br />{if $task[allowapply]}<a href="task.php?action=apply&id=$task[taskid]">{lang task_applyagain_now}</a>{else}{$task[t]}{lang task_reapply}{/if}{/if}</p>
+						<!--{/if}-->
+					</td>
+				</tr>
+			<!--{/loop}-->
+		<!--{else}-->
+			<tr><td colspan="5"><p class="nodata"><!--{if $item == 'new'}-->{lang task_nonew}<!--{elseif $item == 'doing'}-->{lang task_nodoing}<!--{else}-->{lang data_nonexistence}<!--{/if}--></p></td></tr>
+		<!--{/if}-->
+	</table>
+	<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+</div>

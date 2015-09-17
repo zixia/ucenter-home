@@ -1,0 +1,60 @@
+{template header}
+
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; $name</div>
+
+<style type="text/css">
+div.ie8 { float: left; margin: 20px; width: 220px; height: 420px; border-right: 1px solid #d9d9d9; }
+	div.ie8 img { margin: 0 0 10px 10px; }
+	div.ie8 span { margin: 0 0 0 5px; line-height: 20px; font-size: 14px; }
+	div.ie8 div.acc { margin: 25px 0 0 0; padding: 0; width: 200px; border-top: 1px solid #ccc; }
+		div.ie8 div.acc h2 { margin: 20px 0 15px 5px; padding-left: 25px; font-weight: normal; font-size: 14px; color: #888888; background: url('plugins/ie8/images/arrow.gif') no-repeat left; }
+		div.ie8 div.acc div { margin: 0 8px 0 15px; color: #646464; word-break: break-all; }
+div.install { float: left; margin: 20px 20px 20px 0; }
+	div.install span { font-size: 16px; line-height: 20px; color: #0b85b5; }
+	div.install div.accelerator { margin: 30px 0 0 0; }
+		div.install div.accelerator h1 { font-weight: normal; font-size: 16px; }
+		div.install div.accelerator div { margin: 10px 20px 25px 20px; line-height: 24px; color: #777; }
+		div.install div.accelerator img.install { margin: 0 0 0 15px; cursor: pointer; }
+</style>
+
+<div id="wrap" class="wrap s_clear">
+	<div class="ie8">		
+		{lang ie8:tour_title}
+	</div>
+	<div class="install">
+		{lang ie8:tour_content}
+	</div>
+</div>
+
+<script type="text/javascript">
+function install() {
+	if(!BROWSER.ie) {
+		showDialog('{lang ie8:message_noie}', 'alert');
+		return;
+	}
+	if(parseInt(BROWSER.ie) < 8) {
+		showDialog('{lang ie8:message_noie8}', 'alert');
+		return;
+	}
+	if(install_check()) {
+		showDialog('{lang ie8:message_installed}', 'notice');
+		return;
+	}
+	window.external.AddService('{$boardurl}plugin.php?id=ie8:install&xml=yes');
+	install_confirm();
+}
+
+function install_confirm() {
+	if(install_check()) {
+		showDialog('{lang ie8:message_install_succeed}', 'notice');
+		return;
+	}
+	window.setTimeout(function () { install_confirm(); }, 500);
+}
+
+function install_check() {
+	return window.external.IsServiceInstalled('$boardurl', '$ie8_acc_category');
+}
+</script>
+
+{template footer}

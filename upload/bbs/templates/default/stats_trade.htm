@@ -1,0 +1,93 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; <a href="stats.php">{lang stats}</a> &raquo; {lang stats_trade_rank}</div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+			<h1>{lang stats_trade_rank}</h1>
+			<div class="datalist">
+				<div id="list_trade_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_trade', 1, 1);">{lang trade_price_sort}</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_trade', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<!--{if $tradesums}-->
+					<table id="list_trade" cellspacing="0" cellpadding="0">
+						<thead class="colplural">
+							<tr>
+								<td>{lang post_trade_name}</td>
+								<td width="160">{lang trade_seller}</td>
+								<td width="80">{lang trade_totalprice}({lang payment_unit})</td>
+							</tr>
+						</thead>
+						<tbody>
+						<!--{loop $tradesums $tradesum}-->
+							<tr class="{echo swapclass('colplural')}">
+								<td><a target="_blank" href="viewthread.php?do=tradeinfo&tid=$tradesum[tid]&pid=$tradesum[pid]">$tradesum[subject]</a></td>
+								<td><a target="_blank" href="space.php?uid=$tradesum[sellerid]">$tradesum[seller]</a></td>
+								<td>$tradesum[tradesum]</td>
+							</tr>
+						<!--{/loop}-->
+						</tbody>
+					</table>
+				<!--{/if}-->
+				
+				<!--{if $credittradesums}-->
+					<table id="list_trade" cellspacing="0" cellpadding="0">
+						<thead class="colplural">
+							<tr>
+								<td>{lang post_trade_name}</td>
+								<td width="160">{lang trade_seller}</td>
+								<td width="80">{lang trade_totalprice}({$extcredits[$creditstransextra[5]][title]})</td>
+							</tr>
+						</thead>
+						<tbody>
+						{eval unset($swapc);}
+						<!--{loop $credittradesums $credittradesum}-->
+							<tr class="{echo swapclass('colplural')}">
+								<td><a target="_blank" href="viewthread.php?do=tradeinfo&tid=$credittradesum[tid]&pid=$tradesum[pid]">$credittradesum[subject]</a></td>
+								<td><a target="_blank" href="space.php?uid=$credittradesum[sellerid]">$credittradesum[seller]</a></td>
+								<td>$credittradesum[credittradesum]</td>
+							</tr>
+						<!--{/loop}-->
+						</tbody>
+					</table>
+				<!--{/if}-->
+
+				<div id="list_trace_number_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_trace_number', 1, 1);">{lang trace_number_sort}</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_trace_number', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<!--{if $totalitems}-->
+					<table id="list_trace_number" cellspacing="0" cellpadding="0">
+						<thead class="colplural">
+							<tr>
+								<td>{lang post_trade_name}</td>
+								<td width="160">{lang trade_seller}</td>
+								<td width="80">{lang trace_sell_number}</td>
+							</tr>
+						</thead>
+						<tbody>
+						{eval unset($swapc);}
+						<!--{loop $totalitems $totalitem}-->
+							<tr class="{echo swapclass('colplural')}">
+								<td><a target="_blank" href="viewthread.php?do=tradeinfo&tid=$tradesum[tid]&pid=$tradesum[pid]">$totalitem[subject]</a></td>
+								<td><a target="_blank" href="space.php?uid=$totalitem[sellerid]">$totalitem[seller]</a></td>
+								<td>$totalitem[totalitems]</td>
+							</tr>
+						<!--{/loop}-->
+						</tbody>
+					</table>
+				<!--{/if}-->
+			</div>
+
+			<div class="notice">{lang stats_update}</div>
+		</div>
+	</div>
+	<div class="side">
+		{subtemplate stats_navbar}
+	</div>
+</div>
+{subtemplate footer}

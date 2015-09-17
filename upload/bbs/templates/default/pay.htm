@@ -1,0 +1,58 @@
+{template header}
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+
+<div class="fcontent">
+	<h3 class="float_ctrl">
+		<em id="return_$handlekey">{lang pay}</em>
+		<span>
+			<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('$handlekey')" title="{lang close}">{lang close}</a><!--{/if}-->
+		</span>
+	</h3>
+	<form id="payform" method="post" action="misc.php?action=pay&paysubmit=yes&infloat=yes"{if !empty($infloat)} onsubmit="ajaxpost('payform', 'return_$handlekey', 'return_$handlekey', 'onerror');return false;"{/if}>
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="referer" value="$referer" />
+	<input type="hidden" name="tid" value="$tid" />
+	<!--{if !empty($infloat)}--><input type="hidden" name="handlekey" value="$handlekey" /><!--{/if}-->
+	<table class="list" cellspacing="0" cellpadding="0" style="width:200px">
+		<tr>
+			<th>{lang author}</th>
+			<td><a href="space.php?uid=$thread[authorid]" target="_blank">$thread[author]</a></td>
+		</tr>
+		<tr>
+			<th valign="top">{lang price}({$extcredits[$creditstransextra[1]][title]})</th>
+			<td>$thread[price] {$extcredits[$creditstransextra[1]][unit]}</td>
+		</tr>
+		<tr>
+			<th valign="top">{lang pay_author_income}({$extcredits[$creditstransextra[1]][title]})</th>
+			<td>$thread[netprice] {$extcredits[$creditstransextra[1]][unit]}</td>
+		</tr>
+		<tr>
+			<th valign="top">{lang pay_balance}({$extcredits[$creditstransextra[1]][title]})</th>
+			<td>$balance {$extcredits[$creditstransextra[1]][unit]}</td>
+		</tr>
+		<tr class="btns" align="center">
+			<td colspan="2"><button class="submit" type="submit" name="paysubmit" value="true">{lang submit}</button></td>
+		</tr>
+	</table>
+	</form>
+</div>
+
+<!--{if !empty($infloat)}-->
+<script type="text/javascript" reload="1">
+function submithandle_$handlekey(locationhref) {
+	ajaxget('viewthread.php?tid=$tid&viewpid=$pid', 'post_$pid');
+	hideWindow('$handlekey');
+	showCreditPrompt();
+}
+</script>
+<!--{/if}-->
+
+<!--{if empty($infloat)}-->
+	</div></div>
+</div>
+<!--{/if}-->
+{template footer}

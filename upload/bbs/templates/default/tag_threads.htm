@@ -1,0 +1,120 @@
+<!--{if $inajax}-->
+	{template header}
+
+	<div class="tagthread">
+	<a class="close deloption" href="javascript:;" onclick="hideMenu()" title="{lang close}"><img src="{IMGDIR}/close.gif" alt="{lang close}" /></a>
+	<h4>{lang tag}: $name</h4>
+		<span id="tagpage_0">
+		<ul>
+			<!--{if $threadlist}-->
+				<!--{loop $threadlist $thread}-->
+					<li><a href="viewthread.php?tid=$thread[tid]" target="_blank">$thread[subject]</a></li>
+				<!--{/loop}-->
+			<!--{/if}-->
+			<li class="more"><a href="tag.php?name=$tagnameenc" target="_blank">{lang tag_more}</a></li>
+		</ul>
+		</span>
+	</div>
+
+	{template footer}
+<!--{else}-->
+	{subtemplate header}
+	<div id="nav">
+		<a href="$indexname">$bbname</a> &raquo; <a href="tag.php">{lang tag}</a> &raquo; $name
+	</div>
+
+<div id="wrap" class="wrap s_clear">
+	<div class="main">
+		<div class="content">
+
+			<!--{if !empty($multipage)}-->
+			<div class="pages_btns">
+			$multipage
+			</div>
+			<!--{/if}-->
+
+			<h1>{lang tag}: $name</h1>
+			<div class="threadlist datalist">
+			<table summary="$name" class="datatable" cellspacing="0" cellpadding="0">
+				<thead class="colplural">
+					<tr>
+						<th>&nbsp;</th>
+						<td class="forum">{lang forum}</td>
+						<td class="author">{lang author}</td>
+						<td class="nums">{lang replies}/{lang views}</td>
+						<td class="lastpost"><cite>{lang lastpost}</cite></td>
+					</tr>
+				</thead>
+				<!--{if $threadlist}-->
+					<!--{loop $threadlist $thread}-->
+					<tbody>
+						<tr>
+							<th>
+								<label>
+								<!--{if $thread['special'] == 1}-->
+									<img src="{IMGDIR}/pollsmall.gif" alt="{lang thread_poll}" />
+								<!--{/if}-->
+								<!--{if $thread['special'] == 2}-->
+									<img src="{IMGDIR}/tradesmall.gif" alt="{lang thread_trade}" />
+								<!--{/if}-->
+								<!--{if $thread['special'] == 3}-->
+									<img src="{IMGDIR}/rewardsmall.gif" alt="{lang thread_reward}" <!--{if $thread['price'] < 0}-->class="solved"<!--{/if}--> />
+								<!--{/if}-->
+								<!--{if $thread['special'] == 4}-->
+									<img src="{IMGDIR}/activitysmall.gif" alt="{lang thread_activity}" />
+								<!--{/if}-->
+								<!--{if $thread['special'] == 5}-->
+									<img src="{IMGDIR}/debatesmall.gif" alt="{lang thread_debate}" />
+								<!--{/if}-->
+								<!--{if $thread['attachment'] == 2}-->
+									<img src="images/attachicons/image_s.gif" alt="{lang attach_img}" class="attach" />
+								<!--{elseif $thread['attachment'] == 1}-->
+									<img src="images/attachicons/common.gif" alt="{lang attachment}" class="attach" />
+								<!--{/if}-->
+								<!--{if $thread['displayorder']}-->
+									<img src="{IMGDIR}/pin_$thread[displayorder].gif" alt="{lang thread_stick}<!--{if $thread['displayorder'] == 3}-->$threadsticky[0]<!--{elseif $thread['displayorder'] == 2}-->$threadsticky[1]<!--{elseif $thread['displayorder'] == 1}-->$threadsticky[2]<!--{/if}-->" />
+								<!--{/if}-->
+								<!--{if $thread['digest']}-->
+									<img src="{IMGDIR}/digest_$thread[digest].gif" alt="{lang thread_digest} $thread[digest]" />
+								<!--{/if}-->
+								</label>
+								<a href="viewthread.php?tid=$thread[tid]" target="_blank">$thread[subject]</a>
+								<!--{if $thread[multipage]}-->
+									<span class="threadpages">$thread[multipage]</span>
+								<!--{/if}-->
+							</th>
+							<td class="forum"><a href="forumdisplay.php?fid=$thread[fid]">$thread[forumname]</a></td>
+							<td class="author">
+								<cite>
+								<!--{if $thread['authorid'] && $thread['author']}-->
+									<a href="space.php?uid=$thread[authorid]">$thread[author]</a>
+								<!--{else}-->
+									<!--{if $forum['ismoderator']}--><a href="space.php?uid=$thread[authorid]">{lang anonymous}</a><!--{else}-->{lang anonymous}<!--{/if}-->
+								<!--{/if}-->
+								</cite>
+								<em>$thread[dateline]</em>
+							</td>
+							<td class="nums"><strong>$thread[replies]</strong> / <em>$thread[views]</em></td>
+							<td class="lastpost">
+								<cite><!--{if $thread['lastposter']}--><a href="space.php?username=$thread[lastposterenc]">$thread[lastposter]</a><!--{else}-->{lang anonymous}<!--{/if}--></cite>
+								<em><a href="redirect.php?tid=$thread[tid]&amp;goto=lastpost#lastpost">$thread[lastpost]</a></em>
+							</td>
+						</tr>
+					<!--{/loop}-->
+				<!--{else}-->
+					<tr><td colspan="4">{lang tag_nofound}</td></tr>
+				<!--{/if}-->
+			</tbody>
+		</table>
+	
+		<!--{if !empty($multipage)}-->
+		<div class="pages_btns">
+		$multipage
+		</div>
+		<!--{/if}-->
+		</div>
+		</div>
+	</div>
+</div>
+	{subtemplate footer}
+<!--{/if}-->

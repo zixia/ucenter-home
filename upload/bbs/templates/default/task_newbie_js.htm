@@ -1,0 +1,53 @@
+<!--{if !$inajax}-->
+	<!--{if CURSCRIPT == 'index' && empty($_COOKIE['discuz_minitask'])}-->
+		<script type="text/javascript">showWindow('task', 'task.php?action=newbie');</script>
+	<!--{/if}-->
+	<link rel="stylesheet" type="text/css" href="forumdata/cache/style_{STYLEID}_task_newbie.css?{VERHASH}" />
+	<div id="task_mini" class="task_mini" onclick="this.style.display='none';showWindow('task', 'task.php?action=newbie');"{if CURSCRIPT == 'index' && empty($_COOKIE['discuz_minitask'])} style="display: none;"{/if}><div><span>{lang task_newbie}</span></div></div>
+<!--{/if}-->
+<script type="text/javascript" src="{$jspath}prompt.lang.js?{VERHASH}"></script>
+<script type="text/javascript" reload="1">
+	var allobjs = document.body.getElementsByTagName('*');
+	var promptobjs = [];
+	var currentPromptKey = '{$newbietasks[$newbietaskid][scriptname]}';
+	var promptkey = '';
+
+	for(var i = 0; i < allobjs.length; i++) {
+		if(allobjs[i].attributes && allobjs[i].attributes['prompt']) {
+			promptkey = allobjs[i].attributes['prompt'].nodeValue;
+			if(promptkey.indexOf('_') !== -1) {
+				promptkey = promptkey.substr(0, promptkey.indexOf('_'));
+			}
+			if(promptkey == currentPromptKey || (currentPromptKey.indexOf('_') !== -1 && promptkey == currentPromptKey.substr(0, currentPromptKey.indexOf('_')))) {
+				promptobjs.push(allobjs[i]);
+				allobjs[i].onblur = function(e) {promptnextobj(this)};
+			}
+		}
+	}
+
+	if(promptobjs[0]) {
+		_attachEvent(window, 'load', function(){showPrompt(promptobjs[0].id, 'mouseover', promptmsg[promptobjs[0].attributes['prompt'].nodeValue], '5000');});
+	}
+
+	function promptnextobj(obj) {
+		for(var i = 0; i < promptobjs.length - 1; i++) {
+			if(promptobjs[i] == obj) {
+				break;
+			}
+		}
+		if(promptobjs[i+1]) {
+			showPrompt(promptobjs[i+1].id, 'mouseover', promptmsg[promptobjs[i+1].attributes['prompt'].nodeValue], '5000');
+		}
+	}
+</script>
+
+<!--{if $newbietaskid && $currenttaskcsc == '100'}-->
+	<script type="text/javascript">
+		setcookie('discuz_creditnotice', '', -2592000);
+		if('$task[scriptname]' == 'newbie_post_reply') {
+			_attachEvent(window, 'load', function(){{if $nextnewbietaskid}showWindow('task', 'task.php?action=newbie&currenttaskid=$newbietaskid&from=taskprompt');{else}showPrompt(null, null, '{lang task_newbie_finished_all}', 9999999999, 1);{/if}}, document);
+		} else {
+			{if $nextnewbietaskid}showWindow('task', 'task.php?action=newbie&currenttaskid=$newbietaskid&from=taskprompt');{else}showPrompt(null, null, '{lang task_newbie_finished_all}', 9999999999, 1);{/if}
+		}
+	</script>
+<!--{/if}-->

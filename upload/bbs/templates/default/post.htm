@@ -1,0 +1,320 @@
+{subtemplate header}
+
+<!--{block actiontitle}--><!--{if $action == 'newthread'}--><!--{if $special == 0}-->{lang post_newthread}<!--{elseif $special == 1}-->{lang post_newthreadpoll}<!--{elseif $special == 2}-->{lang post_newthreadtrade}<!--{elseif $special == 3}-->{lang post_newthreadreward}<!--{elseif $special == 4}-->{lang post_newthreadactivity}<!--{elseif $special == 5}-->{lang post_newthreaddebate}<!--{elseif $specialextra}--> {$threadplugins[$specialextra][name]}<!--{/if}--><!--{elseif $action == 'reply' && !empty($addtrade)}-->{lang trade_add_post}<!--{elseif $action == 'reply'}-->{lang join_thread}<!--{elseif $action == 'edit'}-->{lang edit_thread}<!--{/if}--><!--{/block}-->
+
+<div id="nav"><a href="$indexname">$bbname</a> $navigation &raquo; $actiontitle</div>
+
+{eval $adveditor = $isfirstpost && $special || $special == 2 && ($action == 'newthread' || $action == 'reply' && !empty($addtrade) || $action == 'edit' && $thread['special'] == 2);}
+{eval $advmore = !$showthreadsorts && !$special || $action == 'reply' && empty($addtrade) || $action == 'edit' && !$isfirstpost && ($thread['special'] == 2 && !$special || $thread['special'] != 2);}
+<div id="wrap" class="wrap s_clear"><div class="main"><div class="content editorcontent">
+	<form method="post" id="postform"
+		{if $action == 'newthread'}action="post.php?action={if $special != 2}newthread{else}newtrade{/if}&fid=$fid&extra=$extra&topicsubmit=yes"
+		{elseif $action == 'reply'}action="post.php?action=reply&fid=$fid&tid=$tid&extra=$extra&replysubmit=yes"
+		{elseif $action == 'edit'}action="post.php?action=edit&extra=$extra&editsubmit=yes&mod=$mod" $enctype
+		{/if}
+		onsubmit="return validate(this)">
+	<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="posttime" id="posttime" value="$timestamp" />
+	<!--{if !empty($modthreadkey)}--><input type="hidden" name="modthreadkey" id="modthreadkey" value="$modthreadkey" /><!--{/if}-->
+	<input type="hidden" name="wysiwyg" id="{$editorid}_mode" value="$editormode" />
+	<!--{if $action == 'reply'}-->
+		<input type="hidden" name="noticeauthor" value="$noticeauthor" />
+		<input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
+		<input type="hidden" name="noticeauthormsg" value="$noticeauthormsg" />
+	<!--{/if}-->
+	<!--{if $action == 'edit'}-->
+		<input type="hidden" name="fid" id="fid" value="$fid" />
+		<input type="hidden" name="tid" value="$tid" />
+		<input type="hidden" name="pid" value="$pid" />
+		<input type="hidden" name="page" value="$page" />
+	<!--{/if}-->
+	<!--{if $special}-->
+		<input type="hidden" name="special" value="$special" />
+	<!--{/if}-->
+	<!--{if $specialextra}-->
+		<input type="hidden" name="specialextra" value="$specialextra" />
+	<!--{/if}-->
+	<!--{if $isfirstpost}-->
+		<input type="hidden" name="iconid" id="iconid" value="$thread[iconid]" />
+	<!--{/if}-->
+	<div class="s_clear"{if !$showthreadsorts && !$adveditor} id="editorbox"{/if}>
+		<h3 class="float_ctrl">
+			<em id="returnmessage">
+				$actiontitle
+			</em>
+			<!--{if $action == 'newthread' && $modnewthreads}--><em class="needverify">{lang approve}</em><!--{/if}-->
+			<!--{if $action == 'reply' && $modnewreplies}--><em class="needverify">{lang approve}</em><!--{/if}-->
+			<!--{block creditstring}--><!--{loop $postcredits $id $credit}--><!--{if $credit != ''}-->{$extcredits[$id][title]} {if $credit >= 0}+$credit{else}$credit{/if} {$extcredits[$id][unit]} &nbsp;<!--{/if}--><!--{/loop}--><!--{/block}-->
+			<!--{if $creditstring}-->
+				<span><a href="faq.php?action=credits&fid=$fid" target="_blank" title="{lang credits_policy}"><!--{if $action == 'newthread'}-->{lang post_credits_newthread}<!--{elseif $action == 'reply'}-->{lang post_credits_newreply}<!--{/if}-->&nbsp;$creditstring</a></span>
+			<!--{/if}-->
+		</h3>
+		<div class="postbox" id="postbox">
+			{$pluginhooks[post_top]}
+			<div class="float_postinfo s_clear">
+				<!--{if !$special && $isfirstpost}-->
+					<em id="icon" class="dropmenu" onclick="showMenu({'ctrlid':this.id})"><img id="icon_img" src="images/icons/{if $action == 'edit' && $thread[iconid]}{$_DCACHE['icons'][$thread[iconid]]}{else}icon1.gif{/if}" /></em>
+					<ul id="icon_menu" class="popupmenu_popup" style="display:none">
+					<!--{loop $_DCACHE['icons'] $id $icon}-->
+						<li><a href="javascript:;"><img onclick="switchicon($id, this)" src="images/icons/$icon" alt="" /></a></li>
+					<!--{/loop}-->
+					</ul>
+				<!--{/if}-->
+				<!--{if $action == 'reply' && !empty($addtrade) || $action == 'edit' && $thread['special'] == 2 && !$postinfo['first']}-->
+					<input name="subject" type="hidden" value="" />
+				<!--{else}-->
+					<!--{if $action != 'reply'}-->
+						<span><input name="subject" id="subject" prompt="post_subject"  class="txt" value="$postinfo[subject]" tabindex="1" /></span>
+					<!--{else}-->
+						<span id="subjecthide" class="left">RE: $thread[subject] [<a href="javascript:;" onclick="display('subjecthide');display('subjectbox');$('subject').value='RE: {echo htmlspecialchars(str_replace('\'', '\\\'', $thread[subject]))}'">{lang modify}</a>]</span>
+						<span id="subjectbox" style="display:none"><input name="subject" id="subject" class="txt" value="" tabindex="1" /></span>
+					<!--{/if}-->
+				<!--{/if}-->
+				<!--{if $action == 'edit' && ($isfirstpost && $thread['replies'] < 1 || !$isfirstpost && ($isorigauthor || $forum['ismoderator']))}-->
+					<!--{if !$rushreply}-->
+					<div class="right"><input type="checkbox" name="delete" id="delete" value="1" title="{lang post_delpost}{if $thread[special] == 3}{lang reward_price_back}{/if}"><label for="delete">{lang delete_check}</label></div>
+					<!--{/if}-->
+				<!--{/if}-->
+				<div class="left">
+					<!--{if !$special && ($threadsorts = $forum[threadsorts]) && ($action == 'newthread' || $action == 'edit' && $isfirstpost && !$thread['sortid'])}-->
+					<div class="float_typeid">
+						<select name="sortid" id="sortid" change="switchsort()">
+						<option value="0">{lang threadtype_option}</option>
+						<!--{loop $threadsorts[types] $tsortid $name}-->
+							<!--{if !empty($modelid) && $threadsorts[modelid][$tsortid] == $modelid || empty($modelid)}-->
+								<option value="$tsortid"{if $sortid == $tsortid} selected="selected"{/if}>{echo strip_tags($name);}</option>
+							<!--{/if}-->
+						<!--{/loop}-->
+						</select>
+					</div>
+					<!--{/if}-->
+					<!--{if $action == 'edit' && $isfirstpost && $sortid}-->
+						<input type="hidden" name="sortid" value="$sortid" />
+					<!--{/if}-->
+					<!--{if $isfirstpost && $forum[threadtypes][types]}-->
+					<div class="float_typeid">
+						<select name="typeid" id="typeid">
+						<option value="0">{lang types}</option>
+						<!--{loop $forum[threadtypes][types] $typeid $name}-->
+							<option value="$typeid"{if $thread['typeid'] == $typeid} selected="selected"{/if}>{echo strip_tags($name);}</option>
+						<!--{/loop}-->
+						</select>
+					</div>
+					<!--{/if}-->
+				</div>
+			</div>
+			<!--{if !$isfirstpost && $thread[special] == 5 && empty($firststand) && $action != 'edit'}-->
+			<div class="viewpoint s_clear">
+				<p class="left">{lang debate_viewpoint}: </p>
+				<div class="float_typeid short_select">
+					<select id="stand" name="stand">
+						<option value="0">{lang debate_neutral}</option>
+						<option value="1"{if $stand == 1} selected{/if}>{lang debate_square}</option>
+						<option value="2"{if $stand == 2} selected{/if}>{lang debate_opponent}</option>
+					</select>
+				</div>
+			</div>
+			<!--{/if}-->
+			<!--{if $showthreadsorts}-->
+				<div class="classifieds">
+					<table cellpadding="0" cellspacing="0" class="formtable">
+						<tbody id="threadsorts"><span id="threadsortswait"></span></tbody>
+					</table>
+				</div>
+			<!--{elseif $adveditor}-->
+				<!--{if $special == 1}-->{template post_poll}
+				<!--{elseif $special == 2 && ($action != 'edit' || ($action == 'edit' && ($authorid['authorid'] == $discuz_uid && $allowposttrade || $allowedittrade)))}-->{template post_trade}
+				<!--{elseif $special == 3}-->{template post_reward}
+				<!--{elseif $special == 4}-->{template post_activity}
+				<!--{elseif $special == 5}-->{template post_debate}
+				<!--{elseif $specialextra}--><div class="specialpost s_clear">$threadplughtml</div>
+				<!--{/if}-->
+			<!--{/if}-->
+			{subtemplate post_editor}
+
+			{$pluginhooks[post_middle]}
+			<!--{if $action == 'newthread' || $action == 'edit' && $isfirstpost}-->
+				<div class="columntype">
+					<table cellpadding="0" cellspacing="0"><tr>
+					<!--{if $tagstatus}-->
+						<td class="firstlist posttags">
+							<p><strong>{lang post_tag}:</strong> {lang tag_comment}</p>
+							<p><input type="text" name="tags" id="tags" class="txt" value="$threadtags" tabindex="1" /><button name="addtags" type="button" onclick="relatekw();return false">+{lang searchtags}</button> <span id="tagselect"></span></p>
+						</div>
+						</td>
+					<!--{/if}-->
+						<!--{if $allowsetreadperm}-->
+							<td class="firstlist">
+								<p><strong>{lang readperm}:</strong></p>
+								<p><input type="text" name="readperm" value="$thread[readperm]" class="txt" tabindex="1" /> {lang post_zero_is_nopermission}</p>
+							</td>
+						<!--{/if}-->
+						<!--{if $maxprice && !$special}-->
+							<td class="firstlist">
+								<p><strong>{lang price}</strong>({$extcredits[$creditstransextra[1]][title]}):</p>
+								<p><input type="text" name="price" value="$thread[pricedisplay]" class="txt" tabindex="1" /> {$extcredits[$creditstransextra[1]][unit]} <span title="{lang post_price_free_comment}">{lang post_price_comment}</span>
+							</td>
+						<!--{/if}-->
+					</tr></table>
+				</div>
+			<!--{/if}-->
+			<!--{if $maxprice && ($action == 'newthread' || $action == 'edit' && $isfirstpost)}-->
+				<span class="lighttxt">
+				<!--{if $maxincperthread}--><img src="{IMGDIR}/arrow_right.gif" />{lang post_price_income_comment}<!--{/if}-->
+				<!--{if $maxchargespan}--><img src="{IMGDIR}/arrow_right.gif" />{lang post_price_charge_comment}<!--{if $action == 'edit' && $freechargehours}-->{lang post_price_free_chargehours}<!--{/if}--><!--{/if}-->
+				</span>
+			<!--{/if}-->
+			<div class="columntype">
+				<h4>{lang post_option}:</h4>
+				<table cellpadding="0" cellspacing="0" border="0">
+					<tr>
+						<td class="firstlist">
+							<!--{if ($forum['allowhtml'] || ($action == 'edit' && ($org['htmlon'] & 1))) && $allowhtml}-->
+								<p><input type="checkbox" name="htmlon" id="htmlon" value="1" $htmloncheck /><label for="htmlon">{lang post_html}</label></p>
+							<!--{else}-->
+								<p><input type="checkbox" name="htmlon" id="htmlon" value="0" $htmloncheck disabled="disabled" /><label for="htmlon">{lang post_html}</label></p>
+							<!--{/if}-->
+							<p><input type="checkbox" id="allowimgcode" disabled{if $forum['allowimgcode']} checked="checked"{/if} /><label for="allowimgcode">{lang post_imgcode}</label></p>
+						</td>
+						<td>
+							<p><input type="checkbox" name="parseurloff" id="parseurloff" value="1" $urloffcheck tabindex="1" /><label for="parseurloff">{lang disable} {lang post_parseurl}</label></p>
+							<p><input type="checkbox" name="smileyoff" id="smileyoff" value="1" $smileyoffcheck tabindex="1" /><label for="smileyoff">{lang disable} {faq smilies}</label></p>
+							<p><input type="checkbox" name="bbcodeoff" id="bbcodeoff" value="1" $codeoffcheck tabindex="1" /><label for="bbcodeoff">{lang disable} {faq discuzcode}</label></p>
+							<!--{if $tagstatus && ($action == 'newthread' || $action == 'edit' && $isfirstpost)}-->
+								<p><input type="checkbox" name="tagoff" id="tagoff" {if !empty($tagoffcheck)}checked="checked"{/if} tabindex="1" /><label for="tagoff">{lang disable} {lang tag_parse}</label></p>
+							<!--{/if}-->
+						</td>
+						<td>
+							<!--{if $discuz_uid}-->
+								<!--{if $action == 'newthread' || $action == 'edit' && $isfirstpost}-->
+									<p><input type="checkbox" name="ordertype" id="ordertype" value="1" $ordertypecheck tabindex="1" /><label for="ordertype">{lang post_descview}</label></p>
+								<!--{/if}-->
+								<!--{if $action == 'newthread'}-->
+									<p><input type="checkbox" name="attention_add" id="attention_add" checked="checked" value="1" /><label for="attention_add">{lang attention_add}</label></p>
+								<!--{elseif $action == 'reply' || $action == 'edit'}-->
+									<!--{if $has_attention}-->
+										<p><input type="checkbox" name="attention_remove" id="attention_remove" value="1" /><label for="attention_remove">{lang attention_remove}</label></p>
+									<!--{else}-->
+										<p><input type="checkbox" name="attention_add" id="attention_add" value="1" /><label for="attention_add">{lang attention_add}</label></p>
+									<!--{/if}-->
+								<!--{/if}-->
+							<!--{/if}-->
+							<p><input type="checkbox" name="usesig" id="usesig" value="1" {if !$maxsigsize}disabled {else}$usesigcheck {/if}tabindex="1" /><label for="usesig">{lang post_show_sig}</label></p>
+							<!--{if $action != 'edit'}-->
+								<!--{if $allowanonymous}--><p><input type="checkbox" name="isanonymous" id="isanonymous" value="1" tabindex="1" /><label for="isanonymous">{lang post_anonymous}</label></p><!--{/if}-->
+							<!--{else}-->
+								<!--{if $allowanonymous || (!$allowanonymous && $orig['anonymous'])}--><p><input type="checkbox" name="isanonymous" id="isanonymous" value="1" {if $orig['anonymous']}checked="checked"{/if} tabindex="1" /><label for="isanonymous">{lang post_anonymous}</label></p><!--{/if}-->
+							<!--{/if}-->
+						</td>
+						<td>
+						<!--{if $action == 'newthread' && $forum['ismoderator'] && ($allowdirectpost || !$forum['modnewposts'])}-->
+							<!--{if $action == 'newthread' && $forum['ismoderator'] && ($allowdirectpost || !$forum['modnewposts'])}-->
+								<p><input type="checkbox" name="sticktopic" id="sticktopic" value="1" $stickcheck tabindex="1" /><label for="sticktopic">{lang post_stick_thread}</label></p>
+								<p><input type="checkbox" name="addtodigest" id="addtodigest" value="1" $digestcheck tabindex="1" /><label for="addtodigest">{lang post_digest_thread}</label></p>
+							<!--{/if}-->
+						<!--{elseif $action == 'edit' && $auditstatuson}-->
+							<p><input type="checkbox" name="audit" id="audit" value="1"><label for="audit">{lang auditstatuson}</label></p>
+						<!--{/if}-->
+						<!--{if $uchome['addfeed'] && $ucappopen['UCHOME'] && $forum['allowfeed']}-->
+							<p><input type="checkbox" name="addfeed" id="addfeed" value="1" $addfeedcheck><label for="addfeed">{lang addfeed}</label></p>
+						<!--{/if}-->
+						<!--{if $action == 'newthread' || $action == 'edit' && $isfirstpost}-->
+							<p><input type="checkbox" name="hiddenreplies" id="hiddenreplies"{if $hiddenreplies} checked="checked"{/if} value="1"><label for="hiddenreplies">{lang hiddenreplies}</label></p>
+						<!--{/if}-->
+						<!--{if $action == 'newthread' && $allowpostrushreply}-->
+								<p><input type="checkbox" name="rushreply" id="rushreply" value="1"><label for="rushreply">{lang rushreply}</label></p>
+						<!--{/if}-->
+						<!--{if $action == 'edit' && getstatus($thread['status'], 3)}-->
+								<p><input type="checkbox" disabled="disabled" checked="checked"><label for="rushreply">{lang rushreply}</label></p>
+						<!--{/if}-->
+						</td>
+					</tr>
+				</table><br />
+			</div>
+			<div class="btnbar">
+				<span>
+					<!--{if $action == 'newthread' && $sitemessage[newthread] || $action == 'reply' && $sitemessage[reply]}-->
+					<a href="javascript:;" id="custominfo" class="right"><img src="{IMGDIR}/info.gif" alt="{lang faq}" /></a>
+					<!--{/if}-->
+				</span>
+				<button type="submit" id="postsubmit" prompt="post_submit"  value="true" name="{if $action == 'newthread'}topicsubmit{elseif $action == 'reply'}replysubmit{elseif $action == 'edit'}editsubmit{/if}" tabindex="1">
+				<!--{if $action == 'newthread'}-->
+					<!--{if $special == 0}-->{lang post_newthread}
+					<!--{elseif $special == 1}-->{lang post_newthreadpoll}
+					<!--{elseif $special == 2}-->{lang post_newthreadtrade}
+					<!--{elseif $special == 3}-->{lang post_newthreadreward}
+					<!--{elseif $special == 4}-->{lang post_newthreadactivity}
+					<!--{elseif $special == 5}-->{lang post_newthreaddebate}
+					<!--{elseif $special == 127}-->
+						<!--{if $buttontext}-->$buttontext<!--{else}-->{lang post_newthread}<!--{/if}-->
+					<!--{/if}-->
+				<!--{elseif $action == 'reply' && !empty($addtrade)}-->{lang trade_add_post}
+				<!--{elseif $action == 'reply'}-->{lang join_thread}
+				<!--{elseif $action == 'edit'}-->{lang edit_thread}
+				<!--{/if}-->
+				</button>
+				<!--{if $action != 'edit' && ($secqaacheck || $seccodecheck)}-->{subtemplate seccheck}<!--{/if}-->
+			</div>
+			{$pluginhooks[post_bottom]}
+		</div>
+	</div>
+	</form>
+
+</div></div></div>
+
+<div id="{$editorid}_menus" class="editorrow" style="overflow: hidden; margin-top: -5px; height: 0; border: none; background: transparent;">
+	{subtemplate post_editor_menu}
+</div>
+
+<!--{if $special}-->
+<script type="text/javascript" src="{$jspath}calendar.js?{VERHASH}"></script>
+<!--{/if}-->
+<script type="text/javascript">
+
+	var postminchars = parseInt('$minpostsize');
+	var postmaxchars = parseInt('$maxpostsize');
+	var disablepostctrl = parseInt('$disablepostctrl');
+	var seccodecheck = parseInt('$seccodecheck');
+	var secqaacheck = parseInt('$secqaacheck');
+	var typerequired = parseInt('$forum[threadtypes][required]');
+	var special = parseInt('$special');
+	var isfirstpost = {if $isfirstpost}1{else}0{/if};
+	var allowposttrade = parseInt('$allowposttrade');
+	var allowpostreward = parseInt('$allowpostreward');
+	var allowpostactivity = parseInt('$allowpostactivity');
+	var sortid = parseInt('$sortid');
+	var special = parseInt('$special');
+
+	{if $isfirstpost && $forum['threadtypes']['types']}
+		simulateSelect('typeid');
+	{/if}
+	{if !$isfirstpost && $thread['special'] == 5 && empty($firststand) && $action != 'edit'}
+		simulateSelect('stand');
+	{/if}
+	{if !$special && $forum[threadsorts] && ($action == 'newthread' || $action == 'edit' && $isfirstpost && !$thread[sortid])}
+		simulateSelect('sortid');
+		function switchsort() {
+			if($('sortid').value) {
+				saveData(1);
+				{if $isfirstpost && $sortid}
+					ajaxget('post.php?action=threadsorts&sortid=' + $('sortid').value + '&fid=$fid&allowpostimg=$allowpostimg{if !empty($modelid)}&modelid=$modelid{/if}{if !empty($modthreadkey)}&modthreadkey=$modthreadkey{/if}', 'threadsorts', 'threadsortswait')
+				{else}
+					location.href = 'post.php?action=$action&fid=$fid{if !empty($tid)}&tid=$tid{/if}{if !empty($pid)}&pid=$pid{/if}{if !empty($modelid)}&modelid=$modelid{/if}&extra=$extra{if !$sortid}&cedit=yes{/if}&sortid=' + $('sortid').value;
+				{/if}
+				Editorwin = 0;
+			}
+		}
+	{/if}
+	{if $isfirstpost && $sortid}
+		ajaxget('post.php?action=threadsorts&sortid=$sortid&fid=$fid&allowpostimg=$allowpostimg{if !empty($tid)}&tid=$tid{/if}&inajax=1{if !empty($modthreadkey)}&modthreadkey=$modthreadkey{/if}', 'threadsorts', 'threadsortswait', 'threadsortswait');
+	{/if}
+
+	{if $action == 'newthread' && $sitemessage[newthread] || $action == 'reply' && $sitemessage[reply]}
+		showPrompt('custominfo', 'click', '{if $action == 'newthread'}{echo trim($sitemessage[newthread][array_rand($sitemessage[newthread])])}{elseif $action == 'reply'}{echo trim($sitemessage[reply][array_rand($sitemessage[reply])])}{/if}', $sitemessage[time]);
+	{/if}
+	{if $swfupload != 1 && $allowpostattach}addAttach();{/if}
+	{if $swfupload != 1 && $allowpostimg}addAttach('img');{/if}
+
+</script>
+
+{subtemplate footer}

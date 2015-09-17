@@ -1,0 +1,12 @@
+<!--{block writedata}-->
+<div class="sidebox taglist s_clear">
+	<h4><a href="tag.php">{lang post_tag}</a></h4>
+	<!--{if $taglist}-->
+		<!--{loop $taglist $tag}-->
+			<a href="{$boardurl}tag.php?name=$tag[tagnameenc]" class="tagl$tag[level]" title="$tag[total]" target="_blank">$tag[tagname]</a> 
+		<!--{/loop}-->
+	<!--{else}-->
+		<em>{lang tag_nofound}</em>
+	<!--{/if}-->
+</div>
+<!--{/block}-->

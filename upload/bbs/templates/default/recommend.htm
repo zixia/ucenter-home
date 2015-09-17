@@ -1,0 +1,30 @@
+<!--{if $forum['recommendlist']['images']}-->
+	<div style="float: left; width: {$forum[modrecommend][imagewidth]}px;">
+		<script type="text/javascript">
+		var slideSpeed = 5000;
+		var slideImgsize = [{$forum[modrecommend][imagewidth]},{$forum[modrecommend][imageheight]}];
+		var slideBorderColor = '{SPECIALBORDER}';
+		var slideBgColor = '{COMMONBG}';
+		var slideImgs = new Array();
+		var slideImgLinks = new Array();
+		var slideImgTexts = new Array();
+		var slideSwitchColor = '{TABLETEXT}';
+		var slideSwitchbgColor = '{COMMONBG}';
+		var slideSwitchHiColor = '{SPECIALBORDER}';
+		<!--{loop $forum['recommendlist']['images'] $k $imginfo}-->
+			slideImgs[{echo $k+1}] = "$imginfo[filename]";
+			slideImgLinks[{echo $k+1}] = "viewthread.php?tid=$imginfo[tid]&from=recommend_f";
+			slideImgTexts[{echo $k+1}] = "$imginfo[subject]";
+		<!--{/loop}-->
+		</script>
+		<script language="javascript" type="text/javascript" src="include/js/slide.js"></script>
+	</div>
+<!--{/if}-->
+<div class="inlinelist titlelist s_clear"{if $forum['recommendlist']['images']} style="margin-left: {$forum[modrecommend][imagewidth]}px;"{/if}>
+	{eval unset($forum['recommendlist']['images']);}
+	<ul>
+	<!--{loop $forum['recommendlist'] $rtid $recommend}-->
+		<li class="wide"><cite><a href="space.php?uid=$recommend[authorid]&from=recommend_f" target="_blank">$recommend[author]</a></cite><a href="viewthread.php?tid=$rtid&from=recommend_f" $recommend[subjectstyles] target="_blank">$recommend[subject]</a></li>
+	<!--{/loop}-->
+	</ul>
+</div>

@@ -1,0 +1,115 @@
+<hr class="dashline" />
+
+<table summary="{lang activity_info}" cellpadding="0" cellspacing="0" class="formtable">
+	<tr>
+		<th>{lang activity_already}:</th>
+		<td class="actnum">$applynumbers {lang activity_member_unit}</td>
+		<td class="actctrl">
+		<!--{if $thread['authorid'] == $discuz_uid || $alloweditactivity}-->
+			<a href="misc.php?action=activityapplylist&tid=$tid&pid=$post[pid]" onclick="showWindow('activity', this.href);return false" title="{lang show}">{lang show}</a> &nbsp; <a href="misc.php?action=activityexport&tid=$tid" title="{lang pm_archive}">{lang pm_archive}</a>
+		<!--{/if}-->
+		</td>
+		<td rowspan="2">
+		<!--{if $applied}-->
+			<!--{if !$isverified}--><div class="actnotice">{lang activity_wait}</div><!--{else}--><div class="actnotice">{lang activity_join_audit}</div><!--{/if}-->
+		<!--{elseif $discuz_uid && !$activityclose}-->
+			<button value="true" name="ijoin" onclick="$('activityjoin').style.display = ''">{lang activity_join}</button>
+		<!--{/if}-->
+		</td>
+	</tr>
+	<!--{if $activity['number']}-->
+		<tr>
+			<th>{lang activity_about_member}</th>
+			<td class="actnum">$aboutmembers {lang activity_member_unit}</td>
+			<td class="actctrl"><!--{if $thread['authorid'] == $discuz_uid || $alloweditactivity}--><a href="misc.php?action=activityapplylist&tid=$tid&pid=$post[pid]" onclick="showWindow('activity', this.href);return false" title="{lang activity_apply_confirm}">{lang activity_apply_confirm}</a><!--{/if}--></td>
+		</tr>
+	<!--{/if}-->
+</table>
+
+<!--{if $discuz_uid && !$activityclose && !$applied}-->
+	<hr class="dashline" />
+	<form id="activityjoin" name="activity" style="display:none" method="post" action="misc.php?action=activityapplies&fid=$fid&tid=$tid&pid=$post[pid]&activitysubmit=yes&quickforward=yes" onsubmit="if(checkform(this)) {ajaxpost('activityjoin', 'post_$post[pid]', 'post_$post[pid]')};return false">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<table summary="{lang activity_join}" cellpadding="0" cellspacing="0" class="formtable">
+			<tr>
+				<th>{lang activity_paytype}</th>
+				<td>
+					<label><input class="radio" type="radio" value="0" name="payment" checked="checked" /> {lang activity_pay_myself}</label>
+					<label><input class="radio" type="radio" value="1" name="payment" /> {lang activity_would_payment}</label> <input name="payvalue" size="3" class="txt" style="width: 20px;" /> {lang payment_unit}
+				</td>
+			</tr>
+			<tr>
+				<th>{lang activity_linkman}</th>
+				<td><input type="text" name="contact" style="width:80%" maxlength="200" class="txt" /></td>
+			</tr>
+			<tr>
+				<th>{lang leaveword}</th>
+				<td><input type="text" name="message" style="width:80%" maxlength="200" class="txt" /></td>
+			</tr>
+			<tr>
+				<th>&nbsp;</th>
+				<td><button class="submit" type="submit" name="activitysubmit" value="true">{lang submit}</button></td>
+			</tr>
+		</table>
+	</form>
+<!--{/if}-->
+
+<!--{if ($thread['authorid'] == $discuz_uid || $alloweditactivity) && $applylistverified}-->
+	<hr class="dashline"/>
+	<h4 class="avt_title">{lang activity_new_signup}</h4>
+	<ul class="avt_list s_clear">
+	<!--{loop $applylistverified $apply}-->
+		<li onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aplayuid$apply[uid]">
+			<a target="_blank" href="space.php?uid=$apply[uid]">{echo discuz_uc_avatar($apply[uid], 'small')}</a>
+			<p><a target="_blank" href="space.php?uid=$apply[uid]">$apply[username]</a></p>
+		</li>
+		<div  class="attach_popup" id="aplayuid$apply[uid]_menu" style="display: none">
+			<div class="cornerlayger">
+				<!--{if $thread['authorid'] == $discuz_uid}-->
+					<p>$apply[contact]</p>
+				<!--{/if}-->
+				<p>$apply[message]</p>
+				<p><!--{if $apply[payment] >= 0}-->$apply[payment] {lang payment_unit}<!--{else}-->{lang activity_self}<!--{/if}--></p>
+				<p>$apply[dateline]</p>
+				<!--{if $thread['authorid'] == $discuz_uid}-->
+					<p>
+						<a href="misc.php?action=activityapplylist&tid=$tid&pid=$post[pid]&uid=$apply[uid]" onclick="hideMenu();showWindow('activity', this.href);doane(event)">{lang confirm}</a> |
+						<a href="misc.php?action=activityapplylist&tid=$tid&pid=$post[pid]&uid=$apply[uid]&operation=delete" onclick="hideMenu();showWindow('activity', this.href);doane(event)">{lang delete}</a>
+					</p>
+				<!--{/if}-->
+			</div>
+			<div class="minicorner"></div>
+		</div>
+	<!--{/loop}-->
+	</ul>
+	<hr class="dashline"/>
+<!--{/if}-->
+
+<!--{if $applylist}-->
+	<h4 class="avt_title">{lang activity_new_join}</h4>
+	<ul class="avt_list s_clear">
+	<!--{loop $applylist $apply}-->
+		<li onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aplayuid$apply[uid]">
+			<a target="_blank" href="space.php?uid=$apply[uid]">{echo discuz_uc_avatar($apply[uid], 'small')}</a>
+			<p><a target="_blank" href="space.php?uid=$apply[uid]">$apply[username]</a></p>
+		</li>
+		<div  class="attach_popup" id="aplayuid$apply[uid]_menu" style="display: none">
+			<div class="cornerlayger">
+				<!--{if $thread['authorid'] == $discuz_uid}-->
+					<p>$apply[contact]</p>
+				<!--{/if}-->
+				<p>$apply[message]</p>
+				<p><!--{if $apply[payment] >= 0}-->$apply[payment] {lang payment_unit}<!--{else}-->{lang activity_self}<!--{/if}--></p>
+				<p>$apply[dateline]</p>
+				<!--{if $thread['authorid'] == $discuz_uid}-->
+					<p>
+						<a href="misc.php?action=activityapplylist&tid=$tid&pid=$post[pid]&uid=$apply[uid]&operation=delete" onclick="hideMenu();showWindow('activity', this.href);doane(event)">{lang delete}</a>
+					</p>
+				<!--{/if}-->
+				</div>
+			<div class="minicorner"></div>
+		</div>
+	<!--{/loop}-->
+	</ul>
+	<hr class="dashline"/>
+<!--{/if}-->

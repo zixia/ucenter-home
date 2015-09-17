@@ -1,0 +1,89 @@
+<!--{if !$inajax}-->
+	{subtemplate header}
+	<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang board_message}</div>
+
+	<div id="wrap" class="wrap s_clear"><div class="main"><div class="content nofloat">
+		<div class="fcontent alert_win">
+			<h3 class="float_ctrl"><em>$bbname {lang board_message}</em></h3>
+			<hr class="shadowline" />
+			<div class="postbox"><div class="alert_error">
+				<p>{lang nopermission}</p>
+			<!--{if $show_message}--><p>$show_message</p></div><!--{/if}-->
+			<!--{if $discuz_uid}--><p class="alert_btnleft">{lang nopermission_loggedin}</p></div>
+			<!--{else}-->
+			<div class="alert_act">
+				<form method="post" name="login" id="loginform" class="gateform" onsubmit="{if $pwdsafety}pwmd5('password3');{/if}pwdclear = 1;" action="logging.php?action=login&loginsubmit=yes">
+					<input type="hidden" name="formhash" value="{FORMHASH}" />
+					<table cellspacing="0" cellpadding="0" class="formtable">
+						<tr>
+							<th>
+								<select name="loginfield" id="loginfield">
+									<option value="username">{lang username}</option>
+									<option value="uid">{lang uid}</option>
+									<option value="email">{lang email}</option>
+								</select>
+							</th>
+							<td><input type="text" name="username" autocomplete="off" size="36" class="txt" tabindex="1" value="" /></td>
+						</tr>
+						<tr>
+							<th><label for="password3">{lang password}</label></th>
+							<td><input type="password" id="password3" name="password" onkeypress="detectCapsLock(event, this)" size="36" class="txt" tabindex="2" /></td>
+						</tr>
+						<tr>
+							<th><label for="questionid">{lang security_question}</label></th>
+							<td>
+								<select id="questionid" name="questionid" tabindex="3">
+									<option value="0">{lang security_question}</option>
+									<option value="1">{lang security_question_1}</option>
+									<option value="2">{lang security_question_2}</option>
+									<option value="3">{lang security_question_3}</option>
+									<option value="4">{lang security_question_4}</option>
+									<option value="5">{lang security_question_5}</option>
+									<option value="6">{lang security_question_6}</option>
+									<option value="7">{lang security_question_7}</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th><label for="answer">{lang security_answer}</label></th>
+							<td><input type="text" name="answer" id="answer" autocomplete="off" size="36" class="txt" tabindex="4" /></td>
+						</tr>
+						<!--{if $seccodecheck}-->
+						<tr>
+							<th></th>
+							<td>
+							<div id="seccodelayer">{template seccheck}</div>
+							</td>
+						</tr>
+						<!--{/if}-->
+						<tr>
+							<th>&nbsp;</th>
+							<td>
+								<a class="right" href="$regname" onclick="showWindow('register', this.href);return false;">$reglinkname</a>
+								<button class="submit" type="submit" name="loginsubmit" value="true" tabindex="6">{lang login}</button>
+								<input type="checkbox" class="checkbox" name="cookietime" id="cookietime" tabindex="5" value="2592000" $cookietimecheck /> <label for="cookietime">{lang login_permanent}</label>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<!--{/if}-->
+			</div>
+	</div></div></div>
+	{subtemplate footer}
+<!--{else}-->
+	{template header}
+	<script type="text/javascript" reload="1">
+	function ajaxerror() {
+		hideMenu();
+		<!--{if !$discuz_uid}-->
+			showDialog('$show_message', 'confirm', '', function () { hideWindow('$handlekey');showWindow('login', 'logging.php?action=login'); }, 0);
+		<!--{else}-->
+			showDialog('$show_message', 'notice', '', null, 0);
+		<!--{/if}-->
+	}
+	ajaxerror();
+	</script>
+	{template footer}
+<!--{/if}-->
+

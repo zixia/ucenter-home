@@ -1,0 +1,44 @@
+<!--{block return}-->
+<style>
+.hslice { margin-bottom: 5px; }
+.entry-content, .hslice { background-color: {WRAPBG}; }
+	#homegrids_e { text-align: center; margin-top: 10px; }
+		#homegrids_e a { color: {HIGHLIGHTLINK}; font-weight: 700; }
+	#homegrid_Img { color: {HIGHLIGHTLINK}; }
+	.entry-content table#homegrids_t { width: 100%; border: 1px solid {SPECIALBORDER}; table-layout:fixed; }
+		.entry-content table#homegrids_t th div.slideouter { border: 0 !important; }
+		.entry-content #homegrids_t th { width: {$widthA}px; background-color: {INTERLEAVECOLOR}; }
+		.entry-content #homegrids_t td { border: {WRAPBORDER} solid {WRAPBORDERCOLOR}; }
+	.entry-content h4 { background-color: {INTERLEAVECOLOR}; padding: 5px; text-align: left; }
+		.entry-content h4 span { cursor: pointer; padding-right: 10px; font-weight: normal; }
+		.entry-content h4 span.current { font-weight: 700; }
+	.entry-content ul { background: url('{$boardurl}plugins/homegrids/images/prefix.gif') no-repeat; }
+		.entry-content li { text-overflow:  ellipsis; overflow: hidden; list-style-image: none; height: 21px; line-height: 21px; text-indent: 20px;  border-bottom: 1px dashed {COMMONBORDER}; }
+		.entry-content li span { float: right; padding-right: 10px; }
+.entry-content .textinfolist { text-align: left; }
+.entry-title { display: none; }
+</style>
+<script type="text/javascript">var slideSpeed = 5000, slideImgsize = [{$widthA},{$heightA}], slideBorderColor = '{COMMONBORDER}', slideBgColor = '{INTERLEAVECOLOR}', slideImgs = new Array(), slideImgLinks = new Array(), slideImgTexts = new Array(), slideSwitchColor = '{TABLETEXT}', slideSwitchbgColor = '{COMMONBG}', slideSwitchHiColor = '{COMMONBORDER}';</script>
+<div class="hslice" id="homegrids">
+	<h2 class="entry-title">{lang homegrids:hslice_title}</h2>
+	<div class="entry-content">
+		<table id="homegrids_t" cellspacing="0" cellpadding="0">
+			<!--{if $moduleA}--><tr><th valign="top"><h4>$titleA</h4>$moduleA<div id="homegrids_e"><a href="$boardurl">{lang homegrids:hslice_entrylink}</a></div></th><!--{/if}-->
+			<td valign="top">
+				<h4 id="homegrids_t_0" style="display:none">$navB</h4>
+				$moduleB
+			</td>
+			<!--{if $moduleC}-->$moduleC<!--{/if}-->
+			</tr>
+		</table>
+	</div>
+</div>
+<!--{if $navcount}-->
+	<script type="text/javascript">
+	switchTab('homegrids', 1, $navcount);
+	$('homegrids_t_0').style.display = '';
+	{if $moduleA}$('homegrids_e').style.display = 'none';{/if}
+	for(i = 1;i <= $navcount;i++) $('homegrids_t_' + i).style.display = 'none';
+	</script>
+<!--{/if}-->
+<!--{/block}-->

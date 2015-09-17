@@ -1,0 +1,211 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang search}</div>
+<div id="wrap" class="wrap">
+	<form class="searchform" method="post" action="search.php"{if $qihoo['status']} target="_blank"{/if}>
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<!--{if !empty($srchtype)}--><input type="hidden" name="srchtype" value="$srchtype" /><!--{/if}-->
+
+		<label for="srchtxt" class="searchlabel">
+			{lang search}
+			<strong>
+			<!--{if $srchtype == 'threadsort'}-->
+				{lang search_info}
+			<!--{elseif $srchtype == 'trade'}-->
+				{lang search_trade}
+			<!--{elseif $srchtype == 'qihoo'}-->
+				{lang search_qihoo}
+			<!--{else}-->
+				{lang search_title}
+			<!--{/if}-->
+			</strong>
+		</label>
+
+		<!--{if $srchtype != 'threadsort'}-->
+		<p class="searchkey">
+			<input type="text" id="srchtxt" name="srchtxt" prompt="search_kw" size="45" maxlength="40" value="$keyword" class="txt" tabindex="1" />
+			<script type="text/javascript">$('srchtxt').focus();</script>
+			<!--{if $checkarray[posts]}-->
+				<select name='srchtype'>
+					<option value="title">{lang title}</option>
+					<!--{if !$disabled[fulltext]}--><option value="fulltext">{lang search_fulltext}</option><!--{/if}-->
+				</select>
+			<!--{/if}-->
+			<button type="submit" name="searchsubmit" id="searchsubmit" value="true" prompt="search_submit">{lang search}</button>
+			<!--{if $checkarray[posts]}-->
+				<a href="javascript:;" onclick="userdisplay = $('search_option').style.display == '' ? '0' : '1'; display('search_option'); ajaxget('ajax.php?action=displaysearch_adv&display='+userdisplay);">{lang search_adv}</a>
+			<!--{/if}-->
+		</p>
+		<!--{/if}-->
+
+		<p>
+			<input type="radio" name="st" onclick="window.location=('search.php')" {$checkarray[posts]} id="srchtypeposts"/> <label for="srchtypeposts">{lang search_title}</label>
+			<input type="radio" name="st" onclick="window.location=('search.php?srchtype=trade')" {$checkarray[trade]} id="srchtypetrade"/> <label for="srchtypetrade">{lang search_trade}</label>
+			<!--{if $qihoo['status']}--><input type="radio" name="st" onclick="window.location=('search.php?srchtype=qihoo')" {$checkarray[qihoo]} id="srchtypeqihoo" /> <label for="srchtypeqihoo">{lang search_qihoo}</label><!--{/if}-->
+			<input type="radio" name="st" onclick="window.location=('search.php?srchtype=threadsort')" {$checkarray[threadsort]} id="srchtypesort"/> <label for="srchtypesort">{lang search_info}</label>
+		</p>
+		{eval $policymsgs = $p = '';}
+		<!--{loop $creditspolicy['search'] $id $policy}-->
+		<!--{block policymsg}--><!--{if $extcredits[$id][img]}-->$extcredits[$id][img] <!--{/if}-->$extcredits[$id][title] $policy $extcredits[$id][unit]<!--{/block}-->
+		{eval $policymsgs .= $p.$policymsg;$p = ', ';}
+		<!--{/loop}-->
+		<!--{if $policymsgs}--><p>{lang search_credit_msg}</p><!--{/if}-->
+
+		<!--{if $srchtype != 'qihoo'}-->
+		<div id="search_option" {if $checkarray[posts] && empty($_DCOOKIE[displaysearch_adv])}style="display: none;"{/if}>
+			<hr class="shadowline"/>
+			<h3>{lang search_option}</h3>
+			<table summary="{lang search}" cellspacing="0" cellpadding="0" class="formtable">
+				<!--{if $srchtype == 'threadsort'}-->
+				<tr>
+					<th><label for="typeid">{lang threadtype_option}</label></th>
+					<td>
+						<select name="sortid" onchange="ajaxget('post.php?action=threadsorts&sortid='+this.options[this.selectedIndex].value+'&operate=1&sid=$sid', 'threadsorts', 'threadsortswait')">
+							<option value="0">{lang none}</option>$threadsorts
+						</select>
+						<span id="threadsortswait"></span>
+					</td>
+				</tr>
+				<tbody id="threadsorts"></tbody>
+				<!--{/if}-->
+
+				<!--{if $checkarray[posts] || $srchtype == 'trade'}-->
+					<tr>
+						<td>{lang author}</td>
+						<td><input type="text" id="srchname" name="srchuname" size="45" maxlength="40" class="txt" /></td>
+					</tr>
+
+					<tr>
+						<td>{lang search_thread_range}</td>
+						<td>
+							<label><input type="radio" name="srchfilter" value="all" checked="checked" /> {lang search_thread_range_all}</label>
+							<label><input type="radio" name="srchfilter" value="digest" /> {lang search_thread_range_digest}</label>
+							<label><input type="radio" name="srchfilter" value="top" /> {lang search_thread_range_top}</label>
+						</td>
+					</tr>
+				<!--{/if}-->
+
+				<!--{if $checkarray[posts]}-->
+					<tr>
+						<td>{lang special_thread}</td>
+						<td>
+							<label><input type="checkbox" name="special[]" value="1" /> {lang special_poll}</label>
+							<label><input type="checkbox" name="special[]" value="2" /> {lang special_trade}</label>
+							<label><input type="checkbox" name="special[]" value="3" /> {lang special_reward}</label>
+							<label><input type="checkbox" name="special[]" value="4" /> {lang special_activity}</label>
+							<label><input type="checkbox" name="special[]" value="5" /> {lang special_debate}</label>
+							<!--{loop $threadplugins $pluginid $threadplugin}-->
+								<label><input type="checkbox" name="specialplugin[]" value="$threadplugin[iconid]" /> $threadplugin[name]</label>
+							<!--{/loop}-->
+						</td>
+					</tr>
+				<!--{/if}-->
+
+				<!--{if $srchtype == 'trade'}-->
+					<tr>
+						<td>{lang search_tradetype}</td>
+						<td>
+							<select name="srchtypeid"><option value="">{lang all}</option>
+							<!--{loop $tradetypes $typeid $typename}-->
+								<option value="$typeid">$typename</option>
+							<!--{/loop}-->
+							</select>
+						</td>
+					</tr>
+				<!--{/if}-->
+
+				<!--{if $checkarray[posts] || $srchtype == 'trade'}-->
+					<tr>
+						<th><label for="srchfrom">{lang search_time}</label></th>
+						<td>
+							<select id="srchfrom" name="srchfrom">
+								<option value="0">{lang search_any_date}</option>
+								<option value="86400">{lang 1_days_ago}</option>
+								<option value="172800">{lang 2_days_ago}</option>
+								<option value="604800">{lang 7_days_ago}</option>
+								<option value="2592000">{lang 30_days_ago}</option>
+								<option value="7776000">{lang 90_days_ago}</option>
+								<option value="15552000">{lang 180_days_ago}</option>
+								<option value="31536000">{lang 365_days_ago}</option>
+							</select>
+							<label><input type="radio" name="before" value="" checked="checked" /> {lang search_newer}</label>
+							<label><input type="radio" name="before" value="1" /> {lang search_older}</label>
+						</td>
+					</tr>
+
+					<tr>
+						<td><label for="orderby">{lang search_orderby}</label></td>
+						<td>
+							<select id="orderby1" name="orderby">
+								<option value="lastpost" selected="selected">{lang order_lastpost}</option>
+								<option value="dateline">{lang order_starttime}</option>
+								<option value="replies">{lang order_replies}</option>
+								<option value="views">{lang order_views}</option>
+							</select>
+							<select id="orderby2" name="orderby" style="position: absolute; display: none" disabled>
+								<option value="dateline" selected="selected">{lang dateline}</option>
+								<option value="price">{lang post_trade_price}</option>
+								<option value="expiration">{lang trade_remaindays}</option>
+							</select>
+							<label><input type="radio" name="ascdesc" value="asc" /> {lang order_asc}</label>
+							<label><input type="radio" name="ascdesc" value="desc" checked="checked" /> {lang order_desc}</label>
+						</td>
+					</tr>
+				<!--{/if}-->
+
+				<tr>
+					<td valign="top"><label for="srchfid">{lang search_range}</label></td>
+					<td>
+						<select id="srchfid" name="srchfid[]" multiple="multiple" size="10" style="width: 26em;">
+							<option value="all"{if !$srchfid} selected="selected"{/if}>{lang search_allforum}</option>
+							$forumselect
+						</select>
+					</td>
+				</tr>
+
+				<!--{if $srchtype == 'threadsort'}-->
+					<tr>
+						<th>&nbsp;</th>
+						<td><button class="submit" type="submit" name="searchsubmit" value="true">{lang search}</button></td>
+					</tr>
+				<!--{/if}-->
+			</table>
+		</div>
+		<!--{/if}-->
+
+		<!--{if empty($srchtype) && empty($keyword)}-->
+			<hr class="shadowline"/>
+			<h3>{lang search_quick}</h3>
+			<table cellspacing="4" cellpadding="0" width="100%">
+				<tr>
+					<td><a href="search.php?srchfrom=3600&searchsubmit=yes">{lang search_quick_hour_1}</a></td>
+					<td><a href="search.php?srchfrom=14400&searchsubmit=yes">{lang search_quick_hour_4}</a></td>
+					<td><a href="search.php?srchfrom=28800&searchsubmit=yes">{lang search_quick_hour_8}</a></td>
+					<td><a href="search.php?srchfrom=86400&searchsubmit=yes">{lang search_quick_hour_24}</a></td>
+				</tr>
+				<tr>
+					<td><a href="search.php?srchfrom=604800&searchsubmit=yes">{lang search_quick_day_7}</a></td>
+					<td><a href="search.php?srchfrom=2592000&searchsubmit=yes">{lang search_quick_day_30}</a></td>
+					<td><a href="search.php?srchfrom=15552000&searchsubmit=yes">{lang search_quick_day_180}</a></td>
+					<td><a href="search.php?srchfrom=31536000&searchsubmit=yes">{lang search_quick_day_365}</a></td>
+				</tr>
+			</table>
+		<!--{/if}-->
+	</form>
+
+	<!--{if !empty($searchid) && submitcheck('searchsubmit', 1)}-->
+		<!--{if $checkarray['posts']}-->
+			{subtemplate search_threads}
+		<!--{elseif $checkarray['threadsort']}-->
+			{subtemplate search_sort}
+		<!--{/if}-->
+	<!--{/if}-->
+
+</div>
+
+
+<script type="text/javascript">
+<!--{if $sortid}-->
+	ajaxget('post.php?action=threadsorts&sortid=$sortid&operate=1&inajax=1', 'threadsorts', 'threadsortswait');
+<!--{/if}-->
+</script>
+{subtemplate footer}

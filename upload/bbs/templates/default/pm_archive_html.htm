@@ -1,0 +1,37 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=$charset" />
+<title>$bbname</title>
+<style type="text/css">
+body		{ background-color: #FFF; color: #000; font-family: Verdana, Tahoma; font-size: 12px; margin: 20px; padding: 0px; }
+#largetext	{ font-size: 18px; font-weight: bold; margin-bottom: 10px; padding-top: 3px; width: auto; }
+#userinfo	{ font-size: 12px; color: #888; text-align: right; width: auto; }
+#copyright	{ margin-top: 30px; font-size: 11px; text-align: center; }
+.wrapper	{ }
+.pm		{ color: #000; padding: 10px; margin-top:10px; border: 1px solid #888; }
+.content	{ color: #888; }
+.msgborder	{ margin: 2em; margin-top: 3px;	padding: 10px; border: 1px solid #888; word-break: break-all; }
+.quote 		{ margin: 10px 0; padding: 10px 10px 10px 5px; border: 1px solid #CCC; }
+.blockcode 	{ margin: 10px 0; padding: 10px 10px 10px 25px; border: 1px solid #CCC; }
+
+</style>
+</head>
+<body>
+<div id="wrapper">
+  <div id="largetext">{lang pm_archive}</div>
+  <div id="userinfo"><a href="{$boardurl}space.php?uid=$discuz_uid" target="_blank">$discuz_userss @ $timenow[time]</a></div>
+  <br />
+<!--{loop $pmlist $pm}-->
+  <div class="pm">
+    <strong><!--{if $pm[msgfromid] != $discuz_uid}-->$pm[msgfrom]<!--{else}-->$discuz_userss<!--{/if}--></strong> $pm[dateline]:<br />
+    <br />
+    <div class="content">$pm[message]</div>
+  </div>
+<!--{/loop}-->
+</div>
+<div id='copyright'>
+  Powered by <strong><a href="http://www.discuz.net" target="_blank">Discuz!</a> $version</strong></a>&nbsp;
+  &copy; 2001-2006 <a href="http://www.comsenz.com" target="_blank">Comsenz Inc.</a>
+</div>
+</body>
+</html>

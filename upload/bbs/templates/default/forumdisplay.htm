@@ -1,0 +1,448 @@
+{subtemplate header}
+
+<!--{if $forum['ismoderator']}-->
+	<script type="text/javascript" src="{$jspath}moderate.js?{VERHASH}"></script>
+<!--{/if}-->
+
+<div id="nav"><a id="fjump" href="$indexname"{if $forumjump == 1} class="dropmenu" onmouseover="showMenu({'ctrlid':this.id})"{/if}>$bbname</a> $navigation</div>
+
+<!--{if $admode && !empty($advlist['text'])}-->
+<div id="ad_text" class="ad_text" >
+	<table summary="Text Ad" cellpadding="0" cellspacing="0">$advlist[text]</table>
+</div>
+<!--{else}-->
+<div id="ad_text"></div>
+<!--{/if}-->
+
+<div id="wrap"{if $infosidestatus['allow'] < 2} class="wrap s_clear"{else} class="wrap with_side s_clear"{/if}>
+<!--{if $infosidestatus[allow] == 2}-->
+	<a id="sidebar_img" href="javascript:;" onclick="sidebar_collapse(['{lang sidebar_collapsed_yes}', '{lang sidebar_collapsed_no}']);" class="$collapseimg[sidebar]"><!--{if $collapseimg[sidebar] == 'collapsed_yes'}-->{lang sidebar_collapsed_yes}<!--{else}-->{lang sidebar_collapsed_no}<!--{/if}--></a>
+<!--{elseif $infosidestatus[allow] == 1}-->
+	<a id="sidebar_img" href="javascript:;" onclick="sidebar_collapse(['', '{lang sidebar_collapsed_no}']);" class="collapsed_yes">{lang sidebar_collapsed_yes}</a>
+<!--{/if}-->
+<div class="main">
+	<div class="content">
+		$pluginhooks[forumdisplay_header]
+		<div id="forumheader" class="s_clear">
+			<h1 style="{if $forum[extra][namecolor]}color: {$forum[extra][namecolor]};{/if}">$forum[name]</h1>
+			<p class="forumstats">[ <strong>$forum[threads]</strong> {lang thread} / {echo $forum[posts]-$forum[threads]} {lang reply} ]</p>
+			<div class="forumaction">
+				<div class="right">
+				$pluginhooks[forumdisplay_forumaction]
+				<!--{if $discuz_uid}-->
+					<a href="my.php?item=attention&type=forum&action=add&fid=$fid" id="ajax_attention" class="attention" onclick="ajaxmenu(this);doane(event);">{lang attention_forum}</a>
+					<a href="my.php?item=favorites&amp;fid=$fid" id="ajax_favorite" onclick="ajaxmenu(this);doane(event);">{lang thread_favorite}</a>
+				<!--{/if}-->
+				<!--{if $rssstatus}--><a href="rss.php?fid=$fid&amp;auth=$rssauth" target="_blank" class="feed">RSS</a><!--{/if}-->
+				</div>
+				<!--{if $forum['recyclebin'] && $forum['ismoderator']}-->
+					<a href="{if $adminid == 1}admincp.php?action=recyclebin&amp;frames=yes{elseif $forum['ismoderator']}modcp.php?action=recyclebins&amp;fid=$fid{/if}" class="recyclebin" target="_blank">{lang forum_recyclebin}</a>
+				<!--{/if}-->
+			</div>
+			<!--{if $forum[description]}--><p class="channelinfo">{lang forum_description}: $forum[description]</p><!--{/if}-->
+			<p id="modedby">
+				<!--{if $forum['ismoderator']}-->
+					<div class="modlink">
+					$pluginhooks[forumdisplay_modlink]
+					<!--{if $forum['modworks']}-->
+						<!--{if $reportnum}--><a href="modcp.php?action=report&fid=$fid" target="_blank">{lang mod_works_report_existence}</a> |<!--{/if}-->
+						<!--{if $modnum}--><a href="modcp.php?action=moderate&op=threads&fid=$fid" target="_blank">{lang mod_works_modpost_existence}</a> |<!--{/if}-->
+						<!--{if $modusernum}--><a href="modcp.php?action=moderate&op=members&fid=$fid" target="_blank">{lang mod_works_moduser_existence}</a> |<!--{/if}-->
+					<!--{/if}-->
+					<a href="modcp.php?fid=$fid" target="_blank">{lang modcp}</a>
+					</div>
+				<!--{/if}-->
+				{lang forum_modedby}: <!--{if $moderatedby}-->$moderatedby<!--{else}-->{lang forum_opening}<!--{/if}-->
+			</p>
+		</div>
+		$pluginhooks[forumdisplay_top]
+
+		<!--{if $forum['recommendlist'] || $forum['rules']}-->
+			<div id="modarea" class="s_clear">
+				<div class="list">
+					<span class="headactions"><img onclick="toggle_collapse('modarea_c');" alt="{lang spread}" title="{lang spread}" src="{IMGDIR}/$collapseimg[modarea_c].gif" id="modarea_c_img" class="toggle" /></span>
+					<h3>
+						<!--{if $forum['recommendlist']}-->
+							<a href="javascript:;" id="tab_1" class="current" {if $forum['rules']} onclick="switchTab('tab', 1, 2)"{/if}>{lang forum_recommend}</a><!--{if $forum['ismoderator'] && $allowrecommendthread}--><a href="modcp.php?action=forums&op=recommend&show=all&fid=$fid" target="_blank">[{lang edit}]</a><!--{/if}-->
+						<!--{/if}-->
+						<!--{if $forum['recommendlist'] &&  $forum['rules']}--><span class="pipe">|</span><!--{/if}--><!--{if $forum['rules']}--><a href="javascript:;" id="tab_2"{if !$forum['recommendlist']} class="current"{/if} {if $forum['recommendlist']} onclick="switchTab('tab', 2, 2)"{/if}>{lang forum_rules}</a><!--{/if}-->
+					</h3>
+				</div>
+				<div id="modarea_c" style="$collapse[modarea_c]">
+					<!--{if $forum['recommendlist']}-->
+						<div id="tab_c_1">
+						{subtemplate recommend}
+						</div>
+					<!--{/if}-->
+					<!--{if $forum['rules']}-->
+						<div id="tab_c_2"{if $forum['recommendlist']} style="display:none"{/if} class="rule">$forum[rules]</div>
+					<!--{/if}-->
+				</div>
+			</div>
+		<!--{/if}-->
+
+		<!--{if $subexists}-->
+		<div id="subforum" class="mainbox list">{template forumdisplay_subforum}</div>
+		<!--{/if}-->
+		$pluginhooks[forumdisplay_middle]
+
+		<div class="pages_btns s_clear">
+			$multipage
+			<span <!--{if $visitedforums}-->id="visitedforums" onmouseover="$('visitedforums').id = 'visitedforumstmp';this.id = 'visitedforums';showMenu({'ctrlid':this.id})"<!--{/if}--> class="pageback"><a href="$indexname">{lang return_index}</a></span>
+			<span class="postbtn" id="newspecial" prompt="post_newthread" onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})"><a href="post.php?action=newthread&fid=$fid"{if !$forum['allowspecialonly']} onclick="showWindow('newthread', this.href);return false;"{/if}>{lang send_posts}</a></span>
+		</div>
+
+		<!--{if $forum['threadtypes'] && $forum['threadtypes']['listable'] || $forum['threadsorts']}-->
+		<div class="threadtype">
+			<!--{if $forum['threadtypes'] && $forum['threadtypes']['listable']}-->
+			<p>
+				<!--{if $typeid || $sortid}--><a href="forumdisplay.php?fid=$fid">{lang forum_viewall}</a><!--{else}--><strong>{lang forum_viewall}</strong><!--{/if}-->
+				<!--{loop $forum['threadtypes']['flat'] $id $name}--><!--{if $typeid != $id}--><a href="forumdisplay.php?fid=$fid&amp;filter=type&amp;typeid=$id$sortadd">$name</a><!--{else}--><strong>$name</strong><!--{/if}--> <!--{/loop}-->
+				<!--{if $forum['threadtypes']['selectbox']}-->
+					<span id="threadtypesmenu" class="dropmenu" onmouseover="showMenu({'ctrlid':this.id})">{lang admin_type_more}</span>
+					<div class="popupmenu_popup headermenu_popup" id="threadtypesmenu_menu" style="display: none">
+					<ul>
+					<!--{loop $forum['threadtypes']['selectbox'] $id $name}-->
+						<li>
+						<!--{if $typeid != $id}-->
+							<a href="forumdisplay.php?fid=$fid&filter=type&typeid=$id$sortadd">$name</a>
+						<!--{else}-->
+							<strong>$name</strong>
+						<!--{/if}-->
+						</li>
+					<!--{/loop}-->
+					</ul>
+					</div>
+				<!--{/if}-->
+			</p>
+			<!--{/if}-->
+
+			<!--{if $forum['threadsorts']}-->
+			<p>
+				<!--{if !$forum['threadtypes']['listable']}--><!--{if $sortid}--><a href="forumdisplay.php?fid=$fid">{lang forum_viewall}</a><!--{else}--><strong>{lang forum_viewall}</strong><!--{/if}--><!--{/if}-->
+				<!--{loop $forum['threadsorts']['flat'] $id $name}--><!--{if $sortid != $id}--><a href="forumdisplay.php?fid=$fid&amp;filter=sort&amp;sortid=$id$typeadd">$name</a><!--{else}--><strong>$name</strong><!--{/if}--> <!--{/loop}-->
+				<!--{if $forum['threadsorts']['selectbox']}-->
+					<span id="threadsortsmenu" class="dropmenu" onmouseover="showMenu({'ctrlid':this.id})">{lang admin_type_more}</span>
+					<div class="popupmenu_popup headermenu_popup" id="threadsortsmenu_menu" style="display: none">
+					<ul>
+					<!--{loop $forum['threadsorts']['selectbox'] $id $name}-->
+						<li>
+						<!--{if $sortid != $id}-->
+							<a href="forumdisplay.php?fid=$fid&filter=sort&sortid=$id$typeadd">$name</a>
+						<!--{else}-->
+							<strong>$name</strong>
+						<!--{/if}-->
+						</li>
+					<!--{/loop}-->
+					</ul>
+					</div>
+				<!--{/if}-->
+			</p>
+			<!--{/if}-->
+		</div>
+		<!--{/if}-->
+
+		<div id="threadlist" class="threadlist datalist" style="position: relative;">
+		<form method="post" name="moderate" id="moderate" action="topicadmin.php?action=moderate&fid=$fid&infloat=yes&nopost=yes">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="listextra" value="$extra" />
+			<table summary="forum_$fid" {if !$separatepos}id="forum_$fid"{/if} cellspacing="0" cellpadding="0" class="datatable">
+				<thead class="colplural">
+					<tr>
+						<td colspan="2">&nbsp;<a href="javascript:;" id="filtertype" class="dropmenu" onclick="showMenu({'ctrlid':this.id});"><!--{if $filter == poll}-->{lang thread_poll}
+							<!--{elseif $filter == trade}-->{lang thread_trade}
+							<!--{elseif $filter == activity}-->{lang thread_activity}
+							<!--{elseif $filter == debate}-->{lang thread_debate}
+							<!--{elseif $filter == reward}-->{lang thread_reward}
+							<!--{else}-->{lang type}<!--{/if}--></a></td>
+						<!--{if $forum['ismoderator']}--><td class="icon">&nbsp;</td><!--{/if}-->
+						<th>
+							<ul class="itemfilter s_clear">
+								<li>{lang thread}:</li>
+								<li{if !$filter} class="current"{/if}><a href="forumdisplay.php?fid=$fid"><span>{lang all}</span></a></li>
+								<li{if $filter == 'digest'} class="current"{/if}><a class="filter" href="forumdisplay.php?fid=$fid&amp;filter=digest"><span>{lang digestposts}</span></a></li>
+								<!--{if $recommendthread[status]}--><li{if $filter == 'recommend'} class="current"{/if}><a class="filter" href="forumdisplay.php?fid={$fid}&filter=recommend&orderby=recommends"><span>{lang order_recommends}</span></a></li><!--{/if}-->
+								<li class="pipe">|</li>
+								<li>{lang dateline_range}:</li>
+								<li{if $filter == 86400} class="current"{/if}><a href="forumdisplay.php?fid=$fid&orderby=$orderby&filter=86400$typeadd$sortadd"><span>{lang last_1_days}</span></a></li>
+								<li{if $filter == 172800} class="current"{/if}><a href="forumdisplay.php?fid=$fid&orderby=$orderby&filter=172800$typeadd$sortadd"><span>{lang last_2_days}</span></a></li>
+								<li{if $filter == 604800} class="current"{/if}><a href="forumdisplay.php?fid=$fid&orderby=$orderby&filter=604800$typeadd$sortadd"><span>{lang last_7_days}</span></a></li>
+								<li{if $filter == 2592000} class="current"{/if}><a href="forumdisplay.php?fid=$fid&orderby=$orderby&filter=2592000$typeadd$sortadd"><span>{lang last_30_days}</span></a></li>
+								<li{if $filter == 7948800} class="current"{/if}><a href="forumdisplay.php?fid=$fid&orderby=$orderby&filter=7948800$typeadd$sortadd"><span>{lang last_90_days}</span></a></li>
+								<li class="pipe">|</li>
+								<li><a class="order {if $orderby == 'heats' || $orderby == 'recommends'}order_active{/if}" href="forumdisplay.php?fid={$fid}&filter=$filter&orderby={if $filter == 'recommend'}recommends{else}heats{/if}$typeadd$sortadd">{lang order_heats}</a></li>
+							</ul>
+						</th>
+						<td class="author"><a href="forumdisplay.php?fid={$fid}&filter=$filter&orderby=dateline$typeadd$sortadd" class="order {if $orderby == 'dateline'}order_active{/if}">{lang author}/{lang time}</a></td>
+						<td class="nums"><a href="forumdisplay.php?fid={$fid}&filter=$filter&orderby=replies$typeadd$sortadd" class="order {if $orderby == 'replies'}order_active{/if}">{lang replies}</a>&nbsp;<a href="forumdisplay.php?fid={$fid}&filter=$filter&orderby=views$typeadd$sortadd" class="order {if $orderby == 'views'}order_active{/if}">{lang views}</a></td>
+						<td class="lastpost"><cite><a href="forumdisplay.php?fid={$fid}&filter=$filter&orderby=lastpost$typeadd$sortadd" class="order {if $orderby == 'lastpost'}order_active{/if}">{lang lastpost}</a></cite></td>
+					</tr>
+				</thead>
+
+				<!--{if $page == 1 && !empty($announcement)}-->
+				<tbody>
+					<tr>
+						<td class="folder"><img src="{IMGDIR}/ann_icon.gif" alt="{lang announcement}" /></td>
+						<td class="icon">&nbsp;</td>
+						<!--{if $forum['ismoderator']}--><td class="icon">&nbsp;</td><!--{/if}-->
+						<th class="subject"><strong>{lang announcement}: <!--{if empty($announcement['type'])}--><a href="announcement.php?id=$announcement[id]#$announcement[id]" target="_blank">$announcement[subject]</a><!--{else}--><a href="$announcement[message]" target="_blank">$announcement[subject]</a><!--{/if}--></strong></th>
+						<td class="author">
+							<cite><a href="space.php?uid=$announcement[authorid]">$announcement[author]</a></cite>
+							<em>$announcement[starttime]</em>
+						</td>
+						<td class="nums">&nbsp;</td>
+						<td class="lastpost">&nbsp;</td>
+					</tr>
+				</tbody>
+				<!--{/if}-->
+
+				<!--{if $threadcount}-->
+				<!--{loop $threadlist $key $thread}-->
+
+				<!--{if $forumseparator == 1 && $separatepos == $key + 1}-->
+				<tbody>
+					<tr>
+						<td class="folder"></td><td>&nbsp;</td>
+						<!--{if $forum['ismoderator']}--><td>&nbsp;</td><!--{/if}-->
+						<th class="subject">{lang forum_thread}</th><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+					</tr>
+				</tbody>
+				<!--{/if}-->
+				<tbody id="$thread[id]">
+					<tr>
+						<td class="folder">
+							<a href="viewthread.php?tid=$thread[tid]&amp;extra=$extra" title="{lang target_blank}" target="_blank">
+							<!--{if $thread[folder] == 'lock'}-->
+								<img src="{IMGDIR}/folder_lock.gif" /></a>
+							<!--{elseif in_array($thread['displayorder'], array(1, 2, 3, 4))}-->
+								<img src="{IMGDIR}/pin_$thread[displayorder].gif" alt="$threadsticky[3-$thread[displayorder]]" /></a>
+							<!--{else}-->
+								<img src="{IMGDIR}/folder_$thread[folder].gif" /></a>
+							<!--{/if}-->
+						</td>
+						<td class="icon">
+						<!--{if $thread['special'] == 1}-->
+							<a href="forumdisplay.php?fid=$fid&amp;filter=poll"><img src="{IMGDIR}/pollsmall.gif" alt="{lang thread_poll}" /></a>
+						<!--{elseif $thread['special'] == 2}-->
+							<a href="forumdisplay.php?fid=$fid&amp;filter=trade"><img src="{IMGDIR}/tradesmall.gif" alt="{lang thread_trade}" /></a>
+						<!--{elseif $thread['special'] == 3}-->
+							<a href="forumdisplay.php?fid=$fid&amp;filter=reward"><img src="{IMGDIR}/rewardsmall.gif" alt="{lang thread_reward}" <!--{if $thread['price'] < 0}-->class="solved"<!--{/if}--> /></a>
+						<!--{elseif $thread['special'] == 4}-->
+							<a href="forumdisplay.php?fid=$fid&amp;filter=activity"><img src="{IMGDIR}/activitysmall.gif" alt="{lang thread_activity}" /></a>
+						<!--{elseif $thread['special'] == 5}-->
+							<a href="forumdisplay.php?fid=$fid&amp;filter=debate"><img src="{IMGDIR}/debatesmall.gif" alt="{lang thread_debate}" /></a>
+						<!--{else}-->
+							$thread['icon']
+						<!--{/if}-->
+						</td>
+						<!--{if $forum['ismoderator']}-->
+						<td class="icon">
+							<!--{if $thread['fid'] == $fid && $thread['digest'] >= 0}-->
+								<!--{if $thread['displayorder'] <= 3 || $adminid == 1}-->
+									<input onclick="tmodclick(this)" class="checkbox" type="checkbox" name="moderate[]" value="$thread[tid]" />
+								<!--{else}-->
+									<input class="checkbox" type="checkbox" disabled="disabled" />
+								<!--{/if}-->
+							<!--{else}-->
+								<input class="checkbox" type="checkbox" disabled="disabled" />
+							<!--{/if}-->
+						</td>
+						<!--{/if}-->
+						<th class="subject $thread[folder]">
+							<label>{$pluginhooks[forumdisplay_thread][$key]}&nbsp;</label>
+							<!--{if $thread['moved']}-->
+								<!--{if $forum['ismoderator']}-->
+									<a href="topicadmin.php?action=moderate&optgroup=3&operation=delete&tid=$thread[moved]" onclick="showWindow('mods', this.href);return false">{lang thread_moved}:</a>
+								<!--{else}-->
+									{lang thread_moved}:
+								<!--{/if}-->
+							<!--{/if}-->
+							$thread[sortid] $thread[typeid]
+							<span id="thread_$thread[tid]"><a href="viewthread.php?tid=$thread[tid]&amp;extra=$extra"$thread[highlight]>$thread[subject]</a></span>
+							<!--{if $thread['readperm']}--> - [{lang readperm} <span class="bold">$thread[readperm]</span>]<!--{/if}-->
+							<!--{if $thread['price'] > 0}-->
+								<!--{if $thread['special'] == '3'}-->
+								- <span style="color: #C60">[{lang thread_reward}{$extcredits[$creditstransextra[2]][title]} <span class="bold">$thread[price]</span> {$extcredits[$creditstransextra[2]][unit]}]</span>
+								<!--{else}-->
+								- [{lang price} {$extcredits[$creditstransextra[1]][title]} <span class="bold">$thread[price]</span> {$extcredits[$creditstransextra[1]][unit]}]
+								<!--{/if}-->
+							<!--{elseif $thread['special'] == '3' && $thread['price'] < 0}-->
+								- <span style="color: #269F11">[{lang reward_solved}]</span>
+							<!--{/if}-->
+							<!--{if $thread['attachment'] == 2}-->
+								<img src="images/attachicons/image_s.gif" alt="{lang attach_img}" class="attach" />
+							<!--{elseif $thread['attachment'] == 1}-->
+								<img src="images/attachicons/common.gif" alt="{lang attachment}" class="attach" />
+							<!--{/if}-->
+							<!--{if $thread['displayorder'] == 0}-->
+								<!--{if $thread[recommendicon]}-->
+									<img src="{IMGDIR}/recommend_$thread[recommendicon].gif" class="attach" alt="{lang thread_recommend}" title="{lang thread_recommend}" />
+								<!--{/if}-->
+								<!--{if $thread[heatlevel]}-->
+									<img src="{IMGDIR}/hot_$thread[heatlevel].gif" class="attach" alt="$thread[heatlevel] {lang heats}" title="$thread[heatlevel] {lang heats}" />
+								<!--{/if}-->
+								<!--{if $thread['digest'] > 0}-->
+									<img src="{IMGDIR}/digest_$thread[digest].gif" class="attach" alt="{lang thread_digest} $thread[digest]" title="{lang thread_digest} $thread[digest]" />
+								<!--{/if}-->
+								<!--{if $thread['rate'] > 0}-->
+									<img src="{IMGDIR}/agree.gif" class="attach" alt="{lang rate_credit_add}" title="{lang rate_credit_add}" />
+								<!--{/if}-->
+							<!--{/if}-->
+							<!--{if $thread[multipage]}-->
+								<span class="threadpages">$thread[multipage]</span>
+							<!--{/if}-->
+						</th>
+						<td class="author">
+							<cite>
+							<!--{if $thread['authorid'] && $thread['author']}-->
+								<a href="space.php?uid=$thread[authorid]">$thread[author]</a>
+							<!--{else}-->
+								<!--{if $forum['ismoderator']}-->
+									<a href="space.php?uid=$thread[authorid]">{lang anonymous}</a>
+								<!--{else}-->
+									{lang anonymous}
+								<!--{/if}-->
+							<!--{/if}-->
+							</cite>
+							<em>$thread[dateline]</em>
+						</td>
+						<td class="nums"><strong>$thread[replies]</strong>/<em>$thread[views]</em></td>
+						<td class="lastpost">
+							<cite><!--{if $thread['lastposter']}--><a href="{if $thread[digest] != -2}space.php?username=$thread[lastposterenc]{else}viewthread.php?tid=$thread[tid]&amp;page={echo max(1, $thread[pages]);}{/if}">$thread[lastposter]</a><!--{else}-->{lang anonymous}<!--{/if}--></cite>
+							<em><a href="{if $thread[digest] != -2}redirect.php?tid=$thread[tid]&amp;goto=lastpost$highlight#lastpost{else}viewthread.php?tid=$thread[tid]&amp;page={echo max(1, $thread[pages]);}{/if}">$thread[lastpost]</a></em>
+						</td>
+					</tr>
+				</tbody>
+				<!--{/loop}-->
+			<!--{else}-->
+				<tbody><tr><th colspan="6"><p class="nodata">{lang forum_nothreads}</p></th></tr></tbody>
+			<!--{/if}-->
+			</table>
+			<!--{if $forum['ismoderator'] && $threadcount}-->
+				{template topicadmin_modlayer}
+			<!--{/if}-->
+
+		</form>
+		</div>
+		<div class="pages_btns s_clear">
+			$multipage
+			<span <!--{if $visitedforums}-->id="visitedforums" onmouseover="$('visitedforums').id = 'visitedforumstmp';this.id = 'visitedforums';showMenu({'ctrlid':this.id})"<!--{/if}--> class="pageback"><a href="$indexname">{lang return_index}</a></span>
+			<span class="postbtn" id="newspecialtmp" onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})"><a href="post.php?action=newthread&fid=$fid"{if !$forum['allowspecialonly']} onclick="showWindow('newthread', this.href);return false;"{/if}>{lang send_posts}</a></span>
+		</div>
+
+		<!--{if $whosonlinestatus}-->
+		<dl id="onlinelist">
+			<!--{if $detailstatus}-->
+			<dd>
+				<span class="headactions"><a href="forumdisplay.php?fid=$fid&amp;page=$page&amp;showoldetails=no#online"><img src="{IMGDIR}/collapsed_no.gif" alt="" /></a></span>
+				<h3>{lang forum_activeusers}</h3>
+			</dd>
+			<dd>
+				<ul class="s_clear">
+				<!--{loop $whosonline $key $online}-->
+					<li title="{lang time}: $online[lastactivity]{LF} {lang action}: $online[action]{LF} {lang forum}: $forumname">
+					<img src="images/common/$online[icon]"  alt="" />
+					<!--{if $online['uid']}-->
+						<a href="space.php?uid=$online[uid]">$online[username]</a>
+					<!--{else}-->
+						$online[username]
+					<!--{/if}-->
+					</li>
+				<!--{/loop}-->
+				</ul>
+			</dd>
+			<!--{else}-->
+			<dt>
+				<span class="headactions"><a href="forumdisplay.php?fid=$fid&amp;page=$page&amp;showoldetails=yes#online" class="nobdr"><img src="{IMGDIR}/collapsed_yes.gif" alt="" /></a></span>
+				<h3>{lang forum_activeusers}</h3>
+			</dt>
+			<!--{/if}-->
+		</dl>
+		<!--{/if}-->
+		$pluginhooks[forumdisplay_bottom]
+
+	</div>
+</div>
+<!--{if $infosidestatus[allow] == 2}-->
+	<div id="sidebar" class="side" style="$collapse[sidebar]">
+		<!--{if !empty($qihoo['status']) && ($qihoo['searchbox'] & 2)}-->
+			<div id="qihoosearch" class="sidebox">
+				<form method="post" action="search.php?srchtype=qihoo" onSubmit="this.target='_blank';">
+				<input type="hidden" name="searchsubmit" value="yes" />
+				<input type="text" class="txt" name="srchtxt" size="20" value="$qihoo_searchboxtxt" />
+				&nbsp;<button type="submit">{lang search}</button>
+				</form>
+			</div>
+		<!--{/if}-->
+		<!--{if $infosidestatus[0]}-->
+			<!--{if !empty($qihoo['status']) && ($qihoo['searchbox'] & 2)}-->
+				<hr class="shadowline"/>
+			<!--{/if}-->
+			<div id="infoside">
+			{eval request($infosidestatus, 1, 0);}
+			</div>
+		<!--{/if}-->
+	</div>
+<!--{/if}-->
+
+<!--{if $allowpost && ($allowposttrade || $allowpostpoll || $allowpostreward || $allowpostactivity || $allowpostdebate || $threadplugins || $forum['threadsorts'])}-->
+	<ul class="popupmenu_popup postmenu" id="newspecial_menu" style="display: none">
+		<!--{if !$forum['allowspecialonly']}--><li><a href="post.php?action=newthread&fid=$fid" onclick="showWindow('newthread', this.href);doane(event)">{lang post_newthread}</a></li><!--{/if}-->
+		<!--{if $allowpostpoll}--><li class="poll"><a href="post.php?action=newthread&fid=$fid&special=1">{lang post_newthreadpoll}</a></li><!--{/if}-->
+		<!--{if $allowpostreward}--><li class="reward"><a href="post.php?action=newthread&fid=$fid&special=3">{lang post_newthreadreward}</a></li><!--{/if}-->
+		<!--{if $allowpostdebate}--><li class="debate"><a href="post.php?action=newthread&fid=$fid&special=5">{lang post_newthreaddebate}</a></li><!--{/if}-->
+		<!--{if $allowpostactivity}--><li class="activity"><a href="post.php?action=newthread&fid=$fid&special=4">{lang post_newthreadactivity}</a></li><!--{/if}-->
+		<!--{if $allowposttrade}--><li class="trade"><a href="post.php?action=newthread&fid=$fid&special=2">{lang post_newthreadtrade}</a></li><!--{/if}-->
+		<!--{if $threadplugins}-->
+			<!--{loop $forum['threadplugin'] $tpid}-->
+				<!--{if array_key_exists($tpid, $threadplugins) && @in_array($tpid, $allowthreadplugin)}-->
+					<li class="popupmenu_option"{if $threadplugins[$tpid][icon]} style="background-image:url($threadplugins[$tpid][icon])"{/if}><a href="post.php?action=newthread&fid=$fid&specialextra=$tpid">{$threadplugins[$tpid][name]}</a></li>
+				<!--{/if}-->
+			<!--{/loop}-->
+		<!--{/if}-->
+		<!--{if $forum['threadsorts'] && !$forum['allowspecialonly']}-->
+			<!--{loop $forum['threadsorts']['types'] $id $threadsorts}-->
+				<!--{if $forum['threadsorts']['show'][$id]}-->
+					<li class="popupmenu_option"><a href="post.php?action=newthread&amp;fid=$fid&amp;extra=$extra&amp;sortid=$id">$threadsorts</a></li>
+				<!--{/if}-->
+			<!--{/loop}-->
+			<!--{loop $forum['typemodels'] $id $model}-->
+				<li class="popupmenu_option"><a href="post.php?action=newthread&amp;fid=$fid&amp;extra=$extra&amp;modelid=$id">$model[name]</a></li>
+			<!--{/loop}-->
+		<!--{/if}-->
+	</ul>
+<!--{/if}-->
+
+<ul class="popupmenu_popup headermenu_popup filter_popup" id="filtertype_menu" style="display: none;">
+	<li><a href="forumdisplay.php?fid=$fid">{lang forum_viewall}</a></li>
+	<!--{if $showpoll}--><li {if $filter == 'poll'}class="active"{/if}><a href="forumdisplay.php?fid=$fid&amp;filter=poll">{lang thread_poll}</a></li><!--{/if}-->
+	<!--{if $showtrade}--><li {if $filter == 'trade'}class="active"{/if}><a href="forumdisplay.php?fid=$fid&amp;filter=trade">{lang thread_trade}</a></li><!--{/if}-->
+	<!--{if $showreward}--><li {if $filter == 'reward'}class="active"{/if}><a href="forumdisplay.php?fid=$fid&amp;filter=reward">{lang thread_reward}</a></li><!--{/if}-->
+	<!--{if $showactivity}--><li {if $filter == 'activity'}class="active"{/if}><a href="forumdisplay.php?fid=$fid&amp;filter=activity">{lang thread_activity}</a></li><!--{/if}-->
+	<!--{if $showdebate}--><li {if $filter == 'debate'}class="active"{/if}><a href="forumdisplay.php?fid=$fid&amp;filter=debate">{lang thread_debate}</a></li><!--{/if}-->
+	<!--{if $threadplugins}-->
+		<!--{loop $forum['threadplugin'] $tpid}-->
+			<!--{if array_key_exists($tpid, $threadplugins) && @in_array($tpid, $allowthreadplugin)}-->
+				<li  {if $filter == 'special' && $extraid == $tpid}class="active"{/if}><a href="forumdisplay.php?fid=$fid&amp;filter=special&extraid=$tpid">{$threadplugins[$tpid][name]}</a></li>
+			<!--{/if}-->
+		<!--{/loop}-->
+	<!--{/if}-->
+</ul>
+
+<!--{if $visitedforums}-->
+	<ul class="popupmenu_popup" id="visitedforums_menu" style="display: none">
+		$visitedforums
+	</ul>
+<!--{/if}-->
+
+<!--{if $forumjump}-->
+	<div class="popupmenu_popup" id="fjump_menu" style="display: none">
+	$forummenu
+	</div>
+<!--{/if}-->
+
+<!--{if $maxpage > 1}-->
+	<script type="text/javascript">document.onkeyup = function(e){keyPageScroll(e, {if $page > 1}1{else}0{/if}, {if $page < $maxpage}1{else}0{/if}, 'forumdisplay.php?fid=$fid$forumdisplayadd', $page);}</script>
+<!--{/if}-->
+
+{subtemplate footer}

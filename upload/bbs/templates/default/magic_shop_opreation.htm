@@ -1,0 +1,96 @@
+{template header}
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+
+<div id="floatlayout_magics" class="fcontent">
+	<h3 class="float_ctrl">
+		<em id="return_magics">
+		<!--{if $operation == 'buy'}-->
+			{lang magics_operation_buy}
+		<!--{elseif $operation == 'give'}-->
+			{lang magics_operation_present}
+		<!--{/if}-->
+		</em>
+		<span><!--{if !empty($infloat)}--><a title="{lang close}" onclick="hideWindow('magics')" class="float_close" href="javascript:;">{lang close}</a><!--{/if}--></span>
+	</h3>
+	<div class="postbox">
+		<form id="magicform" method="post" action="magic.php?action=shop&infloat=yes" onsubmit="ajaxpost('magicform', 'return_magics', 'return_magics', 'onerror');return false;">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<!--{if !empty($infloat)}--><input type="hidden" name="handlekey" value="magics" /><!--{/if}-->
+			<input type="hidden" name="operation" value="$operation" />
+			<input type="hidden" name="magicid" value="$magicid" />
+			<!--{if $operation == 'buy'}-->
+				<div class="mymagic fixed s_clear">
+					<div class="magicimg"><img src="images/magics/$magic[pic]" alt="$magic[name]"></div>
+					<div class="magicdetail">
+						<h5>$magic[name]</h5>
+						<p>$magic[description]</p>
+						<p>{lang magics_weight}: $magic[weight]</p>
+						<p>{lang magics_price}: <span class="magicprice">$magic[price]</span> $extcredits[$creditstransextra[3]][title]
+						<!--{if $magic[discountprice]}-->
+							&nbsp;&nbsp;{lang magics_discountprice}: <span class="magicprice">$magic[discountprice]</span> $extcredits[$creditstransextra[3]][title]
+						<!--{/if}--></p>
+						<p><!--{if $useperm}--><span class="magic_yes">{lang magics_permission_yes}</span><!--{else}--><span class="magic_no">{lang magics_permission_no}</span><!--{/if}-->{lang magics_item}</p>
+					<!--{if $magic[type] == 1}-->
+						<p>{lang magics_permission_forum}: </p>
+						<p><!--{if $forumperm}-->$forumperm<!--{else}--> {lang magics_permission_allforum} <!--{/if}--></p>
+					<!--{/if}-->
+					<!--{if $magic[type] == 2}-->
+						<p>{lang magics_permission_group}: </p>
+						<p><!--{if $targetgroupperm}-->$targetgroupperm<!--{else}--> {lang magics_permission_allgroup} <!--{/if}--></p>
+					<!--{/if}-->
+						<div class="magicnum">
+							{lang magics_amount_buy}: <input name="magicnum" type="text" size="2" value="1" class="txt" />&nbsp;
+						</div>
+						<input type="hidden" name="operatesubmit" value="yes" />
+						<button class="submit fixedbtn" type="submit" name="operatesubmit" id="operatesubmit" value="true" tabindex="101">{lang magics_operation_buy}</button>
+					</div>
+				</div>
+			<!--{elseif $operation == 'give'}-->
+				<div class="mymagic fixed s_clear">
+					<div class="magicimg"><img src="images/magics/$magic[pic]" alt="$magic[name]"></div>
+					<div class="magicdetail">
+						<!--{if $allowmagics > 1 }-->
+							<p>{lang magics_target_present}: </p>
+								<div class="hasdropdownbtn ratelist s_clear">
+								<input type="text" id="selectedusername" name="tousername" size="12"  value="" class="txt" />
+								<!--{if $buddyarray}-->
+								<a href="javascript:;" class="dropdownbtn" onclick="showselect(this, 'selectedusername', 'selectusername')"></a>
+								<ul id="selectusername" style="display:none">
+									<!--{loop $buddyarray $buddy}-->
+									<li>$buddy[username]</li>
+									<!--{/loop}-->
+								</ul>
+								<!--{/if}-->
+								</div>
+						<!--{/if}-->
+						<p>{lang magics_present_message}: </p>
+						<textarea name="givemessage" class="txtarea" style="height:60px;width:230px">{lang magics_present_message_text}</textarea>
+						<p>{lang magics_num}: </p>
+						<p><input name="magicnum" type="text" size="12" value="1" class="txt" /></p>
+						<p><input type="hidden" name="operatesubmit" value="yes" />
+						<button class="submit fixedbtn" type="submit" name="operatesubmit" id="operatesubmit" value="true">{lang magics_operation_present}</button></p>
+					</div>
+				</div>
+			<!--{/if}-->
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript" reload="1">
+function messagehandle_magics(key) {
+	if(key != 0) {
+		$('magicform').style.display = 'none';
+		$('return_magics').className = 'onright';
+	}
+}
+</script>
+
+<!--{if empty($infloat)}-->
+	</div></div>
+</div>
+<!--{/if}-->
+{template footer}

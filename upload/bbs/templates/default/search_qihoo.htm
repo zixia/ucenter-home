@@ -1,0 +1,26 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang search}</div>
+
+<div class="mainbox threadlist">
+	<h1>{lang search}</h1>
+	<table summary="{lang search}" cellspacing="0" cellpadding="0">
+		<thead>
+			<tr>
+				<th>{lang subject}</th>
+				<td class="forum">{lang forum}</td>
+				<td class="author">{lang author}</td>
+				<td class="nums">{lang replies}/{lang views}</td>
+				<td class="lastpost">{lang lastpost}</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td colspan="5" height="600">
+					<iframe frameborder="0" scrolling="yes" name="main" src="$url" style="height: 100%; visibility: inherit; width: 100%; z-index: 1;overflow: auto;"></iframe>
+				</td>
+			</tr>
+		</tbody>
+</table>
+</div>
+
+{subtemplate footer}

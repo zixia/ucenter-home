@@ -1,0 +1,85 @@
+{template header}
+
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang ie8:submit_from_acc}</div>
+
+<style type="text/css">
+span.tips { font-size: 16px; line-height: 20px; color: #0b85b5; }
+div.separator { margin: 20px 0; width: 700px; height: 1px; border-top: 1px solid #d9d9d9; }
+h1.step { padding-left: 25px; background: url('plugins/ie8/images/arrow.gif') no-repeat left; }
+div.type { margin: 0 0 30px 20px; }
+	div.type label { color: #999; }
+	div.type label:hover { color: #000; }
+div.login { margin: 0 0 30px 30px; }
+	div.login input { width: 100px; }
+	div.login button { margin: 5px 5px 0 0; }
+div.forums { margin: 0 0 30px 30px; }
+	div.forums div { padding-left: 15px; line-height: 17px; background: url('plugins/ie8/images/item.gif') no-repeat 0 4px; }
+		div.forums div a { color: #999; }
+		div.forums div a:hover { color: #000; }
+#forums_show_link { margin: 0 0 30px 30px; }
+	#forums_show_link a { color: #069; }
+</style>
+
+<div id="wrap" class="wrap s_clear">
+	<div class="main">
+		<div id="main_content" class="content">
+			<span class="tips">{lang ie8:submit_tips}</span>
+
+			<div class="separator"></div>
+			<h1 class="step">{lang ie8:submit_selectmethod}</h1>
+			<div class="type">
+				<input type="radio" name="type" id="type_message" checked /> <label for="type_message">{lang ie8:submit_method_content}</label><br />
+				<input type="radio" name="type" id="type_subject" /> <label for="type_subject">{lang ie8:submit_method_subject}</label>
+			</div>
+
+			<!--{if $myfavorites}-->
+				<h1 class="step">{lang ie8:submit_tofavorite}</h1>
+				<div class="forums">
+					<!--{loop $myfavorites $fid $html}-->
+						<div><a href="javascript:;" onclick="submitfid('$fid')">$html</a></div>
+					<!--{/loop}-->
+				</div>
+				<h1 class="item">{lang ie8:submit_toforums}</h1>
+			<!--{else}-->
+				<h1 class="step">{lang ie8:submit_toallforums}</h1>
+			<!--{/if}-->
+			<div id="forums_show" class="forums" style="display: none;">
+				<!--{loop $forums $fid $html}-->
+					<div><a href="javascript:;" onclick="submitfid('$fid')">$html</a></div>
+				<!--{/loop}-->
+			</div>
+			<div id="forums_show_link">
+				<a href="javascript:;" onclick="forums_show()">{lang ie8:submit_showallforums}</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<form id="post_form" action="post.php?action=newthread&fid=" method="post"><input type="hidden" name="" id="post_content" value="" /></form>
+<input type="hidden" id="selection_subject" value="$selection_subject" />
+<input type="hidden" id="selection_message" value="$selection_message" />
+
+<script type="text/javascript">
+function forums_show() {
+	$('forums_show_link').style.display = 'none';
+	$('forums_show').style.display = '';
+}
+
+function submitfid(fid) {
+	if($('type_message').checked) {
+		$('post_content').name = 'message';
+		$('post_content').value = $('selection_message').value;
+	} else {
+		$('post_content').name = 'postinfo[subject]';
+		$('post_content').value = $('selection_subject').value;
+	}
+	$('post_form').action += fid;
+	$('post_form').submit();
+}
+</script>
+
+<!--{if !$myfavorites}-->
+	<script type="text/javascript">forums_show();</script>
+<!--{/if}-->
+
+{template footer}

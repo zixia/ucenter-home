@@ -1,0 +1,79 @@
+<h2>{lang user_center}</h2>
+<div class="sideinner">
+	<ul class="tabs">
+		<!--{if $regverify == 1 && $groupid == 8}-->
+			<li{if CURSCRIPT=='memcp' && $action == 'emailverify'} class="current"{/if}><a href="member.php?action=emailverify">{lang memcp_email_reverify}</a></li>
+		<!--{/if}-->
+		<!--{if $regverify == 2 && $groupid == 8}-->
+			<li{if CURSCRIPT=='memcp' && $action == 'validating'} class="current"{/if}><a href="memcp.php?action=validating">{lang memcp_validating}</a></li>
+			<li{if CURSCRIPT=='memcp' && $action == 'profile' && $typeid == '2'} class="current"{/if}><a href="memcp.php?action=profile&typeid=2">{lang memcp_profile}</a></li>
+		<!--{else}-->
+			<li{if CURSCRIPT=='memcp' && $action == 'profile' && $typeid == '3'} class="current"{/if}><a href="memcp.php?action=profile&typeid=3" id="uploadavatar" prompt="uploadavatar">{lang memcp_profile_avatar_modify}</a></li>
+			<li{if CURSCRIPT=='memcp' && $action == 'profile' && $typeid == '2'} class="current"{/if}><a href="memcp.php?action=profile&typeid=2">{lang memcp_profile}</a></li>
+			<li{if CURSCRIPT=='pm'} class="current"{/if}><a href="pm.php">{lang pm}</a></li>
+			<li{if CURSCRIPT=='notice'} class="current"{/if}><a href="notice.php">{lang notice}</a></li>
+			<li{if CURSCRIPT=='my' && $item == 'buddylist'} class="current"{/if}><a href="my.php?item=buddylist&$extrafid">{lang my_buddylist}</a></li>
+			<!--{if $regstatus > 1}--><li><a href="invite.php">{lang invite}</a></li><!--{/if}-->
+			<!--{if $ucappopen['UCHOME']}-->
+				<li><a href="{$uchomeurl}/space.php?uid=$discuz_uid" target="_blank">{lang space_my}</a></li>
+			<!--{elseif $ucappopen['XSPACE']}-->
+				<li><a href="{$xspaceurl}/?uid-$discuz_uid" target="_blank">{lang space_my}</a></li>
+			<!--{/if}-->
+		<!--{/if}-->
+	</ul>
+</div>
+
+<!--{if $groupid != 8}-->
+	<hr class="shadowline" />
+
+	<div class="sideinner">
+		<ul class="tabs">
+			<li{if CURSCRIPT=='my' && in_array($item, array('threads', 'posts', 'polls', 'reward', 'activities', 'debate', 'buytrades', 'tradethreads', 'selltrades', 'tradestats'))} class="current"{/if}><a href="my.php?item=threads$extrafid">{lang my_posts}</a></li>
+			<li{if CURSCRIPT=='my' && $item == 'favorites'} class="current"{/if}><a href="my.php?item=favorites&amp;type=thread$extrafid">{lang my_favorite}</a></li>
+			<li{if CURSCRIPT=='my' && $item == 'attention'} class="current"{/if}><a href="my.php?item=attention&amp;type=thread$extrafid">{lang my_attention}</a></li>
+			<!--{if !empty($plugins['plinks_my'])}-->
+				<!--{loop $plugins['plinks_my'] $module}-->
+					<!--{if !$module['adminid'] || ($module['adminid'] && $adminid > 0 && $module['adminid'] >= $adminid)}--><li{if CURSCRIPT == 'plugin' && $_GET[id] == $module['id']} class="current"{/if}>$module[url]</li><!--{/if}-->
+				<!--{/loop}-->
+			<!--{/if}-->
+		</ul>
+	</div>
+
+	<hr class="shadowline" />
+
+	<div class="sideinner">
+		<ul class="tabs">
+			<li{if CURSCRIPT=='memcp' && $action == 'credits'} class="current"{/if}><a href="memcp.php?action=credits">{lang credits}</a></li>
+			<li{if CURSCRIPT=='memcp' && $action == 'usergroups'} class="current"{/if}><a href="memcp.php?action=usergroups">{lang usergroup}</a></li>
+			<li{if CURSCRIPT=='task'} class="current"{/if}><a href="task.php">{lang task}</a></li>
+			<!--{if $medalstatus}--><li{if CURSCRIPT=='medal'} class="current"{/if}><a href="medal.php">{lang medals_list}</a></li><!--{/if}-->
+			<!--{if $magicstatus}--><li{if CURSCRIPT=='magic'} class="current"{/if}><a href="magic.php">{lang magics_title}</a></li><!--{/if}-->
+			<!--{if !empty($plugins['plinks_tools'])}-->
+				<!--{loop $plugins['plinks_tools'] $module}-->
+					<!--{if !$module['adminid'] || ($module['adminid'] && $adminid > 0 && $module['adminid'] >= $adminid)}--><li{if CURSCRIPT == 'plugin' && $_GET[id] == $module['id']} class="current"{/if}>$module[url]</li><!--{/if}-->
+				<!--{/loop}-->
+			<!--{/if}-->
+		</ul>
+	</div>
+<!--{/if}-->
+
+<hr class="shadowline" />
+
+<div class="sideinner">
+	<ul class="tabs">
+		<li{if CURSCRIPT=='memcp' && $action == 'profile' && $typeid == '5'} class="current"{/if}><a href="memcp.php?action=profile&typeid=5">{lang memcp_profile_person}</a></li>
+		<li{if CURSCRIPT=='memcp' && $action == 'profile' && $typeid == '1'} class="current"{/if}><a href="memcp.php?action=profile&typeid=1">{lang memcp_profile_security}</a></li>
+	</ul>
+</div>
+
+<hr class="shadowline" />
+
+<div class="sideinner">
+	<ul class="tabs">
+		<li>{lang credits}: $credits</li>
+		<!--{loop $extcredits $id $credit}-->
+			<li>$credit[title]: $GLOBALS['extcredits'.$id] $credit[unit]</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+$pluginhooks[memcp_side]

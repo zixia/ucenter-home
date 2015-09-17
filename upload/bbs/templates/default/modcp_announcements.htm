@@ -1,0 +1,126 @@
+<!--{if $op == 'edit'}-->
+	<div class="itemtitle s_clear">
+		<h1>{lang mod_announce_edit}</h1>
+		<button class="right" onclick="history.go(-1);">{lang return}</button>
+	</div>
+<!--{else}-->
+	<h1>{lang announcement}</h1>
+	<div class="c_header">
+		<h3 class="noarrow">{lang mod_announce_add}</h3>
+	</div>
+<!--{/if}-->
+<div class="datalist">
+	<script type="text/javascript" src="{$jspath}calendar.js?{VERHASH}"></script>
+	<form method="post" action="{$cpscript}?action=announcements&op=$op">
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<input type="hidden" name="id" value="$announce[id]">
+		<input type="hidden" name="displayorder" value="$announce[displayorder]">
+		<table cellspacing="0" cellpadding="0" class="announcetable">
+			<thead>
+				<tr>
+					<th>{lang title}</th>
+					<th>{lang mod_announce_type}</th>
+					<th>{lang starttime}</th>
+					<th>{lang endtime}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="anno_subject"><input type="text" name="subject" value="$announce[subject]" size="60" class="txt" /></td>
+					<td class="anno_type">
+						<select name="type" onchange="changeinput(this.value)">
+							<option value="0" $announce[checked][0]>{lang mod_announce_type_text}</option>
+							<option value="1" $announce[checked][1]>{lang mod_announce_type_url}</option>
+						</select>
+						<script type="text/javascript">
+						function changeinput(v){
+							if(v == 0) {
+								$('annomessage').style.display = $('annomessage_editor').style.display = '';
+								$('anno_type_url').style.display = 'none';
+							} else {
+								$('annomessage').style.display = $('annomessage_editor').style.display = 'none';
+								$('anno_type_url').style.display = '';
+							}
+						}
+						</script>
+					</td>
+					<td class="anno_time">
+						<p class="hasdropdownbtn">
+							<input type="text" onclick="showcalendar(event, this, false)" id="starttime" name="starttime" autocomplete="off" value="$announce[starttime]" class="txt" tabindex="1" />
+							<a href="javascript:;" class="dropdownbtn" onclick="showselect(this, 'starttime', 1)">^</a>
+						</p>
+					</td>
+					<td class="anno_time">
+						<p class="hasdropdownbtn">
+							<input type="text" onclick="showcalendar(event, this, false)" id="endtime" name="endtime" autocomplete="off" value="$announce[endtime]" class="txt" tabindex="1" />
+							<a href="javascript:;" class="dropdownbtn" onclick="showselect(this, 'endtime', 1)">^</a>
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4" class="anno_msg">
+						<div class="editor_tb" id="annomessage_editor" style="width: 594px"{if $announce[checked][1]} style="display:none"{/if}>
+							{eval $seditor = array('anno', array('bold', 'color', 'img', 'link'));}
+							{subtemplate seditor}
+						</div>
+						<textarea name="message[0]" id="annomessage" rows="5" cols="80" class="txtarea"{if $announce[checked][1]} style="display:none"{/if} />$announce[message]</textarea>
+						<input name="message[1]" id="anno_type_url" value="$announce[message]" class="txt"{if $announce[checked][0]} style="display:none"{/if} />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4"><button type="submit" class="submit" name="submit" id="submit" value="true">{lang submit}</button></td>
+				</tr>
+			<!--{if $edit_successed}-->
+				<tr><td colspan="4"><div class="notice">{lang mod_message_announce_edit}<script type="text/JavaScript">setTimeout("window.location.replace('{$cpscript}?action=announcements')", 2000);</script></div></td></tr>
+			<!--{elseif $add_successed}-->
+				<tr><td colspan="4"><div class="notice">{lang mod_message_announce_add}</div></td></tr>
+			<!--{/if}-->
+			</tbody>
+		</table>
+	</form>
+
+	<!--{if $op != 'edit'}-->
+		<div id="list_announce_c" class="c_header">
+			<h3 onclick="toggle_collapse('list_announce', 1, 1);">{lang mod_announce_list}</h3>
+			<div class="c_header_action">
+				<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_announce', 1, 1);">[ {lang open} ]</p>
+			</div>
+		</div>
+		<form method="post" action="{$cpscript}?action=announcements&op=manage">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<table id="list_announce" cellspacing="0" cellpadding="0" class="datatable">
+				<thead class="colplural">
+					<tr>
+						<th width="8%"></th>
+						<th width="5%">{lang displayorder}</th>
+						<th width="12%">{lang author}</th>
+						<th>{lang title}</th>
+						<th width="10%">{lang mod_announce_type}</th>
+						<th width="12%">{lang starttime}</th>
+						<th width="12%">{lang endtime}</th>
+						<th width="6%">{lang action}</th>
+					</tr>
+				</thead>
+				<!--{loop $annlist $ann}-->
+					<tr $ann['disabled']>
+						<td><input type="checkbox" name="delete[]" value="$ann[id]" $ann['disabled'] class="checkbox" /></td>
+						<td><input type="text" name="order[{$ann[id]}]" value="$ann[displayorder]" size="3" $ann['disabled'] class="txt"></td>
+						<td>$ann[author]</td>
+						<td>$ann[subject]</td>
+						<td>{if $ann[type] == 1}{lang link}{else}{lang text}{/if}</td>
+						<td>$ann[starttime]</td>
+						<td>$ann[endtime]</td>
+						<td><a href="$cpscript?action=announcements&op=edit&id=$ann[id]">{lang edit}</a></td>
+					</tr>
+				<!--{/loop}-->
+				<tr>
+					<td><input class="checkbox" type="checkbox" id="chkall" name="chkall" onclick="checkall(this.form)" /> <label for="chkall">{lang delete_check}</label></td>
+					<td colspan="7"><button type="submit" class="submit" name="submit" id="submit" value="true">{lang submit}</button></td>
+				</tr>
+			</table>
+		</form>
+	<!--{/if}-->
+</div>
+<!--{if !empty($delids)}-->
+	<div class="notice">{lang mod_message_announce_del}</div>
+<!--{/if}-->

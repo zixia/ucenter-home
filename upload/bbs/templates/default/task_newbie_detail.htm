@@ -1,0 +1,43 @@
+{template header}
+<div class="task_info">
+	<h4>$task[name]</h4>
+	<p>$task[description]</p>
+	<h5>{lang task_complete_condition}</h5>
+	<p>
+	<!--{loop $taskvars['complete'] $taskvar}-->
+		$taskvar[name] :
+		<!--{if $taskvar['variable'] == 'forumid'}-->
+			<a href="forumdisplay.php?fid=$taskvar[value]">{$_DCACHE[forums][$taskvar[value]][name]}</a>
+		<!--{elseif $taskvar['variable'] == 'threadid'}-->
+			<a href="viewthread.php?tid=$taskvar[value]">$subject</a>
+		<!--{elseif $taskvar['variable'] == 'authorid'}-->
+			<a href="space.php?uid=$taskvar[value]">$author</a>
+		<!--{else}-->
+			$taskvar[value]
+		<!--{/if}-->
+	<!--{/loop}-->
+	</p>
+	<h5>{lang task_reward}</h5>
+	<p class="emfont">
+		<!--{if $task['reward'] == 'credit'}-->
+			$extcredits[$task[prize]][title] $task[bonus] $extcredits[$task[prize]][unit]
+		<!--{elseif $task['reward'] == 'magic'}-->
+			<img src="images/magics/$magic[identifier].gif" alt="$magicname" />{lang magics_title}<br />{lang task_newbie_magics_reward}
+			<!--{elseif $task['reward'] == 'medal'}-->
+			<img src="images/common/$medal['image']" alt="$medalname" />{lang medals}<br />$medalname {if $task['bonus']}{lang expire} $task[bonus] {lang days} {/if}
+		<!--{elseif $task['reward'] == 'invite'}-->
+			{lang invite_code} $task[prize] {lang expire} $task[bonus] {lang days}
+		<!--{elseif $task['reward'] == 'group'}-->
+			{lang usergroup} $grouptitle {if $task['bonus']} $task[bonus] {lang days} {/if}
+		<!--{/if}-->
+	</p>
+</div>
+
+<!--{if $allowapply == '1'}-->
+<div class="task_btn"><a href="javascript:;" onclick="showDialog('{lang task_newbie_dependence}')"><img src="images/tasks/coming.gif" title="{lang task_newbie_dependence}" border="0" /></a></div>
+<!--{elseif $allowapply == '-5'}-->
+	<p class="task_complete"><a href="task.php?action=view&amp;id=$newbietaskid" onclick="showTaskDetail($('newbietask_$newbietaskid'));doane(event);" target="_blank" class="right">{lang task_newbie_next} &raquo;</a>{lang task_newbie_finished}</p>
+<!--{elseif $allowapply == '-8'}-->
+	<div class="task_btn"><a href="$entrance"><img src="images/tasks/start.gif" alt="{lang task_newbie_start}" /></a></div>
+<!--{/if}-->
+{template footer}

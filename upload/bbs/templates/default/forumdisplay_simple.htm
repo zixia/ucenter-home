@@ -1,0 +1,86 @@
+{subtemplate header}
+<div id="nav"><a id="fjump" href="$indexname"{if $forumjump == 1} class="dropmenu" onmouseover="showMenu({'ctrlid':this.id})"{/if}>$bbname</a> $navigation</div>
+
+<!--{if $admode && !empty($advlist['text'])}-->
+<div id="ad_text" class="ad_text" >
+	<table summary="Text Ad" cellpadding="0" cellspacing="0">$advlist[text]</table>
+</div>
+<!--{else}-->
+<div id="ad_text"></div>
+<!--{/if}-->
+
+<div id="wrap"{if $infosidestatus['allow'] < 2} class="wrap s_clear"{else} class="wrap with_side s_clear"{/if}>
+	<!--{if $infosidestatus[allow] == 2}-->
+		<a id="sidebar_img" href="javascript:;" onclick="sidebar_collapse(['{lang sidebar_collapsed_yes}', '{lang sidebar_collapsed_no}']);" class="$collapseimg[sidebar]"><!--{if $collapseimg[sidebar] == 'collapsed_yes'}-->{lang sidebar_collapsed_yes}<!--{else}-->{lang sidebar_collapsed_no}<!--{/if}--></a>
+	<!--{elseif $infosidestatus[allow] == 1}-->
+		<a id="sidebar_img" href="javascript:;" onclick="sidebar_collapse(['', '{lang sidebar_collapsed_no}']);" class="collapsed_yes">{lang sidebar_collapsed_yes}</a>
+	<!--{/if}-->
+	<div class="main">
+		<div class="content">
+			$pluginhooks[forumdisplay_header]
+			<div id="forumheader" class="s_clear">
+				<h1 style="{if $forum[extra][namecolor]}color: {$forum[extra][namecolor]};{/if}">$forum[name]</h1>
+				<div class="forumaction">
+					<a href="my.php?item=favorites&amp;fid=$fid" id="ajax_favorite" onclick="ajaxmenu(this);doane(event);">{lang thread_favorite}</a>
+				<!--{if $forum['recyclebin'] && $forum['ismoderator']}-->
+					<a href="{if $adminid == 1}admincp.php?action=recyclebin&frames=yes{elseif $forum['ismoderator']}modcp.php?action=recyclebins&fid=$fid{/if}" class="recyclebin" target="_blank">{lang forum_recyclebin}</a>
+				<!--{/if}-->
+				</div>
+				<!--{if $forum[description]}--><p class="channelinfo">{lang forum_description}: $forum[description]</p><!--{/if}-->
+				<p id="modedby">
+					{lang forum_modedby}: <!--{if $moderatedby}-->$moderatedby<!--{else}-->{lang forum_opening}<!--{/if}-->
+				</p>
+			</div>
+			$pluginhooks[forumdisplay_top]
+
+			<!--{if $forum['recommendlist'] || $forum['rules']}-->
+				<div id="modarea" class="s_clear">
+					<div class="list">
+						<span class="headactions"><img onclick="toggle_collapse('modarea_c');" alt="{lang spread}" title="{lang spread}" src="{IMGDIR}/$collapseimg[modarea_c].gif" id="modarea_c_img" class="toggle" /></span>
+						<h3>
+							<!--{if $forum['recommendlist']}-->
+								<a href="javascript:;" id="tab_1" class="current" {if $forum['rules']} onclick="switchTab('tab', 1, 2)"{/if}>{lang forum_recommend}</a><!--{if $forum['ismoderator']}--><a href="modcp.php?action=forums&op=recommend&show=all&fid=$fid" target="_blank">[{lang edit}]</a><!--{/if}-->
+							<!--{/if}-->
+							<!--{if $forum['recommendlist'] &&  $forum['rules']}--><span class="pipe">|</span><!--{/if}--><!--{if $forum['rules']}--><a href="javascript:;" id="tab_2"{if !$forum['recommendlist']} class="current"{/if} {if $forum['recommendlist']} onclick="switchTab('tab', 2, 2)"{/if}>{lang forum_rules}</a><!--{/if}-->
+						</h3>
+					</div>
+					<div id="modarea_c" style="$collapse[modarea_c]">
+						<!--{if $forum['recommendlist']}-->
+							<div id="tab_c_1">
+							{subtemplate recommend}
+							</div>
+						<!--{/if}-->
+						<!--{if $forum['rules']}-->
+							<div id="tab_c_2"{if $forum['recommendlist']} style="display:none"{/if} class="rule">$forum[rules]</div>
+						<!--{/if}-->
+					</div>
+				</div>
+			<!--{/if}-->
+
+			<!--{if $subexists}-->
+				<div id="subforum" class="mainbox list">{template forumdisplay_subforum}</div>
+			<!--{/if}-->
+			$pluginhooks[forumdisplay_middle]
+
+			$pluginhooks[forumdisplay_bottom]
+		</div>
+	</div>
+
+	<!--{if $infosidestatus[allow] == 2}-->
+		<div id="sidebar" class="side" style="$collapse[sidebar]">
+			<!--{if $infosidestatus[0]}-->
+				<div id="infoside">
+				{eval request($infosidestatus, 1, 0);}
+				</div>
+			<!--{/if}-->
+		</div>
+	<!--{/if}-->
+</div>
+
+<!--{if $forumjump}-->
+	<div class="popupmenu_popup" id="fjump_menu" style="display: none">
+	$forummenu
+	</div>
+<!--{/if}-->
+
+{subtemplate footer}

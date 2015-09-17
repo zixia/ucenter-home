@@ -1,0 +1,26 @@
+<link rel="stylesheet" type="text/css" href="forumdata/cache/style_{STYLEID}_seditor.css?{VERHASH}" />
+<div>
+	<!--{if in_array('bold', $seditor[1])}-->
+		<a href="javascript:;" title="{lang e_bold}" class="tb_bold" onclick="seditor_insertunit('$seditor[0]', '[b]', '[/b]')">B</a>
+	<!--{/if}-->
+	<!--{if in_array('color', $seditor[1])}-->
+		<a href="javascript:;" title="{lang e_forecolor}" class="tb_color" id="{$seditor[0]}forecolor" onclick="showColorBox(this.id, 2, '$seditor[0]')">Color</a>
+	<!--{/if}-->
+	<!--{if in_array('img', $seditor[1])}-->
+		<a href="javascript:;" title="{lang e_image}" class="tb_img" onclick="seditor_insertunit('$seditor[0]', '[img]', '[/img]')">Image</a>
+	<!--{/if}-->
+	<!--{if in_array('link', $seditor[1])}-->
+		<a href="javascript:;" title="{lang e_url}" class="tb_link" onclick="seditor_insertunit('$seditor[0]', '[url]', '[/url]')">Link</a>
+	<!--{/if}-->
+	<!--{if in_array('quote', $seditor[1])}-->
+		<a href="javascript:;" title="{lang e_quote}" class="tb_quote" onclick="seditor_insertunit('$seditor[0]', '[quote]', '[/quote]')">Quote</a>
+	<!--{/if}-->
+	<!--{if in_array('code', $seditor[1])}-->
+		<a href="javascript:;" title="{lang e_code}" class="tb_code" onclick="seditor_insertunit('$seditor[0]', '[code]', '[/code]')">Code</a>
+	<!--{/if}-->
+	<!--{if in_array('smilies', $seditor[1])}-->
+		<a href="javascript:;" class="tb_smilies" id="{$seditor[0]}smilies" onclick="showMenu({'ctrlid':this.id,'evt':'click','layer':2});return false">Smilies</a>
+		<script type="text/javascript" src="forumdata/cache/smilies_var.js?{VERHASH}" reload="1"></script>
+		<script type="text/javascript" reload="1">smilies_show('{$seditor[0]}smiliesdiv', $smcols, '$seditor[0]');</script>
+	<!--{/if}-->
+</div>

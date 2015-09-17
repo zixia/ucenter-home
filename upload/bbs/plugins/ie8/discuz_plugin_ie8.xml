@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
+	<item id="Version"><![CDATA[7.2]]></item>
+	<item id="Data">
+		<item id="plugin">
+			<item id="available"><![CDATA[1]]></item>
+			<item id="adminid"><![CDATA[1]]></item>
+			<item id="name"><![CDATA[IE8 加速器]]></item>
+			<item id="identifier"><![CDATA[ie8]]></item>
+			<item id="description"><![CDATA[将 Discuz! 论坛与 Internet Explorer 8 的加速器功能进行结合, 让用户可以方便快捷地向论坛发布帖子]]></item>
+			<item id="datatables"><![CDATA[]]></item>
+			<item id="directory"><![CDATA[ie8/]]></item>
+			<item id="copyright"><![CDATA[Comsenz Inc. & mfboy]]></item>
+			<item id="version"><![CDATA[1.0.0]]></item>
+			<item id="__modules">
+				<item id="0">
+					<item id="name"><![CDATA[submit]]></item>
+					<item id="type"><![CDATA[13]]></item>
+					<item id="adminid"><![CDATA[1]]></item>
+					<item id="displayorder"><![CDATA[0]]></item>
+				</item>
+				<item id="1">
+					<item id="name"><![CDATA[install]]></item>
+					<item id="menu"><![CDATA[IE8]]></item>
+					<item id="type"><![CDATA[2]]></item>
+					<item id="adminid"><![CDATA[0]]></item>
+					<item id="displayorder"><![CDATA[0]]></item>
+				</item>
+			</item>
+		</item>
+		<item id="version"><![CDATA[7.2]]></item>
+		<item id="vars">
+			<item id="0">
+				<item id="displayorder"><![CDATA[2]]></item>
+				<item id="title"><![CDATA[加速器图标]]></item>
+				<item id="description"><![CDATA[请设置论坛提供的加速器菜单前显示的小图标地址, 这个地址为相对地址, 默认为论坛根目录的 'favicon.ico' 文件]]></item>
+				<item id="variable"><![CDATA[ie8_acc_icon]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[favicon.ico]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="1">
+				<item id="displayorder"><![CDATA[1]]></item>
+				<item id="title"><![CDATA[加速器名称]]></item>
+				<item id="description"><![CDATA[请设置论坛提供的加速器的名称, 这个设置将做为菜单名称显示在 Internet Explorer 8 的加速器菜单中]]></item>
+				<item id="variable"><![CDATA[ie8_acc_name]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[发布到 Discuz! Board]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="2">
+				<item id="displayorder"><![CDATA[4]]></item>
+				<item id="title"><![CDATA[加速器分类]]></item>
+				<item id="description"><![CDATA[请设置加速器安装到 Internet Explorer 8 后所属的分类的名称, 默认为 '论坛']]></item>
+				<item id="variable"><![CDATA[ie8_acc_category]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[论坛]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="3">
+				<item id="displayorder"><![CDATA[3]]></item>
+				<item id="title"><![CDATA[加速器描述]]></item>
+				<item id="description"><![CDATA[请设置论坛提供的加速器的描述, 您可以描述它的功能和其它用途等]]></item>
+				<item id="variable"><![CDATA[ie8_acc_description]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[快捷地将选中的网页内容发表到 Discuz! Board 中]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+		</item>
+		<item id="language">
+			<item id="scriptlang">
+				<item id="invalid_1"><![CDATA[插件尚未配置完成，请前往后台设置加速器名称和分类或返回上一页。]]></item>
+				<item id="invalid_2"><![CDATA[插件正在配置中, 请返回上一页。]]></item>
+				<item id="message_invalid"><![CDATA[您没有选择文字, 只有在选择了文字之后才能使用加速器。]]></item>
+			</item>
+			<item id="templatelang">
+				<item id="tour_title"><![CDATA[<a href="http://www.microsoft.com/china/windows/internet-explorer" target="_blank" title="下载"><img class="ie8" src="plugins/ie8/images/ie8.gif" /></a><br /><span class="ie8">快捷、简单、安全的上网新体验</span><div class="acc"><h2>加速器，网络服务一点通</h2><div>上网时看到感兴趣的内容，只需鼠标选中，就能立刻搜索相关信息、快速翻译、查询天气、股票等实时信息……无需再登录多个服务网站！</div></div>]]></item>
+				<item id="tour_content"><![CDATA[<span>更快捷、更方便的论坛新体验！<br />仅需轻轻一划，精彩内容即可在论坛发布！</span><div class="accelerator"><h1>即选即发布</h1><div>1. 安装 &quot;即选即发布&quot;<br />2. 在任意网页中用鼠标选择自己喜欢的内容<br />3. 点击浏览器弹出的 <img src="plugins/ie8/images/accelerator.gif" align="absmiddle" /> 按钮<br />4. 鼠标点击加速器 &quot;$ie8_acc_name&quot;<br />5. 选择目标版块即可快速发布</div><img src="plugins/ie8/images/install.gif" class="install" onclick="install()" /></div>]]></item>
+				<item id="message_noie"><![CDATA[您正在使用的浏览器不是 Internet Explorer，请更换浏览器来体验加速器功能！]]></item>
+				<item id="message_noie8"><![CDATA[您使用的 Internet Explorer 版本低于 8.0，请升级浏览器来体验加速器功能！]]></item>
+				<item id="message_installed"><![CDATA[您已经安装了本论坛提供的加速器，再次感谢您的使用！]]></item>
+				<item id="message_install_succeed"><![CDATA[感谢您安装本论坛提供的加速器。]]></item>
+				<item id="submit_from_acc"><![CDATA[从加速器中发表]]></item>
+				<item id="submit_tips"><![CDATA[现在，您只需要按步骤进行下面的操作，即可将您所选的内容发布到论坛中。<br />您选择的内容将会作为普通帖子发布出去。]]></item>
+				<item id="submit_selectmethod"><![CDATA[您想将选择的内容:]]></item>
+				<item id="submit_method_content"><![CDATA[作为帖子的内容发布]]></item>
+				<item id="submit_method_subject"><![CDATA[作为帖子的标题发布]]></item>
+				<item id="submit_tofavorite"><![CDATA[您可以发布到您<a href="my.php?item=favorites&type=forum" target="_blank">收藏的板块</a>中:]]></item>
+				<item id="submit_toforums"><![CDATA[或者发布到其它的论坛板块中:]]></item>
+				<item id="submit_toallforums"><![CDATA[您可以发布到下面的论坛板块中:]]></item>
+				<item id="submit_showallforums"><![CDATA[显示所有论坛板块]]></item>
+			</item>
+		</item>
+	</item>
+</root>

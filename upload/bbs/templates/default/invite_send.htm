@@ -1,0 +1,46 @@
+{template header}
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+
+<div class="fcontent" id="open_invitesend">
+	<h3 class="float_ctrl">
+		<em id="return_invitesend">{lang emailinvite}</em>
+		<span>
+			<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('invitesend')" title="{lang close}">{lang close}</a><!--{/if}-->
+		</span>
+	</h3>
+	<form id="sendform" method="post" action="invite.php?action=sendinvite&sendsubmit=yes&infloat=yes" onsubmit="ajaxpost('sendform', 'return_invitesend', 'return_invitesend', 'onerror');return false;">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="invitecode" value="$invitecode" />
+		<!--{if !empty($infloat)}--><input type="hidden" name="handlekey" value="$handlekey" /><!--{/if}-->
+		<div class="postbox">
+			<p><label for="fromname">{lang emailfriend_your_name}</label></p>
+			<p><input type="text" name="fromname" id="fromname" size="25" maxlength="40" value="$discuz_userss" class="txt" /></p>
+			<p><label for="fromemail">{lang emailfriend_your_email}</label></p>
+			<p><input type="text" name="fromemail" id="fromemail" size="25" value="$email" class="txt" /></p>
+			<p><label for="sendtoname">{lang emailfriend_receiver_name}</label></p>
+			<p><input type="text" name="sendtoname" id="sendtoname" size="25" class="txt" /></p>
+			<p><label for="sendtoemail">{lang emailfriend_receiver_email}</label></p>
+			<p><input type="text" name="sendtoemail" id="sendtoemail" size="25" class="txt" /></p>
+			<p><label for="message">{lang message}</label></p>
+			<p><textarea cols="70" rows="8" name="message" id="message" class="txtarea" style="margin-bottom: 5px; width: 202px; height: 60px;">{lang emailinvite_message}</textarea></p>
+			<p><button type="submit" class="submit" name="sendsubmit" value="sendsubmit">{lang send}</button></p>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript" reload="1">
+function submithandle_invitesend(locationhref, msg) {
+	showDialog(msg, 'notice', '', function () { location.href = locationhref; });
+	hideWindow('invitesend');
+}
+</script>
+
+<!--{if empty($infloat)}-->
+	</div></div>
+</div>
+<!--{/if}-->
+{template footer}

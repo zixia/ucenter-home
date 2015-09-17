@@ -1,0 +1,69 @@
+{template header}
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+
+<div class="fcontent">
+	<h3 class="float_ctrl">
+		<em id="return_$handlekey">{lang debate_umpirecomment}</em>
+		<span>
+			<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('$handlekey')" title="{lang close}">{lang close}</a><!--{/if}-->
+		</span>
+	</h3>
+
+	<form method="post" id="postform" action="misc.php?action=debateumpire&tid=$tid&umpiresubmit=yes&infloat=yes"{if !empty($infloat)} onsubmit="ajaxpost('postform', 'return_$handlekey', 'return_$handlekey', 'onerror');return false;"{/if}>
+		<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
+		<!--{if !empty($infloat)}--><input type="hidden" name="handlekey" value="$handlekey" /><!--{/if}-->
+		<table class="list" cellspacing="0" cellpadding="0">
+			<tr>
+				<th>{lang debate_winner}</th>
+				<td>
+					<label><input type="radio" name="winner" value="1" class="radio" $winnerchecked[1] id="winner1" /> {lang debate_square}</label>
+					<label><input type="radio" name="winner" value="2" class="radio" $winnerchecked[2] id="winner2" />  {lang debate_opponent}</label>
+					<label><input type="radio" name="winner" value="3" class="radio" $winnerchecked[3] id="winner3" />  {lang debate_draw}</label>
+				</td>
+			</tr>
+
+			<tr>
+				<th><label for="bestdebater">{lang debate_bestdebater}</label></th>
+				<td>
+					<input type="text" name="bestdebater" value="$debate[bestdebater]" size="20" id="bestdebater" />
+					<select onchange="$('bestdebater').value=this.options[this.options.selectedIndex].value">
+						<option value=""><strong>{lang debate_recommend_list}</strong></option>
+						<option value="">------------------------------</option>
+						<!--{loop $candidates $candidate}-->
+							<option value="$candidate[username]"<!--{if $candidate[username] == $debate[bestdebater]}--> selected<!--{/if}-->>$candidate[username] ( $candidate[voters] {lang debate_poll}, <!--{if $candidate[stand] == 1}-->{lang debate_square}<!--{elseif $candidate[stand] == 2}-->{lang debate_opponent}<!--{/if}-->)</option>
+						<!--{/loop}-->
+					</select><br /><em class="tips">{lang debate_list_nonexistence}</em>
+				</td>
+			</tr>
+
+			<tr>
+				<th valign="top"><label for="umpirepoint">{lang debate_umpirepoint}</label></th>
+				<td><textarea id="umpirepoint" name="umpirepoint" class="txtarea" style="width:98%; height: 100px;">$debate[umpirepoint]</textarea></td>
+			</tr>
+
+			<tr class="btns">
+				<th>&nbsp;</th>
+				<td><button type="submit" name="umpiresubmit" value="true" class="submit">{lang submit}</button></td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+<!--{if !empty($infloat)}-->
+<script type="text/javascript" reload="1">
+function submithandle_$handlekey(locationhref) {
+	ajaxget('viewthread.php?tid=$tid&viewpid=$pid', 'post_$pid');
+	hideWindow('$handlekey');
+}
+</script>
+<!--{/if}-->
+
+<!--{if empty($infloat)}-->
+	</div></div>
+</div>
+<!--{/if}-->
+{template footer}

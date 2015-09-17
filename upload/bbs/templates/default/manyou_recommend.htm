@@ -1,0 +1,20 @@
+<!--{block return}-->
+<style type="text/css">
+.manyou_recommend { overflow: hidden; margin-top: 8px; height: 112px; }
+	.manyou_recommend li { overflow: hidden; float: left; width: 104px; height: 112px; text-align: center; }
+	.manyou_recommend p { margin: 0 8px 8px; white-space: nowrap; }
+</style>
+<div class="mainbox list">
+	<h3>{lang manyou:recommend}</h3>
+	<ul class="manyou_recommend">
+	<!--{if $applist}-->
+		<!--{loop $applist $app}-->
+			<li>
+				<p><a href="userapp.php?id=$app[appid]"><img src="http://appicon.manyou.com/logos/$app[appid]" width="75" height="75" alt="$app[appname]" /></a></p>
+				<p><a href="userapp.php?id=$app[appid]">$app[appname]</a></p>
+			</li>
+		<!--{/loop}-->
+	<!--{/if}-->
+	</ul>
+</div>
+<!--{/block}-->

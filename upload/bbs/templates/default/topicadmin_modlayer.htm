@@ -1,0 +1,44 @@
+<div id="modlayer" style="display: none;position:position">
+	<input type="hidden" name="optgroup" />
+	<input type="hidden" name="operation" />
+	<a class="collapse" href="javascript:;" onclick="$('modlayer').className='collapsed'"><img src="{IMGDIR}/collapsed_yes.gif" alt="{lang zoom_out}" title="{lang zoom_out}" /></a>
+	<label><input class="checkbox" type="checkbox" name="chkall" onclick="if(!($('modcount').innerHTML = modclickcount = checkall(this.form, 'moderate'))) {$('modlayer').style.display = 'none';}" /> {lang checkall}</label>
+	<span>{lang admin_select}</span><strong onmouseover="$('moremodoption').style.display='block'" onclick="$('modlayer').className=''" id="modcount"></strong><span>{lang piece}: </span>
+	<!--{if $allowdelpost}-->
+		<strong><a href="javascript:;" onclick="tmodthreads(3, 'delete');return false;">{lang delete}</a></strong>
+		<span class="pipe">|</span>
+	<!--{/if}-->
+	<!--{if $allowmovethread}-->
+		<strong><a href="javascript:;" onclick="tmodthreads(2, 'move');return false;">{lang thread_moved}</a></strong>
+		<span class="pipe">|</span>
+	<!--{/if}-->
+	<!--{if $allowedittypethread}-->
+		<strong><a href="javascript:;" onclick="tmodthreads(2, 'type');return false;">{lang types}</a></strong>
+	<!--{/if}-->
+
+	<div id="moremodoption">
+		<hr class="solidline" />
+		<!--{if $allowstickthread}-->
+			<a href="javascript:;" onclick="tmodthreads(1, 'stick');return false;">{lang thread_stick}</a>
+		<!--{/if}-->
+		<!--{if $allowdigestthread}-->
+			<a href="javascript:;" onclick="tmodthreads(1, 'digest');return false;">{lang thread_digest}</a>
+		<!--{/if}-->
+		<!--{if $allowhighlightthread}-->
+			<a href="javascript:;" onclick="tmodthreads(1, 'highlight');return false;">{lang thread_highlight}</a>
+		<!--{/if}-->
+		<!--{if $allowrecommendthread && $forum['modrecommend']['open'] && $forum['modrecommend']['sort'] != 1}-->
+			<a href="javascript:;" onclick="tmodthreads(1, 'recommend');return false;">{lang recommend}</a>
+		<!--{/if}-->
+		<!--{if $allowbumpthread || $allowclosethread}-->
+			<span class="pipe">|</span>
+		<!--{/if}-->
+		<!--{if $allowbumpthread}-->
+			<a href="javascript:;" onclick="tmodthreads(3, 'bump');return false;">{lang admin_bump_down}</a>
+			&nbsp;
+		<!--{/if}-->
+		<!--{if $allowclosethread}-->
+			<a href="javascript:;" onclick="tmodthreads(4);return false;">{lang admin_openclose}</a>
+		<!--{/if}-->
+	</div>
+</div>

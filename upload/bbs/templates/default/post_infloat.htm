@@ -1,0 +1,127 @@
+{template header}
+
+<div class="fcontent" id="floatlayout_$action">
+	<h3 class="float_ctrl">
+		<em id="return_$handlekey">{if $action == 'newthread'}{lang post_newthread}{elseif $action == 'reply'}{lang join_thread}{/if}</em>
+		<!--{if $action == 'newthread' && $modnewthreads}--><em class="needverify">{lang approve}</em><!--{/if}-->
+		<!--{if $action == 'reply' && $modnewreplies}--><em class="needverify">{lang approve}</em><!--{/if}-->
+		<span>
+			<a href="faq.php?action=credits&fid=$fid" target="_blank" title="{lang credits_policy}">{lang credits_policy}</a>
+			<a href="javascript:;" class="float_close" onclick="hideWindow('$handlekey')" title="{lang close}">{lang close}</a>
+		</span>
+	</h3>
+	<div class="postbox">
+		<form method="post" id="postform" action="post.php?infloat=yes&action=$action&fid=$fid&extra=$extra{if $action == 'newthread'}&topicsubmit=yes{elseif $action == 'reply'}&tid=$tid&replysubmit=yes{/if}" onsubmit="this.message.value = parseurl(this.message.value);{if !empty($infloat)}ajaxpost('postform', 'return_$handlekey', 'return_$handlekey', 'onerror');return false;{/if}">
+			<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="handlekey" value="$handlekey" />
+			<!--{if $action == 'reply'}-->
+				<input type="hidden" name="noticeauthor" value="$noticeauthor" />
+				<input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
+				<input type="hidden" name="noticeauthormsg" value="$noticeauthormsg" />
+			<!--{/if}-->
+			<div class="float_postinfo s_clear">
+				<!--{if $action != 'reply'}-->
+					<span><input name="subject" id="subject" prompt="post_subject"  class="txt" value="$postinfo[subject]" tabindex="1" /></span>
+				<!--{else}-->
+					<span id="subjecthide" class="left">RE: $thread[subject] [<a href="javascript:;" onclick="display('subjecthide');display('subjectbox');$('subject').value='RE: {echo htmlspecialchars(str_replace('\'', '\\\'', $thread[subject]))}'">{lang modify}</a>]</span>
+					<span id="subjectbox" style="display:none"><input name="subject" id="subject" class="txt" value="" tabindex="1" /></span>
+				<!--{/if}-->
+				<div class="left">
+					<!--{if $action == 'newthread' && ($threadsorts = $forum[threadsorts])}-->
+						<div class="float_typeid">
+							<select name="sortid" id="sortid" change="if($('sortid').value) {switchAdvanceMode('post.php?action=$action&fid=$fid{if !empty($tid)}&tid=$tid{/if}{if !empty($pid)}&pid=$pid{/if}{if !empty($modelid)}&modelid=$modelid{/if}&extra=$extra&sortid=' + $('sortid').value)}">
+							<!--{if !$sortid}--><option value="0">{lang threadtype_option}</option><!--{/if}-->
+							<!--{loop $threadsorts[types] $tsortid $name}-->
+								<!--{if !empty($modelid) && $threadsorts[modelid][$tsortid] == $modelid || empty($modelid)}-->
+									<option value="$tsortid"{if $sortid == $tsortid} selected="selected"{/if}>{echo strip_tags($name);}</option>
+								<!--{/if}-->
+							<!--{/loop}-->
+							</select>
+						</div>
+						<script type="text/javascript" reload="1">simulateSelect('sortid');</script>
+					<!--{/if}-->
+					<!--{if $isfirstpost && $forum[threadtypes][types]}-->
+						<div class="float_typeid">
+							<select name="typeid" id="typeid">
+							<option value="0">{lang types}</option>
+							<!--{loop $forum[threadtypes][types] $typeid $name}-->
+								<option value="$typeid"{if $thread['typeid'] == $typeid} selected="selected"{/if}>{echo strip_tags($name);}</option>
+							<!--{/loop}-->
+							</select>
+						</div>
+						<script type="text/javascript" reload="1">simulateSelect('typeid');</script>
+					<!--{/if}-->
+				</div>
+			</div>
+			<!--{if !$isfirstpost && $thread[special] == 5 && empty($firststand)}-->
+			<div class="viewpoint s_clear">
+				<p class="left">{lang debate_viewpoint}: </p>
+				<div class="float_typeid short_select">
+					<select id="stand" name="stand">
+						<option value="0">{lang debate_neutral}</option>
+						<option value="1"{if $stand == 1} selected{/if}>{lang debate_square}</option>
+						<option value="2"{if $stand == 2} selected{/if}>{lang debate_opponent}</option>
+					</select>
+				</div>
+				<script type="text/javascript" reload="1">simulateSelect('stand');</script>
+			</div>
+			<!--{/if}-->
+
+			<div class="float_post">
+				<div class="editor_tb">
+					<span class="right">
+						<a href="post.php?action=$action&fid=$fid&extra=$extra{if $action == 'reply'}&tid=$tid{if !empty($reppost)}&reppost=$reppost{/if}{if !empty($repquote)}&repquote=$repquote{/if}{if !empty($page)}&page=$page{/if}{/if}{if $stand}&stand=$stand{/if}" onclick="switchAdvanceMode(this.href);doane(event);">{lang post_advancemode}</a>
+					</span>
+					{eval $seditor = array('post', array('bold', 'color', 'img', 'link', 'quote', 'code', 'smilies'), 'floatlayout_'.$action);}
+					{subtemplate seditor}
+				</div>
+				<textarea rows="5" cols="80" name="message" id="postmessage" onKeyDown="seditor_ctlent(event, '$(\'postsubmit\').click();')" tabindex="2" class="txtarea">$message</textarea>
+			</div>
+
+			<div class="moreconf" id="moreconf">
+				<!--{if $action == 'newthread' && $sitemessage[newthread] || $action == 'reply' && $sitemessage[reply]}-->
+					<a href="javascript:;" id="custominfo" class="right"><img src="{IMGDIR}/info.gif" alt="{lang faq}" /></a>
+				<!--{/if}-->
+				<button type="submit" id="postsubmit" prompt="post_submit"  value="true" name="{if $action == 'newthread'}topicsubmit{elseif $action == 'reply'}replysubmit{/if}" tabindex="3">{if $action == 'newthread'}{lang post_newthread}{elseif $action == 'reply'}{lang join_thread}{/if}</button>
+				<!--{if $secqaacheck || $seccodecheck}-->{subtemplate seccheck}<!--{/if}-->
+			</div>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript" reload="1">
+function submithandle_$action(locationhref, message) {
+	{if $action == 'reply'}
+		try {
+			var pid = locationhref.lastIndexOf('#pid');
+			if(pid != -1) {
+				pid = locationhref.substr(pid + 4);
+				ajaxget('viewthread.php?tid=$tid&viewpid=' + pid, 'post_new', 'ajaxwaitid', '', null, 'appendreply()');
+				if(replyreload) {
+					var reloadpids = replyreload.split(',');
+					for(i = 1;i < reloadpids.length;i++) {
+						ajaxget('viewthread.php?tid=$tid&viewpid=' + reloadpids[i], 'post_' + reloadpids[i]);
+					}
+				}
+			} else {
+				showDialog(message, 'notice', '', 'location.href="' + locationhref + '"');
+			}
+		} catch(e) {
+			location.href = locationhref;
+		}
+	{elseif $action == 'newthread'}
+		var hastid = locationhref.lastIndexOf('tid=');
+		if(hastid == -1) {
+			showDialog(message, 'notice', '', 'location.href="' + locationhref + '"');
+		} else {
+			location.href = locationhref;
+		}
+	{/if}
+	hideWindow('$action');
+}
+{if $action == 'newthread' && $sitemessage[newthread] || $action == 'reply' && $sitemessage[reply]}
+	showPrompt('custominfo', 'click', '{if $action == 'newthread'}{echo trim($sitemessage[newthread][array_rand($sitemessage[newthread])])}{elseif $action == 'reply'}{echo trim($sitemessage[reply][array_rand($sitemessage[reply])])}{/if}', $sitemessage[time]);
+{/if}
+</script>
+
+{template footer}

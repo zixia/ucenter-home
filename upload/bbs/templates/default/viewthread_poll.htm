@@ -1,0 +1,101 @@
+<script type="text/javascript">
+<!--{if $optiontype=='checkbox'}-->
+	var max_obj = $maxchoices;
+	var p = 0;
+	function checkbox(obj) {
+		if(obj.checked) {
+			p++;
+			for (var i = 0; i < $('poll').elements.length; i++) {
+				var e = $('poll').elements[i];
+				if(p == max_obj) {
+					if(e.name.match('pollanswers') && !e.checked) {
+						e.disabled = true;
+					}
+				}
+			}
+		} else {
+			p--;
+			for (var i = 0; i < $('poll').elements.length; i++) {
+				var e = $('poll').elements[i];
+				if(e.name.match('pollanswers') && e.disabled) {
+					e.disabled = false;
+				}
+			}
+		}
+		$('pollsubmit').disabled = p <= max_obj && p > 0 ? false : true;
+	}
+<!--{/if}-->
+</script>
+
+<form id="poll" name="poll" method="post" action="misc.php?action=votepoll&fid=$fid&tid=$tid&pollsubmit=yes&quickforward=yes" onsubmit="ajaxpost('poll', 'post_$post[pid]', 'post_$post[pid]');return false">
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<div class="pollinfo">
+		<!--{if $multiple}--><strong>{lang poll_multiple}{lang thread_poll}</strong><!--{if $maxchoices}-->: ( {lang poll_more_than} )<!--{/if}--><!--{else}--><strong>{lang poll_single}{lang thread_poll}</strong><!--{/if}--><!--{if $visiblepoll && $allowvote}--> , {lang poll_after_result}<!--{/if}-->, {lang poll_voterscount}
+			<!--{if !$visiblepoll && ($overt || $adminid == 1)}-->
+				<a href="misc.php?action=viewvote&tid=$tid" onclick="showWindow('viewvote', this.href);doane(event);">{lang poll_view_voters}</a>
+			<!--{/if}-->
+	</div>
+
+	<!--{if $thread[remaintime]}-->
+	<p class="polltimer">
+		{lang poll_count_down}:
+		<strong>
+		<!--{if $thread[remaintime][0]}-->$thread[remaintime][0] {lang days}<!--{/if}-->
+		<!--{if $thread[remaintime][1]}-->$thread[remaintime][1] {lang poll_hour}<!--{/if}-->
+		$thread[remaintime][2] {lang poll_minute}
+		</strong>
+	</p>
+	<!--{elseif $expiration && $expirations < $timestamp}-->
+	<p class="polltimer"><strong>{lang poll_end}</strong></p>
+	<!--{/if}-->
+
+	<div class="pollchart">
+		<table summary="poll panel" cellspacing="0" cellpadding="0" width="100%">
+			<!--{loop $polloptions $key $option}-->
+				<tr>
+					<!--{if $allowvote}-->
+						<td class="selector"><input class="checkbox" type="$optiontype" id="option_$key" name="pollanswers[]" value="$option[polloptionid]" {if $optiontype=='checkbox'}onclick="checkbox(this)"{else}onclick="$('pollsubmit').disabled = false"{/if} /></td>
+					<!--{/if}-->
+					<td class="polloption vote">
+						<label for="option_$key">{echo $key+1}. &nbsp;$option[polloption]</label>
+					</td>
+					<td class="optionvotes"></td>
+				</tr>
+				
+				<tr>
+					<!--{if !$visiblepoll}-->
+					<!--{if $allowvote}-->
+						<td>&nbsp;</td>
+					<!--{/if}-->
+					<td class="optionvessel">
+						<div class="optionbg">
+							<div class="polloptionbar pollcolor$option[color]" style="width: $option[width]px;"></div>
+						</div>
+					</td>
+					<td>$option[percent]% <em class="pollvote$option[color]">($option[votes])</em></td>
+					<!--{else}-->
+					<td colspan="<!--{if $allowvote}-->3<!--{else}-->2<!--{/if}-->"><hr class="solidline" /></td>
+					<!--{/if}-->
+				</tr>
+				
+			<!--{/loop}-->
+			<tr>
+				<!--{if $allowvote}--><td class="selector">&nbsp;</td><!--{/if}-->
+				<td colspan="2">
+					<!--{if $allowvote}-->
+						<button class="submit" type="submit" disabled="disabled" name="pollsubmit" id="pollsubmit" value="true">{lang submit}</button>
+						<!--{if $overt}-->
+							({lang poll_msg_overt})
+						<!--{/if}-->				
+					<!--{elseif !$allwvoteusergroup}-->
+						{lang poll_msg_allwvoteusergroup}
+					<!--{elseif !$allowvotepolled}-->
+						{lang poll_msg_allowvotepolled}
+					<!--{elseif !$allowvotethread}-->
+						{lang poll_msg_allowvotethread}
+					<!--{/if}-->
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>

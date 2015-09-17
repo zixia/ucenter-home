@@ -1,0 +1,4 @@
+{subtemplate header_ajax}
+<!--{if $s}--><script type="text/javascript" reload="1">$s;$('myprompt').className='new';$('myprompt').onmouseover=function(){showMenu({'ctrlid':'myprompt'});}</script><!--{if $pmsound}--><div id="pmsound" style="position:absolute;top:-100000px"></div><script type="text/javascript" reload="1">$('pmsound').innerHTML = AC_FL_RunContent('id', 'pmsoundplayer', 'name', 'pmsoundplayer', 'width', '0', 'height', '0', 'src', '{$boardurl}images/sound/player.swf', 'FlashVars', 'sFile={$boardurl}images/sound/pm_$pmsound.mp3', 'menu', 'false',  'allowScriptAccess', 'sameDomain', 'swLiveConnect', 'true');</script><!--{/if}--><!--{/if}-->
+{eval define('STAT_DISABLED', 1);}
+{subtemplate footer_ajax}

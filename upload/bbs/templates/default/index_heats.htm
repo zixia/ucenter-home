@@ -1,0 +1,35 @@
+<!--{if $_DCACHE['heats']['message']}-->
+	<div id="hot" class="s_clear{if $_DCACHE['heats']['image']} img{/if}">
+		<h3>{lang hotthreads_forum}</h3>
+		<div id="hot_main">
+			<dl>
+			<!--{loop $_DCACHE['heats']['message'] $data}-->
+				<dt>
+					<strong><!--{if $adminid == 1}--><a class="deloption" href="misc.php?action=removeindexheats&tid=$data[tid]&from=indexheats" onclick="return removeindexheats()">delete</a><!--{/if}--><a href="viewthread.php?tid=$data[tid]&from=indexheats">$data[subject]</a></strong>
+					<cite><a href="space.php?uid=$data[authorid]&from=indexheats">$data[author]</a></cite>
+				</dt>
+				<dd class="desc">
+					$data[message] ...
+					<a href="viewthread.php?tid=$data[tid]&from=indexheats_readmore">{lang readmore}</a>
+				</dd>
+			<!--{/loop}-->
+			</dl>
+			<!--{if $_DCACHE['heats']['subject']}-->
+				<ul class="s_clear">
+					<!--{loop $_DCACHE['heats']['subject'] $data}-->
+						<li><!--{if $adminid == 1}--><a class="deloption" href="misc.php?action=removeindexheats&tid=$data[tid]" onclick="return removeindexheats()">delete</a><!--{/if}--><a href="viewthread.php?tid=$data[tid]">$data[subject]</a></li>
+					<!--{/loop}-->
+				</ul>
+			<!--{/if}-->
+		</div>
+
+		<!--{if $_DCACHE['heats']['image']}-->
+		<div id="hot_img">
+			<a href="viewthread.php?tid={$_DCACHE[heats][image][tid]}&from=indexheats_pic"><img src="{$_DCACHE[heats][image][thumb]}" alt="{$_DCACHE[heats][image][subject]}" /></a>
+			<h2><!--{if $adminid == 1}--><a class="deloption" href="misc.php?action=removeindexheats&tid=$_DCACHE[heats][image][tid]" onclick="return removeindexheats()">delete</a><!--{/if}--><a href="viewthread.php?tid={$_DCACHE[heats][image][tid]}&from=indexheats">{$_DCACHE[heats][image][subject]}</a></h2>
+			<p class="desc">{$_DCACHE[heats][image][message]} ...<a href="viewthread.php?tid={$_DCACHE[heats][image][tid]}&from=indexheats_readmore">{lang readmore}</a></p>
+			<cite><a href="space.php?uid={$_DCACHE[heats][image][authorid]}&from=indexheats">{$_DCACHE[heats][image][author]}</a> {lang poston} {echo dgmdate("$dateformat $timeformat", $_DCACHE[heats][image][dateline] + $timeoffset * 3600)}</cite>
+		</div>
+		<!--{/if}-->
+	</div>
+<!--{/if}-->

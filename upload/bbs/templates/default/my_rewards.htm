@@ -1,0 +1,113 @@
+<!--{if $type == 'stats'}-->
+	<table cellspacing="0" cellpadding="0" class="datatable">
+		<tr>
+			<th width="20%">{lang my_reward_question_number}:</th>
+			<td>$questions[total] {lang my_reward_unit}</td>
+			<th width="20%">{lang my_reward_answer_number}:</th>
+			<td>$answers[total] {lang my_reward_unit}</td>
+		</tr>
+		<tr>
+			<th>{lang my_reward_question_solved_number}:</th>
+			<td>$questions[solved] {lang my_reward_unit}</td>
+			<th>{lang my_reward_answer_adopted_number}:</th>
+			<td>$answers[adopted] {lang my_reward_unit}</td>
+		</tr>
+		<tr>
+			<th>{lang my_reward_question_solved_per}:</th>
+			<td>$questions[percent]%</td>
+			<th>{lang my_reward_answer_adopted_per}:</th>
+			<td>$answers[percent]%</td>
+		</tr>
+		<tr>
+			<th>{lang my_reward_question_price}<!--{if !empty($extcredits[$creditstransextra[2]]['title'])}-->({$extcredits[$creditstransextra[2]][title]})<!--{/if}-->:</th>
+			<td>$questions['totalprice'] <!--{if $extcredits[$creditstransextra[2]]['unit'] != ''}-->$extcredits[$creditstransextra[2]][unit]<!--{/if}--></td>
+			<th>{lang my_reward_anser_price}<!--{if !empty($extcredits[$creditstransextra[2]]['title'])}-->({$extcredits[$creditstransextra[2]][title]})<!--{/if}-->:</th>
+			<td>$answers['totalprice'] <!--{if $extcredits[$creditstransextra[2]]['unit'] != ''}-->$extcredits[$creditstransextra[2]][unit]<!--{/if}--></td>
+		</tr>
+	</table>
+<!--{else}-->
+		<table cellspacing="0" cellpadding="0" class="datatable">
+			<thead class="colplural">
+				<tr>
+					<td class="folder">&nbsp;</td>
+					<td class="icon">&nbsp;</td>
+					<th>{lang thread}</th>
+					<td class="nums">{lang my_reward_forum}</td>
+					<td class="nums"><!--{if $type == 'question'}-->{lang my_reward_answerer}<!--{elseif $type == 'answer'}-->{lang my_reward_questioner}<!--{/if}--></td>
+					<td class="nums">{lang my_reward_allprice}</td>
+					<!--{if $type == 'question'}-->
+						<td class="nums">{lang my_reward_real_payment}</td>
+					<!--{/if}-->
+					<td class="nums">
+						<select onchange="window.location=this.value">
+							<!--{if $type == 'question'}-->
+								<option value="my.php?item=reward&type=question&filter=$extrafid">{lang status}</option>
+								<option value="my.php?item=reward&type=question&filter=solved$extrafid"<!--{if $filter == 'solved'}--> selected="selected"<!--{/if}-->>{lang my_reward_solved}</option>
+								<option value="my.php?item=reward&type=question&filter=unsolved$extrafid"<!--{if $filter == 'unsolved'}--> selected="selected"<!--{/if}-->>{lang my_reward_unsolved}</option>
+							<!--{elseif $type == 'answer'}-->
+								<option value="my.php?item=reward&type=answer&filter=$extrafid">{lang status}</option>
+								<option value="my.php?item=reward&type=answer&filter=adopted$extrafid"<!--{if $filter == 'adopted'}--> selected="selected"<!--{/if}-->>{lang my_reward_adopted}</option>
+								<option value="my.php?item=reward&type=answer&filter=unadopted$extrafid"<!--{if $filter == 'unadopted'}--> selected="selected"<!--{/if}-->>{lang my_reward_unadopted}</option>
+							<!--{/if}-->
+						</select>
+					</td>
+					<td class="lastpost"><cite>{lang my_reward_dateline}</cite></td>
+				</tr>
+			</thead>
+			<!--{if $rewardloglist}-->
+				<tbody>
+				<!--{if $type == 'question'}-->
+					<!--{loop $rewardloglist $rewardlog}-->
+						<tr>
+							<td class="folder">
+								<a href="viewthread.php?tid=$rewardlog[tid]" target="_blank">
+								<!--{if $rewardlog[folder] == 'lock'}-->
+									<img src="{IMGDIR}/folder_lock.gif" /></a>
+								<!--{else}-->
+									<img src="{IMGDIR}/folder_$rewardlog[folder].gif" /></a>
+								<!--{/if}-->
+							</td>
+							<td class="icon">
+							<img src="{IMGDIR}/rewardsmall.gif" alt="{lang thread_reward}" <!--{if $rewardlog['price'] < 0}-->class="solved"<!--{/if}--> />
+							</td>
+							<th><a href="viewthread.php?tid=$rewardlog[tid]">$rewardlog[subject]</a></th>
+							<td class="nums"><a href="forumdisplay.php?fid=$rewardlog[fid]">$rewardlog[name]</a></td>
+							<td class="nums"><!--{if $rewardlog[uid]}--><a href="space.php?uid=$rewardlog[uid]">$rewardlog[username]</a><!--{else}-->&nbsp;<!--{/if}--></td>
+							<td class="nums">{$extcredits[$creditstransextra[2]][title]} $rewardlog[price]<!--{if $extcredits[$creditstransextra[2]]['unit'] != ''}--> $extcredits[$creditstransextra[2]][unit]<!--{/if}--></td>
+							<td class="nums">{$extcredits[$creditstransextra[2]][title]} $rewardlog['netamount']<!--{if $extcredits[$creditstransextra[2]]['unit'] != ''}--> $extcredits[$creditstransextra[2]][unit]<!--{/if}--></td>
+							<td class="nums"><!--{if $rewardlog['answererid'] > 0}-->{lang my_reward_solved}<!--{else}-->{lang my_reward_unsolved}<!--{/if}--></td>
+							<td class="lastpost"><cite>$rewardlog[dateline]</cite></td>
+						</tr>
+					<!--{/loop}-->
+				<!--{elseif $type == 'answer'}-->
+					<!--{loop $rewardloglist $rewardlog}-->
+						<tr>
+							<td class="folder">
+								<a href="viewthread.php?tid=$rewardlog[tid]" target="_blank">
+								<!--{if $rewardlog[folder] == 'lock'}-->
+									<img src="{IMGDIR}/folder_lock.gif" /></a>
+								<!--{else}-->
+									<img src="{IMGDIR}/folder_$rewardlog[folder].gif" /></a>
+								<!--{/if}-->
+							</td>
+							<td class="icon">
+							<img src="{IMGDIR}/rewardsmall.gif" alt="{lang thread_reward}" <!--{if $rewardlog['price'] < 0}-->class="solved"<!--{/if}--> />
+							</td>
+							<th><a href="viewthread.php?tid=$rewardlog[tid]">$rewardlog[subject]</a></th>
+							<td class="nums"><a href="forumdisplay.php?fid=$rewardlog[fid]">$rewardlog[name]</a></td>
+							<td class="nums"><!--{if $rewardlog[uid]}--><a href="space.php?uid=$rewardlog[uid]">$rewardlog[username]</a><!--{else}-->&nbsp;<!--{/if}--></td>
+							<td class="nums">{$extcredits[$creditstransextra[2]][title]} $rewardlog[price]<!--{if $extcredits[$creditstransextra[2]]['unit'] != ''}--> $extcredits[$creditstransextra[2]][unit]<!--{/if}--></td>
+							<td class="nums"><!--{if $rewardlog['authorid'] > 0}-->{lang my_reward_adopted}<!--{else}-->{lang my_reward_unadopted}<!--{/if}--></td>
+							<td class="lastpost">$rewardlog[dateline]</td>
+						</tr>
+					<!--{/loop}-->
+				<!--{else}-->
+					<th colspan="<!--{if $type == 'question'}-->9<!--{elseif $type == 'answer'}-->8<!--{elseif $type == 'stats'}-->4<!--{/if}-->"><p class="nodata">{lang data_nonexistence}</p></th></tr>
+				<!--{/if}-->
+				</tbody>
+			<!--{else}-->
+				<tr><th colspan="<!--{if $type == 'question'}-->9<!--{elseif $type == 'answer'}-->8<!--{elseif $type == 'stats'}-->4<!--{/if}-->"><p class="nodata">{lang data_nonexistence}</p></th></tr>
+			<!--{/if}-->
+		</table>
+		<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+<!--{/if}-->

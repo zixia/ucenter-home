@@ -1,0 +1,149 @@
+<!--{if $fid && $forum['ismoderator']}-->
+<div class="itemtitle s_clear">
+	<h1><!--{if $op == 'editforum'}-->{lang mod_option_forum_edit}<!--{elseif $op == 'recommend'}-->{lang mod_option_forum_recommend}<!--{/if}--> - <a href="forumdisplay.php?fid=$fid" target="_blank">$forum[name]</a></h1>
+	<!--{if $op == 'recommend'}-->
+		<ul>
+			<li {if $show == 'all'} class="current" {/if}><a href="{$cpscript}?action=forums&op=recommend&show=all{$forcefid}" hidefocus="true"><span>{lang forum_recommend_position_all}</span></a></li>		
+			<li {if $show == 'forumdisplay'} class="current" {/if}><a href="{$cpscript}?action=forums&op=recommend&show=forumdisplay{$forcefid}" hidefocus="true"><span>{lang forum_recommend_position_forumdisplay}</span></a></li>
+			<li {if $show == 'viewthread'} class="current" {/if}><a href="{$cpscript}?action=forums&op=recommend&show=viewthread{$forcefid}" hidefocus="true"><span>{lang forum_recommend_position_viewthread}</span></a></li>		
+			<li {if $show == 'unlimited'} class="current" {/if}><a href="{$cpscript}?action=forums&op=recommend&show=unlimited{$forcefid}" hidefocus="true"><span>{lang forum_recommend_position_both}</span></a></li>
+		</ul>
+	<!--{/if}-->
+</div>
+<!--{/if}-->
+
+<div class="datalist">
+	<!--{if $modforums['fids']}-->
+		<form method="post" action="{$cpscript}">
+			<input type="hidden" name="action" value="$action" />
+			<input type="hidden" name="op" value="$op" />
+			<div class="filterform">
+				<select name="fid" onchange="this.form.submit();">
+					<option value=""></option>
+					<!--{loop $modforums[list] $id $name}-->
+					<option value="$id" {if $id == $fid}selected{/if}>$name</option>
+					<!--{/loop}-->
+				</select>
+			</div>
+		</form>
+	<!--{else}-->
+		<p>{lang mod_message_forum_nopermission}</p>
+	<!--{/if}-->
+</div>
+
+<!--{if $fid && $forum['ismoderator']}-->
+
+	<!--{if $op == 'editforum'}-->
+		<script type="text/javascript">
+			var allowbbcode = allowimgcode = 1;
+			var allowhtml = forumallowhtml = allowsmilies = 0;
+			function parseurl(str, mode) {
+				str = str.replace(/([^>=\]"'\/]|^)((((https?|ftp):\/\/)|www\.)([\w\-]+\.)*[\w\-\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&~`@':+!]*)+\.(jpg|gif|png|bmp))/ig, mode == 'html' ? '$1<img src="$2" border="0">' : '$1[img]$2[/img]');
+				str = str.replace(/([^>=\]"'\/@]|^)((((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|ed2k):\/\/)|www\.)([\w\-]+\.)*[:\.@\-\w\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&~`@':+!#]*)*)/ig, mode == 'html' ? '$1<a href="$2" target="_blank">$2</a>' : '$1[url]$2[/url]');
+				str = str.replace(/([^\w>=\]:"'\.\/]|^)(([\-\.\w]+@[\.\-\w]+(\.\w+)+))/ig, mode == 'html' ? '$1<a href="mailto:$2">$2</a>' : '$1[email]$2[/email]');
+				return str;
+			}
+		</script>		
+		<script type="text/javascript" src="{$jspath}bbcode.js?{VERHASH}"></script>
+		<form method="post" action="{$cpscript}?action=$action&op=$op">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<input type="hidden" name="fid" value="$fid">
+			<table cellspacing="0" cellpadding="0" width="100%" class="formtable">
+				<tr>
+					<td colspan="2"><strong>{lang forum_description}:</strong></td>
+				</tr>
+				<tr>
+					<td width="560">
+						<div id="descpreview"></div>
+						<div class="editor_tb" style="width: 554px">
+							{eval $seditor = array('desc', array('bold', 'color', 'img', 'link'));}
+							{subtemplate seditor}
+						</div>
+						<textarea id="descmessage" name="descnew" rows="8" cols="80" class="txtarea" style="width: 550px;height:100px;">$forum['description']</textarea>
+					</td>
+					<td>
+						{faq discuzcode} {lang enabled}<br />
+						{lang post_imgcode} {lang enabled}<br />
+						{lang post_html} {lang disabled}<br />
+						<a href="javascript:;" onclick="$('descpreview').innerHTML = bbcode2html($('descmessage').value)">{lang memcp_profile_preview}</a>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2"><strong>{lang forum_rules}:</strong></td>
+				</tr>
+				<tr>
+					<td width="560">
+						<div id="rulespreview"></div>
+						<div class="editor_tb" style="width: 554px">
+							{eval $seditor = array('rules', array('bold', 'color', 'img', 'link'));}
+							{subtemplate seditor}
+						</div>
+						<textarea id="rulesmessage" name="rulesnew" rows="8" cols="80" class="txtarea" style="width: 550px;height:100px;"{if !$alloweditrules}disabled="disabled" readonly="readonly"{/if}>$forum['rules']</textarea>
+					</td>
+					<td>
+						{faq discuzcode} {lang enabled}<br />
+						{lang post_imgcode} {lang enabled}<br />
+						{lang post_html} {lang disabled}<br />
+						<a href="javascript:;" onclick="$('rulespreview').innerHTML = bbcode2html($('rulesmessage').value)">{lang memcp_profile_preview}</a>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2"><button type="submit" class="submit" name="editsubmit" value="true">{lang submit}</button></td>
+				</tr>
+			</table>
+		</form>
+		<!--{if $forumupdate}-->
+			<div class="notice">{lang mod_message_forum_update}</div>
+		<!--{/if}-->
+
+	<!--{elseif $op == 'recommend'}-->
+		<div class="datalist">
+			<!--{if $threadlist}-->
+				<form method="post" action="{$cpscript}?action=$action">
+					<input type="hidden" name="formhash" value="{FORMHASH}" />
+					<input type="hidden" name="op" value="$op" />
+					<input type="hidden" name="page" value="$page" />
+					<input type="hidden" name="fid" value="$fid" />
+					<input type="hidden" name="check" value="$check" />
+					<table cellspacing="0" cellpadding="0" class="datatable">
+						<thead class="colplural">
+							<tr>
+								<td width="8%"></td>
+								<th width="8%">{lang displayorder}</th>
+								<th width="25%">{lang subject}</th>
+								<th width="15%">{lang author}</th>
+								<th width="15%">{lang recommend_moderator}</th>
+								<td width="18%">{lang mod_forum_recommend_expiration}</td>
+								<td width="11%"></td>
+							</tr>
+						</thead>
+						<!--{loop $threadlist $thread}-->
+							<tr class="{echo swapclass('colplural')}">
+								<td><input{if $forum['modrecommend']['sort'] == 1} readonly{/if} type="checkbox" name="delete[]" value="$thread[tid]" class="checkbox" /></td>
+								<td><input{if $forum['modrecommend']['sort'] == 1} readonly{/if} type="text" size="3" name="order[{$thread[tid]}]" value="$thread[displayorder]" class="txt" /></td>
+								<td><input{if $forum['modrecommend']['sort'] == 1} readonly{/if} type="text" name="subject[{$thread[tid]}]" value="$thread[subject]" class="txt" /></td>
+								<td>$thread[authorlink]</td>
+								<td>$thread[moderatorlink]</td>
+								<td><input type="text" value="{$thread[expiration]}" class="txt" name="expirationrecommend[{$thread[tid]}]" id="expirationrecommend" autocomplete="off" {if $forum['modrecommend']['sort'] == 1} readonly{else} onclick="showcalendar(event, this, true)"{/if} /></td>
+								<td><!--{if $forum['modrecommend']['sort'] != 1}--><a href="javascript:;" onclick="showWindow('mods', 'topicadmin.php?optgroup=1&action=moderate&operation=recommend&frommodcp=2&show={$show}&tid={$thread[tid]}');" class="lightlink">{lang more_settings}</a><!--{/if}--></td>
+							</tr>
+						<!--{/loop}-->
+						<tr>
+							<td><input class="checkbox" type="checkbox" id="chkall" name="chkall" onclick="checkall(this.form)" /> <label for="chkall">{lang delete_check}</label></td>
+							<td colspan="5"><button type="submit" name="editsubmit" value="yes" class="button">{lang mod_forum_recommend_list}</button></td>
+						</tr>
+					</table>
+				</form>
+			<!--{else}-->
+				<p>{lang search_nomatch}</p>
+			<!--{/if}-->
+		</div>
+		<!--{if !empty($reportlist[pagelink])}--><div class="pages_btns">$reportlist[pagelink]</div><!--{/if}-->
+		<!--{if $listupdate}-->
+			<div class="notice">{lang mod_message_forum_updaterecommend}</div>
+		<!--{/if}-->
+
+	<!--{/if}-->
+
+<!--{/if}-->
+<script type="text/javascript" src="{$jspath}calendar.js?{VERHASH}"></script>

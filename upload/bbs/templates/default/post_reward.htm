@@ -1,0 +1,49 @@
+<div class="specialpost s_clear">
+	<div class="specialinfo">
+		<dl>
+			<dt><label for="rewardprice">{lang reward_price}:</label></dt>
+			<!--{if $action == 'newthread'}-->
+				<dd>
+					<input onkeyup="getrealprice(this.value)" type="text" name="rewardprice" id="rewardprice" class="txt" size="6" value="$minrewardprice" tabindex="1" />
+					<!--{if !empty($extcredits[$creditstransextra[2]][title])}-->({$extcredits[$creditstransextra[2]][title]})<!--{/if}-->
+				</dd>
+				<dd class="tips">
+					{lang reward_tax_after} <span id="realprice">0</span> {$extcredits[$creditstransextra[2]][unit]} ({lang reward_low} $minrewardprice {$extcredits[$creditstransextra[2]][unit]}<!--{if $maxrewardprice > 0}--> - $maxrewardprice {$extcredits[$creditstransextra[2]][unit]}<!--{/if}-->)
+				</dd>
+			<!--{elseif $action == 'edit'}-->
+				<!--{if $thread['price'] > 0}-->
+					<dd><input onkeyup="getrealprice(this.value)" type="text" name="rewardprice" id="rewardprice" class="txt" size="6" value="$rewardprice" tabindex="1" /></dd>
+					<dd>{lang reward_tax_add} <span id="realprice">0</span> {$extcredits[$creditstransextra[2]][unit]} ({lang reward_low} $minrewardprice {$extcredits[$creditstransextra[2]][unit]}<!--{if $maxrewardprice > 0}--> - $maxrewardprice {$extcredits[$creditstransextra[2]][unit]}<!--{/if}-->)</dd>
+				<!--{elseif $thread['price'] < 0 && $forum['ismoderator']}-->
+					<dd><input type="text" name="rewardprice" size="6" value="$rewardprice" id="rewardprice" class="txt" tabindex="1" /></dd>
+				<!--{else}-->
+					<dd><input onkeyup="getrealprice(this.value)" type="hidden" name="rewardprice" size="6" value="$rewardprice" tabindex="1" />$rewardprice {$extcredits[$creditstransextra[2]][unit]}</dd>
+				<!--{/if}-->
+			<!--{/if}-->
+		</dl>
+	</div>
+	<div class="specialaddons">
+	</div>
+</div>
+
+<script type="text/javascript" reload="1">
+{if $thread['price'] > 0}
+$('realprice').innerHTML = parseInt($('rewardprice').value) + parseInt(Math.ceil( $('rewardprice').value * $creditstax ));
+{/if}
+function getrealprice(price){
+	if(!price.search(/^\d+$/) ) {
+		n = Math.ceil(parseInt(price) + price * $creditstax);
+		if(price > 32767) {
+			$('realprice').innerHTML = '<b>{lang reward_price_overflow}</b>';
+		}{if $action == 'edit'}	else if(price < $rewardprice) {
+			$('realprice').innerHTML = '<b>{lang reward_cant_fall}</b>';
+		}{/if} else if(price < $minrewardprice || ($maxrewardprice > 0 && price > $maxrewardprice)) {
+			$('realprice').innerHTML = '<b>{lang reward_price_bound}</b>';
+		} else {
+			$('realprice').innerHTML = n;
+		}
+	}else{
+		$('realprice').innerHTML = '<b>{lang input_invalid}</b>';
+	}
+}
+</script>

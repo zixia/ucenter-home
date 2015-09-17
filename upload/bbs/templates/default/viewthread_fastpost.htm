@@ -1,0 +1,58 @@
+<script type="text/javascript">
+var postminchars = parseInt('$minpostsize');
+var postmaxchars = parseInt('$maxpostsize');
+var disablepostctrl = parseInt('$disablepostctrl');
+</script>
+
+<div id="f_post" class="mainbox viewthread">
+<form method="post" id="fastpostform" action="post.php?action=reply&amp;fid=$fid&amp;tid=$tid&amp;extra=$extra&amp;replysubmit=yes<!--{if $ordertype != 1}-->&infloat=yes&handlekey=fastpost<!--{/if}-->" <!--{if $ordertype != 1}-->onSubmit="return fastpostvalidate(this)"<!--{/if}-->>
+	<table cellspacing="0" cellpadding="0">
+		<tr>
+			<td class="postauthor">
+				<!--{if $discuz_uid}--><div class="avatar">{echo discuz_uc_avatar($discuz_uid)}</div><!--{/if}-->
+				$pluginhooks[viewthread_fastpost_side]
+			</td>
+			<td class="postcontent">
+				$pluginhooks[viewthread_fastpost_content]
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="subject" value="" />
+				<input type="hidden" name="usesig" value="$usesigcheck" />
+				<!--{if $uchome['addfeed'] && $ucappopen['UCHOME'] && $forum['allowfeed']}-->
+					<input type="hidden" name="addfeed" value="1" />
+				<!--{/if}-->
+
+				<span id="fastpostreturn"></span>
+				<!--{if $thread[special] == 5 && empty($firststand)}-->
+				<div class="s_clear">
+					<label class="left">{lang debate_viewpoint}: </label>
+					<div class="float_typeid short_select">
+						<select id="stand" name="stand">
+							<option value="0">{lang debate_neutral}</option>
+							<option value="1">{lang debate_square}</option>
+							<option value="2">{lang debate_opponent}</option>
+						</select>
+					</div>
+					<script type="text/javascript">simulateSelect('stand');</script>
+				</div>
+				<!--{/if}-->
+				<div class="editor_tb">
+					<span class="right">
+						<a href="post.php?action=reply&fid=$fid&tid=$tid" onclick="return switchAdvanceMode(this.href)">{lang post_advancemode}</a>
+						<span class="pipe">|</span>
+						<span id="newspecialtmp" onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})"><a href="post.php?action=newthread&fid=$fid" onclick="showWindow('newthread', this.href);return false;">{lang post_newthread}</a></span>
+					</span>
+					{eval $seditor = array('fastpost', array('bold', 'color', 'img', 'link', 'quote', 'code', 'smilies'));}
+					{subtemplate seditor}
+				</div>
+				<textarea rows="5" cols="80" name="message" id="fastpostmessage" onKeyDown="seditor_ctlent(event, <!--{if $ordertype != 1}-->'fastpostvalidate($(\'fastpostform\'))'<!--{else}-->'$(\'fastpostform\').submit()'<!--{/if}-->);" tabindex="4" class="txtarea"></textarea>
+				<!--{if $secqaacheck || $seccodecheck}--><div class="fastcheck">{template seccheck}</div><!--{/if}-->
+				<p><button type="submit" name="replysubmit" id="fastpostsubmit" value="replysubmit" tabindex="5">{lang post_newreply}</button>
+				<!--{if $ordertype != 1}-->
+				<input id="fastpostrefresh" type="checkbox" /> <label for="fastpostrefresh">{lang post_fastreply_gotolast}</label></p><script type="text/javascript">if(getcookie('discuz_fastpostrefresh') == 1) {$('fastpostrefresh').checked=true;}</script>
+				<!--{/if}-->
+				</p>
+			</td>
+		</tr>
+	</table>
+</form>
+</div>

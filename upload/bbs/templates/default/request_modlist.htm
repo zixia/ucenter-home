@@ -1,0 +1,17 @@
+<!--{block writedata}-->
+<!--{if $modlist}-->
+	<div class="sidebox s_clear">
+	<h4>{lang forum_modedby}</h4>
+	<!--{loop $modlist $modrow}-->
+		<div style="clear:both"><div style="float:left;margin: 0 16px 5px 0">$modrow[avatar]</div>
+		<a href="space.php?uid=$modrow[uid]" target="_blank">$modrow[username]</a>
+		<!--{if $GLOBALS['modworkstatus']}-->
+			<br />{lang manage} <strong>$modrow[actioncount]</strong>
+		<!--{else}-->
+			<br />{lang posts} <strong>$modrow[posts]</strong> {lang piece}
+		<!--{/if}-->
+		</div>
+	<!--{/loop}-->
+	</div>
+<!--{/if}-->
+<!--{/block}-->

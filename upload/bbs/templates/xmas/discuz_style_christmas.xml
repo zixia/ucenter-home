@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+ <item id="Title"><![CDATA[Discuz! Style]]></item>
+ <item id="Version"><![CDATA[7.2]]></item>
+ <item id="Time"><![CDATA[]]></item>
+ <item id="From"><![CDATA[Discuz! Board]]></item>
+ <item id="Data">
+ <item id="name"><![CDATA[christmas]]></item>
+ <item id="templateid"><![CDATA[70]]></item>
+ <item id="tplname"><![CDATA[christmas]]></item>
+ <item id="directory"><![CDATA[./templates/xmas]]></item>
+ <item id="copyright"><![CDATA[¿µÊ¢´´Ïë£¨±±¾©£©¿Æ¼¼ÓÐÏÞ¹«Ë¾]]></item>
+ <item id="style">
+ <item id="noticetext"><![CDATA[#A11A19]]></item>
+ <item id="interleavecolor"><![CDATA[#FFF1F1]]></item>
+ <item id="specialbg"><![CDATA[#FFF1F1]]></item>
+ <item id="specialborder"><![CDATA[#F4D7B2]]></item>
+ <item id="commonbg"><![CDATA[#FFF1F1]]></item>
+ <item id="floatmaskbgcolor"><![CDATA[#F19286]]></item>
+ <item id="commonborder"><![CDATA[#F4D7B2]]></item>
+ <item id="floatbgcolor"><![CDATA[#FFF1F1]]></item>
+ <item id="dropmenubgcolor"><![CDATA[#FFF]]></item>
+ <item id="dropmenuborder"><![CDATA[#F19286]]></item>
+ <item id="inputbg"><![CDATA[#FFF]]></item>
+ <item id="inputborderdarkcolor"><![CDATA[#DC4F57]]></item>
+ <item id="menuhovertext"><![CDATA[#FFF]]></item>
+ <item id="inputborder"><![CDATA[#F19286]]></item>
+ <item id="menutext"><![CDATA[#FFF]]></item>
+ <item id="menuhover"><![CDATA[#DC4F57]]></item>
+ <item id="menubgcolor"><![CDATA[]]></item>
+ <item id="menuborder"><![CDATA[]]></item>
+ <item id="contentseparate"><![CDATA[#F7CAC0]]></item>
+ <item id="contentwidth"><![CDATA[]]></item>
+ <item id="msgbigsize"><![CDATA[16px]]></item>
+ <item id="msgfontsize"><![CDATA[14px]]></item>
+ <item id="wrapbordercolor"><![CDATA[]]></item>
+ <item id="wrapborder"><![CDATA[0]]></item>
+ <item id="wrapbg"><![CDATA[#FFF]]></item>
+ <item id="wrapwidth"><![CDATA[968px]]></item>
+ <item id="highlightlink"><![CDATA[#A91504]]></item>
+ <item id="link"><![CDATA[#444]]></item>
+ <item id="midtext"><![CDATA[#666]]></item>
+ <item id="lighttext"><![CDATA[#999]]></item>
+ <item id="tabletext"><![CDATA[#444]]></item>
+ <item id="smfontsize"><![CDATA[0.83em]]></item>
+ <item id="smfont"><![CDATA[Verdana,Helvetica,Arial,sans-serif]]></item>
+ <item id="fontsize"><![CDATA[12px]]></item>
+ <item id="font"><![CDATA[Verdana,Helvetica,Arial,sans-serif]]></item>
+ <item id="footertext"><![CDATA[#773E3A]]></item>
+ <item id="headertext"><![CDATA[#731414]]></item>
+ <item id="headerbordercolor"><![CDATA[]]></item>
+ <item id="headerborder"><![CDATA[0]]></item>
+ <item id="sidebgcolor"><![CDATA[#FFF side.gif repeat-y 100% 0]]></item>
+ <item id="bgcolor"><![CDATA[#F4A59A bg.gif]]></item>
+ <item id="headerbgcolor"><![CDATA[ snow.gif no-repeat 0 0]]></item>
+ <item id="boardimg"><![CDATA[logo.gif]]></item>
+ <item id="imgdir"><![CDATA[]]></item>
+ <item id="stypeid"><![CDATA[1]]></item>
+ <item id="styleimgdir"><![CDATA[templates/xmas/images]]></item>
+ <item id="available"><![CDATA[]]></item>
+ </item>
+ <item id="version"><![CDATA[7.2]]></item>
+ </item>
+</root>

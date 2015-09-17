@@ -1,0 +1,24 @@
+/* 新手任务 */
+.task_newbie a { text-decoration: none; }
+	.task_newbie a:hover { text-decoration: underline; }
+.task_newbie .pages { float: left; }
+	.task_newbie .pages a:hover { text-decoration: none; }
+
+.task_list { float: left; }
+	.task_list li { overflow: hidden; margin-bottom: 6px; *margin-bottom: 4px; padding: 0 10px; width: 210px; height: 34px; line-height: 34px; white-space: nowrap; background :url({IMGDIR}/task_unfinished.gif) no-repeat; }
+		.task_list a { display: block; outline: none; }
+			.task_list a:hover { color: #56779D; text-decoration: none; }
+	.task_list .finished { background-image :url({IMGDIR}/task_finished.gif); }
+		.finished a, .finished a:hover { color: {LIGHTTEXT}; }
+	.task_list .isdoing { position: relative; width: 220px; background-image: url({IMGDIR}/task_isdoing.gif); }
+		.isdoing a, isdoing a:hover { color: #56779D; }
+.task_detail { float: left; margin: 0 0 6px -1px; padding: 10px 15px; width: 300px; height: 294px; background: url({IMGDIR}/task_detail.gif) no-repeat; }
+	.task_info { margin-bottom: 10px; height: 250px; overflow: auto; color: {LIGHTTEXT}; }
+		.task_info h4 { font-size: 14px; margin-bottom: 10px; color: {TABLETEXT}; }
+		.task_info h5 { margin: 10px 0 5px; color: {TABLETEXT}; }
+		.task_info .emfont img { float: left; margin: 2px 8px 0 0; height: 35px; }
+	.task_btn { clear: both; text-align: center; }
+	.task_complete { padding-left: 20px; background: url({IMGDIR}/data_valid.gif) no-repeat 0 50%; color: {LIGHTTEXT}; }
+.task_mini { float: left; position: fixed !important; position: absolute; z-index: 301; top: 132px; left: 0; background: url({IMGDIR}/task_mini.gif) no-repeat; color: #FFF; cursor: pointer; }
+	.task_mini div { margin-top: 8px; background: url({IMGDIR}/task_mini.gif) no-repeat -30px 100%; }
+	.task_mini span { display: block; padding: 15px 5px 8px; width: 20px; background: url({IMGDIR}/notice.gif) no-repeat 50% 0; }

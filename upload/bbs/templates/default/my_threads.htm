@@ -1,0 +1,71 @@
+<table cellspacing="0" cellpadding="0" summary="{lang my_threads}" class="datatable">
+	<thead class="colplural">
+		<tr>
+			<td class="folder">&nbsp;</td>
+			<td class="icon">&nbsp;</td>
+			<th>{lang thread}</th>
+			<td class="forum">{lang forum}</td>
+			<!--{if !$uid}-->
+				<td class="nums">
+					<select onchange="window.location='my.php?item=threads&filter=' + this.value + '$fidadd'">
+						<option value="">{lang status}</option>
+						<option value="recyclebin"<!--{if $filter == 'recyclebin'}--> selected="selected"<!--{/if}-->>{lang forum_recyclebin}</option>
+						<option value="aduit"<!--{if $filter == 'aduit'}--> selected="selected"<!--{/if}-->>{lang my_threads_aduit}</option>
+						<option value="close"<!--{if $filter == 'close'}--> selected="selected"<!--{/if}-->>{lang my_threads_close}</option>
+						<option value="common"<!--{if $filter == 'common'}--> selected="selected"<!--{/if}-->>{lang my_threads_common}</option>
+					</option>
+				</td>
+			<!--{/if}-->
+			<td class="lastpost"><cite>{lang lastpost}</cite></td>
+		</tr>
+	</thead>
+	<!--{if $threadlist}-->
+		<tbody>
+			<!--{loop $threadlist $thread}-->
+				<tr>
+					<td class="folder">
+						<a href="viewthread.php?tid=$thread[tid]" target="_blank">
+						<!--{if $thread[folder] == 'lock'}-->
+							<img src="{IMGDIR}/folder_lock.gif" /></a>
+						<!--{elseif in_array($thread['displayorder'], array(1, 2, 3))}-->
+							<img src="{IMGDIR}/pin_$thread[displayorder].gif" alt="$threadsticky[3-$thread[displayorder]]" /></a>
+						<!--{else}-->
+							<img src="{IMGDIR}/folder_$thread[folder].gif" /></a>
+						<!--{/if}-->
+					</td>
+					<td class="icon">
+					<!--{if $thread['special'] == 1}-->
+						<img src="{IMGDIR}/pollsmall.gif" alt="{lang thread_poll}" />
+					<!--{elseif $thread['special'] == 2}-->
+						<img src="{IMGDIR}/tradesmall.gif" alt="{lang thread_trade}" />
+					<!--{elseif $thread['special'] == 3}-->
+						<img src="{IMGDIR}/rewardsmall.gif" alt="{lang thread_reward}" <!--{if $thread['price'] < 0}-->class="solved"<!--{/if}--> />
+					<!--{elseif $thread['special'] == 4}-->
+						<img src="{IMGDIR}/activitysmall.gif" alt="{lang thread_activity}" />
+					<!--{elseif $thread['special'] == 5}-->
+						<img src="{IMGDIR}/debatesmall.gif" alt="{lang thread_debate}" />
+					<!--{else}-->
+						$thread['icon']
+					<!--{/if}-->
+					</td>
+					<th><!--{if $thread['displayorder'] >= 0}--><a href="viewthread.php?tid=$thread[tid]" target="_blank">$thread[subject]</a><!--{else}-->$thread[subject]<!--{/if}--></th>
+					<td class="forum"><a href="forumdisplay.php?fid=$thread[fid]" target="_blank">$thread[forumname]</a></td>
+					<!--{if !$uid}-->
+						<td class="nums"><!--{if $thread[displayorder] == '-1'}-->{lang forum_recyclebin}<!--{elseif $thread[displayorder] == '-2'}-->{lang my_threads_aduit}<!--{elseif $thread[closed] == '1'}-->{lang my_threads_close}<!--{else}-->{lang my_threads_common}<!--{/if}--></td>
+					<!--{/if}-->
+					<td class="lastpost">
+						<cite><!--{if $thread['lastposter']}--><a href="space.php?username=$thread[lastposterenc]" target="_blank">$thread[lastposter]</a><!--{else}-->{lang anonymous}<!--{/if}--></cite>
+						<em><a href="redirect.php?tid=$thread[tid]&goto=lastpost#lastpost">$thread[lastpost]</a></em>
+					</td>
+				</tr>
+			<!--{/loop}-->
+		</tbody>
+	<!--{else}-->
+		<tr>
+			<td class="folder">&nbsp;</td>
+			<td class="icon">&nbsp;</td>
+			<th colspan="4"><p class="nodata">{lang data_nonexistence}</p></th>
+			</tr>
+	<!--{/if}-->
+</table>
+<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->

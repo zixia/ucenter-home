@@ -1,0 +1,217 @@
+{template header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang pm_center}</div>
+
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+			<div class="itemtitle s_clear">
+				<form id="pm_search" method="get" action="pm.php" class="right">
+					<input name="search" type="hidden" value="yes" />
+					<input name="srchtxt" type="text" value="{if !empty($search) && $srchtxt !== ''}$srchtxtinput{/if}" class="txt" />
+					<input type="submit" value="{lang search}" />
+				</form>
+				<h1>{lang pm_center}</h1>
+			</div>
+
+			<div class="pm_header colplural itemtitle s_clear">
+				<a href="pm.php?action=new" onclick="showWindow('sendpm', this.href);return false;" class="postpm">+ {lang pm_send}</a>
+				<ul>
+					<li {if $filter == 'newpm'}class="current"{/if}><a href="pm.php?filter=newpm" hidefocus="true"><span>{lang pm_unread}</span></a></li>
+					<li {if $filter == 'privatepm'}class="current"{/if}><a href="pm.php?filter=privatepm" hidefocus="true"><span>{lang pm_private}</span></a></li>
+					<li {if $filter == 'announcepm'}class="current"{/if}><a href="pm.php?filter=announcepm" hidefocus="true"><span>{lang pm_announce}</span></a></li>
+					<li {if $action == 'viewblack'}class="current"{/if}><a href="pm.php?action=viewblack" hidefocus="true"><span>{lang pm_setting}</span></a></li>
+				</ul>
+			</div>
+
+			<!--{if !$action}-->
+			
+			<!--{if $pmlist}-->
+			<form method="post" id="pmform" action="pm.php?action=del&filter=$filter&page=$page">
+				<input name="readopt" type="hidden" value="0" />
+				<ul class="pm_list">
+				{eval $range = array('', '{lang pm_today}', '{lang pm_yesterday}', '{lang pm_before_yesterday}');}
+				<!--{loop $pmlist $key $pm}-->
+					<li id="pm_$pm[pmid]" class="s_clear {echo swapclass('colplural')}">
+						<!--{if $filter == 'privatepm'}-->
+							<a{if $pm[msgfromurl]} href="$pm[msgfromurl]"{/if} target="_blank" class="avatar">{echo discuz_uc_avatar($pm[touid], 'small');}</a>
+						<!--{else}-->
+							<a class="avatar">{echo discuz_uc_avatar($pm[touid], 'small');}</a>
+						<!--{/if}-->
+						<p class="cite">
+							<!--{if $pm[msgfrom]}--><cite><a{if $pm[msgfromurl]} href="$pm[msgfromurl]"{/if} target="_blank">$pm[msgfrom]</a></cite><!--{/if}-->
+							<!--{if $range[$pm[daterange]]}-->$range[$pm[daterange]] $pm[time]<!--{else}-->$pm[date] $pm[time]<!--{/if}-->
+							<!--{if $pm[new] && $filter != 'announcepm'}-->&nbsp;&nbsp;<img src="{IMGDIR}/notice_newpm.gif" alt="NEW" /><!--{/if}-->
+						</p>
+						<div class="summary">
+						<!--{if $filter != 'announcepm'}-->
+							<!--{if $pm[touid]}-->
+								$pm[message]</div>
+								<p class="more"><a href="pm.php?uid=$pm[touid]&filter=$filter{if !empty($search)}#pm_$pm[pmid]{else}&amp;daterange=$pm[daterange]#new{/if}" class="to">{lang pm_view}</a></p>
+								<span class="action">
+									<input name="uid[]" class="checkbox" type="checkbox" value="$pm[touid]" />
+									<a href="pm.php?action=del&uid=$pm[touid]&filter=$filter" id="pmd_$pm[pmid]" onclick="deletepm(this, $pm[pmid]);return false;" class="delete" title="{lang delete}">{lang delete}</a>									
+								</span>
+							<!--{else}-->
+								<a href="pm.php?pmid=$pm[pmid]&filter=$filter">$pm[message]</a>
+								</div>
+								<span class="action">
+									<input name="pmid[]" class="checkbox" type="checkbox" value="$pm[pmid]" />
+									<a href="pm.php?action=del&pmid=$pm[pmid]&filter=$filter" id="pmd_$pm[pmid]" onclick="deletepm(this, $pm[pmid]);return false;" class="delete" title="{lang delete}">{lang delete}</a>									
+								</span>
+							<!--{/if}-->
+						<!--{else}-->
+							<a href="pm.php?pmid=$pm[pmid]&filter=$filter">$pm[message]</a></div>
+						<!--{/if}-->
+					</li>
+				<!--{/loop}-->
+				</ul>
+				<div class="s_clear" style="margin: 10px 0;">
+					<!--{if $filter != 'announcepm'}-->
+					<span class="right">
+						<input class="checkbox" type="checkbox" id="chkall" name="chkall" onclick="checkall(this.form);" /> <label for="chkall">{lang checkall}</label>						
+						<span class="pipe">|</span><a href="javascript:;" onclick="doane(event);$('pmform').readopt.value = 0;$('pmform').submit()" class="lightlink">{lang delete}</a>
+						<button type="submit" value="yes" class="button" id="delallpm" style="display: none;">{lang delete}</button>
+					</span>
+					<!--{/if}-->
+					{lang pm_num_total}
+				</div>
+				<div>
+					<!--{if !empty($search) && $filter !== ''}-->
+						<!--{if $page > 1}--><a href="pm.php?search=yes&srchtxt=$srchtxtenc">{lang pm_first_page}</a><!--{/if}-->
+						<a href="pm.php?search=yes&srchtxt=$srchtxtenc&page={echo $page+1}">{lang pm_search_continue}</a>
+					<!--{else}-->
+						$multipage
+					<!--{/if}-->
+				</div>
+			</form>
+			<script type="text/javascript">
+			function deletepm(obj, pmid) {
+				str = 'ajaxget(\'' + obj.href + '\', \'pm_' + pmid + '\', \'ajaxwaitid\', \'ajaxwaitid\', \'\', \'$(\\\'pm_' + pmid + '\\\').style.display = \\\'none\\\'\');';
+				showDialog('{lang pm_delete_confirm}', 'confirm', '', str);
+			}
+			</script>
+			<!--{else}-->
+			<p class="nodata">{lang data_nonexistence}</p>
+			<!--{/if}-->
+
+			<!--{elseif $action == 'view'}-->
+
+			<!--{if empty($pmid)}-->
+				<div class="itemtitle newpm_notice s_clear">
+					<span class="right">
+						{lang pm_total} {echo count($pmlist);}
+						<span class="pipe">|</span><a href="pm.php?uid=$uid&daterange=5&export=yes">{lang pm_archive}</a>
+						<span class="pipe">|</span><a href="pm.php?action=del&uid=$uid&filter=$filter" onclick="return confirm('{lang pm_clean_confirm}');">{lang pm_clean}</a>
+						<span class="pipe">|</span><a href="pm.php?action=addblack&formhash={FORMHASH}&user={echo rawurlencode($user);}" class="addblack">{lang pm_add_blacklist}</a>
+					</span>
+					<a href="javascript:history.go(-1);" class="back">{lang return}</a>
+					<span class="left">{lang pm_between_user}</span>
+					<ul>
+						<li{if $daterange <= 3} class="current"{/if}><a href="pm.php?uid=$uid&daterange=3" hidefocus="true"><span>{lang pm_three_day}</span></a></li>
+						<li{if $daterange == 4} class="current"{/if}><a href="pm.php?uid=$uid&daterange=4" hidefocus="true"><span>{lang pm_week}</span></a></li>
+						<li{if $daterange == 5} class="current"{/if}><a href="pm.php?uid=$uid&daterange=5" hidefocus="true"><span>{lang pm_all_day}</span></a></li>
+					</ul>
+				</div>
+			<!--{/if}-->
+
+			<div id="pmlist">
+
+				<ul class="pm_list">
+					<!--{if $pmlist}-->
+					{eval $new = 0;}
+					<!--{loop $pmlist $pm}-->
+						{subtemplate pm_node}
+					<!--{/loop}-->
+					<!--{else}-->
+						<!--{if $daterange == 3}-->
+							<li>{lang pm_three_day_nonexistence}</li>
+						<!--{elseif $daterange == 4}-->
+							<li>{lang pm_week_nonexistence}</li>
+						<!--{else}-->
+							<li>{lang pm_all_day_nonexistence}</li>
+						<!--{/if}-->
+					<!--{/if}-->
+				</ul>
+				<!--{if empty($pmid) && $allowsendpm}-->
+					<div id="pm_list">
+					<ul id="pm_new" class="pm_list" style="display: none"></ul>
+					</div>
+					<form id="pmform" method="post" action="pm.php?action=send&uid=$uid&pmsubmit=yes&infloat=yes" class="pmreply">
+						<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
+						<input type="hidden" name="handlekey" value="pmreply" />
+						<input type="hidden" name="lastdaterange" value="$lastdaterange" />
+						<div class="editor_tb" style="width: 514px">
+							{eval $seditor = array('pmreply', array('bold', 'img', 'link', 'quote', 'code', 'smilies'));}
+							{subtemplate seditor}
+						</div>
+						<textarea onKeyDown="seditor_ctlent(event, 'pmreplysubmit()')" id="pmreplymessage" name="message" class="txtarea" cols="30" rows="5" style="margin-top: -1px; border-top: none;"></textarea>
+						<p style="margin: 5px 0;"><button onclick="pmreplysubmit();return false;">{lang pm_reply}</button>
+						{eval $policymsgs = $p = '';}
+						<!--{loop $creditspolicy['sendpm'] $id $policy}-->
+						<!--{block policymsg}--><!--{if $extcredits[$id][img]}-->$extcredits[$id][img] <!--{/if}-->$extcredits[$id][title] $policy $extcredits[$id][unit]<!--{/block}-->
+						{eval $policymsgs .= $p.$policymsg;$p = ', ';}
+						<!--{/loop}-->
+						<!--{if $policymsgs}-->&nbsp;{lang pm_credit_msg}<!--{/if}-->
+						</p>
+					</form>
+				<!--{/if}-->
+			</div>
+			<script type="text/javascript">
+			function pmreplysubmit() {
+				$('pmreplymessage').value = parseurl($('pmreplymessage').value);
+				ajaxpost('pmform', 'pm_new', 'pm_new', 'onerror');
+			}
+			function messagehandle_pmreply() {
+				$('pm_new').style.display = '';
+			}
+			function appendpmnode() {
+				$('pm_new').className = 'pm_list';
+				$('pm_new').style.display = '';
+				$('pm_new').id = '';
+				ul = document.createElement('ul');
+				ul.id = 'pm_new';
+				ul.className = 'pm_list';
+				ul.style.display = 'none';
+				$('pm_list').appendChild(ul);
+				$('pmform').message.value = '';
+				showCreditPrompt();
+				if(document.body.stat) document.body.stat('pm_send_succeed', 'pm.php');
+			}
+			</script>
+
+		<!--{elseif $action == 'viewblack'}-->
+			<div class="blacklist">
+				<form class="allblocked" method="post" action="pm.php?user=%7BALL%7D">
+					<input type="hidden" name="formhash" value="{FORMHASH}" />
+					<input type="hidden" name="action" value="" />
+					<label><input name="black" type="radio" class="radio" value="0" onclick="this.form.action.value = 'delblack'"{if !$blackall} checked="checked"{/if} /> {lang pm_all_blacklist_receive}</label>
+					<label><input name="black" type="radio" class="radio" value="1" onclick="this.form.action.value = 'addblack'"{if $blackall} checked="checked"{/if} /> {lang pm_all_blacklist_black}</label>
+					<input type="submit" name="submit" value="{lang submit}" />
+				</form>
+				<h3 class="blocktitle lightlink">{lang pm_blacklist}: </h3>
+				<ul class="commonlist inlinelist">
+					{eval $dataexist=0;}
+					<!--{loop $blackls $user}-->
+						<!--{if $user !== '' && $user != chr(0x7B).'ALL'.chr(0x7D)}-->
+							{eval $dataexist=1;}
+							<li style="padding: 4px 0;" onmouseover="this.className='hover'" onmouseout="this.className=''">
+								<a href="space.php?username=$user" target="_blank">$user</a>
+								<a href="pm.php?action=delblack&formhash={FORMHASH}&user={echo urlencode($user);}" title="{lang pm_remove_blacklist}" class="remove">{lang pm_remove_blacklist}</a>
+							</li>
+						<!--{/if}-->
+					<!--{/loop}-->
+					<!--{if !$dataexist}-->
+						<li>{lang data_nonexistence}<li>
+					<!--{/if}-->
+				</ul>
+			</div>
+		<!--{/if}-->
+		</div>
+	</div>
+	<div class="side">
+		{subtemplate personal_navbar}
+	</div>
+
+</div>
+
+{template footer}

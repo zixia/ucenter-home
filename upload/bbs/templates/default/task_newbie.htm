@@ -1,0 +1,42 @@
+{template header}
+<!--{if $action == 'newbie'}-->
+	<link rel="stylesheet" type="text/css" href="forumdata/cache/style_{STYLEID}_task_newbie.css?{VERHASH}" />
+	<div class="fcontent">
+		<h3 class="float_ctrl">
+			<em>{lang task_newbie_unfinish_sum}</em>
+			<span><!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="$('task_mini').style.display='';setcookie('discuz_minitask', 1, 3600);hideWindow('task')" title="{lang close}">{lang close}</a><!--{/if}--></span>
+		</h3>
+		<div class="postbox task_newbie">
+			<div class="s_clear">
+				<ul class="task_list">
+					<!--{loop $thisids $taskid}-->
+						<li{if in_array($taskid, $doneids)} class="finished"{/if}><a href="task.php?action=view&amp;id=$taskid" id="newbietask_$taskid" onclick="showTaskDetail(this);doane(event);" target="_blank">$newbietasks[$taskid][name]</a></li>
+					<!--{/loop}-->
+				</ul>
+				<div id="ajax_task_detail" class="task_detail"></div>
+			</div>
+			<div class="s_clear">$multipage</div>
+		</div>
+	</div>
+	<script type="text/javascript" reload="1">
+		var currentTask = null;
+		var currentClass = '';
+		function showTaskDetail(obj) {
+			ajaxget(obj.href, 'ajax_task_detail');
+			if(currentTask != obj) {
+				if(currentTask) {
+					currentTask.parentNode.className = currentClass;
+				}
+				currentTask = obj;
+			}
+			currentClass = obj.parentNode.className;
+			obj.parentNode.className = 'isdoing';
+		}
+		<!--{if $currenttaskid}-->
+			showTaskDetail($('newbietask_$currenttaskid'));
+		<!--{else}-->
+			showTaskDetail($('newbietask_$newbietaskid'));
+		<!--{/if}-->
+	</script>
+<!--{/if}-->
+{template footer}

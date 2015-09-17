@@ -1,0 +1,270 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang memcp_credits_log}</div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+			<div class="itemtitle s_clear">
+				<h1>{lang memcp_credits_log}</h1>
+				<ul>
+					<li<!--{if $operation == 'paymentlog'}--> class="current"<!--{/if}-->><a href="memcp.php?action=creditslog&operation=paymentlog" hidefocus="true"><span>{lang memcp_credits_log_payment}</span></a></li>
+					<li<!--{if $operation == 'incomelog'}--> class="current"<!--{/if}-->><a href="memcp.php?action=creditslog&operation=incomelog" hidefocus="true"><span>{lang memcp_credits_log_income}</span></a></li>
+					<li<!--{if $operation == 'attachpaymentlog'}--> class="current"<!--{/if}-->><a href="memcp.php?action=creditslog&operation=attachpaymentlog" hidefocus="true"><span>{lang memcp_credits_attach_log_payment}</span></a></li>
+					<li<!--{if $operation == 'attachincomelog'}--> class="current"<!--{/if}-->><a href="memcp.php?action=creditslog&operation=attachincomelog" hidefocus="true"><span>{lang memcp_credits_attach_log_income}</span></a></li>
+					<li<!--{if $operation == 'rewardpaylog'}--> class="current"<!--{/if}-->><a href="memcp.php?action=creditslog&operation=rewardpaylog" hidefocus="true"><span>{lang memcp_reward_log_payment}</span></a></li>
+					<li<!--{if $operation == 'rewardincomelog'}--> class="current"<!--{/if}-->><a href="memcp.php?action=creditslog&operation=rewardincomelog" hidefocus="true"><span>{lang memcp_reward_log_income}</span></a></li>
+					<li<!--{if $operation == 'creditslog'}--> class="current"<!--{/if}-->><a href="memcp.php?action=creditslog&operation=creditslog" hidefocus="true"><span>{lang memcp_credits_log_transaction}</span></a></li>
+				</ul>
+				<button class="right" onclick="window.location='memcp.php?action=credits'">{lang return}</button>
+			</div>
+			<div class="datalist">
+				<!--{if $operation == 'paymentlog'}-->
+					<table summary="{lang memcp_credits_log_payment}" cellspacing="0" cellpadding="0" class="datatable">
+						<thead class="colplural">
+							<tr>
+								<td>{lang subject}</td>
+								<td>{lang author}</td>
+								<td>{lang dateline}</td>
+								<td>{lang forum}</td>
+								<td>{lang memcp_credits_log_payment_dateline}</td>
+								<td>{lang price}</td>
+								<td>{lang pay_author_income}</td>
+							</tr>
+						</thead>
+						<tbody>
+						<!--{if $loglist}-->
+							<!--{loop $loglist $log}-->
+								<tr class="{echo swapclass('colplural')}">
+									<td><a href="viewthread.php?tid=$log[tid]" target="_blank">$log[subject]</a></td>
+									<td><a href="space.php?uid=$log[authorid]" target="_blank">$log[author]</a></td>
+									<td>$log[tdateline]</td>
+									<td><a href="forumdisplay.php?fid=$log[fid]" target="_blank">$log[name]</a></td>
+									<td>$log[dateline]</td>
+									<!--{if !$log['amount'] && !$log['netamount']}-->
+										<td colspan="2">{lang memcp_credits_log_payment_refunded}</td>
+									<!--{else}-->
+										<td>{$extcredits[$creditstransextra[1]][title]} $log[amount] {$extcredits[$creditstransextra[1]][unit]}</td>
+										<td>{$extcredits[$creditstransextra[1]][title]} $log[netamount] {$extcredits[$creditstransextra[1]][unit]}</td>
+									<!--{/if}-->
+								</tr>
+							<!--{/loop}-->
+						<!--{else}-->
+							<td colspan="7">{lang memcp_credits_log_none}</td></tr>
+						<!--{/if}-->
+						</tbody>
+					</table>
+					<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+				<!--{elseif $operation == 'incomelog'}-->
+					<table summary="{lang memcp_credits_log_income}" cellspacing="0" cellpadding="0" class="datatable">
+						<thead class="colplural">
+							<tr>
+								<td>{lang subject}</td>
+								<td>{lang dateline}</td>
+								<td>{lang forum}</td>
+								<td>{lang memcp_credits_log_income_buyer}</td>
+								<td>{lang memcp_credits_log_payment_dateline}</td>
+								<td>{lang price}</td>
+								<td>{lang pay_author_income}</td>
+							</tr>
+						</thead>
+						<tbody>
+							<!--{if $loglist}-->
+								<!--{loop $loglist $log}-->
+									<tr class="{echo swapclass('colplural')}">
+										<td><a href="viewthread.php?tid=$log[tid]" target="_blank">$log[subject]</a></td>
+										<td>$log[tdateline]</td>
+										<td><a href="forumdisplay.php?fid=$log[fid]" target="_blank">$log[name]</a></td>
+										<td><a href="space.php?uid=$log[uid]" target="_blank">$log[username]</a></td>
+										<td>$log[dateline]</td>
+										<!--{if !$log['amount'] && !$log['netamount']}-->
+											<td colspan="2">{lang memcp_credits_log_payment_refunded}</td>
+										<!--{else}-->
+											<td>{$extcredits[$creditstransextra[1]][title]} $log[amount] {$extcredits[$creditstransextra[1]][unit]}</td>
+											<td>{$extcredits[$creditstransextra[1]][title]} $log[netamount] {$extcredits[$creditstransextra[1]][unit]}</td>
+										<!--{/if}-->
+									</tr>
+								<!--{/loop}-->
+							<!--{else}-->
+								<td colspan="7">{lang memcp_credits_log_none}</td></tr>
+							<!--{/if}-->
+						</tbody>
+					</table>
+					<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+				<!--{elseif $operation == 'attachpaymentlog'}-->
+					<table summary="{lang memcp_credits_log_income}" cellspacing="0" cellpadding="0" class="datatable">
+						<thead class="colplural">
+							<tr>
+								<td>{lang attachments}</td>
+								<td>{lang author}</td>
+								<td>{lang dateline}</td>
+								<td>{lang memcp_credits_attach_log_post}</td>
+								<td>{lang memcp_credits_log_payment_dateline}</td>
+								<td>{lang price}</td>
+								<td>{lang pay_author_income}</td>
+							</tr>
+						</thead>
+						<tbody>
+							<!--{if $loglist}-->
+								<!--{loop $loglist $log}-->
+									<tr class="{echo swapclass('colplural')}">
+										<td>$log[filename]</td>
+										<td><a href="space.php?uid=$log[uid]" target="_blank">$log[username]</a></td>
+										<td>$log[adateline]</td>
+										<td><a href="redirect.php?goto=findpost&pid=$log[pid]&ptid=$log[tid]" target="_blank">$log[subject]</a></td>
+										<td>$log[dateline]</td>
+										<!--{if !$log['amount'] && !$log['netamount']}-->
+											<td colspan="2">{lang memcp_credits_log_payment_refunded}</td>
+										<!--{else}-->
+											<td>{$extcredits[$creditstransextra[1]][title]} $log[amount] {$extcredits[$creditstransextra[1]][unit]}</td>
+											<td>{$extcredits[$creditstransextra[1]][title]} $log[netamount] {$extcredits[$creditstransextra[1]][unit]}</td>
+										<!--{/if}-->
+									</tr>
+								<!--{/loop}-->
+							<!--{else}-->
+								<td colspan="7">{lang memcp_credits_log_none}</td></tr>
+							<!--{/if}-->
+						</tbody>
+					</table>
+					<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+				<!--{elseif $operation == 'attachincomelog'}-->
+					<table summary="{lang memcp_credits_log_income}" cellspacing="0" cellpadding="0" class="datatable">
+						<thead class="colplural">
+							<tr>
+								<td>{lang attachments}</td>
+								<td>{lang dateline}</td>
+								<td>{lang memcp_credits_attach_log_post}</td>
+								<td>{lang memcp_credits_log_income_buyer}</td>
+								<td>{lang memcp_credits_log_payment_dateline}</td>
+								<td>{lang price}</td>
+								<td>{lang pay_author_income}</td>
+							</tr>
+						</thead>
+						<tbody>
+							<!--{if $loglist}-->
+								<!--{loop $loglist $log}-->
+									<tr class="{echo swapclass('colplural')}">
+										<td>$log[filename]</td>
+										<td>$log[adateline]</td>
+										<td><a href="redirect.php?goto=findpost&pid=$log[pid]&ptid=$log[tid]" target="_blank">$log[subject]</a></td>
+										<td><a href="space.php?uid=$log[uid]" target="_blank">$log[username]</a></td>
+										<td>$log[dateline]</td>
+										<!--{if !$log['amount'] && !$log['netamount']}-->
+											<td colspan="2">{lang memcp_credits_log_payment_refunded}</td>
+										<!--{else}-->
+											<td>{$extcredits[$creditstransextra[1]][title]} $log[amount] {$extcredits[$creditstransextra[1]][unit]}</td>
+											<td>{$extcredits[$creditstransextra[1]][title]} $log[netamount] {$extcredits[$creditstransextra[1]][unit]}</td>
+										<!--{/if}-->
+									</tr>
+								<!--{/loop}-->
+							<!--{else}-->
+								<td colspan="7">{lang memcp_credits_log_none}</td></tr>
+							<!--{/if}-->
+						</tbody>
+					</table>
+					<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+				<!--{elseif $operation == 'rewardpaylog'}-->
+					<table summary="{lang memcp_reward_log_payment}" cellspacing="0" cellpadding="0" class="datatable">
+						<thead class="colplural">
+							<tr>
+								<td>{lang subject}</td>
+								<td>{lang dateline}</td>
+								<td>{lang forum}</td>
+								<td>{lang memcp_reward_log_payment_answerer}</td>
+								<td>{lang memcp_reward_total}</td>
+								<td>{lang memcp_reward_fact}</td>
+							</tr>
+						</thead>
+						<tbody>
+							<!--{if $loglist}-->
+								<!--{loop $loglist $log}-->
+									<tr class="{echo swapclass('colplural')}">
+										<td><a href="viewthread.php?tid=$log[tid]" target="_blank">$log[subject]</a></td>
+										<td>$log[dateline]</td>
+										<td><a href="forumdisplay.php?fid=$log[fid]" target="_blank">$log[name]</a></td>
+										<td><a href="space.php?uid=$log['uid']" target="_blank">$log[username]</a></td>
+										<td>{$extcredits[$creditstransextra[2]][title]} $log['price']<!--{if $extcredits[$creditstransextra[2]][unit] != ''}--> $extcredits[$creditstransextra[2]][unit]<!--{/if}--></td>
+										<td>{$extcredits[$creditstransextra[2]][title]} $log['netamount']<!--{if $extcredits[$creditstransextra[2]][unit] != ''}--> $extcredits[$creditstransextra[2]][unit]<!--{/if}--></td>
+									</tr>
+								<!--{/loop}-->
+							<!--{else}-->
+								<td colspan="7">{lang memcp_credits_log_none}</td></tr>
+							<!--{/if}-->
+						</tbody>
+					</table>
+					<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+				<!--{elseif $operation == 'rewardincomelog'}-->
+					<table summary="{lang memcp_reward_log_income}" cellspacing="0" cellpadding="0" class="datatable">
+						<thead class="colplural">
+							<tr>
+								<td>{lang subject}</td>
+								<td>{lang dateline}</td>
+								<td>{lang forum}</td>
+								<td>{lang memcp_reward_log_income_author}</td>
+								<td>{lang memcp_reward_total}</td>
+							</tr>
+						</thead>
+						<tbody>
+							<!--{if $loglist}-->
+								<!--{loop $loglist $log}-->
+									<tr class="{echo swapclass('colplural')}">
+										<td><a href="viewthread.php?tid=$log[tid]" target="_blank">$log[subject]</a></td>
+										<td>$log[dateline]</td>
+										<td><a href="forumdisplay.php?fid=$log[fid]" target="_blank">$log[name]</a></td>
+										<td><a href="space.php?uid=$log['uid']" target="_blank">$log[username]</a></td>
+										<td>{$extcredits[$creditstransextra[2]][title]} $log['price']<!--{if $extcredits[$creditstransextra[2]]['unit'] != ''}--> $extcredits[$creditstransextra[2]][unit]<!--{/if}--></td>
+									</tr>
+								<!--{/loop}-->
+							<!--{else}-->
+								<td colspan="7">{lang memcp_credits_log_none}</td></tr>
+							<!--{/if}-->
+						</tbody>
+					</table>
+					<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+				<!--{elseif $operation == 'creditslog'}-->
+					<table summary="{lang memcp_credits_log_transaction}" cellspacing="0" cellpadding="0" class="datatable">
+						<thead class="colplural">
+							<tr>
+								<td></td>
+								<td>{lang time}</td>
+								<td width="15%">{lang memcp_credits_log_transaction_outgo}</td>
+								<td>{lang memcp_credits_log_transaction_income}</td>
+								<td>{lang action}</td>
+							</tr>
+						</thead>
+						<tbody>
+							<!--{if $loglist}-->
+								<!--{loop $loglist $log}-->
+									<tr class="{echo swapclass('colplural')}">
+										<td><!--{if $log['fromto'] == 'BANK ACCOUNT'}-->{lang memcp_credits_transfer_bank}<!--{elseif $log['fromto'] == 'TASK REWARD'}-->{lang memcp_credits_transfer_task}<!--{else}--><a href="space.php?username=$log[fromtoenc]">$log[fromto]</a><!--{/if}--></td>
+										<td>$log[dateline]</td>
+										<td><!--{if $log['send']}-->{$extcredits[$log[sendcredits]][title]} $log[send] {$extcredits[$log[sendcredits]][unit]}<!--{/if}--></td>
+										<td><!--{if $log['receive']}-->{$extcredits[$log[receivecredits]][title]} $log[receive] {$extcredits[$log[receivecredits]][unit]}<!--{/if}--></td>
+										<td>
+										<!--{if $log['operation'] == 'TFR'}-->
+											{lang memcp_credits_transfer_send}
+										<!--{elseif $log['operation'] == 'RCV'}-->
+											{lang memcp_credits_transfer_receive}
+										<!--{elseif $log['operation'] == 'EXC'}-->
+											{lang memcp_credits_exchange}
+										<!--{elseif $log['operation'] == 'UGP'}-->
+											{lang memcp_usergroups_charged}
+										<!--{elseif $log['operation'] == 'AFD'}-->
+											{lang memcp_credits_transfer_bank}
+										<!--{/if}-->
+										</td>
+									</tr>
+								<!--{/loop}-->
+							<!--{else}-->
+								<tr><td colspan="5">{lang memcp_credits_log_none}</td></tr>
+							<!--{/if}-->
+						</tbody>
+					</table>
+					<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+				<!--{/if}-->
+			</div>
+		</div>
+	</div>
+	<div class="side">
+		{subtemplate personal_navbar}
+	</div>
+</div>
+{subtemplate footer}

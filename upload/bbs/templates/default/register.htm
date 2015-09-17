@@ -1,0 +1,225 @@
+{template header}
+
+<!--{if !empty($message)}-->
+<script type="text/javascript" onload="1">
+{eval $bbname = str_replace('\'', '\\\'', $bbname);}
+if(document.body.stat) document.body.stat('register_succeed', '$regname');
+display('main_messaqge');
+display('layer_reg');
+display('layer_message');
+{if $regverify == 1}
+	$('messageleft1').innerHTML = '<p>{lang register_succeed} $bbname</p><p>{lang profile_email_verify}</p>';
+	$('messageright1').innerHTML = '<a href="memcp.php">{lang user_center}</a><br />{lang profile_email_verify_comment}';
+	setTimeout("window.location.href='memcp.php'", $mrefreshtime);
+{elseif $regverify == 2}
+	$('messageleft1').innerHTML = '<p>{lang register_succeed} $bbname</p><p>{lang register_manual_verify}</p>';
+	$('messageright1').innerHTML = '<a href="memcp.php">{lang user_center}</a>';
+	setTimeout("window.location.href='memcp.php'", $mrefreshtime);
+{else}
+	{if $newbietask}
+		$('messageleft1').innerHTML = '<p>{lang register_succeed} $bbname</p><p>{lang register_newbietask}</p>';
+		$('messageright1').innerHTML = '<a href="javascript:;" onclick="location.href=\'task.php?action=view&id=$task[taskid]\'">{lang login_refresh}</a>';
+		setTimeout('location.href=\'task.php?action=view&id=$task[taskid]\'', $mrefreshtime);
+	{else}
+		$('messageleft1').innerHTML = '<p>{lang register_succeed} $bbname</p>';
+		$('messageright1').innerHTML = '<a href="javascript:;" onclick="location.reload()">{lang login_refresh}</a>';
+		setTimeout('location.reload()', $mrefreshtime);
+	{/if}
+{/if}
+{if $_DCACHE['settings']['frameon'] && $_DCOOKIE['frameon'] == 'yes'}
+	if(top != self) {
+		parent.leftmenu.location.reload();
+	}
+{/if}
+</script>
+<!--{else}-->
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+<div class="fcontent" id="main_messaqge">
+	<div id="layer_bbrule" class="postbox" style="display: none;">
+		<div>
+			<h3>$bbname {lang rulemessage}</h3>
+			<div class="clause">$bbrulestxt</div>
+			<button onclick="$('agreebbrule').checked = true;display('layer_reg');display('layer_bbrule');">{lang agree}</button> &nbsp; <button onclick="hideWindow('register')">{lang disagree}</button>
+		</div>
+	</div>
+	<div id="layer_reg" class="postbox s_clear">
+		<h3 class="float_ctrl">
+			<em id="returnmessage4"><!--{if $action != 'activation'}-->$reglinkname<!--{else}-->{lang index_activation}<!--{/if}--></em>
+			<span>
+				<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('register')" title="{lang close}">{lang close}</a><!--{/if}-->
+			</span>
+		</h3>
+		<form method="post" name="register" id="registerform" onsubmit="ajaxpost('registerform', 'returnmessage4', 'returnmessage4', 'onerror');return false;" action="$regname?regsubmit=yes">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="referer" value="$referer" />
+			<!--{if !empty($infloat)}--><input type="hidden" name="handlekey" value="$handlekey" /><!--{/if}-->
+			<input type="hidden" name="activationauth" value="{if $action == 'activation'}$activationauth{/if}" />
+			<div class="loginform">
+				<div id="reginfo_a">
+					<span id="activation_hidden"{if $action == 'activation'} style="display:none"{/if}>
+					<!--{if !empty($fromuser)}-->
+						<span>
+							<label><em>{lang register_from}:</em>$fromuser</label>
+							<input type="hidden" name="fromuser"value="$fromuser" />
+						</span>
+					<!--{/if}-->
+					<label><em>{lang username}:</em><input type="text" id="username" name="username" autocomplete="off" size="25" maxlength="15" value="" onBlur="checkusername()" tabindex="1" class="txt" /> *</label>
+					<label><em>{lang password}:</em><input type="password" name="password" size="25" id="password" onkeypress="detectCapsLock(event, this)" tabindex="1" class="txt" /> *</label>
+					<label><em>{lang password_confirm}:</em><input type="password" name="password2" size="25" id="password2" onkeypress="detectCapsLock(event, this)" tabindex="1" value="" class="txt" /> *</label>
+					<label><em>{lang email}:</em><input type="text" name="email" autocomplete="off" size="25" id="email" onBlur="checkemail()" tabindex="1" class="txt" /> *</label>
+					<label><em>&nbsp;</em><a href="https://domains.live.com/members/signup.aspx?domain=$msn[domain]" target="_blank" style="float: left; width: 210px;"><!--{if $msn['on']}-->{lang msn_email_reglink}<!--{else}-->{lang msn_email_reglink_default}<!--{/if}--></a></label>
+					</span>
+					<!--{if $action == 'activation'}-->
+						<span id="activation_user">
+							<label><em>{lang username}:</em>$username</label>
+						</span>
+					<!--{/if}-->
+					<!--{if $secqaacheck || $seccodecheck}-->
+						<div class="regsec"><label style="display:inline"><em>{lang memcp_profile_security_check}: </em>{subtemplate seccheck}</label></div>
+					<!--{/if}-->
+					<!--{if ($regstatus > 1 && $action != 'activation') || $regstatus == 2}-->
+						<label><em>{lang invite_code}:</em><input type="text" name="invitecode" autocomplete="off" size="25" maxlength="16" value="$invitecode" id="invitecode" onBlur="checkinvitecode()" tabindex="1" class="txt" /><!--{if $regstatus == 2}--> *<!--{/if}--></label>
+					<!--{/if}-->
+				</div>
+				<div id="reginfo_b"{if !empty($infloat)} style="display:none;"{/if}>
+					<!--{if $regverify == 2}-->
+						<label><em>{lang register_message}:</em><input name="regmessage" autocomplete="off" size="25" tabindex="1" class="txt" /> *</label>
+					<!--{/if}-->
+					<!--{loop $_DCACHE['fields_required'] $field}-->
+						<label{if $field['description']} title="{echo htmlspecialchars($field[description])}"{/if}><em>$field[title]:</em>
+						<!--{if $field['selective']}-->
+							<select name="field_$field[fieldid]new" tabindex="1">
+							<option value="">{lang please_select}</option>
+							<!--{loop $field['choices'] $index $choice}-->
+								<option value="$index"{if $index == $member['field_'.$field[fieldid]]} selected="selected"{/if}>$choice</option>
+							<!--{/loop}-->
+							</select>
+						<!--{else}-->
+							<input type="text" name="field_$field[fieldid]new" size="25" value="$member['field_'.$field[fieldid]]" tabindex="1" class="txt" />
+						<!--{/if}--> *
+						</label>
+					<!--{/loop}-->
+				</div>
+			</div>
+			<div class="logininfo">
+				<h4>{lang login_now}</h4>
+				<!--{if $action == 'activation'}-->
+					<p>{lang login_inactive}</p>
+				<!--{/if}-->
+			</div>
+			<p class="fsubmit s_clear">
+				<!--{if $sitemessage[register]}--><a href="javascript:;" id="custominfo_register" class="right"><img src="{IMGDIR}/info.gif" alt="{lang faq}" /></a><!--{/if}-->
+				<span id="reginfo_a_btn">
+					<!--{if $action != 'activation'}--><em>&nbsp;</em><!--{/if}-->
+				<!--{if ($field || $regverify == 2) && !empty($infloat)}-->
+					<button class="submit" tabindex="1" onclick="regstep('reginfo_a','reginfo_b'); return false;">{lang register_next}</button>
+				</span>
+				<span id="reginfo_b_btn" style="display:none">
+					<em class="regpre"><a href="javascript:;" onclick="regstep('reginfo_b','reginfo_a');">{lang register_pre}</a></em>
+				<!--{/if}-->
+					<button class="submit" id="registerformsubmit" type="submit" name="regsubmit" value="true" tabindex="1">{if $action == 'activation'}{lang activation}{else}{lang submit}{/if}</button>
+					<!--{if $bbrules}-->
+						<input type="checkbox" class="checkbox" name="agreebbrule" value="$bbrulehash" id="agreebbrule" checked="checked" /> <label for="agreebbrule">{lang agree}<a href="javascript:;" onclick="display('layer_reg');display('layer_bbrule');">{lang rulemessage}</a></label>
+					<!--{/if}-->
+				</span>
+			</p>
+		</form>
+	</div>
+</div>
+<div id="layer_message" class="fcontent alert_win" style="display: none;">
+	<h3 class="float_ctrl">
+		<em>{lang login_member}</em>
+		<span><!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('login')" title="{lang close}">{lang close}</a><!--{/if}--></span>
+	</h3>
+	<hr class="shadowline" />
+	<div class="postbox"><div class="alert_right">
+		<div id="messageleft1"></div>
+		<p class="alert_btnleft" id="messageright1"></p>
+	</div>
+</div>
+
+<script type="text/javascript" reload="1">
+{if $action != 'activation'}
+function initinput_register() {
+	$('registerform').username.focus();
+}
+if(BROWSER.ie && BROWSER.ie < 7) {
+	setTimeout('initinput_register()', 500);
+} else {
+	initinput_register();
+}
+{/if}
+
+{if $sitemessage[register]}
+showPrompt('custominfo_register', 'click', '{echo trim($sitemessage[register][array_rand($sitemessage[register])])}', $sitemessage[time]);
+{/if}
+
+var profile_username_toolong = '{lang register_profile_username_toolong}';
+var profile_username_tooshort = '{lang register_profile_profile_username_tooshort}';
+var doublee = parseInt('$doublee');
+var lastusername = lastpassword = lastemail = lastinvitecode = '';
+
+function messagehandle_register(key, msg) {
+	$('returnmessage4').className = key == 1 ? 'onerror' : '';
+	$('returnmessage4').innerHTML = msg;
+}
+
+function checkusername() {
+	var username = trim($('username').value);
+	if(username == '' || username == lastusername) {
+		return;
+	} else {
+		lastusername = username;
+	}
+	var unlen = username.replace(/[^\x00-\xff]/g, "**").length;
+	if(unlen < 3 || unlen > 15) {
+		messagehandle_register(1, unlen < 3 ? profile_username_tooshort : profile_username_toolong);
+		return;
+	}
+        ajaxget('ajax.php?infloat=register&handlekey=register&action=checkusername&username=' + (BROWSER.ie && document.charset == 'utf-8' ? encodeURIComponent(username) : username), 'returnmessage4');
+}
+
+function checkemail() {
+	var email = trim($('email').value);
+	if(email == '' || email == lastemail) {
+		return;
+	} else {
+		lastemail = email;
+	}
+	ajaxget('ajax.php?infloat=register&handlekey=register&action=checkemail&email=' + email, 'returnmessage4');
+
+}
+function checkinvitecode() {
+	var invitecode = trim($('invitecode').value);
+	if(invitecode == lastinvitecode) {
+		return;
+	} else {
+		lastinvitecode = invitecode;
+	}
+        ajaxget('ajax.php?infloat=register&handlekey=register&action=checkinvitecode&invitecode=' + invitecode, 'returnmessage4');
+}
+function trim(str) {
+	return str.replace(/^\s*(.*?)[\s\n]*$/g, '$1');
+}
+{if ($field && !empty($infloat)) || $regverify == 2}
+function regstep(obja,objb){
+	$(obja).style.display = $(obja+'_btn').style.display = 'none';
+	$(objb).style.display = $(objb+'_btn').style.display = '';
+}
+{/if}
+{if $invitecode}
+ajaxget('ajax.php?infloat=register&handlekey=register&action=checkinvitecode&invitecode=$invitecode', 'returnmessage4');
+{/if}
+</script>
+<!--{/if}-->
+
+{eval updatesession();}
+<!--{if empty($infloat)}-->
+	</div></div>
+</div>
+<!--{/if}-->
+{template footer}

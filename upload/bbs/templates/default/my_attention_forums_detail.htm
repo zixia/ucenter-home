@@ -1,0 +1,37 @@
+<!--{if $newthreads}-->
+<table cellspacing="0" cellpadding="0" summary="{lang my_attention_threads}" class="datatable">
+	<thead class="colplural">
+		<tr>
+			<th>{lang subject}</th>
+			<td>{lang author}</td>
+			<td class="forum">{lang forum}</td>
+			<td class="nums">{lang order_replies}</td>
+			<td class="lastpost">{lang dateline}</td>
+			<td class="lastpost"><cite>{lang lastpost}</cite></td>
+		</tr>
+	</thead>
+	<tbody>
+		<!--{loop $newthreads $thread}-->
+		<tr>
+			<!--{if $thread['newreplies']}-->
+			<th><strong><a href="viewthread.php?tid={$thread[tid]}" target="_blank">$thread[subject]</a></strong></th>
+			<!--{else}-->
+			<th><a href="viewthread.php?tid={$thread[tid]}" target="_blank">$thread[subject]</a></th>
+			<!--{/if}-->
+			<td>$thread[author]</td>
+			<td class="forum">$thread[forumname]</td>
+			<td class="nums">$thread[replies]</td>
+			<td class="lastpost">$thread[dateline]</td>
+			<td class="lastpost"><cite>$thread[lastposter]</cite><em>$thread[lastpost]</em></td>
+		</tr>
+		<!--{/loop}-->
+	</tbody>
+</table>
+<!--{else}-->
+<table cellspacing="0" cellpadding="0" class="datatable">
+	<tr><th><p class="nodata">{lang my_attention_forums_nodetail}</p></th></tr>
+</table>
+<!--{/if}-->
+<!--{if !empty($multipage)}-->
+<div class="pages_btns">$multipage</div>
+<!--{/if}-->

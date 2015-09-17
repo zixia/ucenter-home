@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Request]]></item>
+	<item id="Version"><![CDATA[7.2]]></item>
+	<item id="Data">
+		<item id="__首页多格_图片">
+			<item id="url"><![CDATA[function=images&sidestatus=0&isimage=1&threadmethod=1&maxwidth=&maxheight=&startrow=0&items=5&orderby=dateline&hours=0&digest=0&newwindow=1&jscharset=0&cachelife=600&jstemplate=%5Bnode%5D%0D%0A%3Cscript%20type%3D%5C%22text%2Fjavascript%5C%22%3E%0D%0AslideImgs%5B%7Border%7D%5D%20%3D%20%5C%22%7Bimgfile%7D%5C%22%3B%0D%0AslideImgLinks%5B%7Border%7D%5D%20%3D%20%5C%22%7Blink%7D%5C%22%3B%0D%0AslideImgTexts%5B%7Border%7D%5D%20%3D%20%5C%22%7Bsubject%7D%5C%22%3B%0D%0A%3C%2Fscript%3E%0D%0A%5Bshow%3D1%5D%3Ca%20href%3D%5C%22%7Blink%7D%5C%22%20id%3D%5C%22homegrids_Img%5C%22%3E%3Cimg%20width%3D%5C%22300%5C%22%20src%3D%5C%22%7Bimgfile%7D%5C%22%20%2F%3E%3Cbr%20%2F%3E%7Bsubject%7D%3C%2Fa%3E%5B%2Fshow%5D%0D%0A%5B%2Fnode%5D%0D%0A%3C%2Fscript%3E%0D%0A%3Cscript%20language%3D%5C%22javascript%5C%22%20type%3D%5C%22text%2Fjavascript%5C%22%20src%3D%5C%22include%2Fjs%2Fslide.js%5C%22%3E%3C%2Fscript%3E%0D%0A%3Cscript%20type%3D%5C%22text%2Fjavascript%5C%22%3Eif%28%24%28%5C%27homegrids_Img%5C%27%29%29%20%24%28%5C%27homegrids_Img%5C%27%29.style.display%3D%5C%27none%5C%27%3C%2Fscript%3E]]></item>
+			<item id="parameter">
+				<item id="jstemplate"><![CDATA[[node]
+<script type=\"text/javascript\">
+slideImgs[{order}] = \"{imgfile}\";
+slideImgLinks[{order}] = \"{link}\";
+slideImgTexts[{order}] = \"{subject}\";
+</script>
+[show=1]<a href=\"{link}\" id=\"homegrids_Img\"><img width=\"300\" src=\"{imgfile}\" /><br />{subject}</a>[/show]
+[/node]
+</script>
+<script language=\"javascript\" type=\"text/javascript\" src=\"include/js/slide.js\"></script>
+<script type=\"text/javascript\">if($(\'homegrids_Img\')) $(\'homegrids_Img\').style.display=\'none\'</script>]]></item>
+				<item id="cachelife"><![CDATA[600]]></item>
+				<item id="sidestatus"><![CDATA[0]]></item>
+				<item id="startrow"><![CDATA[0]]></item>
+				<item id="items"><![CDATA[5]]></item>
+				<item id="isimage"><![CDATA[1]]></item>
+				<item id="maxwidth"><![CDATA[]]></item>
+				<item id="maxheight"><![CDATA[]]></item>
+				<item id="threadmethod"><![CDATA[1]]></item>
+				<item id="newwindow"><![CDATA[1]]></item>
+				<item id="orderby"><![CDATA[dateline]]></item>
+				<item id="hours"><![CDATA[]]></item>
+				<item id="jscharset"><![CDATA[0]]></item>
+				<item id="boardurl"><![CDATA[]]></item>
+			</item>
+			<item id="comment"><![CDATA[首页多格插件专用图片模块]]></item>
+			<item id="type"><![CDATA[4]]></item>
+		</item>
+		<item id="__首页多格_热门主题">
+			<item id="url"><![CDATA[function=threads&sidestatus=0&maxlength=0&fnamelength=0&messagelength=&startrow=0&picpre=images%2Fcommon%2Fslisticon.gif&items=8&tag=&tids=&special=0&rewardstatus=&digest=0&stick=0&recommend=0&newwindow=1&threadtype=0&threadsort=0&highlight=0&orderby=hourviews&hours=168&jscharset=0&cachelife=43200&jstemplate=%3Cul%20class%3D%5C%22textinfolist%5C%22%3E%0D%0A%5Bnode%5D%3Cli%3E%3Cspan%3E%7Bauthor%7D%3C%2Fspan%3E%7Bsubject%7D%3C%2Fli%3E%5B%2Fnode%5D%0D%0A%3C%2Ful%3E]]></item>
+			<item id="parameter">
+				<item id="jstemplate"><![CDATA[<ul class=\"textinfolist\">
+[node]<li><span>{author}</span>{subject}</li>[/node]
+</ul>]]></item>
+				<item id="cachelife"><![CDATA[43200]]></item>
+				<item id="sidestatus"><![CDATA[0]]></item>
+				<item id="startrow"><![CDATA[0]]></item>
+				<item id="items"><![CDATA[8]]></item>
+				<item id="maxlength"><![CDATA[0]]></item>
+				<item id="fnamelength"><![CDATA[0]]></item>
+				<item id="messagelength"><![CDATA[]]></item>
+				<item id="picpre"><![CDATA[images/common/slisticon.gif]]></item>
+				<item id="keyword"><![CDATA[]]></item>
+				<item id="tag"><![CDATA[]]></item>
+				<item id="threadtype"><![CDATA[0]]></item>
+				<item id="threadsort"><![CDATA[0]]></item>
+				<item id="highlight"><![CDATA[0]]></item>
+				<item id="recommend"><![CDATA[0]]></item>
+				<item id="newwindow"><![CDATA[1]]></item>
+				<item id="orderby"><![CDATA[hourviews]]></item>
+				<item id="hours"><![CDATA[168]]></item>
+				<item id="jscharset"><![CDATA[0]]></item>
+				<item id="boardurl"><![CDATA[]]></item>
+			</item>
+			<item id="comment"><![CDATA[首页多格插件专用热门主题模块]]></item>
+			<item id="type"><![CDATA[0]]></item>
+		</item>
+		<item id="__首页多格_最新主题">
+			<item id="url"><![CDATA[function=threads&sidestatus=0&maxlength=0&fnamelength=0&messagelength=&startrow=0&picpre=images%2Fcommon%2Fslisticon.gif&items=8&tag=&tids=&special=0&rewardstatus=&digest=0&stick=0&recommend=0&newwindow=1&threadtype=0&threadsort=0&highlight=0&orderby=dateline&hours=0&jscharset=0&cachelife=300&jstemplate=%3Cul%20class%3D%5C%22textinfolist%5C%22%3E%0D%0A%5Bnode%5D%3Cli%3E%3Cspan%3E%7Bauthor%7D%3C%2Fspan%3E%7Bsubject%7D%3C%2Fli%3E%5B%2Fnode%5D%0D%0A%3C%2Ful%3E]]></item>
+			<item id="parameter">
+				<item id="jstemplate"><![CDATA[<ul class=\"textinfolist\">
+[node]<li><span>{author}</span>{subject}</li>[/node]
+</ul>]]></item>
+				<item id="cachelife"><![CDATA[300]]></item>
+				<item id="sidestatus"><![CDATA[0]]></item>
+				<item id="startrow"><![CDATA[0]]></item>
+				<item id="items"><![CDATA[8]]></item>
+				<item id="maxlength"><![CDATA[0]]></item>
+				<item id="fnamelength"><![CDATA[0]]></item>
+				<item id="messagelength"><![CDATA[]]></item>
+				<item id="picpre"><![CDATA[images/common/slisticon.gif]]></item>
+				<item id="keyword"><![CDATA[]]></item>
+				<item id="tag"><![CDATA[]]></item>
+				<item id="threadtype"><![CDATA[0]]></item>
+				<item id="threadsort"><![CDATA[0]]></item>
+				<item id="highlight"><![CDATA[0]]></item>
+				<item id="recommend"><![CDATA[0]]></item>
+				<item id="newwindow"><![CDATA[1]]></item>
+				<item id="orderby"><![CDATA[dateline]]></item>
+				<item id="hours"><![CDATA[]]></item>
+				<item id="jscharset"><![CDATA[0]]></item>
+				<item id="boardurl"><![CDATA[]]></item>
+			</item>
+			<item id="comment"><![CDATA[首页多格插件专用最新主题模块]]></item>
+			<item id="type"><![CDATA[0]]></item>
+		</item>
+		<item id="__首页多格_最新回复">
+			<item id="url"><![CDATA[function=threads&sidestatus=0&maxlength=0&fnamelength=0&messagelength=&startrow=0&picpre=images%2Fcommon%2Fslisticon.gif&items=8&tag=&tids=&special=0&rewardstatus=&digest=0&stick=0&recommend=0&newwindow=1&threadtype=0&threadsort=0&highlight=0&orderby=lastpost&hours=0&jscharset=0&cachelife=300&jstemplate=%3Cul%20class%3D%5C%22textinfolist%5C%22%3E%0D%0A%5Bnode%5D%3Cli%3E%3Cspan%3E%7Bauthor%7D%3C%2Fspan%3E%7Bsubject%7D%3C%2Fli%3E%5B%2Fnode%5D%0D%0A%3C%2Ful%3E]]></item>
+			<item id="parameter">
+				<item id="jstemplate"><![CDATA[<ul class=\"textinfolist\">
+[node]<li><span>{author}</span>{subject}</li>[/node]
+</ul>]]></item>
+				<item id="cachelife"><![CDATA[300]]></item>
+				<item id="sidestatus"><![CDATA[0]]></item>
+				<item id="startrow"><![CDATA[0]]></item>
+				<item id="items"><![CDATA[8]]></item>
+				<item id="maxlength"><![CDATA[0]]></item>
+				<item id="fnamelength"><![CDATA[0]]></item>
+				<item id="messagelength"><![CDATA[]]></item>
+				<item id="picpre"><![CDATA[images/common/slisticon.gif]]></item>
+				<item id="keyword"><![CDATA[]]></item>
+				<item id="tag"><![CDATA[]]></item>
+				<item id="threadtype"><![CDATA[0]]></item>
+				<item id="threadsort"><![CDATA[0]]></item>
+				<item id="highlight"><![CDATA[0]]></item>
+				<item id="recommend"><![CDATA[0]]></item>
+				<item id="newwindow"><![CDATA[1]]></item>
+				<item id="orderby"><![CDATA[lastpost]]></item>
+				<item id="hours"><![CDATA[]]></item>
+				<item id="jscharset"><![CDATA[0]]></item>
+				<item id="boardurl"><![CDATA[]]></item>
+			</item>
+			<item id="comment"><![CDATA[首页多格插件专用最新回复模块]]></item>
+			<item id="type"><![CDATA[0]]></item>
+		</item>
+	</item>
+</root>

@@ -1,0 +1,270 @@
+{subtemplate header}
+<div id="nav">
+	<a href="$indexname">$bbname</a> &raquo; <a href="stats.php">{lang stats}</a> &raquo;
+<!--{if $type == 'views'}-->
+	{lang stats_views}
+<!--{elseif $type == 'agent'}-->
+	{lang stats_agent}
+<!--{elseif $type == 'posts'}-->
+	{lang stats_posthist}
+<!--{elseif $type == 'forumsrank'}-->
+	{lang stats_forums_rank}
+<!--{elseif $type == 'threadsrank'}-->
+	{lang stats_threads_rank}
+<!--{elseif $type == 'postsrank'}-->
+	{lang stats_posts_rank}
+<!--{elseif $type == 'creditsrank'}-->
+	{lang stats_credits_rank}
+<!--{elseif $type == 'modworks'}-->
+	{lang stats_modworks}
+<!--{/if}-->
+</div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+			<div class="datalist">
+			<!--{if $type == 'views'}-->
+				<h1>{lang stats_views}</h1>
+				<div id="list_stats_week_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_stats_week', 1, 1);">{lang stats_week}</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_stats_week', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<table id="list_stats_week" summary="{lang stats_week}" cellspacing="0" cellpadding="0">
+					$statsbar_week
+				</table>
+				<div id="list_stats_hour_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_stats_hour', 1, 1);">{lang stats_hour}</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_stats_hour', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<table id="list_stats_hour" summary="{lang stats_hour}" cellspacing="0" cellpadding="0">
+					$statsbar_hour
+				</table>
+
+			<!--{elseif $type == 'agent'}-->
+				<h1>{lang stats_agent}</h1>
+				<div id="list_stats_os_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_stats_os', 1, 1);">{lang stats_os}</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_stats_os', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<table id="list_stats_os" summary="{lang stats_agent}" cellspacing="0" cellpadding="0">
+					$statsbar_os
+				</table>
+				<div id="list_stats_browser_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_stats_browser', 1, 1);">{lang stats_browser}</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_stats_browser', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<table id="list_stats_browser" summary="{lang stats_agent}" cellspacing="0" cellpadding="0">
+					$statsbar_browser
+				</table>
+
+			<!--{elseif $type == 'posts'}-->
+				<h1>{lang stats_posthist}</h1>
+				<div id="list_stats_month_posts_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_stats_month_posts', 1, 1);">{lang stats_month_posts}</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_stats_month_posts', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<table id="list_stats_month_posts" summary="{lang stats_posthist}" cellspacing="0" cellpadding="0">
+					$statsbar_monthposts
+				</table>
+				<div id="list_stats_day_posts_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_stats_day_posts', 1, 1);">{lang stats_day_posts}</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_stats_day_posts', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<table id="list_stats_day_posts" summary="{lang stats_posthist}" cellspacing="0" cellpadding="0">
+					$statsbar_dayposts
+				</table>
+
+			<!--{elseif $type == 'forumsrank'}-->
+				<h1>{lang stats_forums_rank}</h1>
+				<table summary="{lang stats_forums_rank}" cellpadding="0" cellspacing="0">
+					<thead class="colplural">
+						<tr>
+							<td colspan="2">{lang stats_posts}{lang stats_rank}</td>
+							<td colspan="2">{lang reply}{lang stats_rank}</td>
+						</tr>
+					</thead>
+					$forumsrank[0]
+				</table>
+				<table summary="{lang stats_forums_rank}" cellpadding="0" cellspacing="0">
+					<thead class="colplural">
+						<tr>
+							<td colspan="2">{lang stats_posts_thismonth}{lang stats_rank}</td>
+							<td colspan="2">{lang stats_posts_today}{lang stats_rank}</td>
+						</tr>
+					</thead>
+					$forumsrank[1]
+				</table>
+
+			<!--{elseif $type == 'threadsrank'}-->
+				<h1>{lang stats_threads_rank}</h1>
+				<table summary="{lang stats_threads_rank}" cellpadding="0" cellspacing="0">
+					<thead class="colplural">
+						<tr>
+							<td colspan="2" width="50%">{lang stats_threads_most_views}</td>
+							<td colspan="2" width="50%">{lang stats_threads_most_replies}</td>
+						</tr>
+					</thead>
+					$threadsrank
+				</table>
+
+			<!--{elseif $type == 'postsrank'}-->
+				<h1>{lang stats_posts_rank}</h1>
+				<table summary="{lang stats_posts_rank}" cellpadding="0" cellspacing="0">
+					<thead class="colplural">
+						<tr>
+							<td colspan="2" width="25%">{lang stats_posts} {lang stats_rank}</td>
+							<td colspan="2" width="25%">{lang stats_digest_posts} {lang stats_rank}</td>
+							<td colspan="2" width="25%">{lang stats_posts_thismonth} {lang stats_rank}</td>
+							<td colspan="2" width="25%">{lang stats_posts_today} {lang stats_rank}</td>
+						</tr>
+					</thead>
+					$postsrank
+				</table>
+
+			<!--{elseif $type == 'creditsrank'}-->
+				<div class="itemtitle s_clear">
+					<h1>{lang stats_credits_rank}</h1>
+					<ul>
+					<!--{loop $extendedcredits $key $extendedcredit}-->
+						<li{if $extcredit == $key} class="current" id="extendedcredit_current"{/if} onclick="swtichcurrent(this, $key);return false;"><a href="stats.php?type=creditsrank&extcredit=$key"><span>{$extcredits[$key][title]}</span></a></li>
+					<!--{/loop}-->
+					</ul>
+				</div>
+				<!--{loop $extendedcredits $key $extendedcredit}-->
+					<table id="extendedcredit_$key" summary="{lang stats_credits_rank}" cellpadding="0" cellspacing="0" style="display:{if $extcredit != $key} none{/if}">
+						<thead class="colplural">
+							<tr>
+								<td colspan="2">{$extcredits[$key][title]}{lang stats_rank}</td>
+							</tr>
+						</thead>
+						$creditsrank[$key]
+					</table>
+				<!--{/loop}-->
+				<script>
+				var lastcurrent = $('extendedcredit_current');
+				var lastextcredit = $extcredit;
+				function swtichcurrent(obj, extcredit) {
+					if(lastcurrent) {
+						lastcurrent.className = '';
+					}
+					$('extendedcredit_' + lastextcredit).style.display = 'none';
+					$('extendedcredit_' + extcredit).style.display = '';
+					obj.className = 'current';
+					lastcurrent = obj;
+					lastextcredit = extcredit;
+				}
+				</script>
+			<!--{elseif $type == 'modworks' && $uid}-->
+
+				<h1>{lang stats_modworks} - $member[username]</h1>
+				<div class="hasscrolltable">
+					<p class="fixedtable">{lang stats_modworks_month}: <!--{loop $monthlinks $link}--> &nbsp;{$link}&nbsp; <!--{/loop}--></p>
+					<table cellpadding="0" cellspacing="0" class="scrollfixedtable">
+						<thead class="colplural">
+							<tr>
+								<td>{lang time}</td>
+							</tr>
+						</thead>
+						<tbody>
+						<!--{loop $modactions $day $modaction}-->
+							<tr class="{echo swapclass('colplural')}">
+								<td>$day</td>
+							</tr>
+						<!--{/loop}-->
+						</tbody>
+						<tr class="colplural"><td></td></tr>
+						<tr>
+							<td>{lang stats_modworks_thismonth}</td>
+						</tr>
+					</table>
+					<div class="scrolltable">
+						<table cellpadding="0" cellspacing="0">
+							<thead class="colplural">
+								<tr>
+									<!--{loop $modactioncode $key $val}--><td width="$tdwidth">$val</td><!--{/loop}-->
+								</tr>
+							</thead>
+							<tbody>
+							{eval unset($swapc);}
+							<!--{loop $modactions $day $modaction}-->
+								<tr class="{echo swapclass('colplural')}">
+									<!--{loop $modactioncode $key $val}-->
+										<!--{if $modaction[$key]['posts']}--><td title="{lang posts}: $modaction[$key][posts]">$modaction[$key][count]<!--{else}--><td>&nbsp;<!--{/if}--></td>
+									<!--{/loop}-->
+								</tr>
+							<!--{/loop}-->
+							</tbody>
+							<tr class="colplural"><td colspan="23"></td></tr>
+							<tr>
+								<!--{loop $modactioncode $key $val}-->
+									<td class="$bgarray[$key]" <!--{if $totalactions[$key]['posts']}-->title="{lang posts}: {$totalactions[$key][posts]}"<!--{/if}-->>$totalactions[$key][count]&nbsp;</td>
+								<!--{/loop}-->
+							</tr>
+						</table>
+					</div>
+				</div>
+
+			<!--{elseif $type == 'modworks'}-->
+
+				<h1>{lang stats_modworks} - {lang stats_modworks_all}</h1>
+				<div class="hasscrolltable">
+					<p class="fixedtable">{lang stats_modworks_month}: <!--{loop $monthlinks $link}--> &nbsp;{$link}&nbsp; <!--{/loop}--></p>
+					<table cellpadding="0" cellspacing="0" class="scrollfixedtable">
+						<thead class="colplural">
+							<tr>
+								<td>{lang username}</td>
+							</tr>
+						</thead>
+						<tbody>
+						<!--{loop $members $uid $member}-->
+							<tr class="{echo swapclass('colplural')}">
+								<td><a href="stats.php?type=modworks&before=$before&uid=$uid" title="{lang stats_modworks_details}">{$member[username]}</a></td>
+							</tr>
+						<!--{/loop}-->
+						</tbody>
+					</table>
+
+					<div class="scrolltable">
+						<table cellpadding="0" cellspacing="0">
+							<thead class="colplural">
+								<tr>
+									<!--{loop $modactioncode $key $val}--><td width="$tdwidth">$val</td><!--{/loop}-->
+								</tr>
+							</thead>
+							<tbody>
+							{eval unset($swapc);}
+							<!--{loop $members $uid $member}-->
+								<tr class="{echo swapclass('colplural')}">
+									<!--{loop $modactioncode $key $val}-->
+										<!--{if $member[$key]['posts']}--><td title="{lang posts}: {$member[$key]['posts']}">{$member[$key][count]}<!--{else}--><td>&nbsp;<!--{/if}--></td>
+									<!--{/loop}-->
+								</tr>
+							<!--{/loop}-->
+							</tbody>
+						</table>
+					</div>
+				</div>
+			<!--{/if}-->
+
+			</div>
+			<!--{if $type == 'forumsrank'}--><div class="notice">{lang stats_update}</div><!--{/if}-->
+		</div>
+	</div>
+	<div class="side">
+		{subtemplate stats_navbar}
+	</div>
+</div>
+
+{subtemplate footer}

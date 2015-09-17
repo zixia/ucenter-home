@@ -1,0 +1,21 @@
+[CURSCRIPT = index]
+#index .content { background: url({STYLEIMGDIR}/mainbanner.jpg) no-repeat 100% 0; }
+	* html #index .content { zoom: 1; margin-top: -31px; } /* IE6 关闭边栏时触发 hasLayout */
+	#index .with_side .content { zoom: 1; margin-top: 0; } /* IE 下开启边栏时触发 hasLayout */
+	.ad_column { overflow: hidden; } /* 分类间广告超出部分隐藏 */
+	* html .ad_column, * html #index .content { width: 910px; } /* IE6 下关闭边栏时的分类间广告最大宽度 */
+	* html .with_side .ad_column, * html #index .with_side .content { width: 730px; } /* IE6 下开启边栏时的分类间广告最大宽度 */
+#index .pages_btns { padding: 60px 0 0 85px; width: 385px; w\idth: 300px; height: 140px; he\ight: 75px; color: #FF8FCC; line-height: 1.6em; }
+	#index .pages_btns .postbtn { float: left; margin: 0 0 0 -85px; width: 77px; height: 40px; background-image: url({STYLEIMGDIR}/post-b.gif); line-height: 40px; }
+	#index .pages_btns a { color: #FFF; }
+#index .foruminfo { margin-top: 0; margin-bottom: 20px; height: 30px; }
+	.forumcount { width: 400px; text-align: right; }
+	#ann { margin-top: 0; border: none; background: transparent; }
+	#ann dt { width: 3.3em; background: none; text-indent: 0; }
+	#ann dd { width: 350px; overflow: hidden; }
+	#ann, #ann a, #ann a em { color: #FF8FCC; }
+[/CURSCRIPT]
+
+[CURSCRIPT = forumdisplay,viewthread]
+	.postbtn { background-image: url({STYLEIMGDIR}/post.gif); }
+[/CURSCRIPT]

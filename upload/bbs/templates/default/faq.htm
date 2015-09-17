@@ -1,0 +1,51 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; <!--{if empty($action)}-->{lang faq}<!--{else}--><a href="faq.php">{lang faq}</a> $navigation<!--{/if}--></div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="side">
+		{subtemplate faq_navbar}
+	</div>
+	<div class="main">
+		<div class="content">
+			<!--{if empty($action)}-->
+				<div class="datalist">
+					<!--{loop $faqparent $fpid $parent}-->
+						<h2 class="blocktitle"><a href="faq.php?action=faq&id=$fpid" class="lightlink">$parent[title]</a></h2>
+						<ul name="$parent[title]" class="commonlist">
+							<!--{loop $faqsub[$parent[id]] $sub}-->
+								<li><a href="faq.php?action=faq&id=$sub[fpid]&messageid=$sub[id]">$sub[title]</a></li>
+							<!--{/loop}-->
+						</ul>
+						<hr class="solidline" />
+					<!--{/loop}-->
+				</div>
+			<!--{elseif $action == 'faq'}-->
+				<!--{loop $faqlist $faq}-->
+				<div class="datalist">
+					<div id="messageid$faq[id]_c" class="c_header{if $messageid != $faq[id]} closenode{/if}">
+						<h3 onclick="toggle_collapse('messageid$faq[id]', 1, 1);">$faq[title]</h3>
+						<div class="c_header_action">
+							<p class="c_header_ctrlbtn" onclick="toggle_collapse('messageid$faq[id]', 1, 1);">[ {lang open} ]</p>
+						</div>
+					</div>
+					<div class="faqmessage" id="messageid$faq[id]" style="{if $messageid != $faq[id]} display: none {/if}">$faq[message]</div>
+				</div>
+				<!--{/loop}-->
+			<!--{elseif $action == 'search'}-->
+				<!--{if $faqlist}-->
+					<!--{loop $faqlist $faq}-->
+						<div class="datalist">
+							<div class="c_header searchfaq"><h3>$faq[title]</h3></div>
+							<div class="faqmessage">$faq[message]</div>
+						</div>
+					<!--{/loop}-->
+				<!--{else}-->
+					<p class="nodata">{lang faq_search_nomatch}</p>
+				<!--{/if}-->
+			<!--{elseif $action == 'plugin' && !empty($faqtpl)}-->
+				{eval include(template($faqtpl));}
+			<!--{/if}-->
+		</div>
+	</div>
+</div>
+
+{subtemplate footer}

@@ -1,0 +1,9 @@
+{eval funcstat();}
+{eval stat_code();}
+{eval $s = ob_get_contents();}
+{eval ob_end_clean();}
+{eval $s = preg_replace("/([\x01-\x08\x0b-\x0c\x0e-\x1f])+/", ' ', $s);}
+{eval $s = str_replace(array(chr(0), ']]>'), array(' ', ']]&gt;'), $s);}
+$s
+<!--{if $prompts['newbietask'] && $newbietasks}-->{template task_newbie_js}<!--{/if}-->
+]]></root>{eval exit;}

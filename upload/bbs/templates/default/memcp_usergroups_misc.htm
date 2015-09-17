@@ -1,0 +1,122 @@
+{template header}
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+
+<div class="fcontent">
+	<!--{if $type == 'extended'}-->
+		<h3 class="float_ctrl">
+			<em id="return_$handlekey"><!--{if $join}-->{lang memcp_usergroups_joinbuy}<!--{else}-->{lang memcp_usergroups_exit}<!--{/if}--></em>
+			<span>
+				<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('$handlekey')" title="{lang close}">{lang close}</a><!--{/if}-->
+			</span>
+		</h3>
+
+		<form id="usergroupsform" class="postbox" method="post" action="memcp.php?action=usergroups&type=extended&edit=$edit&groupsubmit=yes{if !empty($infloat)}&infloat=yes{/if}"{if !empty($infloat)} onsubmit="ajaxpost('usergroupsform', 'return_$handlekey', 'return_$handlekey', 'onerror');return false;"{/if}>
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<!--{if !empty($infloat)}--><input type="hidden" name="handlekey" value="$handlekey" /><!--{/if}-->
+			<table summary="{lang memcp_usergroups}" cellspacing="0" cellpadding="0" class="list">
+				<tr>
+					<th>{lang memcp_usergroups_title}:</th>
+					<td><strong>$group[grouptitle]</strong></td>
+				</tr>
+				<!--{if $join}-->
+					<!--{if $group['dailyprice']}-->
+						<tr>
+							<th>{lang memcp_usergroups_dailyprice}:</th>
+							<td>{$extcredits[$creditstrans][title]} $group[dailyprice] {$extcredits[$creditstrans][unit]}</td>
+						</tr>
+						<tr>
+							<th>{lang memcp_usergroups_credit}:</th>
+							<td>$usermaxdays {lang days}</td>
+						</tr>
+						<tr>
+							<th>{lang memcp_usergroups_span}:</th>
+							<td><input type="text" size="5" name="days" value="$group[minspan]" class="txt" style="width: 50px;" /> {lang days}</td>
+						</tr>
+						<tr>
+							<th>{lang memcp_usergroups_explain}:</th>
+							<td>
+								<!--{if $join}-->
+									{lang memcp_usergroups_join_comment}
+								<!--{else}-->
+									{lang memcp_usergroups_exit_comment}
+								<!--{/if}-->
+							</td>
+						</tr>
+					<!--{else}-->
+						<tr>
+							<th>{lang memcp_usergroups_explain}:</th>
+							<td>{lang memcp_usergroups_free_comment}</td>
+						</tr>
+					<!--{/if}-->
+				<!--{else}-->
+					<tr>
+						<th>{lang memcp_usergroups_explain}:</th>
+						<td>
+							<!--{if $group[type] != 'special' || $group[system]=='private'}-->
+								{lang memcp_usergroups_admin_exit_comment}
+							<!--{elseif $group['dailyprice']}-->
+								{lang memcp_usergroups_exit_comment}
+							<!--{else}-->
+								{lang memcp_usergroups_open_exit_comment}
+							<!--{/if}-->
+						</td>
+					</tr>
+
+				<!--{/if}-->
+				<tr>
+					<th></th>
+					<td><button type="submit" class="submit" name="groupsubmit" id="groupsubmit" value="true" tabindex="2">{lang submit}</button></td>
+				</tr>
+			</table>
+		</form>
+	<!--{/if}-->
+
+	<!--{if $type=='main'}-->
+		<h3 class="float_ctrl">
+			<em id="return_$handlekey">{lang memcp_usergroups_set_main}</em>
+			<span>
+				<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('$handlekey')" title="{lang close}">{lang close}</a><!--{/if}-->
+			</span>
+		</h3>
+
+		<form method="post" action="memcp.php?action=usergroups&type=main&edit=$edit&groupsubmit=yes&infloat=yes">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<!--{if !empty($infloat)}--><input type="hidden" name="handlekey" value="$handlekey" /><!--{/if}-->
+			<input type="hidden" name="edit" value="$edit" />
+			<table summary="{lang memcp_usergroups}" cellspacing="0" cellpadding="0" class="list">
+				<tr>
+					<td>{lang memcp_usergroups_main_old}</td>
+					<td>$grouptitle</td>
+				</tr>
+				<tr>
+					<td>{lang memcp_usergroups_main_new}</td>
+					<td>$group[grouptitle]</td>
+				</tr>
+				<tr>
+					<td>{lang memcp_usergroups_explain}:</td>
+					<td>{lang memcp_usergroups_main_comment}</td>
+				</tr>
+				<!--{if !$group[allowmultigroups]}-->
+					<tr>
+						<th>{lang memcp_usergroups_alert}</th>
+						<td>{lang memcp_usergroups_main_alert}</td>
+					</tr>
+				<!--{/if}-->
+				<tr>
+					<th></th>
+					<td><button type="submit" class="submit" name="groupsubmit" id="groupsubmit" value="true" tabindex="2">{lang submit}</button></td>
+				</tr>
+			</table>
+		</form>
+	<!--{/if}-->
+</div>
+
+<!--{if empty($infloat)}-->
+	</div></div>
+</div>
+<!--{/if}-->
+{template footer}

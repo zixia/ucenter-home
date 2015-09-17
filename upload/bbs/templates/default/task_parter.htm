@@ -1,0 +1,10 @@
+{template header}
+<ul class="inlinelist avt_list avt_uname s_clear">
+	<!--{loop $parterlist $parter}-->
+		<li>
+			<div class="avatar" title="{if $parter[status] == 1}{lang task_complete}{elseif $parter[status] == -1}{lang task_failed}{elseif $parter[status] == 0}{lang task_complete} $parter[csc]%{/if}">$parter[avatar]</div>
+			<p><a href="space.php?uid=$parter[uid]" title="{lang member_viewpro}" target="_blank">$parter[username]</a></p>
+		</li>
+	<!--{/loop}-->
+</ul>
+{template footer}

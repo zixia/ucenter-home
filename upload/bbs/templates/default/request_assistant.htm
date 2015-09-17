@@ -1,0 +1,40 @@
+<!--{block writedata}-->
+<div class="sidebox s_clear">
+<!--{if $GLOBALS[discuz_uid]}-->
+	<div style="float:left; margin-right: 16px;">$avatar</div>
+	<a href="space.php?uid=$GLOBALS[discuz_uid]" target="_blank">$GLOBALS[discuz_userss]</a><br />
+	<a href="faq.php?action=grouppermission" target="_blank">{$_DCACHE[usergroups][$GLOBALS[groupid]][grouptitle]}</a><br />
+	<ul id="mycredits_menu" class="popupmenu_popup headermenu_popup" style="width:137px;display:none">
+	<!--{loop $GLOBALS[extcredits] $id $credit}-->
+		<li>$credit[title]: $GLOBALS['extcredits'.$id] $credit[unit]</li>
+	<!--{/loop}-->
+	</ul>
+	<div style="clear: both">
+		<div style="float:right;width:60%">
+		<span id="mycredits_hover" class="dropmenu" onmouseover="showMenu({'ctrlid':this.id,'showid':'mycredits'})">{lang credits}: $GLOBALS[_DSESSION]['credits']</span><br />
+		<!--{if $creditupgrade !== ''}-->
+			<span title="{lang index_upgrade_tips}">{lang index_upgrade}: $creditupgrade</span><br />
+		<!--{/if}-->
+		</div>
+		<div style="float:left;text-align:left">
+			<a id="mycredits" href="my.php?item=threads$fidadd" target="_blank">{lang my_posts}</a><br />
+			<a href="my.php?item=favorites&type=thread$fidadd" target="_blank">{lang my_favorite}</a>
+		</div>
+	</div>
+<!--{else}-->
+	<div style="float:left; text-align:left; width:40%;"><img src="{UC_API}/images/noavatar_small.gif"></div>
+	<a href="$GLOBALS[regname]" onclick="showWindow('register', this.href);return false;">$GLOBALS[reglinkname]</a><br />
+	<a href="logging.php?action=login" onclick="showWindow('login', this.href);return false;">{lang login}</a>
+<!--{/if}-->
+</div>
+<!--{if $GLOBALS[discuz_uid] && $GLOBALS[prompt]}-->
+	<hr class="shadowline" />
+	<div class="sidebox">
+		<ul>
+		<!--{loop $GLOBALS[prompts] $promptkey $promptdata}-->
+			<!--{if $promptkey && $promptdata[new]}--><li><a href="{if $promptdata[script]}$promptdata[script]{else}notice.php?filter=$promptkey{/if}" target="_blank">$promptdata[name]($promptdata[new])</a></li><!--{/if}-->
+		<!--{/loop}-->
+		</ul>
+	</div>
+<!--{/if}-->
+<!--{/block}-->

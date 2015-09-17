@@ -1,0 +1,62 @@
+<div class="mainbox viewthread">
+
+<table cellspacing="0" cellpadding="0">
+<tr class="threadad">
+	<td class="postauthor"></td>
+	<td class="adcontent"><div id="ad_interthread"/></td>
+</tr>
+<tr>
+	<td class="postauthor">
+		<p>{lang qihoo_relatedthreads}</p>
+		<p><a href="http://www.qihoo.com/" target="_blank">{lang qihoo_afford}</a></p>
+	</td>
+	<td class="postcontent list">
+		<table cellspacing="0" cellpadding="0" width="100%">
+		<thead>
+			<tr>
+				<td>{lang subject}</td>
+				<td class="author">{lang author}</td>
+				<td class="lastpost">{lang lastpost}</td>
+			</tr>
+		</thead>
+		<tbody id="relatedthreads" style="$relatedthreads['style']">
+		<!--{loop $relatedthreadlist $key $threads}-->
+			<!--{if $threads[tid] != $tid}-->
+				<tr>
+				<td>
+					<!--{if !$threads['insite']}-->
+						[{lang qihoo_webthread}] <a href="topic.php?url={echo urlencode($threads[tid])}&amp;md5={echo md5($threads[tid])}&amp;statsdata=$fid||$tid" target="_blank">$threads[title]</a>&nbsp;&nbsp;
+						[<a href="post.php?action=newthread&amp;fid=$fid&amp;extra=$extra&amp;url={echo urlencode($threads[tid])}&amp;md5={echo md5($threads[tid])}&amp;from=direct" target="_blank"><span style="color: {NOTICETEXT};">{lang reprint}</span></a>]
+					<!--{else}-->
+						<a href="viewthread.php?tid=$threads[tid]&amp;statsdata=$fid||$tid" target="_blank">$threads[title]</a>
+					<!--{/if}-->
+				</td>
+				<td class="author">
+					<!--{if !$threads['insite']}-->
+						<!--{if $threads[author]}-->$threads[author]<!--{else}-->{lang anonymous}<!--{/if}-->
+					<!--{else}-->
+						<a href="space.php?username={echo rawurlencode($threads[author])}" target="_blank">$threads[author]</a>
+					<!--{/if}-->
+				</td>
+				<td class="lastpost">$threads[pdate]</td></tr>
+			<!--{/if}-->
+		<!--{/loop}-->
+		</tbody>
+		</table>
+	</td>
+</tr>
+</table>
+
+<div class="forumcontrol s_clear">
+<table cellspacing="0" cellpadding="0" class="narrow">
+<tr>
+	<td class="modaction"></td>
+	<td>			
+		<div style="float: right"><a href="http://www.qihoo.com/wenda.php?kw=$searchkeywords&amp;do=search&amp;noq=q" target="_blank">{lang thread_more_related_threads}</a></div>
+		<!--{if $relatedkeywords}-->{lang qihoo_relateword}<!--{/if}-->
+	</td>
+</tr>
+</table>
+</div>
+
+</div>

@@ -1,0 +1,249 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang usergroup}</div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+			<h1>{lang usergroup}</h1>
+			<div class="datalist">
+				<div id="list_memcp_main_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_memcp_main', 1, 1);">{lang memcp_usergroups_join_main}</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_memcp_main', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<div id="list_memcp_main">
+					<p class="channelinfo">{lang memcp_usergroups_main_comment}</p>
+					<table cellspacing="0" cellpadding="0" class="datatable" style="margin-bottom:30px;">
+						<thead class="colplural">
+							<tr>
+								<td width="13%"></td>
+								<td width="11%">{lang permission_member_level}</td>
+								<td width="11%">{lang group_expiry_type}</td>
+								<td width="20%">{lang permission_group_credit}</td>
+								<td width="10%">{lang permission_basic_read}</td>
+								<td width="10%">{lang memcp_usergroups_expiry}</td>
+								<td>{lang action}</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><strong>$maingroup[grouptitle]<strong></td>
+								<td>{eval showstars($maingroup[stars]);}</td>
+								<td>{if $maingroup[type] == 'system'}{lang permission_system_group}{elseif $maingroup[type]=='special'}{lang permission_special_group}{else}{lang permission_member_group}{/if}</td>
+								<td>{if $maingroup[type] == 'member'}$maingroup[creditshigher]{else}-{/if}</td>
+								<td>$maingroup[readaccess]</td>
+								<td>{if empty($maingroup['expiry'])} - {else} $maingroup['expiry'] {/if}</td>
+								<td>
+									<a href="faq.php?action=grouppermission&searchgroupid={$maingroup[groupid]}" class="lightlink" target="_blank">{lang permission_group_detail}</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div id="list_memcp_extgroup_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_memcp_extgroup', 1, 1);">{lang memcp_usergroups_join_ext}</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_memcp_extgroup', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<div id="list_memcp_extgroup">
+					<p class="channelinfo">{lang memcp_usergroups_ext_comment}</p>
+					<table cellspacing="0" cellpadding="0" class="datatable" style="margin-bottom:30px;">
+						<thead class="colplural">
+							<tr>
+								<td width="13%"></td>
+								<td width="11%">{lang permission_member_level}</td>
+								<td width="11%">{lang group_expiry_type}</td>
+								<td width="20%">{lang permission_group_credit}</td>
+								<td width="10%">{lang permission_basic_read}</td>
+								<td width="10%">{lang memcp_usergroups_expiry}</td>
+								<td>{lang action}</td>
+							</tr>
+						</thead>
+						<tbody>
+							<!--{loop $extgroups $gp}-->
+							<tr>
+								<td><strong>$gp[grouptitle]<strong></td>
+								<td>{eval showstars($gp[stars]);}</td>
+								<td>{if $gp[type] == 'system'}{lang permission_system_group}{elseif $gp[type]=='special'}{lang permission_special_group}{else}{lang permission_member_group}{/if}</td>
+								<td>{if $gp[type] == 'member'}$gp[creditshigher]{else}-{/if}</td>
+								<td>$gp[readaccess]</td>
+								<td>{if empty($gp['expiry'])} - {else} $gp['expiry'] {/if}</td>
+								<td>
+									<a href="faq.php?action=grouppermission&searchgroupid={$gp[groupid]}" class="lightlink" target="_blank">{lang permission_group_detail}</a>
+									<!--{if $gp['allowsetmain']}--> | <a href="memcp.php?action=usergroups&type=main&edit={$gp[groupid]}" onclick="showWindow('usergroups', this.href);return false;" class="lightlink">{lang memcp_usergroups_set_main}</a><!--{/if}-->
+									<!--{if $switchmaingroup && $gp['type'] == 'special'}--> | <a href="memcp.php?action=usergroups&type=extended&edit={$gp[groupid]}" onclick="showWindow('usergroups', this.href);return false;" class="lightlink">{lang memcp_usergroups_exit}</a><!--{/if}-->
+								</td>
+							</tr>
+							<!--{/loop}-->
+							<!--{if empty($extgroups)}-->
+							<tr><td colspan="9">{lang none}</td></tr>
+							<!--{/if}-->
+						</tbody>
+					</table>
+				</div>
+
+				<div id="list_memcp_publicgroup_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_memcp_publicgroup', 1, 1);">{lang memcp_usergroups_open}</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_memcp_publicgroup', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<div id="list_memcp_publicgroup">
+					<p class="channelinfo">
+						{lang memcp_usergroups_open_comment}
+						<!--{if !$allowmultigroups}-->{lang memcp_usergroups_open_forbidden}<!--{/if}-->
+					</p>
+					<table cellspacing="0" cellpadding="0" class="datatable" style="margin-bottom:30px;">
+						<thead class="colplural">
+							<tr>
+								<td width="13%"></td>
+								<td width="11%">{lang permission_member_level}</td>
+								<td width="11%">{lang group_expiry_type}</td>
+								<td width="20%">{lang permission_group_credit}</td>
+								<td width="10%">{lang memcp_usergroups_minspan}</td>
+								<td width="10%">{lang memcp_usergroups_dailyprice}</td>
+								<td>{lang action}</td>
+							</tr>
+						</thead>
+						<tbody>
+							<!--{loop $publicgroups $gp}-->
+							<tr>
+								<td><strong>$gp[grouptitle]<strong></td>
+								<td>{eval showstars($gp[stars]);}</td>
+								<td>{if $gp[type] == 'system'}{lang permission_system_group}{elseif $gp[type]=='special'}{lang permission_special_group}{else}{lang permission_member_group}{/if}</td>
+								<td>{if $gp[type] == 'member'}$gp[creditshigher]{else}-{/if}</td>
+								<td>$gp[minspan] {lang days}</td>
+								<td>{$extcredits[$creditstrans][title]} $gp[dailyprice] {$extcredits[$creditstrans][unit]}</td>
+								<td>
+									<a href="faq.php?action=grouppermission&searchgroupid={$gp[groupid]}" class="lightlink" target="_blank">{lang permission_group_detail}</a>
+									<!--{if $gp[owned]}-->| <span class="lightlink">{lang memcp_usergroups_open_own}</span>
+									<!--{elseif $allowmultigroups && $gp[dailyprice]}-->| <a href="memcp.php?action=usergroups&type=extended&edit={$gp[groupid]}" onclick="showWindow('usergroups', this.href);return false;" class="lightlink">{lang memcp_usergroups_buy}</a>
+									<!--{elseif $allowmultigroups}-->| <a href="memcp.php?action=usergroups&type=extended&edit={$gp[groupid]}" onclick="showWindow('usergroups', this.href);return false;" class="lightlink">{lang memcp_usergroups_join}</a>
+									<!--{/if}-->
+								</td>
+							</tr>
+							<!--{/loop}-->
+							<!--{if empty($publicgroups)}-->
+							<tr><td colspan="8">{lang none}</td></tr>
+							<!--{/if}-->
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<h1>{lang memcp_usergroups_info}</h1>
+			<div class="datalist">
+				<div id="list_usergroups_members_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_usergroups_members', 1, 1);">{lang permission_member_group}</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_usergroups_members', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<table id="list_usergroups_members" cellspacing="0" cellpadding="0" class="datatable" style="margin-bottom:30px;">
+					<thead class="colplural">
+						<tr>
+							<td width="13%"></td>
+							<td width="11%">{lang permission_member_level}</td>
+							<td width="20%">{lang permission_group_credit}</td>
+							<td>{lang permission_basic_read}</td>
+							<td>{lang memcp_usergroups_join_other}</td>
+							<td></td>
+							<td>{lang action}</td>
+						</tr>
+					</thead>
+					<tbody>
+						<!--{loop $grouplist[member] $gp}-->
+						<tr>
+							<td><strong>$gp[grouptitle]<strong></td>
+							<td>{eval showstars($gp[stars]);}</td>
+							<td>$gp[creditshigher]</td>
+							<td>$gp[readaccess]</td>
+							<td><!--{if $gp['allowmultigroups'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td></td>
+							<td>
+								<a href="faq.php?action=grouppermission&searchgroupid=$gp[groupid]" class="lightlink" target="_blank">{lang permission_group_detail}</a>
+							</td>
+						</tr>
+						<!--{/loop}-->
+					</tbody>
+				</table>
+
+				<div id="list_usergroups_special_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_usergroups_special', 1, 1);">{lang permission_special_group}</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_usergroups_special', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<table id="list_usergroups_special" cellspacing="0" cellpadding="0" class="datatable" style="margin-bottom:30px;">
+					<thead class="colplural">
+						<tr>
+							<td width="13%"></td>
+							<td width="11%">{lang permission_member_level}</td>
+							<td width="20%">{lang permission_group_credit}</td>
+							<td>{lang permission_basic_read}</td>
+							<td>{lang memcp_usergroups_join_other}</td>
+							<td></td>
+							<td>{lang action}</td>
+						</tr>
+					</thead>
+					<tbody>
+						<!--{loop $grouplist[special] $gp}-->
+						<tr>
+							<td><strong>$gp[grouptitle]<strong></td>
+							<td>{eval showstars($gp[stars]);}</td>
+							<td>-</td>
+							<td>$gp[readaccess]</td>
+							<td><!--{if $gp['allowmultigroups'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td></td>
+							<td>
+								<a href="faq.php?action=grouppermission&searchgroupid=$gp[groupid]" class="lightlink" target="_blank">{lang permission_group_detail}</a>
+							</td>
+						</tr>
+						<!--{/loop}-->
+					</tbody>
+				</table>
+
+				<div id="list_usergroups_specialadmin_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_usergroups_specialadmin', 1, 1);">{lang permission_specialadmin_group}</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_usergroups_specialadmin', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<table id="list_usergroups_specialadmin" cellspacing="0" cellpadding="0" class="datatable" style="margin-bottom:30px;">
+					<thead class="colplural">
+						<tr>
+							<td width="13%"></td>
+							<td width="11%">{lang permission_member_level}</td>
+							<td width="20%">{lang permission_group_credit}</td>
+							<td>{lang permission_basic_read}</td>
+							<td>{lang memcp_usergroups_join_other}</td>
+							<td></td>
+							<td>{lang action}</td>
+						</tr>
+					</thead>
+					<tbody>
+						<!--{loop $grouplist[specialadmin] $gp}-->
+						<tr>
+							<td><strong>$gp[grouptitle]<strong></td>
+							<td>{eval showstars($gp[stars]);}</td>
+							<td>-</td>
+							<td>$gp[readaccess]</td>
+							<td><!--{if $gp['allowmultigroups'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td></td>
+							<td>
+								<a href="faq.php?action=grouppermission&searchgroupid=$gp[groupid]" class="lightlink" target="_blank">{lang permission_group_detail}</a>
+							</td>
+						</tr>
+						<!--{/loop}-->
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="side">
+		{subtemplate personal_navbar}
+	</div>
+</div>
+{subtemplate footer}

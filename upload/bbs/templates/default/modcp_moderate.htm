@@ -1,0 +1,229 @@
+<script type="text/javascript">
+	modclickcount = 0;
+	function recountobj() {
+		modclickcount = 0;
+		var objform = $('moderate');
+		for(var i = 0; i < objform.elements.length; i++) {
+			if(objform.elements[i].name.match('moderate') && objform.elements[i].checked) {
+				modclickcount++;
+			}
+		}
+		$('modlayercount').innerHTML = modclickcount;
+	}
+	function modcheckall() {
+		var count = 0;
+		count = checkall($('moderate'), 'moderate', 'chkall');
+		$('modlayercount').innerHTML = count;
+	}
+	function toggle_post(id) {
+		var obj = $('list_note_' + id); 
+		obj.style.display='block'; 
+		obj.style.height = obj.style.height == '55px' ? 'auto' : '55px' ;
+	}
+	 function modthreads(operation) {
+		var checked = 0;
+		var operation = !operation ? '' : operation;
+		var objform = $('moderate');
+		for(var i = 0; i < objform.elements.length; i++) {
+			if(objform.elements[i].name.match('moderate') && objform.elements[i].checked) {
+				checked = 1;
+				break;
+			}
+		}
+		if(!checked) {
+			alert('{lang mod_select_invalid}');
+		} else {
+			$('moderate').mod.value = operation;
+			$('moderate').infloat.value = 'yes';
+			showWindow('mods', 'moderate', 'post');
+		}
+	}
+</script>
+
+<div class="itemtitle s_clear">
+	<h1>{lang mod_option_subject_mod}</h1>
+	<ul>
+		<!--{if $allowmodpost}-->
+			<li {if $op == 'threads'} class="current" {/if}><a href="{$cpscript}?action=moderate&op=threads{$forcefid}" hidefocus="true"><span>{lang mod_option_subject_modthreads}</span></a></li>
+			<li {if $op == 'replies'} class="current" {/if}><a href="{$cpscript}?action=moderate&op=replies{$forcefid}" hidefocus="true"><span>{lang mod_option_subject_modreplies}</span></a></li>
+		<!--{/if}-->
+		<!--{if $allowmoduser}-->
+			<li {if $op == 'members'} class="current" {/if}><a href="{$cpscript}?action=moderate&op=members" hidefocus="true"><span>{lang mod_option_moduser}</span></a></li>
+		<!--{/if}-->
+	</ul>
+</div>
+
+<!--{if $op == 'threads' || $op == 'replies'}-->
+	<div class="datalist">
+		<form method="post" action="{$cpscript}?action=$action&op=$op">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<div class="filterform">
+			<!--{if $modforums['fids']}-->
+				<table cellspacing="0" cellpadding="0">
+					<tr>
+						<th width="60">{lang mod_moderate_selectforum}: </th>
+						<td>
+							<select name="fid">
+								<option value="0">{lang all}</option>
+								<!--{loop $modforums[list] $id $name}-->
+								<option value="$id" {if $id == $fid}selected{/if}>$name</option>
+								<!--{/loop}-->
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>{lang mod_moderate_thread_range}: </th>
+						<td>
+							<select name="filter">
+								<option value="0" $filtercheck[0]>{if $op == 'replies'}{lang mod_moderate_reply_num}{else}{lang mod_moderate_thread_num}{/if}</option>
+								<option value="-3" $filtercheck[-3]>{if $op == 'replies'}{lang mod_moderate_ignorereply_num}{else}{lang mod_moderate_ignorethread_num}{/if}</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th></th>
+						<td><button type="submit" class="submit" name="submit" id="searchsubmit" value="true">{lang submit}</button></td>
+					</tr>
+				</table>
+			<!--{else}-->
+				<p>{lang mod_message_moderate_nopermission}</p>
+			<!--{/if}-->
+			</div>
+		</form>
+	</div>
+
+	<!--{if $updatestat}--><div class="notice">{lang mod_notice_moderate}</div><!--{/if}-->
+
+	<!--{if $postlist}-->
+	<form method="post" name="moderate" id="moderate" action="{$cpscript}?action=$action&op=$op" class="s_clear">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="fid" value="$fid" />
+		<input type="hidden" name="mod" value="" />
+		<input type="hidden" name="infloat" value="" />
+		<input type="hidden" name="dosubmit" value="yes" />
+		<input type="hidden" name="filter" value="$filter" />
+		<!--{loop $postlist $post}-->
+			<table id="pid_$post[id]" cellpadding="3" cellspacing="0" style="margin:9px 0;width:100%;" class="{echo swapclass('notelistbg');}">
+				<thead>
+					<td width="5%"><input type="checkbox" id="pidcheck_{$post[id]}" value="$post[id]" name="moderate[]" class="checkbox" onclick="recountobj()" style="margin: 0 8px;" /></td>
+					<td>
+						<h5><a href="forumdisplay.php?fid={$post[fid]}" target="_blank">{$modforums[list][$post[fid]]}</a> &raquo; $post[tsubject]<!--{if $post[subject]}-->&raquo; $post[subject]<!--{/if}--></h5>
+					</td>
+					<td valign="top" align="right" width="35%">
+						<a href="modcp.php?action=$action&op=$op&moderate[]={$post[id]}&mod=validate&filter=$filter&dosubmit=1" onclick="showWindow('mods', this.href);return false;" class="lightlink">{lang pass}</a>&nbsp;&nbsp;-&nbsp;&nbsp;
+						<a href="modcp.php?action=$action&op=$op&moderate[]={$post[id]}&mod=delete&filter=$filter&dosubmit=1" onclick="showWindow('mods', this.href);return false;" class="lightlink">{lang delete}</a>&nbsp;&nbsp;-&nbsp;&nbsp;
+						<a href="modcp.php?action=$action&op=$op&moderate[]={$post[id]}&mod=ignore&filter=$filter&dosubmit=1" onclick="showWindow('mods', this.href);return false;" class="lightlink">{lang ignore}</a>&nbsp;&nbsp;-&nbsp;&nbsp;
+						<a href="javascript:;" class="lightlink" onclick="toggle_post($post[id]);">{lang open}</a>
+					</td>
+				</thead>
+				<tr>
+					<td></td>
+					<td colspan="2" class="lighttxt">$post[author] {lang poston} $post[dateline]</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td colspan="2">
+						<div id="list_note_{$post[id]}" style="overflow: auto; overflow-x: hidden; height:55px; word-break: break-all;">
+							$post[message] $post[attach] $post[sortinfo]
+						</div>
+					</td>
+				</tr>
+			</table>
+		<!--{/loop}-->
+		<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+		<table cellpadding="3" cellspacing="0" style="width:100%;">
+			<tr>
+				<td width="5%">
+					<input type="checkbox" class="checkbox" style="margin: 0 8px;" name="chkall" onclick="modcheckall()" />
+				</td>
+				<td>
+					<button onclick="modthreads('validate'); return false;">{lang validate}</button> 
+					<button onclick="modthreads('delete'); return false;">{lang delete}</button> 
+					<button onclick="modthreads('ignore'); return false;">{lang ignore}</button> 
+					{lang mod_moderate_select}
+				</td>
+			</tr>
+		</table>
+	</form>
+	<!--{elseif $fid}-->
+		<p>{lang search_nomatch}</p>
+	<!--{/if}-->
+<!--{/if}-->
+
+<!--{if $op == 'members'}-->
+	<div class="datalist">
+		<form method="post" action="{$cpscript}?action=$action&op=$op">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<div class="filterform">
+				<table cellspacing="0" cellpadding="0">
+					<tr>
+						<th width="60">{lang mod_moderate_member_range}</th>
+						<td>
+							<select name="filter">
+								<option value="0" $filtercheck[0]>{lang mod_moderate_member_never} ( $count[0] )</option>
+								<option value="1" $filtercheck[1]>{lang mod_moderate_member_already} ( $count[1] )</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th></th>
+						<td><button type="submit" class="submit" name="submit" id="searchsubmit" value="true">{lang submit}</button></td>
+					</tr>
+				</table>
+			</div>
+		</form>
+		<!--{if $memberlist}-->
+			<form method="post" name="moderate" id="moderate" action="{$cpscript}?action=$action&op=$op">
+				<input type="hidden" name="mod" value="" />
+				<input type="hidden" name="infloat" value="" />
+				<input type="hidden" name="dosubmit" value="yes" />
+				<input type="hidden" name="filter" value="$filter" />
+				<table cellspacing="0" cellpadding="0" class="datatable" style="border-bottom:none">
+					<thead class="colplural">
+						<tr>
+							<th width="20"></th>
+							<th width="25%">{lang mod_moderate_member_profile}</th>
+							<th>{lang mod_moderate_member_register_reason}</th>
+							<th width="27%">{lang mod_moderate_member_info}</th>
+						</tr>
+					</thead>
+					<!--{loop $memberlist $member}-->
+						<tr id="pid_{$member[uid]}" class="{echo swapclass('colplural')}">
+							<td><input type="checkbox" id="pidcheck_{$member[uid]}" value="$member[uid]" name="moderate[]" class="checkbox" onclick="recountobj()" /></td>
+							<td valign="top">
+								<h5>$member[username]</h5>
+								<p>{lang mod_moderate_member_register_dateline}: $member[regdate]</p>
+								<p>{lang mod_moderate_member_register_ip}: $member[regip]</p>
+								<p>Email: $member[email]</p>
+								<p style="margin-top:5px;">
+									<a href="modcp.php?action=$action&op=$op&moderate[]={$member[uid]}&mod=validate&filter=$filter&dosubmit=1" onclick="showWindow('mods', this.href);return false;" class="lightlink">{lang pass}</a>&nbsp;&nbsp;-&nbsp;&nbsp;
+									<a href="modcp.php?action=$action&op=$op&moderate[]={$member[uid]}&mod=delete&filter=$filter&dosubmit=1" onclick="showWindow('mods', this.href);return false;" class="lightlink">{lang delete}</a>&nbsp;&nbsp;-&nbsp;&nbsp;
+									<a href="modcp.php?action=$action&op=$op&moderate[]={$member[uid]}&mod=invalidate&filter=$filter&dosubmit=1" onclick="showWindow('mods', this.href);return false;" class="lightlink">{lang invalidate}</a>
+								</p>
+							</td>
+							<td valign="top">$member['message']</td>
+							<td valign="top">
+								<p>{lang mod_moderate_member_submit_times}: $member[submittimes]</p>
+								<p>{lang mod_moderate_member_submit_dateline}: $member[submitdate]</p>
+								<p>{lang mod_moderate_member_mod_admin}: $member[admin]</p>
+								<p>{lang mod_moderate_member_mod_dateline}: $member[moddate]</p>
+							</td>
+						</tr>
+					<!--{/loop}-->
+					<tr class="noborder">
+						<td><input type="checkbox" class="checkbox" name="chkall" onclick="modcheckall()"/></td>
+						<td colspan="3">
+							<!--{if !empty($multipage)}-->$multipage<!--{/if}-->
+							<button onclick="modthreads('validate'); return false;">{lang validate}</button> 
+							<button onclick="modthreads('delete'); return false;">{lang delete}</button> 
+							<button onclick="modthreads('invalidate'); return false;">{lang invalidate}</button> 
+							{lang mod_moderate_select}
+						</td>
+					</tr>
+				</table>
+			</form>
+		<!--{else}-->
+			<p>{lang search_nomatch}</p>
+		<!--{/if}-->
+	</div>
+<!--{/if}-->

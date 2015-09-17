@@ -1,0 +1,51 @@
+<h1>{lang modcp_logs}</h1>
+<div class="datalist">
+	<div class="filterform">
+		<form method="get" action="{$cpscript}?action=logs">
+			<input type="hidden" name="action" value="logs">
+			<table cellspacing="0" cellpadding="0">
+				<tr>
+					<td width="80">{lang keyword}:</td>
+					<td><input type="text" name="keyword" value="$keyword" size="20" class="txt" /></td>
+				</tr>
+				<tr>
+					<td>{lang modcp_logs_perpage}:</td>
+					<td><input type="text" name="lpp" value="$lpp" size="20" class="txt" /></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><button type="submit" class="submit" name="submit" id="searchsubmit" value="true">{lang submit}</button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<!--{if !empty($loglist)}-->
+		<!--{if $loglist}-->
+			<table id="list_modcp_logs" cellspacing="0" cellpadding="0" style="margin-bottom: 10px;">
+				<thead class="colplural">
+					<tr>
+						<th width="15%">{lang time}</th>
+						<th width="15%">{lang username}</th>
+						<td width="10%">IP</td>
+						<th width="10%">{lang modcp_logs_action}</th>
+						<td width="12%">{lang forum}</td>
+						<td>{lang modcp_logs_other}</td>
+					</tr>
+				</thead>
+				<!--{loop $loglist $log}-->
+					<tr class="{echo swapclass('colplural')}">
+						<td>$log[1]</td>
+						<td>$log[2] <br />{if $log[3] == 1} {lang admin} {elseif $log[3] == 2} {lang supermod} {elseif $log[3] == 3} {lang moderator} {else} GID $log[3] {/if}</td>
+						<td>$log[4]</td>
+						<td>$log[5] <br />$log[6]</td>
+						<td>$log[7]</td>
+						<td>$log[8]</td>
+					</tr>
+				<!--{/loop}-->
+			</table>
+			<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+		<!--{else}-->
+			<p>{lang search_nomatch}</p>
+		<!--{/if}-->
+	<!--{/if}-->
+</div>

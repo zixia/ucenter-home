@@ -1,0 +1,159 @@
+<!--{if $action == 'markinvite'}-->
+	{template header}
+	<tr>
+		<td><input type="checkbox" class="checkbox" name="multiselect" value="$invite[invitecode]" onclick="multiselect(this)"></td>
+		<td><input type="text" size="22" value="$invite[invitecode]" readonly="readonly" onclick="this.select();copymsg('{$boardurl}$regname?invitecode=$invite[invitecode]', 'return_copyinvite');" class="txt invitecode <!--{if $changestatus != '1'}-->marked<!--{/if}-->" title="{lang invite_copy}" /></td>
+		<td class="time"><!--{if $invite[expiration] > 0}--> $invite[expiration] {lang day} <!--{else}--> {lang invite_expiration} <!--{/if}--></td>
+		<td>
+			<a href="javascript:;" onclick="copymsg('{$boardurl}$regname?invitecode=$invite[invitecode]', 'return_copyinvite');">{lang invite_copy}</a><span class="pipe">|</span>
+		<!--{if $changestatus == '1'}-->
+			<!--{if $allowmailinvite}--><a href="invite.php?action=sendinvite&amp;invitecode=$invite[invitecode]" onclick="showWindow('invitesend', this.href);return false;">{lang invite_send}</a><span class="pipe">|</span><!--{/if}-->
+			<a href="invite.php?action=markinvite&amp;invitecode=$invite[invitecode]" id="ajax_markinvite_$invite[invitecode]" onclick="ajaxget(this.href, 'invite_$invite[invitecode]', 'ajaxwaitid');doane(event);">{lang invite_mark}</a>
+		<!--{else}-->
+			<a href="invite.php?action=markinvite&amp;invitecode=$invite[invitecode]&amp;do=undo" id="ajax_markinvite_$invite[invitecode]" onclick="ajaxget(this.href, 'invite_$invite[invitecode]', 'ajaxwaitid');doane(event);">{lang invite_unmark}</a>
+		<!--{/if}-->
+		</td>
+	</tr>
+	{template footer}
+<!--{else}-->
+	{subtemplate header}
+	<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang invite}</div>
+	<div id="wrap" class="wrap with_side s_clear">
+		<div class="main">
+			<div class="content">
+				<h1>{lang invite}</h1>
+				<div class="datalist" style="margin-bottom:30px;">
+					<div class="c_header"><h3 class="noarrow">{lang invite_mycode}</h3></div>
+					<div id="return_copyinvite" class="channelinfo"></div>
+					<!--{if $invitelist}-->
+						<table cellspacing="0" cellpadding="0" summary="{lang invite_logs}" class="datatable">
+							<tr class="colplural">
+								<th width="15"></th>
+								<th>{lang invite_code}</th>
+								<th class="time">{lang invite_expiration}</th>
+								<th>{lang action}</th>
+							</tr>
+							<tbody id="myinvite">
+							<!--{loop $invitelist $invite}-->
+								<tbody id="invite_$invite[invitecode]" class="{echo swapclass('colplural')}">
+									<tr{if $invite[expiration] < 0} class="expiration"{/if}>
+										<td><input type="checkbox" class="checkbox" name="multiselect" value="$invite[invitecode]" onclick="multiselect(this)"></td>
+										<td><input type="text" size="22" value="$invite[invitecode]" readonly="readonly" onclick="this.select();copymsg('{$boardurl}$regname?invitecode=$invite[invitecode]', 'return_copyinvite');" class="txt invitecode <!--{if $invite['status'] != '1'}-->marked<!--{/if}-->" title="{lang invite_copy}" /></td>
+										<td><!--{if $invite[expiration] > 0}--> $invite[expiration] {lang day} <!--{else}--> {lang invite_code_expirate} <!--{/if}--></td>
+										<td>
+											<a href="javascript:;" onclick="ajaxget('invite.php?action=markinvite&amp;invitecode=$invite[invitecode]', 'invite_$invite[invitecode]', 'ajaxwaitid');copymsg('{$boardurl}$regname?invitecode=$invite[invitecode]', 'return_copyinvite');">{lang invite_copy}</a><span class="pipe">|</span>
+											<!--{if $invite['status'] == '1'}-->
+												<!--{if $allowmailinvite}--><a href="invite.php?action=sendinvite&amp;invitecode=$invite[invitecode]" onclick="showWindow('invitesend', this.href);return false;">{lang invite_send}</a><span class="pipe">|</span><!--{/if}-->
+												<a href="invite.php?action=markinvite&amp;invitecode=$invite[invitecode]" id="ajax_markinvite_$invite[invitecode]" onclick="ajaxget(this.href, 'invite_$invite[invitecode]', 'ajaxwaitid');doane(event);">{lang invite_mark}</a>
+											<!--{else}-->
+												<a href="invite.php?action=markinvite&amp;invitecode=$invite[invitecode]&amp;do=undo" id="ajax_markinvite_$invite[invitecode]" onclick="ajaxget(this.href, 'invite_$invite[invitecode]', 'ajaxwaitid');doane(event);">{lang invite_unmark}</a>
+											<!--{/if}-->
+										</td>
+									</tr>
+								</tbody>
+							<!--{/loop}-->
+							</tbody>
+						</table>
+						<div class="pages_btns">
+							<!--{if !empty($multipage)}-->$multipage<!--{/if}-->
+							<div id="copyall" style="display:none"><button type="submit" class="submit" onclick="copyall()">{lang invite_copy}</button></div>
+						</div>
+					<!--{else}-->
+						<table cellspacing="0" cellpadding="0" class="datatable">
+							<tr><th><p class="nodata"><p class="nodata">{lang invite_log_nonexistence}<!--{if $action == 'availablelog'}--><a href="invite.php?action=buyinvite">{lang invite_get_code}</a><!--{/if}--></a></p></th></tr>
+						</table>
+					<!--{/if}-->
+				</div>
+
+				<!--{if $allowinvite}-->
+				<div class="datalist" style="margin-bottom:30px;">
+					<div class="c_header"><h3 class="noarrow">{lang invite_get}</h3></div>
+					<div id="return_buyinvite" class="channelinfo">
+						<ul><!--{if $maxinvitenum}-->{lang invite_num_tips}<!--{/if}-->{lang invite_expiration_tips}</ul>
+					</div>
+					<form id="buyinviteform" method="post" action="invite.php?action=index"  onsubmit="ajaxpost('buyinviteform', 'return_buyinvite');">
+						<input type="hidden" name="formhash" value="{FORMHASH}" />
+						<table cellspacing="0" cellpadding="0" summary="{lang invite_logs}" class="datatable">
+							<tr class="colplural">
+								<th width="40%">{lang invite_buy_num} ( {lang invite_code_price} $inviteprice $extcredits[$creditstransextra[4]][title])</th>
+								<th width="10%">{lang invite_buy_credit}</th>
+								<th></th>
+							</tr>
+							<tr>
+								<td><input type="text" size="10" id="amount" name="amount" value="1" onkeyup="calcredit()" class="txt" /></td>
+								<td><strong id="desamount">0</strong> $extcredits[$creditstransextra[4]][title]</td>
+								<td>
+									<button type="submit" class="submit" name="buysubmit" value="buysubmit">{lang invite_buy}</button>
+									<script type="text/javascript">
+									function calcredit() {
+										var amount = parseInt($('amount').value);
+										$('desamount').innerHTML = !isNaN(amount) ? Math.floor(amount * $inviteprice) : 0;
+									}
+									calcredit();
+									</script>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<!--{/if}-->
+
+				<!--{if $inviteuserlist}-->
+					<div class="c_header"><h3 class="noarrow">{lang invite_friends}</h3></div>
+					<ul class="avt_list avt_uname s_clear">
+						<!--{loop $inviteuserlist $inviteuser}-->
+							<li>
+								<a href="space.php?uid=$inviteuser[uid]" target="_blank">$inviteuser[avatar]</a>
+								<p><a href="space.php?uid=$inviteuser[uid]" target="_blank">$inviteuser[username]</a></p>
+							</li>
+						<!--{/loop}-->
+					</ul>
+				<!--{/if}-->
+			</div>
+		</div>
+		<div class="side">
+			{template personal_navbar}
+		</div>
+	</div>
+	{subtemplate footer}
+<script type="text/javascript">
+	function copymsg(invitecode, id) {
+		var code = invitecode;
+		var msgsuccess = '{lang invite_copy_code_success}';
+		if(BROWSER.ie) {
+			$(id).innerHTML = '<span class="onright">' + code + msgsuccess + '</span>';
+		}
+		setCopy(code);
+	}
+
+	invitecount = 0;
+	function multiselect(obj) {
+		if(obj.checked) {
+			invitecount++;
+		} else {
+			invitecount--;
+		}
+		if(invitecount > 0) {
+			$('copyall').style.display = '';
+		} else {
+			$('copyall').style.display = 'none';
+		}
+	}
+
+	function copyall() {
+		var invitelength = document.getElementsByName('multiselect');
+		var invitecode = '';
+		var msgallsuccess = '{lang invite_copy_code_all_success}';
+		for(i = 0; i < invitelength.length; i ++) {
+			if(invitelength[i].checked) {
+				invitecode += '{$boardurl}$regname?invitecode=' + invitelength[i].value + '\n';
+				ajaxget('invite.php?action=markinvite&invitecode='+invitelength[i].value, 'invite_'+invitelength[i].value, 'ajaxwaitid');
+			}
+		}
+		setCopy(invitecode);
+		if(BROWSER.ie) {
+			$('return_copyinvite').innerHTML = '<span class="onright">' + msgallsuccess + '</span>';
+		}
+	}
+</script>
+<!--{/if}-->

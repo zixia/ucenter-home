@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
+	<item id="Version"><![CDATA[7.2]]></item>
+	<item id="Data">
+		<item id="plugin">
+			<item id="available"><![CDATA[0]]></item>
+			<item id="adminid"><![CDATA[1]]></item>
+			<item id="name"><![CDATA[Manyou]]></item>
+			<item id="identifier"><![CDATA[manyou]]></item>
+			<item id="description"><![CDATA[]]></item>
+			<item id="datatables"><![CDATA[]]></item>
+			<item id="directory"><![CDATA[manyou/]]></item>
+			<item id="copyright"><![CDATA[Comsenz Inc.]]></item>
+			<item id="version"><![CDATA[1.0.1]]></item>
+			<item id="__modules">
+				<item id="0">
+					<item id="name"><![CDATA[plugin]]></item>
+					<item id="type"><![CDATA[11]]></item>
+					<item id="adminid"><![CDATA[0]]></item>
+					<item id="displayorder"><![CDATA[0]]></item>
+				</item>
+				<item id="1">
+					<item id="name"><![CDATA[userapp]]></item>
+					<item id="menu"><![CDATA[应用程序]]></item>
+					<item id="url"><![CDATA[userapp.php]]></item>
+					<item id="type"><![CDATA[1]]></item>
+					<item id="adminid"><![CDATA[0]]></item>
+					<item id="displayorder"><![CDATA[0]]></item>
+				</item>
+			</item>
+		</item>
+		<item id="version"><![CDATA[7.2]]></item>
+		<item id="vars">
+			<item id="0">
+				<item id="displayorder"><![CDATA[0]]></item>
+				<item id="title"><![CDATA[首页应用推荐条目数]]></item>
+				<item id="description"><![CDATA[设置首页显示推荐应用条目数，0 为不显示<br /><b><a href="userapp.php?script=admincp" target="_blank">MYOP 应用管理</a></b>]]></item>
+				<item id="variable"><![CDATA[limit]]></item>
+				<item id="type"><![CDATA[number]]></item>
+				<item id="value"><![CDATA[]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+		</item>
+		<item id="intro"><![CDATA[[b]用户多应用功能简介[/b]
+开启用户应用功能后，用户可以自由选择各种不同的或好玩有趣、或实用的等应用（诸如电影、送礼物......）在站内进行使用。
+面对如此众多的好玩好用的应用，作为站长，您可以选择应用默认全部开启模式，也可以选择应用默认全部关闭模式，并按照自己的站点情况，选择自己想要的应用来提供给站点用户，一切由您说了算。
+
+[b]本多应用功能由 [url=http://wiki.developer.manyou.com/wiki/index.php/MYOP]MYOP开放平台[/url] 提供[/b]。
+Manyou Open Platform(Manyou开放平台/MYOP)服务是由Comsenz公司为应用开发者提供的开放平台。
+作为Discuz!使用网站的开放平台应用开发标准（API），Manyou将为您站点Discuz!的用户提供各种个性化的互联网应用。
+
+[url=http://wiki.developer.manyou.com/wiki/index.php?title=MYOP%E7%BD%91%E7%AB%99%E6%9C%8D%E5%8A%A1%E5%8D%8F%E8%AE%AE&printable=yes]请先阅读MYOP网站服务协议[/url]
+]]></item>
+		<item id="installfile"><![CDATA[install.php]]></item>
+		<item id="uninstallfile"><![CDATA[uninstall.php]]></item>
+		<item id="language">
+			<item id="scriptlang">
+				<item id="nofounder"><![CDATA[只有创始人才可以进入应用管理，请返回。]]></item>
+				<item id="myop_error"><![CDATA[用户应用服务开启失败，失败原因：<br>{$res[errMessage]} (ERRCODE:{$res[errCode]})<br><br><a href="http://www.discuz.net/index.php?gid=141" target="_blank">如果有疑问，请访问我们的技术论坛寻求帮助</a>。]]></item>
+				<item id="myop_open"><![CDATA[用户应用服务已开启。]]></item>
+				<item id="myop_close"><![CDATA[用户应用服务已关闭。]]></item>
+				<item id="myop_sync"><![CDATA[站点信息已成功同步。]]></item>
+				<item id="setting_update"><![CDATA[设置已更新。]]></item>
+				<item id="myop_setting_update"><![CDATA[应用设置已更新]]></item>
+				<item id="done"><![CDATA[操作完成。]]></item>
+				<item id="noperm"><![CDATA[您无权进行此操作。]]></item>
+				<item id="noappid"><![CDATA[对不起，该应用不存在或已关闭。]]></item>
+				<item id="invite_error"><![CDATA[对不起，您访问的邀请链接不正确，请确认。]]></item>
+				<item id="invite_message"><![CDATA[您的好友 {$friendname} 邀请您注册 {$bbname}。]]></item>
+				<item id="invite_noself"><![CDATA[对不起，您不能邀请自己成为好友。]]></item>
+				<item id="invite_friend"><![CDATA[您和 {$friendname} 成为好友了。]]></item>
+				<item id="uchome_exists"><![CDATA[您的论坛安装了 UCenter Home，无法使用本功能。]]></item>
+				<item id="viewthread_link"><![CDATA[TA的动态]]></item>
+				<item id="add_buddy"><![CDATA[添加为好友]]></item>
+			</item>
+			<item id="installlang">
+				<item id="prompttypenotice"><![CDATA[应用通知]]></item>
+				<item id="prompttypeinvite"><![CDATA[应用邀请]]></item>
+			</item>
+			<item id="templatelang">
+				<item id="myop"><![CDATA[应用程序]]></item>
+				<item id="admincp"><![CDATA[管理]]></item>
+				<item id="tips_title"><![CDATA[本站 MYOP 应用管理]]></item>
+				<item id="tips_comment"><![CDATA[如果用户应用功能无法与 ManYou 通讯，请重新同步站点信息；如果想要关闭用户应用功能，点击“关闭用户应用功能”；注意：关闭用户应用功能后当前所有的应用都将处于禁用状态。]]></item>
+				<item id="myop_sync"><![CDATA[同步信息]]></item>
+				<item id="myop_close"><![CDATA[关闭用户应用功能]]></item>
+				<item id="myop_credit"><![CDATA[应用使用的积分]]></item>
+				<item id="feedperpage"><![CDATA[首页每页动态条目数]]></item>
+				<item id="save"><![CDATA[保存]]></item>
+				<item id="myop_intro_title"><![CDATA[用户多应用功能简介]]></item>
+				<item id="myop_intro_message"><![CDATA[<strong>用户多应用功能简介</strong><br>
+	开启用户应用功能后，用户可以自由选择各种不同的或好玩有趣、或实用的等应用（诸如电影、送礼物......）在站内进行使用。<br>
+	面对如此众多的好玩好用的应用，作为站长，您可以选择应用默认全部开启模式，也可以选择应用默认全部关闭模式，并按照自己的站点情况，选择自己想要的应用来提供给站点用户，一切由您说了算。<br><br>
+	<strong>本多应用功能由 <a href="http://wiki.developer.manyou.com/wiki/index.php/MYOP" target="_blank">MYOP开放平台</a> 提供</strong>。<br>
+	Manyou Open Platform(Manyou开放平台/MYOP)服务是由Comsenz公司为应用开发者提供的开放平台。<br>
+	作为UCenter Home使用网站的开放平台应用开发标准（API），Manyou将为您站点UCenter Home的用户提供各种个性化的互联网应用。<br><br>
+	<a href="http://wiki.developer.manyou.com/wiki/index.php?title=MYOP%E7%BD%91%E7%AB%99%E6%9C%8D%E5%8A%A1%E5%8D%8F%E8%AE%AE&printable=yes" target="_blank">请先阅读MYOP网站服务协议</a><br><br>]]></item>
+				<item id="myop_open"><![CDATA[启用服务]]></item>
+				<item id="loading"><![CDATA[页面加载中...]]></item>
+				<item id="notice_browser"><![CDATA[本页面暂时不支持遨游2浏览器, 请您使用IE或Firefox, 我们对由此给您带来的不便深表歉意]]></item>
+				<item id="syncing_friend"><![CDATA[正在同步好友信息...]]></item>
+				<item id="allowfeed"><![CDATA[在好友动态和个人动态中发布动态]]></item>
+				<item id="allowprofilelink"><![CDATA[在个人主页的头像下方动作列表中显示此应用]]></item>
+				<item id="submit"><![CDATA[提交]]></item>
+				<item id="sync_friend"><![CDATA[同步好友]]></item>
+				<item id="friend"><![CDATA[好友]]></item>
+				<item id="all"><![CDATA[全站]]></item>
+				<item id="self"><![CDATA[自己]]></item>
+				<item id="feed"><![CDATA[动态]]></item>
+				<item id="notice"><![CDATA[通知]]></item>
+				<item id="invite"><![CDATA[邀请]]></item>
+				<item id="setting"><![CDATA[设置]]></item>
+				<item id="nofeed"><![CDATA[还没有相关动态，]]></item>
+				<item id="viewall"><![CDATA[去看看大家的动态]]></item>
+				<item id="deletenotice"><![CDATA[成功忽略了该条应用消息]]></item>
+				<item id="noticewaiting"><![CDATA[正在引导您进入]]></item>
+				<item id="youhave"><![CDATA[您有]]></item>
+				<item id="unit"><![CDATA[个]]></item>
+				<item id="require"><![CDATA[请求]]></item>
+				<item id="delete"><![CDATA[忽略]]></item>
+				<item id="addfriend"><![CDATA[添加为好友]]></item>
+				<item id="nonotice"><![CDATA[没有新的应用通知或邀请]]></item>
+				<item id="recommend"><![CDATA[大家都在玩什么]]></item>
+			</item>
+		</item>
+	</item>
+</root>

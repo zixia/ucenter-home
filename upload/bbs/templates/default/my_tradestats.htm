@@ -1,0 +1,96 @@
+<!--{if $goodsbuyer || $goodsseller}-->
+	<!--{if $goodsbuyer}-->
+		<div id="list_my_trade_buyer_info_c" class="c_header">
+			<h3 onclick="toggle_collapse('list_my_trade_buyer_info', 1, 1);">{lang my_trade_buyer_info}</h3>
+			<div class="c_header_action">
+				<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_my_trade_buyer_info', 1, 1);">[ {lang open} ]</p>
+			</div>
+		</div>
+		<table id="list_my_trade_buyer_info" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+					<a href="my.php?item=buytrades$extrafid">{lang my_trade_buyer_trading}</a><br />
+					<!--{if $buyerattend}-->
+						<a href="my.php?item=buytrades$extrafid&filter=attention">{lang my_trade_need_attend_buy}</a><br />
+						<span style="margin:0 30px;">
+							{lang my_trade_include}:
+							<!--{if $attendstatus[1]}-->$attendstatus[1] {lang my_trade_include_1}<!--{/if}-->
+							<!--{if $attendstatus[5]}-->$attendstatus[5] {lang my_trade_include_5}<!--{/if}-->
+							<!--{if $attendstatus[11]}-->$attendstatus[11] {lang my_trade_include_11}<!--{/if}-->
+							<!--{if $attendstatus[12]}-->$attendstatus[12] {lang my_trade_include_12}<!--{/if}-->
+						</span>
+					<!--{/if}-->
+					<!--{if $eccreditbuyer}--><a href="my.php?item=buytrades$extrafid&filter=eccredit">{lang my_trade_need_buyer_eccredit}</a><!--{/if}-->
+				</td>
+			</tr>
+		</table>
+	<!--{/if}-->
+	<!--{if $goodsseller}-->
+		<div id="list_my_trade_seller_info_c" class="c_header">
+			<h3 onclick="toggle_collapse('list_my_trade_seller_info', 1, 1);">{lang my_trade_seller_info}</h3>
+			<div class="c_header_action">
+				<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_my_trade_seller_info', 1, 1);">[ {lang open} ]</p>
+			</div>
+		</div>
+		<table id="list_my_trade_seller_info" cellspacing="0" cellpadding="0">
+			<tr>
+				<td><a href="my.php?item=tradethreads">{lang my_trade_seller_trading}</a></td>
+			</tr>
+			<!--{if $sellerattend}-->
+				<tr>
+					<td>
+						<a href="my.php?item=selltrades$extrafid&filter=attention">{lang my_trade_need_attend_sell}</a>
+						<span style="margin:0 30px;">
+							{lang my_trade_include}:
+							<!--{if $attendstatus[2]}-->$attendstatus[2] {lang my_trade_include_2}<!--{/if}-->
+							<!--{if $attendstatus[4]}-->$attendstatus[4] {lang my_trade_include_4}<!--{/if}-->
+							<!--{if $attendstatus[10]}-->$attendstatus[10] {lang my_trade_include_10}<!--{/if}-->
+							<!--{if $attendstatus[13]}-->$attendstatus[13] {lang my_trade_include_13}<!--{/if}-->
+						</span>
+					</td>
+				</tr>
+			<!--{/if}-->
+			<!--{if $eccreditseller}-->
+				<tr>
+					<td>
+						<a href="my.php?item=selltrades$extrafid&filter=eccredit">{lang my_trade_need_seller_eccredit}</a>
+					</td>
+				</tr>
+			<!--{/if}-->
+		</table>
+	<!--{/if}-->
+	<!--{if $buystats['tradesum'] || $sellstats['tradesum']}-->
+		<div id="list_my_trade_stat_c" class="c_header">
+			<h3 onclick="toggle_collapse('list_my_trade_stat', 1, 1);">{lang my_trade_stat}</h3>
+			<div class="c_header_action">
+				<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_my_trade_stat', 1, 1);">[ {lang open} ]</p>
+			</div>
+		</div>
+		<table id="list_my_trade_stat" cellspacing="0" cellpadding="0">
+			<!--{if $buystats['tradesum']}-->
+			<tr>
+				<th width="15%" class="colplural">{lang my_trade_buyer_total}:</th>
+				<td>$buystats[totalitems]</td>
+			</tr>
+			<tr>
+				<th class="colplural">{lang my_trade_buyer_sum}:</th>
+				<td>$buystats[tradesum] {lang payment_unit}</td>
+			</tr>
+			<!--{/if}-->
+			<!--{if $sellstats['tradesum']}-->
+			<tr>
+				<th width="15%" class="colplural">{lang my_trade_seller_total}:</th>
+				<td>$sellstats[totalitems]</td>
+			</tr>
+			<tr>
+				<th class="colplural">{lang my_trade_seller_sum}:</th>
+				<td>$sellstats[tradesum] {lang payment_unit}</td>
+			</tr>
+			<!--{/if}-->
+		</table>
+	<!--{/if}-->
+<!--{else}-->
+	<table cellspacing="0" cellpadding="0" class="datatable">
+		<tr><th><p class="nodata">{lang data_nonexistence}</p></th></tr>
+	</table>
+<!--{/if}-->

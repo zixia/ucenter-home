@@ -1,0 +1,25 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; <a href="tag.php">{lang tag}</a></div>
+
+<div id="wrap" class="wrap s_clear">
+	<div class="main">
+		<div class="content">
+			<h1 id="headsearch">
+			<form method="get" action="tag.php">
+				<em>{lang post_tag}</em><input type="text" name="name" />
+				&nbsp;<button type="submit">{lang search}</button>
+			</form>
+			</h1>
+			<div class="taglist s_clear">
+				<!--{if $randtaglist}-->
+				<!--{loop $randtaglist $tag}-->
+					<a href="tag.php?name=$tag[tagnameenc]" class="tagl$tag[level]" title="$tag[total]" target="_blank">$tag[tagname]</a> 
+				<!--{/loop}-->
+				<!--{else}-->
+					<em>{lang tag_nofound}</em>
+				<!--{/if}-->
+			</div>
+		</div>
+	</div>
+</div>
+{subtemplate footer}

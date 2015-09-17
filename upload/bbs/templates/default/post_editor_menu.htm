@@ -1,0 +1,342 @@
+<div class="editortoolbar">
+	<div class="popupmenu_popup simple_menu" id="{$editorid}_cmd_simple_menu" style="display: none">
+	<ul unselectable="on">
+		<li id="{$editorid}_cmd_bold" onclick="discuzcode('bold')" unselectable="on">{lang e_bold}</li>
+		<li id="{$editorid}_cmd_italic" onclick="discuzcode('italic')" unselectable="on">{lang e_italic}</li>
+		<li id="{$editorid}_cmd_underline" onclick="discuzcode('underline')" unselectable="on">{lang e_underline}</li>
+		<li id="{$editorid}_cmd_strikethrough" onclick="discuzcode('strikethrough')" unselectable="on">{lang e_strike}</li>
+		<li id="{$editorid}_cmd_inserthorizontalrule" onclick="discuzcode('inserthorizontalrule')" unselectable="on">{lang e_hr}</li>
+	</ul>
+	</div>
+
+	<!--{eval $fontoptions = array({lang e_fontoptions})}-->
+	<div class="popupmenu_popup fontname_menu" id="{$editorid}_cmd_fontname_menu" style="display: none">
+	<ul unselectable="on">
+	<!--{loop $fontoptions $fontname}-->
+		<li onclick="discuzcode('fontname', '$fontname')" style="font-family: $fontname" unselectable="on">$fontname</li>
+	<!--{/loop}-->
+	</ul>
+	</div>
+
+	<!--{eval $sizeoptions = array(1, 2, 3, 4, 5, 6, 7)}-->
+	<div class="popupmenu_popup fontsize_menu" id="{$editorid}_cmd_fontsize_menu" style="display: none">
+	<ul unselectable="on">
+	<!--{loop $sizeoptions $size}-->
+		<li onclick="discuzcode('fontsize', $size)" unselectable="on"><font size="$size" unselectable="on">$size</font></li>
+	<!--{/loop}-->
+	</ul>
+	</div>
+
+	<div class="popupmenu_popup simple_menu" id="{$editorid}_cmd_paragraph_menu" style="display: none">
+	<ul unselectable="on">
+		<li><a id="{$editorid}_cmd_justifycenter" onclick="discuzcode('justifycenter')" unselectable="on">{lang e_center}</a></li>
+		<li><a id="{$editorid}_cmd_justifyleft" onclick="discuzcode('justifyleft')" unselectable="on">{lang e_left}</a></li>
+		<li><a id="{$editorid}_cmd_justifyright" onclick="discuzcode('justifyright')" unselectable="on">{lang e_right}</a></li>
+		<li><a id="{$editorid}_cmd_autotypeset" onclick="discuzcode('autotypeset')" unselectable="on">{lang e_autotypeset}</a></li>
+	</ul>
+	</div>
+
+	<div class="popupmenu_popup simple_menu" id="{$editorid}_cmd_list_menu" style="display: none">
+	<ul unselectable="on">
+		<li id="{$editorid}_cmd_insertorderedlist" onclick="discuzcode('insertorderedlist')" unselectable="on">{lang e_orderedlist}</li>
+		<li id="{$editorid}_cmd_insertunorderedlist" onclick="discuzcode('insertunorderedlist')" unselectable="on">{lang e_unorderedlist}</li>
+	</ul>
+	</div>
+
+</div>
+
+<!--{block creditstring}--><!--{loop $postattachcredits $id $credit}--><!--{if $credit != ''}-->{$extcredits[$id][title]} {if $credit >= 0}+$credit{else}$credit{/if} {$extcredits[$id][unit]} &nbsp;<!--{/if}--><!--{/loop}--><!--{/block}-->
+<div class="popupmenu_popup uploadfile" id="{$editorid}_cmd_image_menu" style="display: none" unselectable="on">
+	<div class="float_ctrl"><span><a href="javascript:;" class="float_close" onclick="hideMenu()">{lang close}</a></span></div>
+	<ul class="imguptype" id="{$editorid}_cmd_image_ctrl">
+		<li><a href="javascript:;" hidefocus="true" class="current" id="{$editorid}_btn_www" onclick="switchImagebutton('www');">{lang e_img_www}</a></li>
+		<!--{if $allowpostimg}-->
+			<li><a href="javascript:;" hidefocus="true" id="{$editorid}_btn_imgattachlist" onclick="switchImagebutton('imgattachlist');">{lang e_img_attach}</a></li>
+			<!--{if $swfupload != 1 && $allowuploadnum}--><li><a href="javascript:;" hidefocus="true" id="{$editorid}_btn_local" onclick="switchImagebutton('local');">{lang normal_upload}</a></li><!--{/if}-->
+			<!--{if $swfupload != 0 && $allowuploadnum}--><li><a href="javascript:;" hidefocus="true" id="{$editorid}_btn_multi" onclick="switchImagebutton('multi');">{lang batch_upload}</a></li><!--{/if}-->
+		<!--{/if}-->
+	</ul>
+	<div class="popupmenu_option" unselectable="on" id="{$editorid}_www">
+		<table cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<th width="74%">{lang e_img_inserturl}</th>
+				<th width="13%">{lang e_img_width}</th>
+				<th width="13%">{lang e_img_height}</th>
+			</tr>
+			<tr>
+				<td><input type="text" id="{$editorid}_cmd_image_param_1" style="width: 95%;" value="" class="txt" /></td>
+				<td><input id="{$editorid}_cmd_image_param_2" size="5" value="" class="txt" /></td>
+				<td><input id="{$editorid}_cmd_image_param_3" size="5" value="" class="txt" /></td>
+			</tr>
+			<tr>
+				<td colspan="3" align="center"><input type="button" id="{$editorid}_cmd_image_submit" value="{lang submit}" /> &nbsp; <input onclick="hideMenu();" value="{lang cancel}" type="button" /></td>
+			</tr>
+		</table>
+	</div>
+	<!--{if $allowpostimg}-->
+		<!--{if $swfupload != 1}-->
+			<div class="popupmenu_option" unselectable="on" id="{$editorid}_local" style="display: none;">
+				<table cellpadding="0" cellspacing="0" border="0" width="100%">
+					<tbody id="imgattachbodyhidden" style="display:none"><tr>
+						<td class="attachnum"><span id="imglocalno[]"><img src="images/attachicons/common_new.gif" /></span></td>
+						<td class="attachname">
+							<span id="imgdeschidden[]" style="display:none">
+								<span id="imglocalfile[]"></span>
+							</span>
+							<input type="hidden" name="imglocalid[]" />
+						</td>
+						<td class="attachdel"><span id="imgcpdel[]"></span></td>
+					</tr></tbody>
+				</table>
+				<div class="post_tablelist"><table cellpadding="0" cellspacing="0" summary="post_attachbody" border="0" width="100%"><tbody id="imgattachbody"></tbody></table></div>
+				<div class="uploadblock">
+					<div id="imgattachbtnhidden" style="display:none"><span><form name="imgattachform" id="imgattachform" method="post" action="misc.php?action=swfupload&operation=upload&simple=1&type=image" target="attachframe" $enctype><input type="hidden" name="uid" value="$discuz_uid"><input type="hidden" name="hash" value="{echo md5(substr(md5($_DCACHE['settings']['authkey']), 8).$discuz_uid)}"><input type="file" name="Filedata" size="45" class="filedata" /></form></span></div>
+					<div id="imgattachbtn"></div>
+					<p id="imguploadbtn"><input type="button" value="{lang upload}" onclick="uploadAttach(0, 0, 'img')" /> &nbsp; <input type="button" value="{lang cancel}" onclick="hideMenu();" /></p>
+					<p id="imguploading" style="display: none;"><img src="{IMGDIR}/uploading.gif" style="vertical-align: middle;" /> {lang uploading}</p>
+				</div>
+				<div class="notice uploadinfo">
+					{lang attachment_size}: <strong><!--{if $maxattachsize}-->{lang lower_than} $maxattachsize_mb <!--{else}-->{lang size_no_limit}<!--{/if}--></strong>&nbsp;
+					<!--{if $maxattachnum || $maxsizeperday}-->
+						{lang attachment_limit}: <!--{if $maxattachnum}--><strong>$allowuploadnum</strong> {lang attachment_unit}&nbsp;<!--{/if}--><!--{if $maxsizeperday}--><strong>$allowuploadsize</strong>&nbsp;<!--{/if}-->
+					<!--{/if}-->
+					<!--{if $imgexts}-->
+						<br />{lang attachment_allow_exts}: <strong>$imgexts</strong>&nbsp;
+					<!--{/if}-->
+					<!--{if $creditstring}-->
+						<br /><a href="faq.php?action=credits&fid=$fid" target="_blank" title="{lang credits_policy}">{lang post_credits_postattach}&nbsp;$creditstring</a>
+					<!--{/if}-->
+				</div>
+			</div>
+		<!--{/if}-->
+		<!--{if $swfupload != 0}-->
+			<div class="popupmenu_option" unselectable="on" id="{$editorid}_multi" style="display: none;">
+				<div class="floatboxswf" id="{$editorid}_multiimg">
+					<script type="text/javascript">
+						$('{$editorid}_multiimg').innerHTML = AC_FL_RunContent(
+							'width', '470', 'height', '268',
+							'src', 'images/common/upload.swf?site={$boardurl}misc.php%3Ftype=image&type=image',
+							'quality', 'high',
+							'id', 'swfupload',
+							'menu', 'false',
+							'allowScriptAccess', 'always',
+							'wmode', 'transparent'
+						);
+					</script>
+				</div>
+				<div class="notice uploadinfo">
+					{lang attachment_size}: <strong><!--{if $maxattachsize}-->{lang lower_than} $maxattachsize_mb <!--{else}-->{lang size_no_limit}<!--{/if}--></strong>&nbsp;
+					<!--{if $maxattachnum || $maxsizeperday}-->
+						{lang attachment_limit}: <!--{if $maxattachnum}--><strong>$allowuploadnum</strong> {lang attachment_unit}&nbsp;<!--{/if}--><!--{if $maxsizeperday}--><strong>$allowuploadsize</strong>&nbsp;<!--{/if}-->
+					<!--{/if}-->
+					<!--{if $imgexts}-->
+						<br />{lang attachment_allow_exts}: <strong>$imgexts</strong>&nbsp;
+					<!--{/if}-->
+					<!--{if $creditstring}-->
+						<br /><a href="faq.php?action=credits&fid=$fid" target="_blank" title="{lang credits_policy}">{lang post_credits_postattach}&nbsp;$creditstring</a>
+					<!--{/if}-->
+				</div>
+			</div>
+		<!--{/if}-->
+		<div class="popupmenu_option" unselectable="on" id="{$editorid}_imgattachlist" style="display: none;">
+			<div class="upfilelist">
+				<!--{if $imgattachs['used']}-->{eval $imagelist = $imgattachs['used'];}
+					{template ajax_imagelist}
+				<!--{/if}-->
+				<div id="imgattachlist">
+					<!--{if !$imgattachs['used'] && !$imgattachs['unused']}-->
+						<p class="notice">{lang no_attachimg}<!--{if $allowuploadnum}-->, <a href="javascript:;" onclick="switchImagebutton('{if $swfupload != 0}multi{else}local{/if}');">{lang click_here}</a>{lang attachment_new}<!--{/if}--></p>
+					<!--{/if}-->
+				</div>
+				<div id="unusedimgattachlist">
+					<!--{if $imgattachs['unused']}-->
+						{eval $imagelist = $imgattachs['unused'];}
+						<p>{lang attachment_uploaded}<p>
+						{template ajax_imagelist}
+					<!--{/if}-->
+				</div>
+				<!--{if $ucappopen['UCHOME']}-->
+					<p class="notice">{lang uch_selectfromalbum}: <span id="uch_albums"></span></p>
+					<div id="uch_photoes"></div>
+				<!--{/if}-->
+			</div>
+			<p class="notice" id="imgattach_notice"{if !$imgattachs['used'] && !$imgattachs['unused']} style="display: none"{/if}>{lang e_img_insertphoto}</p>
+		</div>
+	<!--{/if}-->
+</div>
+
+<!--{if $allowpostattach}-->
+	<div class="popupmenu_popup uploadfile" id="{$editorid}_cmd_attach_menu" style="display: none" unselectable="on">
+		<div class="float_ctrl"><span><a href="javascript:;" class="float_close" onclick="hideMenu()">{lang close}</a></span></div>
+		<ul class="imguptype" id="{$editorid}_cmd_attach_ctrl">
+			<li><a href="javascript:;" hidefocus="true" class="current" id="{$editorid}_btn_attachlist" onclick="switchAttachbutton('attachlist');">{lang attachment_list}</a></li>
+			<!--{if $swfupload != 1 && $allowuploadnum}--><li><a href="javascript:;" hidefocus="true" id="{$editorid}_btn_upload" onclick="switchAttachbutton('upload');">{lang common_upload}</a></li><!--{/if}-->
+			<!--{if $swfupload != 0 && $allowuploadnum}--><li><a href="javascript:;" hidefocus="true" id="{$editorid}_btn_swfupload" onclick="switchAttachbutton('swfupload');">{lang batch_upload}</a></li><!--{/if}-->
+		</ul>
+		<!--{if $swfupload != 1}-->
+			<div class="popupmenu_option" unselectable="on" id="{$editorid}_upload" style="display: none;">
+				<table cellpadding="0" cellspacing="0" border="0" width="100%">
+					<tbody id="attachbodyhidden" style="display:none"><tr>
+						<td class="attachnum"><span id="localno[]"><img src="images/attachicons/common_new.gif" /></span></td>
+						<td class="attachname">
+							<span id="deschidden[]" style="display:none">
+								<span id="localfile[]"></span>
+							</span>
+							<input type="hidden" name="localid[]" />
+						</td>
+						<td class="attachdel"><span id="cpdel[]"></span></td>
+					</tr></tbody>
+				</table>
+				<div class="post_tablelist"><table cellpadding="0" cellspacing="0" summary="post_attachbody" border="0" width="100%"><tbody id="attachbody"></tbody></table></div>
+				<div class="uploadblock">
+					<div id="attachbtnhidden" style="display:none"><span><form name="attachform" id="attachform" method="post" action="misc.php?action=swfupload&operation=upload&simple=1" target="attachframe" $enctype><input type="hidden" name="uid" value="$discuz_uid"><input type="hidden" name="hash" value="{echo md5(substr(md5($_DCACHE['settings']['authkey']), 8).$discuz_uid)}"><input type="file" name="Filedata" size="45" class="filedata" /></form></span></div>
+					<div id="attachbtn"></div>
+					<p id="uploadbtn"><input type="button" value="{lang upload}" onclick="uploadAttach(0, 0)" /> &nbsp; <input type="button" value="{lang cancel}" onclick="hideMenu();" /></p>
+					<p id="uploading" style="display: none;"><img src="{IMGDIR}/uploading.gif" style="vertical-align: middle;" /> {lang uploading}</p>
+				</div>
+				<div class="notice uploadinfo">
+					{lang attachment_size}: <strong><!--{if $maxattachsize}-->{lang lower_than} $maxattachsize_mb <!--{else}-->{lang size_no_limit}<!--{/if}--></strong>&nbsp;
+					<!--{if $maxattachnum || $maxsizeperday}-->
+						{lang attachment_limit}: <!--{if $maxattachnum}--><strong>$allowuploadnum</strong> {lang attachment_unit}&nbsp;<!--{/if}--><!--{if $maxsizeperday}--><strong>$allowuploadsize</strong>&nbsp;<!--{/if}-->
+					<!--{/if}-->
+					<!--{if $attachextensions}-->
+						<br />{lang attachment_allow_exts}: <strong>$attachextensions</strong>&nbsp;
+					<!--{/if}-->
+					<!--{if $creditstring}-->
+						<br /><a href="faq.php?action=credits&fid=$fid" target="_blank" title="{lang credits_policy}">{lang post_credits_postattach}&nbsp;$creditstring</a>
+					<!--{/if}-->
+				</div>
+				<iframe name="attachframe" id="attachframe" style="display: none;" onload="uploadNextAttach();"></iframe>
+			</div>
+		<!--{/if}-->
+		<!--{if $swfupload != 0}-->
+			<div class="popupmenu_option" unselectable="on" id="{$editorid}_swfupload" style="display: none;">
+				<div class="floatboxswf" id="{$editorid}_multiattach">
+					<script type="text/javascript">
+						$('{$editorid}_multiattach').innerHTML = AC_FL_RunContent(
+							'width', '470', 'height', '268',
+							'src', 'images/common/upload.swf?site={$boardurl}misc.php',
+							'quality', 'high',
+							'id', 'swfupload',
+							'menu', 'false',
+							'allowScriptAccess', 'always',
+							'wmode', 'transparent'
+						);
+					</script>
+				</div>
+				<div class="notice uploadinfo">
+					{lang attachment_size}: <strong><!--{if $maxattachsize}-->{lang lower_than} $maxattachsize_mb <!--{else}-->{lang size_no_limit}<!--{/if}--></strong>&nbsp;
+					<!--{if $maxattachnum || $maxsizeperday}-->
+						{lang attachment_limit}: <!--{if $maxattachnum}--><strong>$allowuploadnum</strong> {lang attachment_unit}&nbsp;<!--{/if}--><!--{if $maxsizeperday}--><strong>$allowuploadsize</strong>&nbsp;<!--{/if}-->
+					<!--{/if}-->
+					<!--{if $attachextensions}-->
+						<br />{lang attachment_allow_exts}: <strong>$attachextensions</strong>&nbsp;
+					<!--{/if}-->
+					<!--{if $creditstring}-->
+						<br /><a href="faq.php?action=credits&fid=$fid" target="_blank" title="{lang credits_policy}">{lang post_credits_postattach}&nbsp;$creditstring</a>
+					<!--{/if}-->
+				</div>
+			</div>
+		<!--{/if}-->
+		<div class="popupmenu_option post_tablelist" unselectable="on" id="{$editorid}_attachlist">
+			<table cellpadding="0" cellspacing="0" border="0" width="100%" id="attach_tblheader"{if !$attachs['used'] && !$attachs['unused']} style="display: none"{/if}>
+				<tr>
+					<td class="attachnum"></td>
+					<td class="attachname">{lang filename}</td>
+					<td class="attachdesc">{lang description}</td>
+					<!--{if $allowsetattachperm}--><td class="attachview" style="width: 52px;">{lang readperm}</td><!--{/if}-->
+					<!--{if $maxprice}--><td class="attachpr">{$extcredits[$creditstransextra[1]][title]}</td><!--{/if}-->
+					<td class="attachdel"></td>
+				</tr>
+			</table>
+			<div class="upfilelist">
+				<!--{if $attachs['used']}-->{eval $attachlist = $attachs['used'];}
+					{template ajax_attachlist}
+				<!--{/if}-->
+				<div id="attachlist">
+					<!--{if !$attachs['used'] && !$attachs['unused']}-->
+						<p class="notice">{lang no_attach}<!--{if $allowuploadnum}-->, <a href="javascript:;" onclick="switchAttachbutton('{if $swfupload != 0}swfupload{else}upload{/if}');">{lang click_here}</a>{lang attachment_new}<!--{/if}--></p>
+					<!--{/if}-->
+				</div>
+				<div id="unusedattachlist">
+					<!--{if $attachs['unused']}-->
+						{eval $attachlist = $attachs['unused'];}
+						<table cellpadding="0" cellspacing="0" width="100%"><tr><td class="attachnum"></td><td>{lang attachment_uploaded}</td></tr></table>
+						{template ajax_attachlist}
+					<!--{/if}-->
+				</div>
+			</div>
+			<p class="notice" id="attach_notice"{if !$attachs['used'] && !$attachs['unused']} style="display: none"{/if}>{lang e_attach_insert}</p>
+			<!--{if $maxprice && $maxincperthread}--><p class="notice">{lang post_price_attachincome_comment}</p><!--{/if}-->
+		</div>
+	</div>
+<!--{/if}-->
+
+<script type="text/javascript" src="forumdata/cache/smilies_var.js?{VERHASH}"></script>
+<script type="text/javascript">smilies_show('smiliesdiv', $smcols, editorid + '_cmd_');</script>
+<script type="text/javascript">
+	if(wysiwyg) {
+		newEditor(1, bbcode2html(textobj.value));
+	} else {
+		newEditor(0, textobj.value);
+	}
+
+	var ATTACHNUM = {'imageused':0,'imageunused':0,'attachused':0,'attachunused':0};
+	{if $allowpostimg}
+		function switchImagebutton(btn) {
+			var btns = ['www'];
+			btns.push('imgattachlist');
+			{if $swfupload != 1}btns.push('local');{/if}
+			{if $swfupload != 0}btns.push('multi');{/if}
+			switchButton(btn, btns);
+		}
+		ATTACHNUM['imageused'] = {echo count($imgattachs['used'])};
+		ATTACHNUM['imageunused'] = {echo count($imgattachs['unused'])};
+		{if $imgattachs['used'] || $imgattachs['unused']}
+			switchImagebutton('imgattachlist');
+			$(editorid + '_cmd_image').evt = false;
+			updateattachnum('image');
+		{else}
+			switchImagebutton('{if $swfupload != 0}multi{else}local{/if}');
+		{/if}
+	{/if}
+	{if $allowpostattach}
+		function switchAttachbutton(btn) {
+			var btns = ['attachlist'];
+			{if $swfupload != 1}btns.push('upload');{/if}
+			{if $swfupload != 0}btns.push('swfupload');{/if}
+			switchButton(btn, btns);
+		}
+		ATTACHNUM['attachused'] = {echo count($attachs['used'])};
+		ATTACHNUM['attachunused'] = {echo count($attachs['unused'])};
+		{if $attachs['used'] || $attachs['unused']}
+			$(editorid + '_cmd_attach').evt = false;
+			updateattachnum('attach');
+		{else}
+			switchAttachbutton('{if $swfupload != 0}swfupload{else}upload{/if}');
+		{/if}
+	{/if}
+	{if $attachs['unused'] || $imgattachs['unused']}
+		var msg = '{lang attachment_uploaded}<div style="{if count($attachs[unused]) + count($imgattachs[unused]) > 10}height:10em;{/if}overflow-y:auto;overflow-x:hidden">'
+		{loop $attachs['unused'] $attach}
+			+ '&nbsp;&nbsp;&nbsp;&nbsp;<span title="$attach[filenametitle] $attach[dateline]">$attach[filename]</span><br />'
+		{/loop}
+		{loop $imgattachs['unused'] $attach}
+			+ '&nbsp;&nbsp;&nbsp;&nbsp;<span title="$attach[filenametitle] $attach[dateline]">$attach[filename]</span><br />'
+		{/loop}
+		+ '</div><div class="alert_btn"><input type="button" id="fwin_dialog_submit" onclick="hideMenu(\'fwin_dialog\', \'dialog\')" value="&nbsp;{lang use}&nbsp;" /> <input type="button" onclick="$(\'unusedimgattachlist\').parentNode.removeChild($(\'unusedimgattachlist\'));$(\'unusedattachlist\').parentNode.removeChild($(\'unusedattachlist\'));hideMenu(\'fwin_dialog\', \'dialog\');ATTACHNUM[\'imageunused\']=0;ATTACHNUM[\'attachunused\']=0;updateattachnum(\'image\');updateattachnum(\'attach\');" value="&nbsp;{lang ignore}&nbsp;" /></div>';
+		showDialog(msg, 'info', '', '', 1);
+	{/if}
+	{if $ucappopen['UCHOME']}
+		if($('uch_albums') && $('uch_albums').innerHTML == '') {
+			ajaxget('api/uchome.php?action=getalbums', 'uch_albums');
+		}
+	{/if}
+	setCaretAtEnd();
+	if(BROWSER.ie >= 5 || BROWSER.firefox >= 2) {
+		_attachEvent(window, 'beforeunload', saveData);
+	}
+	{if !empty($cedit) && $cedit == 'yes'}
+		loadData(1);
+	{/if}
+</script>

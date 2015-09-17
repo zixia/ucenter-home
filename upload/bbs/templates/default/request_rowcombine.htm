@@ -1,0 +1,18 @@
+<!--{block writedata}-->
+<div class="side_type s_clear">
+<!--{if $settings['title']}-->
+	<h3 class="requesttabs">{eval $sp = '';}
+		<span>
+		<!--{loop $combinetitles $i $combinetitle}-->$sp<a href="javascript:;" hidefocus="true" id="{$idbase}_$i" onclick="switchTab('$idbase', $i, $combinecount)">$combinetitle</a>{eval $sp = ' | ';}<!--{/loop}-->
+		</span>
+		$settings[title]
+	</h3>
+<!--{else}-->
+	<!--{loop $combinetitles $i $combinetitle}-->
+		<h4 id="{$idbase}_$i" onclick="switchTab('$idbase', $i, $combinecount)">$combinetitle</h4>
+	<!--{/loop}-->
+<!--{/if}-->
+</div>
+$combinedata
+<script type="text/javascript">switchTab('$idbase', 1, $combinecount);</script>
+<!--{/block}-->

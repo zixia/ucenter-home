@@ -1,0 +1,107 @@
+<div id="{$editorid}_controls" class="editorrow">
+	<div class="editor">
+		<a id="{$editorid}_switcher" class="plugeditor editormode"><input type="checkbox" name="checkbox" value="0" {if !$editormode}checked="checked"{/if} onclick="switchEditor(this.checked?0:1)" />{lang code}</a>
+		<div class="editorbtn">
+			<div class="maxbtn">
+				<a id="{$editorid}_cmd_paste" title="{lang e_paste}">{lang e_paste}</a>
+			</div>
+			<div class="minibtn">
+				<p>
+					<a id="{$editorid}_cmd_simple" title="{lang e_bold}">B</a>
+					<a id="{$editorid}_cmd_fontname" title="{lang e_fontname}">Font</a>
+					<a id="{$editorid}_cmd_fontsize" title="{lang e_fontsize}">Size</a>
+					<a id="{$editorid}_cmd_forecolor" title="{lang e_forecolor}">Color</a>
+					<a id="{$editorid}_cmd_createlink" title="{lang e_url}">Url</a>
+					<em></em>
+					<a id="{$editorid}_cmd_unlink" title="{lang e_unlink}">Unlink</a>
+					<a id="{$editorid}_cmd_removeformat" title="{lang e_removeformat}">Removeformat</a>
+					<a id="{$editorid}_cmd_undo" title="{lang e_undo}">Undo</a>
+					<a id="{$editorid}_cmd_redo" title="{lang e_redo}">Redo</a>
+				</p>
+				<p>
+					<a id="{$editorid}_cmd_paragraph" title="{lang e_paragraph}">P</a>
+					<a id="{$editorid}_cmd_table" title="{lang e_table}">Table</a>
+					<a id="{$editorid}_cmd_list" title="{lang e_list}">List</a>
+					<!--{if $allowhidecode}-->
+						<a id="{$editorid}_cmd_hide" title="{lang e_hide}">Hide</a>
+					<!--{else}-->
+						<a id="{$editorid}_cmd_hidden" title="{lang e_hide}" class="hidebtn_disabled">Hide</a>
+					<!--{/if}-->
+					<a id="{$editorid}_cmd_free" title="{lang e_free}">Free</a>
+					<em></em>
+					<a id="{$editorid}_cmd_savedata" title="{lang post_savedata}">Savedata</a>
+					<a id="{$editorid}_cmd_loaddata" title="{lang post_autosave_restore}">Loaddata</a>
+					<a id="{$editorid}_cmd_clearcontent" title="{lang post_topicreset}">Clearcontent</a>
+					<a id="{$editorid}_cmd_checklength" title="{lang post_check_length}">Checklength</a>
+				</p>
+			</div>
+			<div class="maxbtn">
+				<a id="{$editorid}_cmd_smilies" title="{lang post_smilies}">{lang post_smilies}</a>
+				<div id="{$editorid}_cmd_image_notice" class="haspic" style="display:none">!</div>
+				<a id="{$editorid}_cmd_image" title="{lang e_image}">{lang e_image}</a>
+				<!--{if $allowpostattach}-->
+					<div id="{$editorid}_cmd_attach_notice" class="hasatt" style="display:none">!</div>
+					<a id="{$editorid}_cmd_attach" title="{lang e_attach}">{lang e_attach}</a>
+				<!--{/if}-->
+				<!--{if $forum['allowmediacode']}-->
+					<a id="{$editorid}_cmd_audio" title="{lang e_audio}">{lang e_audio}</a>
+					<a id="{$editorid}_cmd_video" title="{lang e_video}">{lang e_video}</a>
+					<a id="{$editorid}_cmd_flash" title="{lang e_flash}">{lang e_flash}</a>
+				<!--{/if}-->
+				<a id="{$editorid}_cmd_code" title="{lang e_code}">{lang e_code}</a>
+				<a id="{$editorid}_cmd_quote" title="{lang e_quote}">{lang e_quote}</a>
+			</div>
+			<!--{if $forum['allowbbcode'] && $allowcusbbcode && $_DCACHE['bbcodes_display']}-->
+				<div class="minibtn">
+					<p>
+						<!--{loop $_DCACHE['bbcodes_display'] $tag $bbcode}-->
+							<!--{if $bbcode['i'] % 2 != 0}--><a id="{$editorid}_cmd_custom{$bbcode[params]}_$tag" class="customedit" title="$bbcode[explanation]"><img src="images/common/$bbcode[icon]"title="$bbcode[explanation]" alt="$tag" /></a><!--{/if}-->
+						<!--{/loop}-->
+					</p>
+					<p>
+						<!--{loop $_DCACHE['bbcodes_display'] $tag $bbcode}-->
+							<!--{if $bbcode['i'] % 2 == 0}--><a id="{$editorid}_cmd_custom{$bbcode[params]}_$tag" class="customedit" title="$bbcode[explanation]"><img src="images/common/$bbcode[icon]"title="$bbcode[explanation]" alt="$tag" /></a><!--{/if}-->
+						<!--{/loop}-->
+					</p>
+				</div>
+			<!--{/if}-->
+		</div>
+	</div>
+</div>
+
+<div class="newediter">
+	<table cellpadding="0" cellspacing="0" border="0" width="100%" style="table-layout:fixed">
+		<tr><td><textarea class="autosave" name="message" id="{$editorid}_textarea" prompt="post_message"  tabindex="1" class="txt" style="height:300px">{if $action == 'edit'}$postinfo[message]{else}$message{/if}</textarea></td></tr>
+	</table>
+</div>
+
+<script type="text/javascript" src="{$jspath}post.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$jspath}bbcode.js?{VERHASH}"></script>
+<script type="text/javascript">
+
+	var editorid = '$editorid';
+	var textobj = $(editorid + '_textarea');
+	var wysiwyg = (BROWSER.ie || BROWSER.firefox || (BROWSER.opera >= 9)) && parseInt('$editormode') == 1 ? 1 : 0;
+	var allowswitcheditor = parseInt('$allowswitcheditor');
+	var allowhtml = parseInt('$allowhtml');
+	var forumallowhtml = parseInt('$forum[allowhtml]');
+	var allowsmilies = parseInt('$forum[allowsmilies]');
+	var allowbbcode = parseInt('$forum[allowbbcode]');
+	var allowimgcode = parseInt('$forum[allowimgcode]');
+	var allowpostattach = parseInt('$allowpostattach');
+	var allowpostimg = parseInt('$allowpostimg');
+	var editorcss = 'forumdata/cache/style_{STYLEID}_wysiwyg.css?{VERHASH}';
+	var TABLEBG = '{WRAPBG}';
+	var pid = parseInt('$pid');
+	{if $allowpostattach}
+		var extensions = '$attachextensions';
+		var imgexts = '$imgexts';
+	{/if}
+	var fontoptions = new Array({lang e_fontoptions});
+	var custombbcodes = new Array();
+	{if $forum['allowbbcode'] && $allowcusbbcode && $_DCACHE['bbcodes_display']}
+		{loop $_DCACHE['bbcodes_display'] $tag $bbcode}
+			custombbcodes["$tag"] = {'prompt' : '$bbcode[prompt]'};
+		{/loop}
+	{/if}
+</script>

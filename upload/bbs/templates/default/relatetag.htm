@@ -1,0 +1,44 @@
+<!--{eval
+function tpl_relatetag($tagdata, $name, $ext, $i) {
+}-->
+<!--{block return}-->
+	<!--{if $tagdata}-->
+		<div{if $i == 2} class="noborder"{/if}>
+		<h4>$name</h4>
+		<!--{if !$ext}-->
+			<ul>
+			$tagdata
+			</ul>
+		<!--{else}-->
+			<dl>
+			<dt>
+			$ext
+			</dt>
+			<dd>
+			<ul>
+			$tagdata
+			</ul>
+			</dd>
+		<!--{/if}-->
+		</div>
+	<!--{/if}-->
+<!--{/block}-->
+<!--{eval return $return;}-->
+<!--{eval
+}
+
+function tpl_relatetagwrap($data) {
+}-->
+<!--{block return}-->
+	<!--{if $data}-->
+		<div class="taglinks">
+		$data
+		</div>
+	<!--{/if}-->
+<!--{/block}-->
+<!--{eval return $return;}-->
+<!--{eval
+}
+}-->
+
+

@@ -1,0 +1,130 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang eccredit}</div>
+<div id="wrap" class="wrap with_side special s_clear">
+	<div class="main">
+		<div class="content">
+			<h1>$member[username] {lang eccredit_members}</h1>
+			<div class="datalist">
+				<div id="list_eccredit_sellerinfo_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_eccredit_sellerinfo', 1, 1);">{lang eccredit_sellerinfo} $member[buyercredit] <img src="images/rank/buyer/$member['buyerrank'].gif" style="vertical-align:middle" /></h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_eccredit_sellerinfo', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<table id="list_eccredit_sellerinfo" summary="eccredit" cellspacing="0" cellpadding="0">
+					<thead class="colplural">
+						<tr>
+							<td>&nbsp;</td>
+							<td>{lang eccredit_1week}</td>
+							<td>{lang eccredit_1month}</td>
+							<td>{lang eccredit_6month}</td>
+							<td>{lang eccredit_6monthbefore}</td>
+							<td>{lang eccredit_total}</td>
+						</tr>
+					</thead>
+					<tr>
+						<td><img src="images/rank/good.gif" width="14" height="16" /> <span style="color:red">{lang eccredit_good}</span></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=buyer&filter=thisweek&level=good#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[sellercredit][thisweek][good]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=buyer&filter=thismonth&level=good#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[sellercredit][thismonth][good]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=buyer&filter=halfyear&level=good#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[sellercredit][halfyear][good]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=buyer&filter=before&level=good#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[sellercredit][before][good]</a></td>
+						<td>$caches[sellercredit][all][good]</td>
+					</tr>
+					<tr class="colplural">
+						<td><img src="images/rank/soso.gif" width="14" height="16" /> <span style="color:green">{lang eccredit_soso}</span></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=buyer&filter=thisweek&level=soso#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[sellercredit][thisweek][soso]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=buyer&filter=thismonth&level=soso#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[sellercredit][thismonth][soso]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=buyer&filter=halfyear&level=soso#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[sellercredit][halfyear][soso]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=buyer&filter=before&level=soso#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[sellercredit][before][soso]</a></td>
+						<td>$caches[sellercredit][all][soso]</td>
+					</tr>
+					<tr>
+						<td><img src="images/rank/bad.gif" width="14" height="16" /> {lang eccredit_bad}</td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=buyer&filter=thisweek&level=bad#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[sellercredit][thisweek][bad]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=buyer&filter=thismonth&level=bad#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[sellercredit][thismonth][bad]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=buyer&filter=halfyear&level=bad#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[sellercredit][halfyear][bad]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=buyer&filter=before&level=bad#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[sellercredit][before][bad]</a></td>
+						<td>$caches[sellercredit][all][bad]</td>
+					</tr>
+					<tr class="colplural">
+						<td>{lang eccredit_total}</td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=buyer&filter=thisweek#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[sellercredit][thisweek][total]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=buyer&filter=thismonth#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[sellercredit][thismonth][total]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=buyer&filter=halfyear#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[sellercredit][halfyear][total]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=buyer&filter=before#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[sellercredit][before][total]</a></td>
+						<td>$caches[sellercredit][all][total]</td>
+					</tr>
+				</table>
+				<div id="list_eccredit_buyerinfo_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_eccredit_buyerinfo', 1, 1);">{lang eccredit_buyerinfo} $member[sellercredit] <img src="images/rank/seller/$member['sellerrank'].gif" style="vertical-align:middle" /></h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_eccredit_buyerinfo', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<table id="list_eccredit_buyerinfo" summary="eccredit" cellspacing="0" cellpadding="0">
+					<thead class="colplural">
+						<tr>
+							<td>&nbsp;</td>
+							<td>{lang eccredit_1week}</td>
+							<td>{lang eccredit_1month}</td>
+							<td>{lang eccredit_6month}</td>
+							<td>{lang eccredit_6monthbefore}</td>
+							<td>{lang eccredit_total}</td>
+						</tr>
+					</thead>
+					<tr>
+						<td><img src="images/rank/good.gif" width="14" height="16" /> <span style="color:red">{lang eccredit_good}</span></td><td><a href="eccredit.php?action=list&uid=$uid&from=seller&filter=thisweek&level=good" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[buyercredit][thisweek][good]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=seller&filter=thismonth&level=good#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[buyercredit][thismonth][good]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=seller&filter=halfyear&level=good#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[buyercredit][halfyear][good]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=seller&filter=before&level=good#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[buyercredit][before][good]</a></td>
+						<td>$caches[buyercredit][all][good]</td>
+					</tr>
+					<tr class="colplural">
+						<td><img src="images/rank/soso.gif" width="14" height="16" /> <span style="color:green">{lang eccredit_soso}</span></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=seller&filter=thisweek&level=soso#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[buyercredit][thisweek][soso]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=seller&filter=thismonth&level=soso#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[buyercredit][thismonth][soso]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=seller&filter=halfyear&level=soso#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[buyercredit][halfyear][soso]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=seller&filter=before&level=soso" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[buyercredit][before][soso]</a></td>
+						<td>$caches[buyercredit][all][soso]</td>
+					</tr>
+					<tr>
+						<td><img src="images/rank/bad.gif" width="14" height="16" /> {lang eccredit_bad}</td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=seller&filter=thisweek&level=bad#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[buyercredit][thisweek][bad]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=seller&filter=thismonth&level=bad#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[buyercredit][thismonth][bad]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=seller&filter=halfyear&level=bad#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[buyercredit][halfyear][bad]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=seller&filter=before&level=bad#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[buyercredit][before][bad]</a></td>
+						<td>$caches[buyercredit][all][bad]</td>
+					</tr>
+					<tr class="colplural">
+						<td>{lang eccredit_total}</td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=seller&filter=thisweek#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[buyercredit][thisweek][total]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=seller&filter=thismonth#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[buyercredit][thismonth][total]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=seller&filter=halfyear#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[buyercredit][halfyear][total]</a></td>
+						<td><a href="eccredit.php?action=list&uid=$uid&from=seller&filter=before#" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);">$caches[buyercredit][before][total]</a></td>
+						<td>$caches[buyercredit][all][total]</td>
+					</tr>
+				</table>
+			</div>
+			<div id="ajaxrate"></div>
+
+		</div>
+	</div>
+	<div class="side">
+		<h2>$member[avatar]</h2>
+		<div class="sideinner">
+			<a href="space.php?username=$member[usernameenc]">$member[username]</a>
+			<!--{if $member['alipay']}--><a href="https://www.alipay.com/trade/i_credit.do?email=$member[alipay]" target="_blank"><img src="{IMGDIR}/alipaysmall.gif" border="0" alt="{lang payto_creditinfo}" /></a><!--{/if}-->
+			<!--{if $member['taobao']}--><br /><script type="text/javascript">document.write('<a target="_blank" href="http://amos1.taobao.com/msg.ww?v=2&uid='+encodeURIComponent('$member[taobaoas]')+'&s=2"><img src="http://amos1.taobao.com/online.ww?v=2&uid='+encodeURIComponent('$member[taobaoas]')+'&s=1" alt="{lang taobao}" border="0" /></a>&nbsp;');</script><!--{/if}-->
+			</p>
+			<div>
+			{lang eccredit_sellerpercent}: $sellerpercent%<br />
+			{lang eccredit_buyerpercent}: $buyerpercent%<br />
+			{lang regdate}: $member[regdate]
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">ajaxget('eccredit.php?action=list&uid=$uid', 'ajaxrate');var explainmenu='ajax_explain_menu';</script>
+
+{subtemplate footer}

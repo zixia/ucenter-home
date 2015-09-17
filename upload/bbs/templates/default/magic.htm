@@ -1,0 +1,57 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang magics_index}</div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+			<div class="itemtitle s_clear">
+				<h1>{lang magics_index}</h1>
+				<ul>
+					<li<!--{if empty($action) || $action == 'index'}--> class="current"<!--{/if}-->><a href="magic.php" hidefocus="true"><span>{lang home}</span></a></li>
+					<li<!--{if $action == 'shop'}--> class="current"<!--{/if}-->><a href="magic.php?action=shop" hidefocus="true"><span>{lang magics_shop}</span></a></li>
+					<li <!--{if $discuz_uid}-->id="magic_market" onmouseover="showMenu({'ctrlid':this.id})"<!--{/if}--><!--{if $action == 'market'}--> class="current"<!--{/if}-->><a href="magic.php?action=market" hidefocus="true" class="dropmenu"><span>{lang magics_market}</span></a></li>
+					<!--{if $discuz_uid}-->
+						<li class="pipe">|</li>
+						<li<!--{if $action == 'mybox'}--> class="current"<!--{/if}-->><a href="magic.php?action=mybox" hidefocus="true"><span>{lang magics_user}</span></a></li>
+						<li id="magic_log" onmouseover="showMenu({'ctrlid':this.id})"<!--{if $action == 'log'}--> class="current"<!--{/if}-->><a href="magic.php?action=log&amp;operation=uselog" hidefocus="true" class="dropmenu"><span>{lang magics_log}</span></a></li>
+					<!--{/if}-->
+				</ul>
+			</div>
+			<!--{if !$magicstatus && $adminid == 1}-->
+				<div class="channelinfo">{lang magics_tips}</div>
+			<!--{/if}-->
+
+			<!--{if $action == 'index'}-->
+				{subtemplate magic_index}
+			<!--{elseif $action == 'shop'}-->
+				{subtemplate magic_shop}
+			<!--{elseif $action == 'market'}-->
+				{subtemplate magic_market}
+			<!--{elseif $action == 'mybox'}-->
+				{subtemplate magic_mybox}
+			<!--{elseif $action == 'log'}-->
+				{subtemplate magic_log}
+			<!--{/if}-->
+			
+			<!--{if $discuz_uid}-->
+				<ul class="popupmenu_popup titlemenu_popup" id="magic_market_menu" style="display: none">
+					<li<!--{if !$operation}--> class="current"<!--{/if}-->><a href="magic.php?action=market"><span>{lang all}</span></a></li>
+					<li<!--{if $operation == 'my'}--> class="current"<!--{/if}-->><a href="magic.php?action=market&operation=my"><span>{lang magics_market_my}</span></a></li>
+				</ul>
+				<ul class="popupmenu_popup titlemenu_popup" id="magic_log_menu" style="display: none">
+					<li<!--{if $operation == 'uselog'}--> class="current"<!--{/if}-->><a href="magic.php?action=log&operation=uselog"><span>{lang magics_log_use}</span></a></li>
+					<li<!--{if $operation == 'buylog'}--> class="current"<!--{/if}-->><a href="magic.php?action=log&operation=buylog"><span>{lang magics_log_buy}</span></a></li>
+					<li<!--{if $operation == 'givelog'}--> class="current"<!--{/if}-->><a href="magic.php?action=log&operation=givelog"><span>{lang magics_log_present}</span></a></li>
+					<li<!--{if $operation == 'receivelog'}--> class="current"<!--{/if}-->><a href="magic.php?action=log&operation=receivelog"><span>{lang magics_log_receive}</span></a></li>
+					<!--{if $magicmarket}-->
+						<li<!--{if $operation == 'marketlog'}--> class="current"<!--{/if}-->><a href="magic.php?action=log&operation=marketlog"><span>{lang magics_log_market}</span></a></li>
+					<!--{/if}-->
+				</ul>
+			<!--{/if}-->
+
+		</div>
+	</div>
+	<div class="side">
+		{subtemplate personal_navbar}
+	</div>
+</div>
+{subtemplate footer}

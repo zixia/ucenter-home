@@ -1,0 +1,216 @@
+	<!--{if $op == 'edit' || $op == 'ban'}-->
+		{if $op == 'edit'}<h1>{lang mod_member_edit}</h1>{else}<h1>{lang mod_member_ban}</h1>{/if}
+		<div class="datalist">
+			<!--{if !empty($error)}-->
+				<div class="channelinfo">
+					<!--{if $error == 1}-->
+						{lang mod_message_member_search}
+					<!--{elseif $error == 2}-->
+						<span class="onerror">{lang mod_message_member_nonexistence}</span>
+					<!--{elseif $error == 3}-->
+						<span class="onerror">{lang mod_message_member_nopermission}</span>
+						<!--{if $adminid == 1}-->
+							, <a href="admincp.php?action=members&amp;username={$usernameenc}&amp;submit=yes&amp;frames=yes" target="_blank">{lang mod_message_goto_admincp}</a>
+						<!--{/if}-->
+					<!--{/if}-->
+				</div>
+			<!--{/if}-->
+			<div class="filterform">
+				<form method="post" action="{$cpscript}?action=$action&op=$op">
+					<input type="hidden" name="formhash" value="{FORMHASH}">
+					<table cellspacing="0" cellpadding="0">
+						<tr>
+							<th width="60">{lang username}:</th>
+							<td><input type="text" name="username" value="$username" size="20" class="txt" /></td>
+						</tr>
+						<tr>
+							<th>UID:</th>
+							<td><input type="text" name="uid" value="$uid" size="20" class="txt" /> [{lang optional}]</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td><button type="submit" class="submit" name="submit" id="searchsubmit" value="true">{lang submit}</button></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	<!--{/if}-->
+
+	<!--{if $op == 'edit' && $member && !$error}-->
+		<form method="post" action="{$cpscript}?action=$action&op=$op" class="schresult">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<input type="hidden" name="username" value="$username">
+			<input type="hidden" name="uid" value="$uid">
+			<table cellspacing="0" cellpadding="0" class="formtable">
+				<tr>
+					<th></th>
+					<td>
+						<table width="100%">
+							<tr>
+								<td width="10%" valign="top" rowspan="2">{echo discuz_uc_avatar($member[uid], 'small');}</td>
+								<td><a href="space.php?uid=$member[uid]" target="_blank">$member[username]</a></td>
+							</tr>
+							<tr>
+								<td>UID: $member[uid]</td>
+							</tr>
+						</table>
+						<input name="clearavatar" type="checkbox" value="1" /> {lang avatar_del}
+					</td>
+				</tr>
+				<tr>
+					<th valign="top">{lang location}</th>
+					<td><input type="text" name="locationnew" value="$member[location]" size="40" class="txt" /></td>
+				</tr>
+				<tr>
+					<th valign="top">{lang bio}</th>
+					<td><textarea name="bionew" rows="4" cols="80" class="txtarea">$member['bio']</textarea></td>
+				</tr>
+				<tr>
+					<th valign="top">{lang signature}</th>
+					<td><textarea name="signaturenew" rows="4" cols="80" class="txtarea">$member[signature]</textarea></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td><button type="submit" class="submit" name="editsubmit" id="submit" value="true">{lang submit}</button></td>
+				</tr>
+			</table>
+		</form>
+	<!--{/if}-->
+
+	<!--{if $op == 'ban' && $member && !$error}-->
+		<form method="post" action="{$cpscript}?action=$action&op=$op" class="schresult">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<input type="hidden" name="username" value="$username">
+			<input type="hidden" name="uid" value="$uid">
+			<table cellspacing="0" cellpadding="0" class="formtable">
+				<tr>
+					<th></th>
+					<td>
+						<table width="100%">
+							<tr>
+								<td width="10%" valign="top" rowspan="2">{echo discuz_uc_avatar($member[uid], 'small');}</td>
+								<td><a href="space.php?uid=$member[uid]" target="_blank">$member[username]</a> (UID: $member[uid])</td>
+							</tr>
+							<tr>
+								<td><strong>{if $member[groupid] == 4}{lang modcp_members_status_banpost}{elseif $member[groupid] == 5}{lang modcp_members_status_banvisit}{else}{lang modcp_members_status_normal}{/if} {if $member['banexpiry']}( {lang valid_before} $member['banexpiry'] ){/if}</strong></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<th>{lang changeto}:</th>
+					<td>
+						{if $member[groupid] == 4 || $member[groupid] == 5}
+							<input type="radio" name="bannew" id="bannew_0" value="0" checked="checked" class="radio" /> <label for="bannew_0">{lang modcp_members_status_normal}</label> 
+						{/if}
+						{if $member[groupid] != 4}<input type="radio" name="bannew" id="bannew_4" value="4" {if $member[groupid] != 4 && $member[groupid] != 5}checked="checked"{/if} class="radio" /> <label for="bannew_4">{lang modcp_members_status_banpost}</label> {/if}
+						{if $member[groupid] != 5}<input type="radio" name="bannew" id="bannew_5" value="5" class="radio" /> <label for="bannew_5">{lang modcp_members_status_banvisit}</label>{/if}
+					</td>
+				</tr>
+				<tr>
+					<th>{lang expiry}:</th>
+					<td>
+						<p class="hasdropdownbtn">
+							<script type="text/javascript" src="{$jspath}calendar.js?{VERHASH}"></script>
+							<input type="text" id="banexpirynew" name="banexpirynew" autocomplete="off" value="" class="txt" tabindex="1" style="width: 100px;" />
+							<a href="javascript:;" class="dropdownbtn" onclick="showselect(this, 'banexpirynew', 1, 1)">^</a>
+							&nbsp;&nbsp;{lang modcp_members_ban_days_comment}
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<th valign="top">{lang reason}:</th>
+					<td><textarea name="reason" rows="4" cols="80" class="txtarea">$member[signature]</textarea></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td><button type="submit" class="submit" name="bansubmit" id="submit" value="true">{lang submit}</button></td>
+				</tr>
+			</table>
+		</form>
+	<!--{/if}-->
+
+	<!--{if $op == 'ipban'}-->
+		<h1>{lang mod_option_member_ipban} </h1>
+		<div class="datalist">
+			<form method="post" action="{$cpscript}?action=$action&op=$op">
+				<input type="hidden" name="formhash" value="{FORMHASH}">
+				<div class="filterform">
+					<table cellspacing="0" cellpadding="0">
+						<tr>
+							<td width="30">{lang add_new}</td>
+							<td>
+								<input type="text" name="ip1new" value="$iptoban[0]" size="2" maxlength="3" class="txt" /> .
+								<input type="text" name="ip2new" value="$iptoban[1]" size="2" maxlength="3" class="txt" /> .
+								<input type="text" name="ip3new" value="$iptoban[2]" size="2" maxlength="3" class="txt" /> .
+								<input type="text" name="ip4new" value="$iptoban[3]" size="2" maxlength="3" class="txt" />
+							</td>
+						</tr>
+						<tr>
+							<td>{lang expiry}:</td>
+							<td>
+								<p class="hasdropdownbtn">
+									<script type="text/javascript" src="{$jspath}calendar.js?{VERHASH}"></script>
+									<input type="text" id="validitynew" name="validitynew" autocomplete="off" value="" class="txt" tabindex="1" style="width: 100px;" />
+									<a href="javascript:;" class="dropdownbtn" onclick="showselect(this, 'validitynew', 1, 1)">^</a>
+								</p>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><button type="submit" class="submit" name="ipbansubmit" id="submit" value="true">{lang submit}</button></td>
+						</tr>
+					</table>
+				</div>
+				
+				<!--{if $adderror}-->
+					<div class="notice" style="padding: 8px; color: red; font-weight: bold">
+					<!--{if $adderror == 1}-->
+						{lang modcp_members_ip_error_1}
+					<!--{elseif $adderror == 2}-->
+						{lang modcp_members_ip_error_2}
+					<!--{elseif $adderror == 3}-->
+						{lang modcp_members_ip_error_3}
+					<!--{elseif $updatecheck || $deletecheck || $addcheck}-->
+						{lang modcp_members_ip_succed}
+					<!--{else}-->
+						{lang modcp_members_ip_error_4}
+					<!--{/if}-->
+					</div>
+				<!--{/if}-->
+				<table cellspacing="0" cellpadding="0" class="datatable">
+					<thead class="colplural">
+						<tr>
+							<th width="8%"></th>
+							<th>{lang online_ip}</th>
+							<th width="20%">{lang ip_location}</th>
+							<th width="10%">{lang modcp_members_ip_addadmin}</th>
+							<th width="15%">{lang starttime}</th>
+							<th width="20%">{lang endtime}</th>
+						</tr>
+					</thead>
+					<!--{loop $iplist $ip}-->
+					<tr>
+						<td><input type="checkbox" name="delete[]" value="$ip[id]" class="checkbox" $ip[disabled]></td>
+						<td>$ip[theip]</td>
+						<td>$ip[location]</td>
+						<td>$ip[admin]</td>
+						<td>$ip[dateline]</td>
+						<td>
+							<p class="hasdropdownbtn">
+								<input type="text" id="expirationnew[{$ip[id]}]" name="expirationnew[{$ip[id]}]" autocomplete="off" value="$ip[expiration]" class="txt" tabindex="1" style="width: 75px;" />
+								<a href="javascript:;" class="dropdownbtn" onclick="showselect(this, 'expirationnew[{$ip[id]}]', 1, 1)">^</a>
+							</p>
+						</td>
+					</tr>
+					<!--{/loop}-->
+					<tr>
+						<td><input class="checkbox" type="checkbox" id="chkall" name="chkall" onclick="checkall(this.form)" /> <label for="chkall">{lang checkall}</label></td>
+						<td colspan="5"><button type="submit" class="submit" name="ipbansubmit" id="submit" value="true">{lang delete}</button></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	
+	<!--{/if}-->

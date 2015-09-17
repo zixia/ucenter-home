@@ -1,0 +1,145 @@
+{template header}
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+
+<div class="fcontent" id="floatlayout_topicadmin">
+	<h3 class="float_ctrl">
+		<em id="return_mods"><!--{if in_array($action, array('delpost', 'banpost', 'warn'))}-->{lang admin_select_piece}<!--{else}-->{lang admin_select_one_piece}<!--{/if}--></em>
+		<span>
+			<a href="javascript:;" class="float_close" onclick="{if $action == 'stamp'}if ($('threadstamp')) $('threadstamp').innerHTML = oldthreadstamp;{/if}hideWindow('mods')" title="{lang close}">{lang close}</a>
+		</span>
+	</h3>
+	<form id="topicadminform" method="post" action="topicadmin.php?action=$action&modsubmit=yes&infloat=yes&modclick=yes" onsubmit="ajaxpost('topicadminform', 'return_mods', 'return_mods', 'onerror');return false;">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="fid" value="$fid">
+		<input type="hidden" name="tid" value="$tid">
+		<div class="postbox">
+			<div class="{if $action != 'split'}topicadminlow{else}topicadminhigh{/if}">
+			<!--{if $action == 'delpost'}-->
+				$deleteid
+				{lang admin_delposts}
+			<!--{elseif $action == 'copy'}-->
+				<p>{lang admin_target}:</p>
+				<p class="tah_body">
+					<select name="copyto">$forumselect</select>
+				</p>
+			<!--{elseif $action == 'banpost'}-->
+				$banid
+				<ul class="inlinelist">
+					<li><label><input type="radio" class="radio" name="banned" value="1" $checkban /> {lang admin_banpost}</label></li>
+					<li><label><input type="radio" class="radio" name="banned" value="0" $checkunban /> {lang admin_unbanpost}</li>
+				</ul>
+				<script type="text/javascript" reload="1">
+				function submithandle_mods(locationhref) {
+					{loop $topiclist $pid}
+						ajaxget('viewthread.php?tid=$tid&viewpid=$pid&modclick=yes', 'post_$pid', 'post_$pid');
+					{/loop}
+					hideWindow('mods');
+				}
+				</script>
+			<!--{elseif $action == 'warn'}-->
+				$warnpid
+				<ul class="inlinelist">
+					<li><input type="radio" class="radio" name="warned" value="1" $checkwarn /> {lang topicadmin_warn_add}</li>
+					<li><input type="radio" class="radio" name="warned" value="0" $checkunwarn /> {lang topicadmin_warn_delete}</li>
+				</ul>
+				<!--{if ($modpostsnum == 1 || $authorcount == 1) && $authorwarnings > 0}-->
+					<br /><div style="clear: both; text-align: right;" title="{lang topicadmin_warn_prompt}">{lang topicadmin_warn_nums}</div>
+				<!--{/if}-->
+				<script type="text/javascript" reload="1">
+				function submithandle_mods(locationhref) {
+					{loop $topiclist $pid}
+						ajaxget('viewthread.php?tid=$tid&viewpid=$pid&modclick=yes', 'post_$pid', 'post_$pid');
+					{/loop}
+					hideWindow('mods');
+				}
+				</script>
+			<!--{elseif $action == 'merge'}-->
+				<table cellspacing="0" cellpadding="0">
+					<tr>
+						<td><label for="othertid">{lang admin_merge} &rarr;</label></td>
+						<td>{lang admin_merge_tid}</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input type="text" id="othertid" name="othertid" size="10" /></td>
+					</tr>
+				</table>
+			<!--{elseif $action == 'refund'}-->
+				<table cellspacing="0" cellpadding="0">
+					<tr>
+					<th>{lang pay_buyers}</th>
+					<td>$payment[payers]</td>
+					</tr>
+
+					<tr>
+					<th>{lang pay_author_income}</th>
+					<td>{$extcredits[$creditstransextra[1]][title]} $payment[netincome] {$extcredits[$creditstransextra[1]][unit]}</td>
+					</tr>
+				</table>
+			<!--{elseif $action == 'split'}-->
+				<table cellspacing="0" cellpadding="0">
+					<tr>
+						<td><label for="subject">{lang admin_split_newsubject}</label></td>
+					</tr>
+					<tr>
+						<td><input type="text" name="subject" id="subject" size="20" class="txt" /></td>
+					</tr>
+					<tr>
+						<td><label for="split">{lang admin_split_comment}</label></td>
+					</tr>
+					<tr>
+						<td><textarea name="split" id="split" class="txtarea" style="width: 212px; height:120px" /></textarea></td>
+					</tr>
+				</table>
+			<!--{elseif $action == 'stamp'}-->
+				<p>{lang admin_stamp_select}:</p>
+				<p class="tah_body">
+					<select name="stamp" id="stamp" onchange="updatestampimg()">
+					<option value="">{lang admin_stamp_none}</option>
+					<!--{loop $_DCACHE['stamps'] $stampid $stamp}-->
+						<option value="$stampid">$stamp[text]</option>
+					<!--{/loop}-->
+					</select>
+				</p>
+				<script type="text/javascript" reload="1">
+				if($('threadstamp')) {
+					var oldthreadstamp = $('threadstamp').innerHTML;
+				}
+				var stampurls = new Array();
+				{loop $_DCACHE['stamps'] $stampid $stamp}
+				stampurls[$stampid] = '$stamp[url]';
+				{/loop}
+				function updatestampimg() {
+					if($('threadstamp')) {
+						$('threadstamp').innerHTML = $('stamp').value ? '<img src="images/stamps/' + stampurls[$('stamp').value] + '">' : '<img src="images/common/none.gif">';
+					}
+				}
+				</script>
+			<!--{/if}-->
+			</div>
+
+			<div class="topicadminlog">
+				<h4>
+					<span class="hasdropdownbtn right"><a onclick="showselect(this, 'reason', 'reasonselect')" class="dropdownbtn" href="javascript:;">^</a></span>
+					{lang admin_operation_explain}:
+				</h4>
+				<p><textarea id="reason" name="reason" class="txtarea" onkeyup="seditor_ctlent(event, '$(\'topicadminform\').submit()')"></textarea></p>
+				<ul id="reasonselect" style="display: none">{echo modreasonselect()}</ul>
+				<p>
+					<input name="modsubmit" type="submit" value="{lang confirms}" />
+					<input type="checkbox" name="sendreasonpm" id="sendreasonpm" class="checkbox"{if $reasonpm == 2 || $reasonpm == 3} checked="checked" disabled="disabled"{/if} /> <label for="sendreasonpm" />{lang admin_pm}</label>
+				</p>
+			</div>
+		</div>
+	</form>
+</div>
+
+<!--{if empty($infloat)}-->
+	</div></div>
+</div>
+<!--{/if}-->
+{template footer}

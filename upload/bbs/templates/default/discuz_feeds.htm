@@ -1,0 +1,123 @@
+{subtemplate header}
+
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang home}</div>
+<!--{if $admode && !empty($advlist['text'])}--><div class="ad_text" id="ad_text"><table summary="Text Ad" cellpadding="0" cellspacing="1">$advlist[text]</table></div><!--{else}--><div id="ad_text"></div><!--{/if}-->
+<div id="wrap"{if $infosidestatus['allow'] < 2} class="wrap s_clear"{else} class="wrap with_side s_clear"{/if}>
+<!--{if $infosidestatus[allow] == 2}-->
+	<a id="sidebar_img" href="javascript:;" onclick="sidebar_collapse(['{lang sidebar_collapsed_yes}', '{lang sidebar_collapsed_no}']);" class="$collapseimg[sidebar]"><!--{if $collapseimg[sidebar] == 'collapsed_yes'}-->{lang sidebar_collapsed_yes}<!--{else}-->{lang sidebar_collapsed_no}<!--{/if}--></a>
+<!--{elseif $infosidestatus[allow] == 1}-->
+	<a id="sidebar_img" href="javascript:;" onclick="sidebar_collapse(['', '{lang sidebar_collapsed_no}']);" class="collapsed_yes">{lang sidebar_collapsed_yes}</a>
+<!--{/if}-->
+<div class="main"><div class="content">
+$pluginhooks[index_header]
+
+{subtemplate index_header}
+
+<!--{if $indexhot['status']}-->
+	{subtemplate index_heats}
+<!--{/if}-->
+
+$pluginhooks[index_hot]
+
+<div class="itemtitle s_clear">
+	<p class="right forumcount">
+		{lang index_today}: <em>$todayposts</em>, {lang index_yesterday}: <em>$postdata[0]</em>, {lang index_members}: <em>$totalmembers</em>
+	</p>
+	{subtemplate index_navbar}
+</div>
+
+$pluginhooks[index_top]
+
+<div id="feed" class="feed">
+<ul>
+<!--{loop $feeds $value}-->
+	<!--{if $value[daterange]}-->
+		</ul><h3>
+		<!--{if $value[daterange] == $day1}-->{lang pm_today}
+		<!--{elseif $value[daterange] == $day2}-->{lang pm_yesterday}
+		<!--{elseif $value[daterange] == $day3}-->{lang pm_before_yesterday}
+		<!--{else}-->$value[daterange]<!--{/if}-->
+		</h3><ul>
+	<!--{/if}-->
+	<li class="s_clear">
+		<div class="f_icon">
+			<img src="{if empty($type)}$value[icon]{else}$value[icon_image]{/if}" class="apptype" />
+			$value[title]
+			<!--{if $value[image]}-->
+				<div class="f_thumb">
+					<!--{loop $value[image] $image}-->$image<!--{/loop}-->
+				</div>
+			<!--{/if}-->
+			<!--{if $value[general]}-->
+				<fieldset><ins>$value[general]</ins></fieldset>
+			<!--{/if}-->
+			<!--{if $value[body]}--><div class="summary">$value[body]</div><!--{/if}-->
+		</div>
+	</li>
+<!--{/loop}-->
+</ul>
+</div>
+
+<!--{if !empty($view)}-->
+	<div class="s_clear">$multi</div>
+<!--{else}-->
+	<div class="pages s_clear">
+		<a class="next" href="{if empty($type)}$indexname?view=all&op=feeds{else}userapp.php{/if}">{lang feeds_show_all}</a>
+	</div>
+<!--{/if}-->
+
+$pluginhooks[index_bottom]
+</div></div>
+
+<!--{if $infosidestatus[allow] == 2}-->
+	<div id="sidebar" class="side" style="$collapse[sidebar]">
+	<!--{if !empty($qihoo['status']) && ($qihoo['searchbox'] & 1)}-->
+		<div id="qihoosearch" class="sidebox">
+		<!--{if !empty($qihoo['status']) && ($qihoo['searchbox'] & 1)}-->
+			<form method="post" action="search.php?srchtype=qihoo" onSubmit="this.target='_blank';">
+				<input type="hidden" name="searchsubmit" value="yes" />
+				<input type="text" class="txt" name="srchtxt" value="$qihoo_searchboxtxt" size="20" />
+				<select name="stype">
+					<option value="" selected="selected">{lang qihoo_search_filltext}</option>
+					<option value="1">{lang qihoo_search_title}</option>
+					<option value="2">{lang qihoo_search_author}</option>
+				</select>
+				&nbsp;<button name="searchsubmit" type="submit" value="true">{lang search}</button>
+			</form>
+
+			<!--{if !empty($qihoo['links']['keywords'])}-->
+				<strong>{lang qihoo_hot_searches}</strong>
+				<!--{loop $qihoo['links']['keywords'] $link}-->
+					$link&nbsp;
+				<!--{/loop}-->
+			<!--{/if}-->
+
+			<!--{if $customtopics}-->
+				<strong>{lang qihoo_custom_topics}</strong>&nbsp;&nbsp;$customtopics [<a href="javascript:;" onclick="showWindow('customtopics', 'misc.php?action=customtopics')">{lang edit}</a>]<br />
+			<!--{/if}-->
+
+			<!--{if !empty($qihoo['links']['topics'])}-->
+				<strong>{lang qihoo_topics}</strong>&nbsp;
+				<!--{loop $qihoo['links']['topics'] $url}-->
+					{$url} &nbsp;
+				<!--{/loop}-->
+			<!--{/if}-->
+		<!--{/if}-->
+		</div>
+	<!--{/if}-->
+	<!--{if $infosidestatus[2]}-->
+		<!--{if !empty($qihoo['status']) && ($qihoo['searchbox'] & 1)}-->
+			<hr class="shadowline"/>
+		<!--{/if}-->
+		<div id="infoside">
+		<!--{if empty($gid)}-->
+			{eval request($infosidestatus, 0, 2);}
+		<!--{else}-->
+			{eval request($infosidestatus, 1, 2);}
+		<!--{/if}-->
+		</div>
+	<!--{/if}-->
+	</div>
+<!--{/if}-->
+
+{subtemplate footer}

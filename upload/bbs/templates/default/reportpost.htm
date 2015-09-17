@@ -1,0 +1,47 @@
+{template header}
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+
+<div class="fcontent" id="floatlayout_topicadmin">
+	<h3 class="float_ctrl">
+		<em id="return_report">{lang reportpost}</em>
+		<span>
+			<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('report')" title="{lang close}">{lang close}</a><!--{/if}-->
+		</span>
+	</h3>
+	<form id="postform" method="post" action="misc.php?action=report&reportsubmit=yes&infloat=yes" onsubmit="ajaxpost('postform', 'return_report', 'return_report', 'onerror');return false;">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="fid" value="$fid">
+		<input type="hidden" name="tid" value="$tid">
+		<input type="hidden" name="pid" value="$pid">
+		<input type="hidden" name="handlekey" value="report">
+		<div class="postbox">
+			<div class="topicadminlow">
+				<ul class="inlinelist">
+					<li><label><input type="radio" value="1" name="type" class="radio" checked /> {lang reportpost_recommend}</label></li>
+					<li><label><input type="radio" value="0" name="type" class="radio" /> {lang reportpost_delate}</label></li>
+				</ul>
+			</div>
+			<div class="topicadminlog">
+				<h4>{lang reportpost_suggestion}</h4>
+				<p><textarea id="reason" name="reason" class="txtarea"></textarea></p>
+				<p><input name="reportsubmit" type="submit" value="{lang submit}" /></p>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript" reload="1">
+function submithandle_report(locationhref) {
+	hideWindow('report');
+}
+</script>
+
+<!--{if empty($infloat)}-->
+	</div></div>
+</div>
+<!--{/if}-->
+{template footer}

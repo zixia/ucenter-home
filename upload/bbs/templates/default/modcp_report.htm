@@ -1,0 +1,60 @@
+<h1>{lang mod_option_subject_report}</h1>
+<div class="datalist">
+	<!--{if $modforums[list]}-->
+		<form method="post" action="{$cpscript}?action=$action&op=$op">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<div class="filterform">
+				<select name="fid" onchange="this.form.submit();">
+					<option value=""></option>
+					<!--{loop $modforums[list] $id $name}-->
+						<!--{if $reportnums[$id]}-->
+							<option value="$id" {if $id == $fid}selected{/if}>$name	($reportnums[$id])</option>
+						<!--{/if}-->
+					<!--{/loop}-->
+				</select>
+				&nbsp;&nbsp; {lang reportpost_forums}
+			</div>
+		</form>
+	<!--{else}-->
+		<p>{lang mod_message_moderate_nopermission}</p>
+	<!--{/if}-->
+
+	<!--{if !empty($reportlist)}-->
+		<!--{if $reportlist[data]}-->
+			<form id="reportform" method="post" action="{$cpscript}?action=$action">
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="op" value="" id="operation" />
+				<input type="hidden" name="page" value="$page" />
+				<input type="hidden" name="fid" value="$fid" />
+				<input type="hidden" name="deletesubmit" value="yes" />
+				<table cellspacing="0" cellpadding="0" class="datatable">
+					<!--{loop $reportlist[data] $report}-->
+						<tr>
+							<td>
+								<b><a href="space.php?uid=$report[uid]" target="_blank">$report[username]</a> <!--{if $report[type]}-->{lang reportpost_recommend}<!--{else}-->{lang reportpost_delate}<!--{/if}--></b> <span class="lighttxt">$report[dateline]</span><br />
+								$report[reason]<br />
+								{lang author}: <!--{if $report[author]}--><a href="space.php?uid=$report[authorid]" class="lightlink" target="_blank">$report[author]</a> <a href="pm.php?action=new&operation=report&reportid=$report[id]&uid=$report[authorid]" class="lightlink" onclick="showWindow('sendpm', this.href);return false;">[{lang send_pm}]</a><!--{else}-->{lang guest}<!--{/if}--><br />
+								{lang content}: <a href="redirect.php?goto=findpost&pid=$report[pid]&ptid=$report[tid]" class="lightlink" target="_blank">$report[subject]</a><br />$report[message]<br />
+							</td>
+							<td width="80" align="right" valign="top">
+								<a href="pm.php?action=new&operation=report&reportid=$report[id]&uid=$report[uid]&isreporter=yes" class="lightlink" onclick="showWindow('sendpm', this.href);return false;">{lang reportpost_sendpm}</a>&nbsp; - &nbsp;<input type="checkbox" name="ids[]" value="$report[id]" class="checkbox" />
+							</td>
+						</tr>
+					<!--{/loop}-->
+				</table>
+				<div class="pages_btns">
+					<div class="right">
+						<input class="checkbox" type="checkbox" id="chkall" name="chkall" onclick="checkall(this.form)" /> <label for="chkall">{lang checkall}</label> <span class="lightlink">|</span> <a href="javascript:;" class="lightlink" onclick="$('operation').value='delete';$('reportform').submit();return false;">{lang reportpost_delete}</a>
+					</div>
+					<!--{if !empty($reportlist[pagelink])}-->$reportlist[pagelink]<!--{/if}-->
+				</div>
+			</form>
+		<!--{else}-->
+				<p>{lang search_nomatch}</p>
+		<!--{/if}-->
+	<!--{/if}-->
+</div>
+
+<!--{if !empty($logids)}-->
+	<div class="notice">{lang mod_message_report_del}</div>
+<!--{/if}-->

@@ -1,0 +1,116 @@
+<input type="hidden" name="trade" value="yes" />
+<input type="hidden" name="item_type" value="1" />
+<div class="specialpost s_clear">
+	<div class="specialinfo">
+		<dl>
+			<!--{if $allowpostimg}-->
+				<dt>{lang post_trade_picture}:</dt>
+				<dd>				
+					<a href="javascript:;" onclick="uploadWindow(function (aid, url){updatetradeattach(aid, url, '$attachurl')})"><!--{if $tradeattach[attachment]}-->{lang update}<!--{else}-->{lang upload}<!--{/if}--></a>
+					<input type="hidden" name="tradeaid" id="tradeaid" {if $tradeattach[attachment]}value="$tradeattach[aid]" {/if}tabindex="1" />
+					<div id="tradeattach_image">
+					<!--{if $tradeattach[attachment]}-->
+						<a href="$tradeattach[url]/$tradeattach[attachment]" target="_blank"><img class="goodsimg" src="$tradeattach[url]/$tradeattach[attachment]{if $tradeattach['thumb']}.thumb.jpg{/if}" alt="" /></a>
+					<!--{/if}-->
+					</div>
+				</dd>
+			<!--{/if}-->
+			<dt><label for="item_name">{lang post_trade_name}:</label></dt>
+			<dd class="s_clear">
+				<span class="float_typeid"><input type="text" id="item_name" name="item_name" value="$trade[subject]" class="splonginput txt" tabindex="1" /></span>
+				<!--{if $tradetypes && !empty($forum['tradetypes'])}-->
+					<span class="float_typeid">
+					<select id="tradetypeid" name="tradetypeid" change="ajaxget('post.php?action=threadsorts&tradetype=yes&sortid='+$('tradetypeid').value, 'tradesorts', 'tradesortswait')">
+					<option value="0">{lang post_trade_type}</option>
+					<!--{loop $tradetypes $typeid $name}-->
+						<!--{if $forum[tradetypes] == -1 || @in_array($typeid, $forum[tradetypes])}-->
+							<option value="$typeid"{if $typeid == $tradetypeid} selected="selected"{/if}>{echo strip_tags($name);}</option>
+						<!--{/if}-->
+					<!--{/loop}-->
+					</select>
+				<!--{/if}-->
+				</span>
+			</dd>
+			<dt><label for="item_number">{lang post_trade_number}:</label></dt>
+			<dd class="s_clear">
+				<span class="float_typeid"><input id="item_number" name="item_number" type="text" class="spmediuminput txt" value="$trade[amount]" tabindex="1" /></span>
+				<span class="float_typeid short_select">
+					<select id="item_quality" name="item_quality" tabindex="1">
+					<option value="1" <!--{if $trade['quality'] == 1}-->selected="selected"<!--{/if}-->>{lang trade_new}</option>
+					<option value="2" <!--{if $trade['quality'] == 2}-->selected="selected"<!--{/if}-->>{lang trade_old}</option>
+					</select>
+				</span>
+			</dd>
+			<dt>{lang post_trade_price}</dt>
+			<dd>
+				{lang post_trade_rmb}<br />
+				<label for="item_costprice">{lang post_trade_costprice}:</label>
+				<em><input id="item_costprice" name="item_costprice" type="text" class="spmediuminput txt" value="$trade[costprice]" tabindex="1" /></em>
+				<label for="item_price">{lang post_trade_nowprice}:</label>
+				<input id="item_price" name="item_price" class="spmediuminput txt" type="text" value="$trade[price]" tabindex="1" />
+				<p id="logisticssetting" class="s_clear" style="margin-top:2px;display:{if !$trade['transport'] || $trade['transport'] == 3}none{/if}">
+					<label for="postage_mail">{lang post_trade_transport_mail}:</label> <input id="postage_mail" name="postage_mail" type="text" class="spshortinput txt" value="$trade[ordinaryfee]" tabindex="1" />
+					<label for="postage_express">{lang post_trade_transport_express}:</label> <input id="postage_express" name="postage_express" type="text" class="spshortinput txt" value="$trade[expressfee]" tabindex="1" />
+					<label for="postage_ems">EMS:</label> <input id="postage_ems" name="postage_ems" type="text" class="spshortinput txt" value="$trade[emsfee]" tabindex="1" />
+				</p>
+				<!--{if $creditstransextra[5] != -1}-->
+					<br />{lang post_trade_credit}({$extcredits[$creditstransextra[5]][title]})<br />
+					<label for="item_costcredit">{lang post_trade_costprice}:</label>
+					<em><input id="item_costcredit" name="item_costcredit" type="text" class="spmediuminput txt" value="$trade[costcredit]" tabindex="1" /></em>
+					<label for="item_credit">{lang post_trade_nowprice}:</label>
+					<input id="item_price" name="item_credit" class="spmediuminput txt" type="text" value="$trade[credit]" tabindex="1" />
+				<!--{/if}-->
+			</dd>
+			<dt><label for="paymethod">{lang post_trade_paymethod}:</label></dt>
+			<dd>
+				<span class="float_typeid">
+					<select id="paymethod" name="paymethod" change="display('alipayseller')" class="spmediuminput" tabindex="1">
+						<option value="0" {if !$trade[account]}selected{/if}>{lang post_trade_paymethod_offline}</option>
+						<option value="1" {if $trade[account]}selected{/if}>{lang post_trade_paymethod_online}</option>
+					</select>
+				</span>
+				<span id="alipayseller" style="display:{if !$trade[account]}none{/if}">
+				<strong class="left"><label for="seller">{lang post_trade_seller}:</label></strong>
+				<input type="text" id="seller" name="seller" value="$trade[account]" class="spmediuminput txt" tabindex="1" />
+				</span>
+			</dd>
+		</dl>
+	</div>
+	<div class="specialaddons">
+		<dl class="s_clear">
+			<dt><label for="item_locus">{lang post_trade_locus}:</label></dt>
+			<dd><input id="item_locus" name="item_locus" type="text" value="$trade[locus]" class="spmediuminput txt" tabindex="1" /></dd>
+			<dt><label for="transport">{lang post_trade_transport}:</label></dt>
+			<dd>
+				<select id="transport" name="transport" onchange="$('logisticssetting').style.display = this.value == 'virtual' ? 'none' : ''" class="spmediuminput">
+					<option value="virtual" {if $trade['transport'] == 3}selected{/if}>{lang post_trade_transport_virtual}</option>
+					<option value="seller" {if $trade['transport'] == 1}selected{/if}>{lang post_trade_transport_seller}</option>
+					<option value="buyer" {if $trade['transport'] == 2}selected{/if}>{lang post_trade_transport_buyer}</option>
+					<option value="logistics" {if $trade['transport'] == 4}selected{/if}>{lang trade_type_transport_physical}</option>
+				</select>
+			</dd>
+		</dl>
+		<p><label for="item_expiration">{lang valid_before}:</label></p>
+		<p class="hasdropdownbtn">
+			<input type="text" onclick="showcalendar(event, this, false)" id="item_expiration" name="item_expiration" autocomplete="off" value="$trade[expiration]" class="txt" tabindex="1" />
+			<a href="javascript:;" class="dropdownbtn" onclick="showselect(this, 'item_expiration', 1)">^</a>
+		</p>
+	</div>
+</div>
+<div class="classifieds">
+	<table cellpadding="0" cellspacing="0" class="formtable">
+		<tbody id="tradesorts"><span id="tradesortswait"></span></tbody>
+	</table>
+</div>
+
+<script type="text/javascript" reload="1">
+	simulateSelect('item_quality');
+	simulateSelect('paymethod');
+	{if $tradetypes && !empty($forum['tradetypes'])}
+		simulateSelect('tradetypeid');
+		{if $tradetypeid}
+			ajaxget('post.php?action=threadsorts&tradetype=yes&sortid=$tradetypeid&pid=$pid', 'tradesorts', 'tradesortswait');
+		{/if}
+	{/if}
+</script>
+<script type="text/javascript" src="{$jspath}post_trade.js?{VERHASH}" reload="1"></script>

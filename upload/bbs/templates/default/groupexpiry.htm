@@ -1,0 +1,31 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang group_expiry}</div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+			<h1>{lang group_expiry}</h1>
+			<div class="channelinfo">{lang group_expiry_comment}</div>
+			<div class="datalist">
+				<table cellspacing="0" cellpadding="0" class="datatable">
+					<tr class="colplural">
+						<td>{lang usergroup}</td>
+						<td>{lang group_expiry_time}</td>
+						<td>{lang group_expiry_type}</td>
+					</tr>
+					<!--{loop $expirylist $group}-->
+						<tr class="{echo swapclass('colplural')}">
+							<td>$group[grouptitle]</td>
+							<td>$group[time]</td>
+							<td ><!--{if $group['type'] == 'main'}-->{lang group_expiry_type_main}<!--{else}-->{lang group_expiry_type_ext}<!--{/if}--></td>
+						</tr>
+					<!--{/loop}-->
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="side">
+		{subtemplate personal_navbar}
+	</div>
+</div>
+
+{subtemplate footer}

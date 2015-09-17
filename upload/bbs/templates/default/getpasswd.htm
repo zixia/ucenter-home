@@ -1,0 +1,35 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang getpassword}</div>
+
+<div id="wrap" class="wrap s_clear"><div class="main"><div class="content nofloat">
+	<div class="fcontent alert_win">
+		<form method="post" action="member.php?action=getpasswd&uid=$uid&id=$hashid">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<div class="postbox"><div class="alert_info">
+				{lang getpassword}
+			</div>
+			<div class="alert_act">
+				<table cellspacing="0" cellpadding="0" class="formtable">
+					<tr>
+						<th>{lang username}:</th>
+						<td>$member[username]</td>
+					</tr>
+					<tr>
+						<th>{lang new_password}:</th>
+						<td><input type="password" name="newpasswd1" size="25" /></td>
+					</tr>
+					<tr>
+						<th>{lang new_password_confirm}:</th>
+						<td><input type="password" name="newpasswd2" size="25" /><br />
+					</tr>
+					<tr>
+						<th>&nbsp;</th>
+						<td><button type="submit" class="submit" name="getpwsubmit" value="true">{lang submit}</button></td>
+					</tr>
+				</table>
+			</div>
+		</form>
+	</div>
+</div></div></div>
+
+{subtemplate footer}

@@ -1,0 +1,106 @@
+{template header}
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+
+<!--{if $action == 'rate'}-->
+<div class="fcontent" id="floatlayout_topicadmin">
+	<h3 class="float_ctrl">
+		<em id="return_rate">{lang rate}</em>
+		<span>
+			<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('rate')" title="{lang close}">{lang close}</a><!--{/if}-->
+		</span>
+	</h3>
+	<form id="rateform" method="post" action="misc.php?action=rate&ratesubmit=yes&infloat=yes" onsubmit="ajaxpost('rateform', 'return_rate', 'return_rate', 'onerror');return false;">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="tid" value="$tid">
+		<input type="hidden" name="pid" value="$pid">
+		<!--{if !empty($infloat)}--><input type="hidden" name="handlekey" value="rate"><!--{/if}-->
+		<div class="postbox">
+			<!--{loop $ratelist $id $options}-->
+				<div class="hasdropdownbtn ratelist s_clear">
+					<label for="score$id" title="{lang rate_quota_today}">{$extcredits[$id][img]} {$extcredits[$id][title]}</label>
+					<input type="text" id="score$id" name="score$id" value="0" class="txt" /> 
+					<a href="javascript:;" class="dropdownbtn" onclick="showselect(this, 'score$id', 'scoreoption$id')">^</a>
+					<ul id="scoreoption$id" style="display:none">$options</ul>
+				</div>
+			<!--{/loop}-->
+
+			<div class="topicadminlog">
+				<h4>
+					<span class="hasdropdownbtn right"><a onclick="showselect(this, 'reason', 'reasonselect')" class="dropdownbtn" href="javascript:;">^</a></span>
+					{lang admin_operation_explain}:
+				</h4>
+				<p><textarea id="reason" name="reason" class="txtarea" onkeyup="seditor_ctlent(event, '$(\'rateform\').ratesubmit.click()')"></textarea></p>
+				<ul id="reasonselect" style="display: none">{echo modreasonselect()}</ul>
+				<p>
+					<input name="ratesubmit" type="submit" value="{lang confirms}" />
+					<input type="checkbox" name="sendreasonpm" id="sendreasonpm" class="checkbox"{if $reasonpm == 2 || $reasonpm == 3} checked="checked" disabled="disabled"{/if} /> <label for="sendreasonpm" />{lang admin_pm}</label>
+				</p>
+			</div>
+		</div>
+	</form>
+</div>
+
+<!--{elseif $action == 'removerate'}-->
+
+<div class="fcontent">
+	<h3 class="float_ctrl">
+		<em id="return_rate">{lang thread_removerate}</em>
+		<span>
+			<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('rate')" title="{lang close}">{lang close}</a><!--{/if}-->
+		</span>
+	</h3>
+	<form id="rateform" method="post" action="misc.php?action=removerate&ratesubmit=yes&infloat=yes" onsubmit="ajaxpost('rateform', 'return_rate', 'return_rate', 'onerror');return false;">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="tid" value="$tid">
+		<input type="hidden" name="pid" value="$pid">
+		<!--{if !empty($infloat)}--><input type="hidden" name="handlekey" value="rate"><!--{/if}-->
+		<div class="floatwrap">
+			<table class="list" cellspacing="0" cellpadding="0">
+				<thead>
+					<tr>
+						<td>&nbsp;</td>
+						<td>{lang username}</td>
+						<td>{lang time}</td>
+						<td>{lang credits}</td>
+						<td>{lang reason}</td>
+					</tr>
+				</thead>
+			<!--{loop $ratelogs $ratelog}-->
+				<tr>
+					<td><input type="checkbox" name="logidarray[]" value="$ratelog[uid] $ratelog[extcredits] $ratelog[dbdateline]" /></td>
+					<td><a href="space.php?uid=$ratelog[uid]">$ratelog[username]</a></td>
+					<td>$ratelog[dateline]</td>
+					<td>{$extcredits[$ratelog[extcredits]][title]} <span class="bold">$ratelog[scoreview]</span> {$extcredits[$ratelog[extcredits]][unit]}</td>
+					<td>$ratelog[reason]</td>
+				</tr>
+			<!--{/loop}-->
+			</table>
+		</div>
+		<div class="postbox">
+			<p style="float:right">
+				<input type="checkbox" name="sendreasonpm" id="sendreasonpm" class="checkbox"{if $reasonpm == 2 || $reasonpm == 3} checked="checked" disabled="disabled"{/if} /> <label for="sendreasonpm" />{lang admin_pm}</label>&nbsp;&nbsp;
+				{lang admin_operation_explain}: <input name="reason" class="txt" />
+			</p>
+			<label><input class="checkbox header" type="checkbox" name="chkall" onclick="checkall(this.form, 'logid')" /> {lang checkall}</label>&nbsp;&nbsp;
+			<button class="submit" type="submit" value="true" name="ratesubmit">{lang submit}</button>
+		</div>
+	</form>
+</div>
+<!--{/if}-->
+
+<script type="text/javascript" reload="1">
+function submithandle_rate(locationhref) {
+	ajaxget('viewthread.php?tid=$tid&viewpid=$pid', 'post_$pid', 'post_$pid');
+	hideWindow('rate');
+}
+</script>
+
+<!--{if empty($infloat)}-->
+	</div></div>
+</div>
+<!--{/if}-->
+{template footer}

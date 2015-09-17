@@ -1,0 +1,41 @@
+{template header}
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+
+<div class="fcontent">
+	<h3 class="float_ctrl">
+		<em id="return_$handlekey">{lang thread_moderations}</em>
+		<span>
+			<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('$handlekey')" title="{lang close}">{lang close}</a><!--{/if}-->
+		</span>
+	</h3>
+	<div class="floatwrap">
+		<table class="list" cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+					<td>{lang thread_moderations_username}</td>
+					<td class="time">{lang time}</td>
+					<td>{lang thread_moderations_action}</td>
+					<td class="time">{lang expire}</td>
+				</tr>
+			</thead>
+			<!--{loop $loglist $log}-->
+				<tr>
+					<td><!--{if $log['uid']}--><a href="space.php?uid=$log['uid']" target="_blank">$log[username]</a><!--{else}-->{lang thread_moderations_cron}<!--{/if}--></td>
+					<td class="time">$log[dateline]</td>
+					<td $log[status]><!--{if $log['magicid']}--><a href="magic.php?action=index&operation=buy&magicid=$log['magicid']" target="_blank">$log[magicname]</a><!--{else}-->{$modactioncode[$log['action']]}<!--{/if}--></td>
+					<td class="time" $log[status]><!--{if $log['expiration']}-->$log[expiration]<!--{elseif in_array($log['action'], array('STK', 'HLT', 'DIG', 'CLS', 'OPN'))}-->{lang expiration_unlimit}<!--{/if}--></td>
+				</tr>
+			<!--{/loop}-->
+		</table>
+	</div>
+</div>
+
+<!--{if empty($infloat)}-->
+	</div></div>
+</div>
+<!--{/if}-->
+{template footer}

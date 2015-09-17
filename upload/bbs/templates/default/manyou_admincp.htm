@@ -1,0 +1,103 @@
+{subtemplate header}
+
+<div id="nav">
+	<a href="$indexname">$bbname</a> &raquo; <a href="userapp.php">{lang manyou:myop}</a> &raquo; {lang manyou:admincp}
+</div>
+
+<div id="wrap" class="wrap s_clear uappmain">
+	<div class="main"><div class="content">
+
+	<!--{if $my_status}-->
+		<table width="100%">
+			<tr>
+				<td>
+					<strong>{lang manyou:tips_title}</strong><br>
+					{lang manyou:tips_comment}
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table><tr><td>
+					<form method="post" action="userapp.php?script=admincp">
+						<input type="hidden" name="formhash" value="{FORMHASH}" />
+						<input type="submit" name="mysubmit" value="{lang manyou:myop_sync}" class="submit">
+					</form>
+					</td><td>
+					<form method="post" action="userapp.php?script=admincp">
+						<input type="hidden" name="formhash" value="{FORMHASH}" />
+						<input type="submit" name="closemysubmit" value="{lang manyou:myop_close}" class="submit">
+					</form>
+					</td></tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<form method="post" action="userapp.php?script=admincp">
+					MYOP {lang manyou:myop_credit}
+					<select name="myextcreditnew">
+					<!--{loop $extcredits $id $credit}-->
+						<option value="$id"{if $my_extcredit == $id} selected="selected"{/if}>$credit[title]</option>
+					<!--{/loop}-->
+					</select> &nbsp;
+					{lang manyou:feedperpage}
+					<input name="myfeedppnew" value="$my_feedpp" size="4" /> &nbsp;
+					<input type="hidden" name="formhash" value="{FORMHASH}" />
+					<input type="submit" name="settingmysubmit" value="{lang manyou:save}" class="submit">
+					</form>
+				</td>
+			</tr>
+		</table>
+	<!--{else}-->
+		<form method="post" action="userapp.php?script=admincp&action=userapp">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<table width="100%">
+			<tr><td>{lang manyou:myop_intro_message}</td></tr>
+			<tr><td>
+			<input type="submit" name="mysubmit" value="{lang manyou:myop_open}" class="submit">
+			</td></tr>
+		</table>
+		</form>
+	<!--{/if}-->
+	</div>
+	<br>
+	
+	<!--{if $my_status}-->
+	
+		<script type="text/javascript" src="http://static.manyou.com/scripts/my_iframe.js"></script>
+		<script type="text/javascript"> 
+		var prefixURL = "$my_prefix";
+		var suffixURL = "$my_suffix";
+		var queryString = '';
+		var url = "$url";
+		var oldHash = null;
+		var timer = null;
+		var server = new MyXD.Server("ifm0");
+		server.registHandler('iframeHasLoaded');
+		server.registHandler('setTitle');
+		server.start();
+		 
+		function iframeHasLoaded(ifm_id) {
+		        MyXD.Util.showIframe(ifm_id);
+		        document.getElementById('loading').style.display = 'none';
+		}
+		function setTitle(x) {
+			document.title = x + ' - <!--{eval echo addslashes($discuz_user.' - '.$bbname);}--> - Powered by Discuz!';
+		}
+		</script>
+
+		<div>
+			<div id="loading" style="display:block; padding:100px 0 100px 0;text-align:center;color:#999999;font-size:12px;">
+			<img src="manyou/images/loading.gif" alt="loading..." style="position:relative;top:11px;"/>  {lang manyou:loading}
+			</div>
+			<center><iframe id="ifm0" frameborder="0" width="810" scrolling="no" height="810" style="position:absolute; top:-5000px; left:-5000px;" src="$url"></iframe></center>
+		</div>
+
+	<!--{/if}-->
+		
+	</div></div>
+</div>
+
+$my_noticejs
+
+{subtemplate footer}

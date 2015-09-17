@@ -1,0 +1,160 @@
+<div class="datalist">
+	<h1>{lang mod_option_member_access}</h1>
+	<div class="channelinfo">{lang mod_notice_access}</div>
+	<!--{if $modforums['fids']}-->
+		<script type="text/javascript">
+		function chkallaccess(obj) {
+			$('new_post').checked
+				= $('new_post').disabled
+				= $('new_reply').checked
+				= $('new_reply').disabled
+				= $('new_postattach').checked
+				= $('new_postattach').disabled
+				= $('new_getattach').checked
+				= $('new_getattach').disabled
+				= obj.checked;
+		}
+
+		function disallaccess(obj) {
+			$('new_view').checked
+				= $('new_post').checked
+				= $('new_post').checked
+				= $('new_reply').checked
+				= $('new_postattach').checked
+				= $('new_getattach').checked
+				= false;
+			$('customaccess').disabled
+				= $('new_view').disabled
+				= $('new_view').disabled
+				= $('new_post').disabled
+				= $('new_post').disabled
+				= $('new_reply').disabled
+				= $('new_postattach').disabled
+				= $('new_getattach').disabled
+				= obj.checked;
+		}
+
+		</script>
+		<form method="post" action="{$cpscript}?action=$action">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="op" value="$op" id="operation" />
+		<div class="filterform">
+			<table cellspacing="0" cellpadding="0">
+				<!--{if $adderror || $successed}-->
+				<tr>
+					<th></th>
+					<td>
+						<span style="color: red; font-weight: 700;"> *
+						<!--{if $successed}-->
+							{lang mod_message_access_updatepermission}
+						<!--{elseif $adderror == 1}-->
+							{lang mod_message_access_user_nonexistence}
+						<!--{elseif $adderror == 2}-->
+							{lang mod_message_access_user_invalid}
+						<!--{elseif $adderror == 3}-->
+							{lang mod_message_access_admin_invalid}
+						<!--{/if}-->
+						</span>
+					</td>
+				</tr>				
+				<!--{/if}-->
+				<tr>
+					<th width="60">{lang mod_moderate_selectforum}:</th>
+					<td>
+						<select name="fid">
+							<!--{loop $modforums[list] $id $name}-->
+							<option value="$id" {if $id == $fid}selected="selected"{/if}>$name</option>
+							<!--{/loop}-->
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>{lang username}:</th>
+					<td>
+						<input type="text" size="20" value="$new_user" name="new_user" class="txt" /> &nbsp;&nbsp;
+					</td>
+				</tr>
+				<tr>
+					<th>{lang mod_access_change}:</th>
+					<td>
+						<input type="checkbox" value="1" name="deleteaccess" id="deleteaccess" onclick="disallaccess(this)" class="checkbox" /> <label for="deleteaccess">{lang mod_access_recover}</label>&nbsp;
+						<span id="customaccess">
+							<input type="checkbox" value="-1" name="new_view" id="new_view" onclick="chkallaccess(this)" class="checkbox" /> <label for="new_view">{lang mod_access_ban_viewthread}</label>&nbsp;
+							<input type="checkbox" value="-1" name="new_post" id="new_post" class="checkbox" /> <label for="new_post">{lang mod_access_ban_postthread}</label>&nbsp;
+							<input type="checkbox" value="-1" name="new_reply" id="new_reply" class="checkbox" /> <label for="new_reply">{lang mod_access_ban_postreply}</label>&nbsp;
+							<input type="checkbox" value="-1" name="new_postattach" id="new_postattach" class="checkbox" /> <label for="new_postattach">{lang mod_access_ban_upload}</label>&nbsp;
+							<input type="checkbox" value="-1" name="new_getattach" id="new_getattach" class="checkbox" /> <label for="new_getattach">{lang mod_access_ban_download}</label>
+						</span>
+					</td>
+				</tr>
+				<tr>
+					<th></th>
+					<td><button type="submit" class="submit" name="addsubmit" value="true">{lang submit}</button></td>
+				</tr>
+			</table>
+		</div>
+		<script type="text/javascript">
+		<!--{if !empty($deleteaccess)}-->
+			var obj = $('deleteaccess');
+			obj.checked = true;
+			disallaccess(obj);
+		<!--{elseif !empty($new_view)}-->
+			var obj = $('new_view');
+			obj.checked = true;
+			chkallaccess(obj);
+		<!--{/if}-->
+		</script>
+		</form>
+	<!--{/if}-->
+
+	<div id="list_member_c" class="c_header">
+		<h3 onclick="toggle_collapse('list_member', 1, 1);">{lang mod_access_specialuser}</h3>
+		<div class="c_header_action">
+			<div class="c_header_ext">
+				<form method="post" action="{$cpscript}?action=$action&op=$op">
+					<input type="hidden" name="formhash" value="{FORMHASH}">
+					{lang username}: <input type="text" name="suser" value="$suser" onclick="this.value='';" class="txt" />&nbsp;
+					<select name="fid">
+						<option>{lang all}{lang forum}</option>
+						$forumlistall
+					</select>&nbsp;
+					<button type="submit" class="submit" name="searchsubmit" id="searchsubmit" value="true">{lang search}</button>
+				</form>
+			</div>
+			<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_member', 1, 1);">[ {lang open} ]</p>
+		</div>
+	</div>
+	<table id="list_member" cellspacing="0" cellpadding="0">
+		<thead class="colplural">
+			<tr>
+				<td width="13%">{lang member}</td>
+				<td width="15%">{lang forum}</td>
+				<th width="9%">{lang mod_access_viewthread}</th>
+				<th width="9%">{lang mod_access_postthread}</th>
+				<th width="9%">{lang mod_access_postreply}</th>
+				<th width="9%">{lang mod_access_upload}</th>
+				<th width="9%">{lang mod_access_download}</th>
+				<td width="12%">{lang mod_access_optime}</td>
+				<td width="15%">{lang moderator}</td>
+			</tr>
+		</thead>
+		<!--{if $list[data]}-->
+			<!--{loop $list[data] $access}-->
+				<tr class="{echo swapclass('colplural')}">
+					<td>{if $users[$access[uid]] != ''}<a href="space.php?uid=$access[uid]" target="_blank">{$users[$access[uid]]}</a>{else}UID $access[uid]{/if}</td>
+					<td>$access['forum']</td>
+					<td>$access['allowview']</td>
+					<td>$access['allowpost']</td>
+					<td>$access['allowreply']</td>
+					<td>$access['allowpostattach']</td>
+					<td>$access['allowgetattach']</td>
+					<td>$access[dateline]</td>
+					<td>{if $users[$access[adminuser]] != ''}<a href="space.php?uid=$access[adminuser]" target="_blank">{$users[$access[adminuser]]}</a>{else}UID $access[adminuser]{/if}</td>
+				</tr>
+			<!--{/loop}-->
+		<!--{else}-->
+			<tr><td colspan="9">{lang mod_message_access_nonexistence}</td></tr>
+		<!--{/if}-->
+	</table>
+</div>
+<!--{if !empty($list[pagelink])}--><div class="pages_btns">$list[pagelink]</div><!--{/if}-->

@@ -1,0 +1,39 @@
+{template header}
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+
+<div class="fcontent">
+	<h3 class="float_ctrl">
+		<em id="return_$handlekey">{lang poll_voters}</em>
+		<span>
+			<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('$handlekey')" title="{lang close}">{lang close}</a><!--{/if}-->
+		</span>
+	</h3>
+	<div class="postbox">
+		<p>
+			<select onchange="showWindow('viewvote', 'misc.php?action=viewvote&tid=$tid&polloptionid=' + this.value);">
+			<!--{loop $polloptions $options}-->
+				<option value="$options[polloptionid]"{if $options[polloptionid] == $polloptionid} selected{/if}>$options[polloption]</option>
+			<!--{/loop}-->
+			</select>
+		</p>
+		<ul class="userlist s_clear">
+		<!--{if !$voterlist}-->
+			<li>{lang none}</li>
+		<!--{else}-->
+			<!--{loop $voterlist $voter}-->
+				<li><a href="space.php?uid=$voter[uid]" target="_blank">$voter[username]</a></li>
+			<!--{/loop}-->
+		<!--{/if}-->
+		</ul>
+	</div>
+</div>
+
+<!--{if empty($infloat)}-->
+	</div></div>
+</div>
+<!--{/if}-->
+{template footer}

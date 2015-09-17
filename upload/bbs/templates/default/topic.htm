@@ -1,0 +1,66 @@
+<!--{if $url && $randnum}-->
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+	<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=$charset">
+	<title>$navtitle $bbname $seotitle - Powered by Discuz!</title>
+	$seohead
+	<meta name="keywords" content="$metakeywords,$seokeywords" />
+	<meta name="description" content="$metadescription $bbname $seodescription - Discuz! Board" />
+	<meta name="generator" content="Discuz! $version" />
+	<meta name="MSSmartTagsPreventParsing" content="TRUE" />
+	<meta http-equiv="MSThemeCompatible" content="Yes" />
+	<link rel="archives" title="$bbname" href="{$boardurl}archiver/" />
+	$rsshead
+	$extrahead
+	<link rel="stylesheet" type="text/css" id="css" href="forumdata/cache/style_{STYLEID}.css?{VERHASH}" />
+	</head>
+	
+	<body onkeydown="if(event.keyCode==27) return false;" style="margin: 0px; padding: 0px;">
+	<div  style="height:100%; padding-top: 70px; background: #F2F7FF; ">
+		<a href="###" onClick="window.location='post.php?action=newthread&amp;fid=$fid&amp;extra=$extra&amp;url={echo urlencode($url)}&amp;md5=$md5&amp;from=iframe'" style="font-size: 12px;float: right; margin-top: -40px; margin-right: 20px;">{lang reprint}</a>
+		<div style="text-align: left; padding: 2px 16px; border-bottom: 3px solid #B4C9E0;"><div style=" width:172px; height:65px; overflow:hidden; float:left; margin-top: -70px; "><a href="$indexname" title="$bbname">{BOARDLOGO}</a></div><div style="float:left; height:65px; padding: 3px; line-height: 20px; display: none; margin-top: -70px; "></div></div>
+		<iframe frameborder="0" scrolling="yes" name="main" src="$url" style="height: 100%; visibility: inherit; width: 100%; z-index: 1;overflow: auto;"></iframe>
+	</div>
+	<img style="display:none;" src="http://pvstat.qihoo.com/dimana.gif?_pdt=discuz&_pg=s100812&_r=$randnum&_dim_k=orgthread&_dim_v={echo urlencode($boardurl);}||{$statsdata}||1" width=1 height=1 />
+	</body></html>
+<!--{else}-->
+	{subtemplate header}
+	<script type="text/javascript" src="{$jspath}qihoo.js?{VERHASH}"></script>
+	<script type="text/javascript" src="http://search.qihoo.com/usearch.html?kw=$keyword&ics=$charset&ocs=$charset&site=discuzall&stype=$stype&sort=$relate&bsize=$length&site2=$site&tpp=$tpp&start=$start"></script>
+	<script type="text/javascript">
+	if(qihoo_num) {
+		var threadslist = qihoothreads(qihoo_perpage);
+		var multipage = multi(qihoo_num, $tpp, $page, "topic.php?topic=$topic&keyword=$keyword&stype=$stype&length=$length&relate=$relate");
+	} else {
+		var threadslist = "<tr><td colspan=\"6\">{lang qihoo_topic_nothreads}</td></tr>";
+		var multipage = "";
+	}
+	</script>
+
+	<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang qihoo_topics} &raquo; $topic</div>
+	
+	<div class="pages_btns"><script type="text/javascript">document.write(multipage);</script></div>
+	<div class="mainbox">
+		<span class="headactions"><a href="http://www.qihoo.com" target="_blank">{lang qihoo_topic_powered_by}</a></span>
+		<h3>{lang qihoo_topics}: $topic</h3>
+		<table summary="{lang qihoo_topics}: $topic" cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+					<td>{lang subject}</td>
+					<td>{lang forum}</td>
+					<td>{lang author}</td>
+					<td>{lang replies}</td>
+					<td>{lang views}</td>
+					<td>{lang lastpost}</td>
+				</tr>
+			</thead>
+			<tbody><script type="text/javascript">document.write(threadslist);</script></tbody>
+		</table>
+	</div>
+	
+	<div class="pages_btns"><script type="text/javascript">document.write(multipage);</script></div>
+	
+	<br /><br /><script type="text/javascript" src="http://pcode.qihoo.com/site/friend/discuz12068.html"></script>
+	{subtemplate footer}
+<!--{/if}-->

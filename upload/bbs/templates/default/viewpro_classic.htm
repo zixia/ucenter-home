@@ -1,0 +1,266 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; <!--{if $discuz_uid == $member['uid']}-->{lang space_profile}<!--{else}-->$member[username]{lang space_sprofile}<!--{/if}--></div>
+
+<script type="text/javascript">var imagemaxwidth = '{IMAGEMAXWIDTH}';</script>
+
+<div id="wrap" class="wrap with_side special s_clear">
+	<div class="main">
+		<div id="profilecontent" class="content">
+			<div class="itemtitle s_clear">
+				<h1>$member[username]<!--{if $member[online]}--> <img src="{IMGDIR}/online_buddy.gif" title="{lang online}" class="online_buddy" /><!--{/if}--></h1>
+				<ul>
+					<li>({lang uid}: $member[uid])</li>
+				</ul>
+			</div>
+			$pluginhooks[profile_baseinfo_top]
+			<div id="baseprofile">
+				<table cellpadding="0" cellpadding="0" class="formtable" style="table-layout:fixed">
+					<!--{if $member['allownickname'] && $member['nickname']}-->
+					<tr>
+						<th>{lang nickname}:</th>
+						<td>$member[nickname]</td>
+					</tr>
+					<!--{/if}-->
+					<tr>
+						<th width="70">{lang gender}:</th>
+						<td>
+							<!--{if $member['gender'] == 1}-->{lang male}<!--{elseif $member['gender'] == 2}-->{lang female}<!--{else}-->{lang secret}<!--{/if}-->
+						</td>
+					</tr>
+
+					<!--{if $member[location]}-->
+					<tr>
+						<th width="70">{lang location}:</th>
+						<td>
+						 $member[location]
+						</td>
+					</tr>
+					<!--{/if}-->
+
+					<!--{if $member[bday] != '00-00'}-->
+					<tr>
+						<th width="70">{lang birthday}:</th>
+						<td>
+						$member[bday]
+						</td>
+					</tr>
+					<!--{/if}-->
+
+					<!--{if $member[bio]}-->
+					<tr>
+						<th>{lang bio}:</th>
+						<td style="word-break:all">$member[bio]</td>
+					</tr>
+					<!--{/if}-->
+				</table>
+				<table cellpadding="0" cellpadding="0" class="formtable">
+					<!--{if $member[site]}-->
+					<tr>
+						<th>{lang homepage}:</th>
+						<td><a href="$member[site]" target="_blank">$member[site]</a></td>
+					</tr>
+					<!--{/if}-->
+					<!--{if $member['showemail'] && $adminid > 0}-->
+					<tr>
+						<th>Email:</th>
+						<td>$member[email]</td>
+					</tr>
+					<!--{/if}-->
+					<!--{if $member['qq']}-->
+					<tr>
+						<th>QQ:</th>
+						<td><a href="http://wpa.qq.com/msgrd?V=1&Uin=$member[qq]&amp;Site=$bbname&amp;Menu=yes" target="_blank"><img src="http://wpa.qq.com/pa?p=1:$member[qq]:4"  border="0" alt="QQ" />$member[qq]</a></td>
+					</tr>
+					<!--{/if}-->
+					<!--{if $member['icq']}-->
+					<tr>
+						<th>ICQ:</th>
+						<td>$member[icq]</td>
+					</tr>
+					<!--{/if}-->
+					<!--{if $member['yahoo']}-->
+					<tr>
+						<th>Yahoo:</th>
+						<td>$member[yahoo]</td>
+					</tr>
+					<!--{/if}-->
+					<!--{if $member['msn']}-->
+					<tr>
+						<th>MSN:</th>
+						<td><!--{if $member['msn'][1]}--><a target="_blank" href="http://settings.messenger.live.com/Conversation/IMMe.aspx?invitee={$member[msn][1]}@apps.messenger.live.com&mkt=zh-cn" title="{lang msn_chat}"><img style="vertical-align:middle" src="http://messenger.services.live.com/users/{$member[msn][1]}@apps.messenger.live.com/presenceimage?mkt=zh-cn" width="16" height="16" /><em id="imme_status_{$member[msn][1]}">{lang msn_chat}</em></a><script type="text/javascript" language="javascript" src="http://messenger.services.live.com/users/{$member[msn][1]}@apps.messenger.live.com/presence/?cb=showimmestatus"></script><!--{/if}--><!--{if $member['msn'][0]}--> $member[msn][0]<!--{/if}--></td>
+					</tr>
+					<!--{/if}-->
+					<!--{if $member['taobao']}-->
+					<tr>
+						<th>{lang taobao}:</th>
+						<td><script type="text/javascript">document.write('<a target="_blank" href="http://amos1.taobao.com/msg.ww?v=2&uid='+encodeURIComponent('$member[taobaoas]')+'&s=2"><img src="http://amos1.taobao.com/online.ww?v=2&uid='+encodeURIComponent('$member[taobaoas]')+'&s=1" alt="{lang taobao}" border="0" /></a>&nbsp;');</script></td>
+					</tr>
+					<!--{/if}-->
+					<!--{if $member['alipay']}-->
+					<tr>
+						<th>{lang alipay}:</th>
+						<td>$member[alipay]</td>
+					</tr>
+					<!--{/if}-->
+					<!--{loop $_DCACHE['fields'] $field}-->
+					<tr>
+						<th>$field[title]:</th>
+						<td>
+							<!--{if $field['selective']}-->
+								$field['choices'][$member['field_'.$field['fieldid']]]
+							<!--{else}-->
+								$member['field_'.$field['fieldid']]
+							<!--{/if}-->
+							&nbsp;
+						</td>
+					</tr>
+					<!--{/loop}-->
+				</table>
+			</div>
+			$pluginhooks[profile_baseinfo_bottom]
+			<hr class="dashline" />
+
+			<h3 class="blocktitle lightlink">{lang usergroup}: <a href="faq.php?action=grouppermission&searchgroupid={$member[groupid]}" target="_blank">{$member[grouptitle]}</a> {eval showstars($member['groupstars']);} <!--{if $member['maingroupexpiry']}--><em>{lang valid_before} $member[maingroupexpiry]</em><!--{/if}--></h3>
+			<!--{if $extgrouplist}-->
+			<p>{lang extgroups}:
+				<!--{loop $extgrouplist $extgroup}-->
+				$extgroup[title]<!--{if $extgroup['expiry']}-->&nbsp;({lang valid_before} $extgroup[expiry])<!--{/if}-->
+				<!--{/loop}-->
+			</p>
+			<!--{/if}-->
+			<!--{if $modforums}--><p>{lang moderatorforums}: $modforums</p><!--{/if}-->
+			<div class="s_clear">
+				<ul class="commonlist right" style="width: 50%">
+					<li>{lang regdate}: $member[regdate]</li>
+					<li>{lang lastvisit}: <!--{if $member['invisible'] && $adminid != 1}-->{lang login_invisible_mode}<!--{else}-->$member[lastvisit]<!--{/if}--></li>
+					<li>{lang lastpost}: $member[lastpost]</li>
+					<!--{if $discuz_uid == $member[uid] || $allowviewip}-->
+					<li>{lang regip}: $member[regip] - $member[regiplocation]</li>
+					<li>{lang lastip}: $member[lastip] - $member[lastiplocation]</li>
+					<!--{/if}-->
+				</ul>
+				<ul class="commonlist">
+					<li>{lang rank}: $member[ranktitle] {eval showstars($member['rankstars']);}</li>
+					<li>{lang readperm}: $member[readaccess]</li>
+					<li>{lang posts}: $member[posts] {lang piece}({lang post_percent} $percent%)</li>
+					<li>{lang posts_per_day}: $postperday {lang piece}</li>
+					<li>{lang digestposts}: $member[digestposts] {lang piece}</li>
+					<!--{if $pvfrequence}--><li>{lang pageviews}: $member[pageviews]</li><!--{/if}-->
+				</ul>
+			</div>
+			<!--{if $oltimespan}--><p>{lang onlinetime}: {lang onlinetime_total} <em>$member[totalol]</em> {lang hours}, {lang onlinetime_thismonth} <em>$member[thismonthol]</em> {lang hours} {eval showstars(ceil(($member['totalol'] + 1) / 50));} ({lang onlinetime_upgrade})</p><!--{/if}-->
+
+			<hr class="dashline" />
+
+			<!--{if $member['medals']}-->
+				<h3 class="blocktitle lightlink">{lang medals}</h3>
+				<!--{loop $member['medals'] $medal}-->
+				<img src="images/common/$medal[image]" border="0" alt="$medal[name]" title="$medal[name]" /> &nbsp;
+				<!--{/loop}-->
+				<hr class="dashline" />
+			<!--{/if}-->
+
+			<h3 class="blocktitle lightlink">{lang credits}: $member[credits]</h3>
+			<p>
+				{eval $sp = '';}
+				<!--{loop $extcredits $id $credit}-->
+					$sp{$credit[img]}$credit[title]: {$member['extcredits'.$id]} $credit[unit]
+					{eval $sp = ',&nbsp;';}
+				<!--{/loop}-->
+			</p>
+			<!--{if $tradeopen}-->
+				<hr class="dashline" />
+
+				<h3 class="blocktitle lightlink">{lang eccredit} <a href="eccredit.php?uid=$member[uid]" style="font-size: 12px; color: #09C;">({lang eccredit_list})</a></h3>
+				<p>
+					{lang trade_buyer_rate}: $member[sellercredit] <a href="eccredit.php?uid=$member[uid]" target="_blank"><img src="images/rank/seller/$member['sellerrank'].gif" border="0" class="absmiddle"></a>
+					{lang trade_seller_rate}: $member[buyercredit] <a href="eccredit.php?uid=$member[uid]" target="_blank"><img src="images/rank/buyer/$member['buyerrank'].gif" border="0" class="absmiddle"></a>
+				</p>
+			<!--{/if}-->
+			$pluginhooks[profile_extrainfo]
+
+			<!--{if $my_status}-->
+				<style>
+					.mynarrow { margin: 5px -10px 5px 10px; padding-top: 8px; width: 200px; border-top: 1px dashed #ccc; }
+					.mynarrow h3.lightlink a { text-decoration: none; }
+					.with_side .side { width: 220px; }
+					.with_side .main { margin-left:-220px; }
+					.with_side .content { margin-left:220px; }
+				</style>
+				<!--{loop $my_list[wide] $value}-->
+					<hr class="dashline" />
+					<h3 class="blocktitle lightlink"><a href="$value[appurl]&from=space">$value[appname]</a></h3>
+					<p>
+					<!--{eval eval($value[myml]);}-->
+					</p>
+				<!--{/loop}-->
+			<!--{/if}-->
+		</div>
+	</div>
+	<div class="side">
+		<div class="profile_side">
+			<!--{if $bannedmessages & 2 && ($member['groupid'] == 4 || $member['groupid'] == 5)}-->
+				<div class="avatar">{lang member_avatar_banned}</div>
+			<!--{else}-->
+				<div class="avatar">
+					{echo discuz_uc_avatar($member[uid])}
+				</div>
+			<!--{/if}-->
+			<ul id="profile_act">
+				$pluginhooks[profile_side_top]
+				<li class="pm"><a href="pm.php?action=new&amp;uid=$member[uid]" id="sendpm" prompt="sendpm" onclick="showWindow('sendpm', this.href);return false;">{lang send_pm}</a></li>
+				<li class="buddy"><a href="my.php?item=buddylist&amp;newbuddyid=$member[uid]&amp;buddysubmit=yes" id="addbuddy" prompt="addbuddy" onclick="ajaxmenu(this, 3000);doane(event);">{lang add_to_buddylist}</a></li>
+				<!--{if $discuz_uid && $magicstatus}--><li class="magic"><a href="magic.php?action=index&amp;username=$member[usernameenc]" target="_blank">{lang magics_use}</a></li><!--{/if}-->
+				<!--{if $allowviewuserthread}-->
+					<li class="searchthread"><a href="my.php?item=threads&amp;uid=$member[uid]">{lang user_threads}</a></li>
+					<li class="searchpost"><a href="my.php?item=posts&amp;uid=$member[uid]">{lang user_posts}</a></li>
+				<!--{else}-->
+					<li class="searchpost"><a href="search.php?srchuid=$member[uid]&amp;srchfid=all&amp;srchfrom=0&amp;searchsubmit=yes">{lang search_posts}</a></li>
+				<!--{/if}-->
+				<!--{if $ucappopen['UCHOME']}-->
+				<li class="space"><a href="{$uchomeurl}/space.php?uid=$member[uid]" target="_blank">{lang user_space}</a></li>
+				<!--{elseif $ucappopen['XSPACE']}-->
+				<li class="space"><a href="{$xspaceurl}/?uid-$member[uid]" target="_blank">{lang user_space}</a></li>
+				<!--{/if}-->
+			</ul>
+			<!--{if $discuz_uid && $magicstatus && $usemagic['user']}-->
+				<ul>
+					<!--{loop $usemagic['user'] $id $magic}-->
+						<a href="magic.php?action=mybox&operation=use&amp;type=1&amp;pid=$post[pid]&magicid=$id" onclick="showWindow('magics', this.href);doane(event);"><img src="images/magics/$magic[pic]" title="{lang magics_to_user}"></a>
+					<!--{/loop}-->
+				</ul>
+			<!--{/if}-->
+			<!--{if $allowbanuser || $allowedituser || $member['adminid'] > 0 && $modworkstatus}-->
+			<ul>
+				<!--{if $member['adminid'] > 0 && $modworkstatus}--><li><a href="stats.php?type=modworks&amp;uid=$member[uid]"><span>{lang moderations}</span></a></li><!--{/if}-->
+				<!--{if $allowbanuser || $allowedituser}-->
+					<li>{lang admin_member}</li>
+					<li>
+						<!--{if $allowbanuser}--><a href="{if $adminid==1}admincp.php?action=members&operation=ban&username=$member[usernameenc]&frames=yes{else}modcp.php?action=members&amp;op=ban&amp;uid=$member[uid]{/if}" target="_blank"><span>{lang ban_member}</span></a>&nbsp;<!--{/if}-->
+						<!--{if $allowedituser}--><a href="{if $adminid == 1}admincp.php?action=members&amp;username=$member[usernameenc]&amp;submit=yes&frames=yes{else}modcp.php?action=members&amp;op=edit&amp;uid=$member[uid]{/if}" target="_blank"><span>{lang edit}</span></a>&nbsp;<!--{/if}-->
+						<a href="modcp.php?action=threads&op=posts&do=search&searchsubmit=1&users=$member[usernameenc]" target="_blank">{lang posts}</a>
+					</li>
+				<!--{/if}-->
+			</ul>
+			<!--{/if}-->
+			<!--{if $my_status}-->
+				<!--{if $my_list[guide]}-->
+					<ul>
+					<!--{loop $my_list[guide] $value}-->
+						<li style="background-image: url(http://appicon.manyou.com/icons/$value[appid])"><!--{eval eval($value[profilelink]);}--></li>
+					<!--{/loop}-->
+					</ul>
+				<!--{/if}-->
+
+				<!--{loop $my_list[narrow] $value}-->
+					<div class="mynarrow">
+					<h3 class="blocktitle lightlink"><a href="$value[appurl]&from=space">$value[appname]</a></h3>
+					<!--{eval eval($value[myml]);}-->
+					</div>
+				<!--{/loop}-->
+			<!--{/if}-->
+		</div>
+		$pluginhooks[profile_side_bottom]
+	</div>
+
+{subtemplate footer}

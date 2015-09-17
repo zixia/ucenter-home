@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+ <item id="Title"><![CDATA[Discuz! Style]]></item>
+ <item id="Version"><![CDATA[7.2]]></item>
+ <item id="Time"><![CDATA[]]></item>
+ <item id="From"><![CDATA[Discuz! Board]]></item>
+ <item id="Data">
+ <item id="name"><![CDATA[jeans]]></item>
+ <item id="templateid"><![CDATA[64]]></item>
+ <item id="tplname"><![CDATA[jeans]]></item>
+ <item id="directory"><![CDATA[./templates/jeans]]></item>
+ <item id="copyright"><![CDATA[]]></item>
+ <item id="style">
+ <item id="tabletext"><![CDATA[#444]]></item>
+ <item id="smfontsize"><![CDATA[0.83em]]></item>
+ <item id="fontsize"><![CDATA[12px]]></item>
+ <item id="smfont"><![CDATA[Verdana,Helvetica,Arial,sans-serif]]></item>
+ <item id="font"><![CDATA[Verdana,Helvetica,Arial,sans-serif]]></item>
+ <item id="footertext"><![CDATA[]]></item>
+ <item id="headertext"><![CDATA[#5D4434]]></item>
+ <item id="headerbordercolor"><![CDATA[]]></item>
+ <item id="sidebgcolor"><![CDATA[]]></item>
+ <item id="headerborder"><![CDATA[0]]></item>
+ <item id="bgcolor"><![CDATA[ wraptop.gif repeat-x 0 99px]]></item>
+ <item id="stypeid"><![CDATA[1]]></item>
+ <item id="headerbgcolor"><![CDATA[#D6B7A3 header.gif repeat-x 0 0]]></item>
+ <item id="styleimgdir"><![CDATA[templates/jeans/images]]></item>
+ <item id="boardimg"><![CDATA[logo.gif]]></item>
+ <item id="imgdir"><![CDATA[]]></item>
+ <item id="available"><![CDATA[]]></item>
+ <item id="midtext"><![CDATA[#666]]></item>
+ <item id="lighttext"><![CDATA[#8E8E8E]]></item>
+ <item id="link"><![CDATA[#444]]></item>
+ <item id="highlightlink"><![CDATA[#37577C]]></item>
+ <item id="wrapwidth"><![CDATA[960px]]></item>
+ <item id="wrapbg"><![CDATA[#DAD6C5]]></item>
+ <item id="wrapborder"><![CDATA[0]]></item>
+ <item id="wrapbordercolor"><![CDATA[]]></item>
+ <item id="msgfontsize"><![CDATA[14px]]></item>
+ <item id="msgbigsize"><![CDATA[16px]]></item>
+ <item id="contentwidth"><![CDATA[]]></item>
+ <item id="contentseparate"><![CDATA[]]></item>
+ <item id="menuborder"><![CDATA[]]></item>
+ <item id="menubgcolor"><![CDATA[#957353]]></item>
+ <item id="menutext"><![CDATA[#FFF]]></item>
+ <item id="menuhovertext"><![CDATA[#D0D5D8]]></item>
+ <item id="menuhover"><![CDATA[#55616A]]></item>
+ <item id="inputborder"><![CDATA[#BCBAAA]]></item>
+ <item id="inputborderdarkcolor"><![CDATA[#BCBAAA]]></item>
+ <item id="inputbg"><![CDATA[#FFF]]></item>
+ <item id="dropmenuborder"><![CDATA[#BCBAAA]]></item>
+ <item id="dropmenubgcolor"><![CDATA[#BCBAAA title.gif]]></item>
+ <item id="floatbgcolor"><![CDATA[#DAD6C5 content.jpg repeat-y 50% 50%]]></item>
+ <item id="floatmaskbgcolor"><![CDATA[#575249]]></item>
+ <item id="commonborder"><![CDATA[#AFAD94]]></item>
+ <item id="commonbg"><![CDATA[#DAD6C5]]></item>
+ <item id="specialborder"><![CDATA[#AFAD94]]></item>
+ <item id="specialbg"><![CDATA[]]></item>
+ <item id="interleavecolor"><![CDATA[#DAD6C5]]></item>
+ <item id="noticetext"><![CDATA[#363430]]></item>
+ </item>
+ <item id="version"><![CDATA[7.2]]></item>
+ </item>
+</root>

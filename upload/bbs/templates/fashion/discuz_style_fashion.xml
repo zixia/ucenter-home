@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+ <item id="Title"><![CDATA[Discuz! Style]]></item>
+ <item id="Version"><![CDATA[7.2]]></item>
+ <item id="Time"><![CDATA[]]></item>
+ <item id="From"><![CDATA[Discuz! Board]]></item>
+ <item id="Data">
+ <item id="name"><![CDATA[fashion]]></item>
+ <item id="templateid"><![CDATA[61]]></item>
+ <item id="tplname"><![CDATA[Fashion]]></item>
+ <item id="directory"><![CDATA[./templates/fashion]]></item>
+ <item id="copyright"><![CDATA[]]></item>
+ <item id="style">
+ <item id="commonborder"><![CDATA[#FFD8DA]]></item>
+ <item id="commonbg"><![CDATA[#FFD8DA]]></item>
+ <item id="floatmaskbgcolor"><![CDATA[#968066]]></item>
+ <item id="floatbgcolor"><![CDATA[#F7EEE9]]></item>
+ <item id="dropmenubgcolor"><![CDATA[#621122]]></item>
+ <item id="dropmenuborder"><![CDATA[#841824]]></item>
+ <item id="inputbg"><![CDATA[#FFF]]></item>
+ <item id="inputborderdarkcolor"><![CDATA[#968066]]></item>
+ <item id="menuhovertext"><![CDATA[#FFF]]></item>
+ <item id="menutext"><![CDATA[#FFF]]></item>
+ <item id="inputborder"><![CDATA[#DAB58F]]></item>
+ <item id="menuhover"><![CDATA[#3A000F]]></item>
+ <item id="menubgcolor"><![CDATA[]]></item>
+ <item id="contentseparate"><![CDATA[#F1E4D6]]></item>
+ <item id="contentwidth"><![CDATA[]]></item>
+ <item id="menuborder"><![CDATA[]]></item>
+ <item id="msgfontsize"><![CDATA[14px]]></item>
+ <item id="msgbigsize"><![CDATA[16px]]></item>
+ <item id="wrapbordercolor"><![CDATA[]]></item>
+ <item id="wrapborder"><![CDATA[0]]></item>
+ <item id="wrapwidth"><![CDATA[960px]]></item>
+ <item id="wrapbg"><![CDATA[#FFF]]></item>
+ <item id="lighttext"><![CDATA[#8E8E8E]]></item>
+ <item id="highlightlink"><![CDATA[#FF8FCC]]></item>
+ <item id="link"><![CDATA[#444]]></item>
+ <item id="midtext"><![CDATA[#666]]></item>
+ <item id="smfontsize"><![CDATA[0.83em]]></item>
+ <item id="tabletext"><![CDATA[#444]]></item>
+ <item id="smfont"><![CDATA[Verdana,Helvetica,Arial,sans-serif]]></item>
+ <item id="fontsize"><![CDATA[12px]]></item>
+ <item id="font"><![CDATA[Verdana,Helvetica,Arial,sans-serif]]></item>
+ <item id="footertext"><![CDATA[#FFC9CC]]></item>
+ <item id="headertext"><![CDATA[#CCC]]></item>
+ <item id="headerbordercolor"><![CDATA[#7F1724]]></item>
+ <item id="headerborder"><![CDATA[0px]]></item>
+ <item id="sidebgcolor"><![CDATA[#FFF side.gif repeat-y 100% 0]]></item>
+ <item id="bgcolor"><![CDATA[ header.jpg no-repeat 0 0]]></item>
+ <item id="headerbgcolor"><![CDATA[]]></item>
+ <item id="styleimgdir"><![CDATA[templates/fashion/images]]></item>
+ <item id="stypeid"><![CDATA[1]]></item>
+ <item id="imgdir"><![CDATA[]]></item>
+ <item id="boardimg"><![CDATA[logo.gif]]></item>
+ <item id="available"><![CDATA[]]></item>
+ <item id="specialborder"><![CDATA[#DAB58F]]></item>
+ <item id="noticetext"><![CDATA[#FF0064]]></item>
+ <item id="interleavecolor"><![CDATA[#F7EEE9]]></item>
+ <item id="specialbg"><![CDATA[#F7EEE9]]></item>
+ </item>
+ <item id="version"><![CDATA[7.2]]></item>
+ </item>
+</root>

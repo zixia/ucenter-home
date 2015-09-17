@@ -1,0 +1,88 @@
+{template header}
+<div class="itemtitle s_clear">
+	<h1>{lang trade_rate}</h1>
+	<ul>
+	<!--{if in_array($filter, array('thisweek', 'thismonth', 'halfyear', 'before')) && in_array($from, array('buyer', 'seller'))}-->
+		<li class="current"><a href="javascript:;" hidefocus="true"><span>
+		<!--{if $filter == 'thisweek'}-->{lang eccredit_1week}<!--{elseif $filter == 'thismonth'}-->{lang eccredit_1month}<!--{elseif $filter == 'halfyear'}-->{lang eccredit_6month}<!--{else}-->{lang eccredit_6monthbefore}<!--{/if}--> {lang from}<!--{if $from == 'buyer'}-->{lang trade_buyer}<!--{else}-->{lang trade_seller}<!--{/if}-->{lang eccredit_s}<!--{if $level == 'good'}-->{lang eccredit_good}<!--{elseif $level == 'soso'}-->{lang eccredit_soso}<!--{elseif $level == 'bad'}-->{lang eccredit_bad}<!--{else}-->{lang eccredit1}<!--{/if}-->
+		</span></a></li>
+	<!--{/if}-->
+	<!--{if !$from}-->
+		<li class="current"><a href="javascript:;" hidefocus="true"><span>{lang eccredit_list_all}</span></a></li>
+	<!--{else}-->
+		<li><a href="eccredit.php?action=list&uid=$uid" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);"><span>{lang eccredit_list_all}</span></a></li>
+	<!--{/if}-->
+	<!--{if $from == 'buyer' && !$filter}-->
+		<li class="current"><a href="javascript:;" hidefocus="true"><span>{lang eccredit_list_buyer}</span></a></li>
+	<!--{else}-->
+		<li><a href="eccredit.php?action=list&uid=$uid&from=buyer" hidefocus="true" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);"><span>{lang eccredit_list_buyer}</span></a></li>
+	<!--{/if}-->
+	<!--{if $from == 'seller' && !$filter}-->
+		<li class="current"><a href="javascript:;" hidefocus="true"><span>{lang eccredit_list_seller}</span></a></li>
+	<!--{else}-->
+		<li><a href="eccredit.php?action=list&uid=$uid&from=seller" hidefocus="true" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);"><span>{lang eccredit_list_seller}</span></a></li>
+	<!--{/if}-->
+	<!--{if $from == 'myself'}-->
+		<li class="current"><a href="javascript:;" hidefocus="true"><span>{lang eccredit_list_other}</span></a></li>
+	<!--{else}-->
+		<li><a href="eccredit.php?action=list&uid=$uid&from=myself" hidefocus="true" onclick="ajaxget(this.href, 'ajaxrate', 'specialposts');doane(event);"><span>{lang eccredit_list_other}</span></a></li>
+	<!--{/if}-->
+	</ul>
+</div>
+<div class="datalist">
+	<table cellspacing="0" cellpadding="5" class="datatable">
+		<thead class="colplural">
+			<tr>
+				<td>&nbsp;</td>
+				<td>{lang eccredit_content}</td>
+				<td>{lang eccredit_goodsname_seller}</td>
+				<td>{lang eccredit_tradeprice}</td>
+			</tr>
+		</thead>
+		<tbody>
+		<!--{if $comments}-->
+			<!--{loop $comments $comment}-->
+				<tr>
+					<td>
+						<!--{if $comment[score] == 1}-->
+							<img src="images/rank/good.gif" width="14" height="16" /> <span style="color:red">{lang eccredit_good}</span>
+						<!--{elseif $comment[score] == 0}-->
+							<img src="images/rank/soso.gif" width="14" height="16" /> <span style="color:green">{lang eccredit_soso}</span>
+						<!--{else}-->
+							<img src="images/rank/bad.gif" width="14" height="16" /> {lang eccredit_bad}
+						<!--{/if}-->
+					</td>
+					<td>
+						$comment[dateline]<br />$comment[message]<br />
+						<!--{if $comment[explanation]}-->
+							{lang eccredit_explanation}: $comment[explanation]
+						<!--{elseif $discuz_uid && $discuz_uid == $comment[rateeid] && $comment[dbdateline] >= $timestamp - 30 * 86400}-->
+							<span id="ecce_$comment[id]"><a href="eccredit.php?action=explain&id=$comment[id]&ajaxmenuid=ajax_$comment[id]_explain_menu" id="ajax_$comment[id]_explain" onclick="ajaxmenu(this, 0, 0);doane(event);">[ {lang eccredit_needexplanation} ]</a> {lang eccredit_explanationexpiration}</span>
+						<!--{/if}-->
+					</td>
+					<td>
+						<a href="redirect.php?goto=findpost&special=trade&pid=$comment[pid]" target="_blank">$comment[subject]</a><br />
+						<!--{if $from == 'myself'}-->
+							<!--{if $comment[type]}-->{lang trade_buyer}:<!--{else}-->{lang trade_seller}:<!--{/if}--><a href="space.php?uid=$comment[rateeid]" target="_blank">$comment[ratee]</a>
+						<!--{else}-->
+							<!--{if $comment[type]}-->{lang trade_seller}:<!--{else}-->{lang trade_buyer}:<!--{/if}--><a href="space.php?uid=$comment[raterid]" target="_blank">$comment[rater]</a>
+						<!--{/if}-->
+					</td>
+					<td>
+						<!--{if $comment[price] > 0}-->
+							$comment[price] {lang trade_units}&nbsp;&nbsp;
+						<!--{/if}-->
+						<!--{if $creditstransextra[5] != -1 && $comment['credit'] > 0}-->
+							{$extcredits[$creditstransextra[5]][title]} $comment[credit] {$extcredits[$creditstransextra[5]][unit]}
+						<!--{/if}-->
+					</td>
+				</tr>
+			<!--{/loop}-->
+		<!--{else}-->
+			<tr><td colspan="4">{lang eccredit_nofound}</td></tr>
+		<!--{/if}-->
+		</tbody>
+	</table>
+	<div class="pages_btns">$multipage</div>
+</div>
+{template footer}

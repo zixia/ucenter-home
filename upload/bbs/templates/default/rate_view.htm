@@ -1,0 +1,46 @@
+{template header}
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+
+<div class="fcontent">
+	<h3 class="float_ctrl">
+		<em id="return_$handlekey">{lang rate_view}</em>
+		<span>
+			<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('$handlekey')" title="{lang close}">{lang close}</a><!--{/if}-->
+		</span>
+	</h3>
+	<div class="floatwrap">
+		<table class="list" cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+					<td>{lang credits}</td>
+					<td class="user">{lang username}</td>
+					<td class="time">{lang time}</td>
+					<td>{lang reason}</td>
+				</tr>
+			</thead>
+			<!--{loop $loglist $log}-->
+			<tr>
+				<td>{$extcredits[$log[extcredits]][title]} $log[score] {$extcredits[$log[extcredits]][unit]}</td>
+				<td class="user"><a href="space.php?uid=$log[uid]">$log[username]</a></td>
+				<td class="time">$log[dateline]</td>
+				<td>$log[reason]</td>
+			</tr>
+			<!--{/loop}-->
+		</table>
+	</div>
+	<div class="postbox">{lang total}:
+	<!--{loop $logcount $id $count}-->
+	&nbsp;{$extcredits[$id][title]} <!--{if $count>0}-->+<!--{/if}-->$count {$extcredits[$id][unit]} &nbsp;
+	<!--{/loop}-->
+	</div>
+</div>
+
+<!--{if empty($infloat)}-->
+	</div></div>
+</div>
+<!--{/if}-->
+{template footer}

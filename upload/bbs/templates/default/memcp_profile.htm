@@ -1,0 +1,575 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang memcp_profile}</div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+			<script type="text/javascript" src="{$jspath}calendar.js?{VERHASH}"></script>
+			<script type="text/javascript" src="{$jspath}bbcode.js?{VERHASH}"></script>
+			<script type="text/javascript">
+			var charset = '$charset';
+			var maxsigsize = parseInt('$maxsigsize');
+			var maxbiosize = parseInt('$maxbiosize');
+			var allowhtml = 0;
+			var forumallowhtml = 0;
+			var allowsmilies = 0;
+			var allowbbcode = 0;
+			var allowimgcode = 0;
+			var allowbiobbcode = parseInt('$allowbiobbcode');
+			var allowbioimgcode = parseInt('$allowbioimgcode');
+			var allowsigbbcode = parseInt('$allowsigbbcode');
+			var allowsigimgcode = parseInt('$allowsigimgcode');
+
+			function parseurl(str, mode) {
+				str = str.replace(/([^>=\]"'\/]|^)((((https?|ftp):\/\/)|www\.)([\w\-]+\.)*[\w\-\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&~`@':+!]*)+\.(jpg|gif|png|bmp))/ig, mode == 'html' ? '$1<img src="$2" border="0">' : '$1[img]$2[/img]');
+				str = str.replace(/([^>=\]"'\/@]|^)((((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|ed2k):\/\/)|www\.)([\w\-]+\.)*[:\.@\-\w\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&~`@':+!#]*)*)/ig, mode == 'html' ? '$1<a href="$2" target="_blank">$2</a>' : '$1[url]$2[/url]');
+				str = str.replace(/([^\w>=\]:"'\.\/]|^)(([\-\.\w]+@[\.\-\w]+(\.\w+)+))/ig, mode == 'html' ? '$1<a href="mailto:$2">$2</a>' : '$1[email]$2[/email]');
+				return str;
+			}
+
+			function validate(theform) {
+				{if $typeid == 2}
+					{if $maxsigsize}
+					if(mb_strlen(theform.signaturenew.value) > maxsigsize) {
+						alert('{lang memcp_profile_sig_toolong}');
+						return false;
+					}
+					{/if}
+					if(mb_strlen(theform.bionew.value) > maxbiosize) {
+						alert('{lang memcp_profile_bio_toolong}');
+						return false;
+					}
+					{if !$member[signature]}$('signaturemessage').click();{/if}
+					{if !$member[bio]}$('biomessage').click();{/if}
+				{/if}
+				return true;
+			}
+
+			function updateavatar(updatenewbietask) {
+				$('avatar').src='{echo discuz_uc_avatar($discuz_uid, 'middle', TRUE)}{if $avatarmethod}?{else}&{/if}random=1'+Math.random();
+				<!--{if $prompts['newbietask'] && $newbietaskid && $newbietasks[$newbietaskid]['scriptname'] == 'uploadavatar'}-->
+				if(isUndefined(updatenewbietask)) {
+					ajaxget('task.php?action=updatenewbietask&scriptname=uploadavatar', 'avatarctrl');
+				}
+				<!--{/if}-->
+				if(document.body.stat) document.body.stat('avatar_update_succeed', 'memcp.php');
+			}
+
+			function updatetextarea(id, msg) {
+				$(id).updated = 0;
+				$(id).value = msg;
+				$(id).style.color = '{LIGHTTEXT}';
+				$(id).onclick = function(){
+					this.style.color = '{TABLETEXT}';
+					this.value = '';
+					$(id).onclick = null;
+				}
+			}
+			</script>
+			<form name="reg" method="post" action="memcp.php?action=profile&typeid=$typeid" onSubmit="return validate(this)" style="zoom:1">
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<!--{if $typeid == 1}-->
+				<h1>{lang memcp_profile_security}</h1>
+				<div class="channelinfo">{lang old_password_comment}</div>
+				<table summary="{lang memcp_profile}" cellspacing="0" cellpadding="0" class="formtable">
+					<!--{if $secqaacheck || $seccodecheck}-->
+						<tr>
+							<th><label for="oldpassword">{lang memcp_profile_security_check}</label></th>
+							<td>{subtemplate seccheck}</td>
+							<td></td>
+						</tr>
+					<!--{/if}-->
+					<tr>
+						<th><label for="oldpassword">{lang old_password}</label></th>
+						<td><input type="password" name="oldpassword" id="oldpassword" size="25" class="txt" /></td>
+						<td>{lang required}</td>
+					</tr>
+
+					<tr>
+						<th><label for="newpassword">{lang new_password}</label></th>
+						<td><input type="password" name="newpassword" id="newpassword" size="25" class="txt" /></td>
+						<td>{lang memcp_profile_passwd_comment}</td>
+					</tr>
+
+					<tr>
+						<th><label for="newpassword2">{lang new_password_confirm}</label></th>
+						<td><input type="password" name="newpassword2" id="newpassword2" size="25" class="txt" /></td>
+						<td></td>
+					</tr>
+
+					<tr>
+						<th><label for="emailnew">{lang email}</label></th>
+						<td><input type="text" name="emailnew" id="emailnew" size="25" value="$member[email]" class="txt" /></td>
+						<td>
+							<!--{if $regverify == 1 && (($grouptype == 'member' && $adminid == 0) && $groupid == 8)}--> {lang memcp_profile_email_comment}<!--{/if}-->
+						</td>
+					</tr>
+
+					<tr>
+						<th><label for="questionidnew">{lang security_question}</label></th>
+						<td><select name="questionidnew" id="questionidnew">
+						<!--{if $discuz_secques}--><option value="">{lang memcp_profile_security_keep}</option><!--{/if}-->
+						<option value="0">{lang security_question_0}</option>
+						<option value="1">{lang security_question_1}</option>
+						<option value="2">{lang security_question_2}</option>
+						<option value="3">{lang security_question_3}</option>
+						<option value="4">{lang security_question_4}</option>
+						<option value="5">{lang security_question_5}</option>
+						<option value="6">{lang security_question_6}</option>
+						<option value="7">{lang security_question_7}</option>
+						</select>
+						</td>
+						<td>{lang memcp_profile_security_comment}</td>
+					</tr>
+
+					<tr>
+						<th><label for="answernew">{lang security_answer}</label></th>
+						<td><input type="text" name="answernew" id="answernew" size="25" class="txt" /></td>
+						<td>{lang memcp_profile_security_answer_comment}</td>
+					</tr>
+
+			<!--{elseif $typeid == 2}-->
+				<link href="forumdata/cache/style_{STYLEID}_seditor.css?{VERHASH}" rel="stylesheet" type="text/css" />
+				<h1>{lang memcp_profile}</h1>
+				<table summary="{lang memcp_profile}" cellspacing="0" cellpadding="0" class="formtable">
+					<!--{if $secqaacheck || $seccodecheck}-->
+						<tr>
+							<th><label for="oldpassword">{lang memcp_profile_security_check}</label></th>
+							<td>{template seccheck}</td>
+						</tr>
+					<!--{/if}-->
+
+					<!--{if $allownickname}-->
+						<tr>
+							<th><label for="nicknamenew">{lang nickname}</label></th>
+							<td><input type="text" name="nicknamenew" id="nicknamenew" size="25" value="$member[nickname]" class="txt" /></td>
+						</tr>
+					<!--{/if}-->
+
+					<!--{if $allowcstatus}-->
+						<tr>
+							<th><label for="cstatusnew">{lang custom_status}</label></th>
+							<td><input type="text" name="cstatusnew" id="cstatusnew" size="25" value="$member[customstatus]" class="txt" /></td>
+						</tr>
+					<!--{/if}-->
+
+					<!--{if $maxsigsize}-->
+						<tr>
+							<th valign="top"><label for="signaturemessage">{lang signature}<br /><a href="javascript:;" onclick="allowbbcode = allowsigbbcode;allowimgcode = allowsigimgcode;$('signaturepreview').innerHTML = bbcode2html($('signaturemessage').value)">{lang memcp_profile_preview}</a></label></th>
+							<td valign="top">
+								<div id="signaturepreview"></div>
+								<!--{if $allowsigbbcode}-->
+									<div class="editor_tb" style="width: 274px">
+										<div>
+										<a href="javascript:;" title="{lang e_bold}" class="tb_bold" onclick="seditor_insertunit('signature', '[b]', '[/b]')">B</a>
+										<!--{if $allowsigimgcode}--><a href="javascript:;" title="{lang e_image}" class="tb_img" onclick="seditor_insertunit('signature', '[img]', '[/img]')">Image</a><!--{/if}-->
+										<a href="javascript:;" title="{lang e_url}" class="tb_link" onclick="seditor_insertunit('signature', '[url]', '[/url]')">Link</a>
+										<!--{if $member[msn][1]}-->
+											<a href="javascript:;" title="{lang e_imme}" class="tb_imme" onclick="seditor_insertunit('signature', '[imme]')">Imme</a>
+										<!--{/if}-->
+										</div>
+									</div>
+								<!--{/if}-->
+								<textarea rows="8" cols="30" id="signaturemessage" name="signaturenew" class="txtarea" {if $allowsigbbcode}style="margin-top; -1px; border-top: none;"{/if}>$member[signature]</textarea>
+								<span class="left">
+									{faq discuzcode} <!--{if $allowsigbbcode}-->{lang enabled}<!--{else}-->{lang disabled}<!--{/if}--><br />
+									{lang post_imgcode} <!--{if $allowsigimgcode}-->{lang enabled}<!--{else}-->{lang disabled}<!--{/if}-->
+								</span>
+							</td>
+						</tr>
+					<!--{/if}-->
+
+					<tr>
+						<th valign="top"><label for="biomessage">{lang bio}<br /><a href="javascript:;" onclick="allowbbcode = allowbiobbcode;allowimgcode = allowbioimgcode;$('biopreview').innerHTML = bbcode2html($('biomessage').value)">{lang memcp_profile_preview}</a></label></th>
+						<td>
+							<div id="biopreview"></div>
+							<!--{if $allowsigbbcode}-->
+								<div class="editor_tb" style="width: 274px">
+									<div>
+									<a href="javascript:;" title="{lang e_bold}" class="tb_bold" onclick="seditor_insertunit('bio', '[b]', '[/b]')">B</a>
+									<!--{if $allowsigimgcode}--><a href="javascript:;" title="{lang e_image}" class="tb_img" onclick="seditor_insertunit('bio', '[img]', '[/img]')">Image</a><!--{/if}-->
+									<a href="javascript:;" title="{lang e_url}" class="tb_link" onclick="seditor_insertunit('bio', '[url]', '[/url]')">Link</a>
+									<!--{if $member[msn][1]}-->
+										<a href="javascript:;" title="{lang e_imme}" class="tb_imme" onclick="seditor_insertunit('bio', '[imme]')">Imme</a>
+									<!--{/if}-->
+									</div>
+								</div>
+							<!--{/if}-->
+							<textarea rows="8" cols="30" id="biomessage" name="bionew" class="txtarea" {if $allowsigbbcode}style="margin-top; -1px; border-top: none;"{/if}>$member[bio]</textarea>
+							<span class="left">
+								{faq discuzcode} <!--{if $allowbiobbcode}-->{lang enabled}<!--{else}-->{lang disabled}<!--{/if}--><br />
+								{lang post_imgcode} <!--{if $allowbioimgcode}-->{lang enabled}<!--{else}-->{lang disabled}<!--{/if}-->
+							</span>
+						</td>
+					</tr>
+
+					<tr>
+						<th>{lang gender}</th>
+						<td>
+							<select name="gendernew">
+								<option value="1" $gendercheck[1]>{lang male}</option>
+								<option value="2" $gendercheck[2]>{lang female}</option>
+								<option value="0" $gendercheck[0]>{lang secret}</option>
+							</select>
+						</td>
+					</tr>
+
+					<tr>
+						<th><label for="bdaynew">{lang birthday}</label></th>
+						<td><input type="text" name="bdaynew" id="bdaynew" size="25" onclick="showcalendar(event, this)" onfocus="showcalendar(event, this);if(this.value=='0000-00-00')this.value=''" value="$member[bday]" class="txt" prompt="modifyprofile_birthday" /></td>
+					</tr>
+
+					<tr>
+						<th><label for="locationnew">{lang location}</label></th>
+						<td><input type="text" name="locationnew" id="locationnew" size="25" value="$member[location]" class="txt" /></td>
+					</tr>
+
+					<!--{if !empty($_DCACHE['fields_required']) || !empty($_DCACHE['fields_optional'])}-->
+						<!--{if $_DCACHE['fields_required']}-->
+							<!--{loop $_DCACHE['fields_required'] $field}-->
+								<tr>
+									<th>$field[title]</th>
+									<td>
+									<!--{if $field['selective']}-->
+										<select name="field_$field[fieldid]new" <!--{if $member['field_'.$field[fieldid]] && $field['unchangeable']}-->disabled<!--{/if}-->>
+										<option value="">{lang please_select}</option>
+										<!--{loop $field['choices'] $index $choice}-->
+											<option value="$index" <!--{if $index == $member['field_'.$field[fieldid]]}-->selected="selected"<!--{/if}-->>$choice</option>
+										<!--{/loop}-->
+										</select>
+									<!--{else}-->
+										<input type="text" name="field_$field[fieldid]new" size="25" value="$member['field_'.$field[fieldid]]" <!--{if $member['field_'.$field[fieldid]] && $field['unchangeable']}-->disabled<!--{/if}--> class="txt" />
+									<!--{/if}-->
+									<!--{if $field['description']}-->&nbsp;&nbsp;$field[description]<!--{/if}-->
+									<!--{if $field['unchangeable']}-->&nbsp;&nbsp;{lang memcp_profile_unchangeable_comment}<!--{/if}-->
+									</td>
+								</tr>
+							<!--{/loop}-->
+						<!--{/if}-->
+						<!--{if $_DCACHE['fields_optional']}-->
+							<!--{loop $_DCACHE['fields_optional'] $field}-->
+								<tr>
+									<th><label for="field_$field[fieldid]new">$field[title]</label></th>
+									<td>
+									<!--{if $field['selective']}-->
+										<select name="field_$field[fieldid]new" id="field_$field[fieldid]new" <!--{if $member['field_'.$field[fieldid]] && $field['unchangeable']}-->disabled<!--{/if}-->>
+										<option value="">{lang please_select}</option>
+										<!--{loop $field['choices'] $index $choice}-->
+											<option value="$index" <!--{if $index == $member['field_'.$field[fieldid]]}-->selected="selected"<!--{/if}-->>$choice</option>
+										<!--{/loop}-->
+										</select>
+									<!--{else}-->
+										<input type="text" name="field_$field[fieldid]new" size="25" value="$member['field_'.$field[fieldid]]" <!--{if $member['field_'.$field[fieldid]] && $field['unchangeable']}-->disabled<!--{/if}--> class="txt" />
+									<!--{/if}-->
+									<!--{if $field['description']}-->&nbsp;&nbsp;$field[description]<!--{/if}-->
+									<!--{if $field['unchangeable']}-->&nbsp;&nbsp;{lang memcp_profile_unchangeable_comment}<!--{/if}-->
+									</td>
+								</tr>
+							<!--{/loop}-->
+						<!--{/if}-->
+					<!--{/if}-->
+
+					<tr class="sep_space"><th colspan="2"></th></tr>
+
+					<tr>
+						<th><label for="sitenew">{lang homepage}</label></th>
+						<td><input type="text" name="sitenew" id="sitenew" size="25" value="<!--{if $member[site]}-->$member[site]<!--{else}-->http://<!--{/if}-->" class="txt" /></td>
+					</tr>
+
+					<tr>
+						<th><label for="qqnew">QQ</label></th>
+						<td><input type="text" name="qqnew" id="qqnew" size="25" value="$member[qq]" class="txt"  prompt="modifyprofile_qq" /></td>
+					</tr>
+
+					<tr>
+						<th><label for="icqnew">ICQ</label></th>
+						<td><input type="text" name="icqnew" id="icqnew" size="25" value="$member[icq]" class="txt" /></td>
+					</tr>
+
+					<tr>
+						<th><label for="yahoonew">Yahoo</label></th>
+						<td><input type="text" name="yahoonew" id="yahoonew" size="25" value="$member[yahoo]" class="txt" /></td>
+					</tr>
+
+					<tr>
+						<th><label for="alipaynew">{lang alipay}</label></th>
+						<td><input type="text" name="alipaynew" id="alipaynew" size="25" value="$member[alipay]" class="txt" /></td>
+					</tr>
+
+					<tr>
+						<th><label for="taobaonew">{lang taobao}</label></th>
+						<td><input type="text" name="taobaonew" id="taobaonew" size="25" value="$member[taobao]" class="txt" /></td>
+					</tr>
+
+					<tr class="sep_space"><th colspan="2"></th></tr>
+
+					<tr>
+						<th><label for="msnnew">MSN</label></th>
+						<td>
+							<input type="text" name="msnnew" id="msnnew" size="25" value="$member[msn][0]" class="txt" />
+						</td>
+					</tr>
+
+					<tr>
+						<th><label for="imme">{lang msn_imme}</label></th>
+						<td>
+							<!--{if $member['msn'][1]}-->
+								{lang msn_imme_binded}&nbsp;&nbsp;
+								<a href="http://settings.messenger.live.com/applications/websignup.aspx?returnurl={$boardurl}misc.php?action=imme_binding&privacyurl={$boardurl}" target="_blank" class="emfont">{lang msn_imme_change}</a>&nbsp;&nbsp;
+								<a href="{$boardurl}misc.php?action=imme_cancelbinding" target="_blank" class="emfont">{lang msn_imme_cancel}</a>
+							<!--{else}-->
+								{lang msn_imme_nobinding}&nbsp;&nbsp;
+								<a href="http://im.live.cn/imme/index.htm" target="_blank">{lang msn_imme_info}</a><br />
+								<a href="https://domains.live.com/members/signup.aspx?domain=$msn[domain]" target="_blank">{lang msn_email_id}</a>&nbsp;&nbsp;
+								<a href="http://im.live.cn" target="_blank">{lang msn_download}</a>&nbsp;&nbsp;
+								<a href="http://settings.messenger.live.com/applications/websignup.aspx?returnurl={$boardurl}misc.php?action=imme_binding&privacyurl={$boardurl}" target="_blank">{lang msn_imme_enable}</a>
+							<!--{/if}-->
+						</td>
+					</tr>
+
+				<script type="text/javascript">
+					{if !$member[signature] && $maxsigsize}updatetextarea('signaturemessage', '$maxsigsize {lang bytes_limited}\n{lang memcp_nocustomizebbcode}');{/if}
+					{if !$member[bio]}updatetextarea('biomessage', '$maxbiosize {lang bytes_limited}\n{lang memcp_nocustomizebbcode}');{/if}
+				</script>
+
+			<!--{elseif $typeid == 3}-->
+				<h1>{lang memcp_profile_avatar_modify}</h1>
+				<table summary="{lang memcp_profile_avatar_modify}" cellspacing="0" cellpadding="0" class="formtable">
+					<tr>
+						<th></th>
+						<td>
+							<div class="avatararea">
+								<p><img id="avatar" src="images/common/none.gif" onerror="this.onerror=null;this.src='{UC_API}/images/noavatar_middle.gif'" /></p>
+							</div>
+							<div id="avatarctrl"><script type="text/javascript">updateavatar(false);document.write(AC_FL_RunContent('{echo implode("','", $uc_avatarflash);}'));</script></div>
+						</td>
+					</tr>
+
+			<!--{elseif $typeid == 5}-->
+				<h1>{lang memcp_profile_person}</h1>
+				<table summary="{lang memcp_profile}" cellspacing="0" cellpadding="0" class="formtable">
+					<!--{if $secqaacheck || $seccodecheck}-->
+						<tr>
+							<th><label for="oldpassword">{lang memcp_profile_security_check}</label></th>
+							<td>{template seccheck}</td>
+						</tr>
+					<!--{/if}-->
+					<tr>
+						<th>{lang style}</th>
+						<td>
+							<select name="styleidnew">
+							<option value="">{lang use_default}</option>
+							$styleselect</select>
+						</td>
+					</tr>
+
+					<tr>
+						<th>{lang tpp}</th>
+						<td>
+							<label><input type="radio" name="tppnew" value="0" $tppchecked[0]> {lang use_default}</label>
+							<label><input type="radio" name="tppnew" value="10" $tppchecked[10]> 10</label>
+							<label><input type="radio" name="tppnew" value="20" $tppchecked[20]> 20</label>
+							<label><input type="radio" name="tppnew" value="30" $tppchecked[30]> 30</label>
+						</td>
+					</tr>
+
+					<tr>
+						<th>{lang ppp}</th>
+						<td>
+							<label><input type="radio" name="pppnew" value="0" $pppchecked[0]> {lang use_default}</label>
+							<label><input type="radio" name="pppnew" value="5" $pppchecked[5]> 5</label>
+							<label><input type="radio" name="pppnew" value="10" $pppchecked[10]> 10</label>
+							<label><input type="radio" name="pppnew" value="15" $pppchecked[15]> 15</label>
+						</td>
+					</tr>
+
+					<tr class="sep_space"><th colspan="2"></th></tr>
+
+					<tr>
+						<th>{lang memcp_profile_signature_conf}</th>
+						<td>
+							<label><input type="radio" name="ssnew" value="2" $sschecked[2]> {lang use_default}</label>
+							<label><input type="radio" name="ssnew" value="1" $sschecked[1]> {lang memcp_profile_signature}</label>
+							<label><input type="radio" name="ssnew" value="0" $sschecked[0]> {lang memcp_profile_nosignature}</label>
+						</td>
+					</tr>
+
+					<tr>
+						<th>{lang memcp_profile_avatar_conf}</th>
+						<td>
+							<label><input type="radio" name="sanew" value="2" $sachecked[2]> {lang use_default}</label>
+							<label><input type="radio" name="sanew" value="1" $sachecked[1]> {lang memcp_profile_avatar}</label>
+							<label><input type="radio" name="sanew" value="0" $sachecked[0]> {lang memcp_profile_noavatar}</label>
+						</td>
+					</tr>
+
+					<tr>
+						<th>{lang memcp_profile_image_conf}</th>
+						<td>
+							<label><input type="radio" name="sinew" value="2" $sichecked[2]> {lang use_default}</label>
+							<label><input type="radio" name="sinew" value="1" $sichecked[1]> {lang memcp_profile_image}</label>
+							<label><input type="radio" name="sinew" value="0" $sichecked[0]> {lang memcp_profile_noimage}</label>
+							&nbsp;&nbsp;{lang memcp_profile_image_conf_comment}
+						</td>
+					</tr>
+
+					<tr>
+						<th>{lang memcp_profile_editor_mode}</th>
+						<td>
+							<label><input type="radio" name="editormodenew" value="2" $emcheck[2]> {lang use_default}</label>
+							<label><input type="radio" name="editormodenew" value="0" $emcheck[0]> {lang memcp_profile_editor_mode_discuzcode}</label>
+							<label><input type="radio" name="editormodenew" value="1" $emcheck[1]> {lang memcp_profile_editor_mode_wysiwyg}</label>
+						</td>
+					</tr>
+
+					<tr class="sep_space"><th colspan="2"></th></tr>
+
+					<tr>
+						<th>{lang timeoffset}</th>
+						<td>
+							<select name="timeoffsetnew">
+							<option value="9999" $toselect[9999]>{lang use_default}</option>
+							<option value="-12" $toselect[-12]>(GMT -12:00) Eniwetok, Kwajalein</option>
+							<option value="-11" $toselect[-11]>(GMT -11:00) Midway Island, Samoa</option>
+							<option value="-10" $toselect[-10]>(GMT -10:00) Hawaii</option>
+							<option value="-9" $toselect[-9]>(GMT -09:00) Alaska</option>
+							<option value="-8" $toselect[-8]>(GMT -08:00) Pacific Time (US &amp; Canada), Tijuana</option>
+							<option value="-7" $toselect[-7]>(GMT -07:00) Mountain Time (US &amp; Canada), Arizona</option>
+							<option value="-6" $toselect[-6]>(GMT -06:00) Central Time (US &amp; Canada), Mexico City</option>
+							<option value="-5" $toselect[-5]>(GMT -05:00) Eastern Time (US &amp; Canada), Bogota, Lima, Quito</option>
+							<option value="-4" $toselect[-4]>(GMT -04:00) Atlantic Time (Canada), Caracas, La Paz</option>
+							<option value="-3.5" $toselect[-3.5]>(GMT -03:30) Newfoundland</option>
+							<option value="-3" $toselect[-3]>(GMT -03:00) Brassila, Buenos Aires, Georgetown, Falkland Is</option>
+							<option value="-2" $toselect[-2]>(GMT -02:00) Mid-Atlantic, Ascension Is., St. Helena</option>
+							<option value="-1" $toselect[-1]>(GMT -01:00) Azores, Cape Verde Islands</option>
+							<option value="0"  $toselect[0]>(GMT) Casablanca, Dublin, Edinburgh, London, Lisbon, Monrovia</option>
+							<option value="1" $toselect[1]>(GMT +01:00) Amsterdam, Berlin, Brussels, Madrid, Paris, Rome</option>
+							<option value="2" $toselect[2]>(GMT +02:00) Cairo, Helsinki, Kaliningrad, South Africa</option>
+							<option value="3" $toselect[3]>(GMT +03:00) Baghdad, Riyadh, Moscow, Nairobi</option>
+							<option value="3.5" $toselect[3.5]>(GMT +03:30) Tehran</option>
+							<option value="4" $toselect[4]>(GMT +04:00) Abu Dhabi, Baku, Muscat, Tbilisi</option>
+							<option value="4.5" $toselect[4.5]>(GMT +04:30) Kabul</option>
+							<option value="5" $toselect[5]>(GMT +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
+							<option value="5.5" $toselect[5.5]>(GMT +05:30) Bombay, Calcutta, Madras, New Delhi</option>
+							<option value="5.75" $toselect[5.75]>(GMT +05:45) Katmandu</option>
+							<option value="6" $toselect[6]>(GMT +06:00) Almaty, Colombo, Dhaka, Novosibirsk</option>
+							<option value="6.5" $toselect[6.5]>(GMT +06:30) Rangoon</option>
+							<option value="7" $toselect[7]>(GMT +07:00) Bangkok, Hanoi, Jakarta</option>
+							<option value="8" $toselect[8]>(GMT +08:00) Beijing, Hong Kong, Perth, Singapore, Taipei</option>
+							<option value="9" $toselect[9]>(GMT +09:00) Osaka, Sapporo, Seoul, Tokyo, Yakutsk</option>
+							<option value="9.5" $toselect[9.5]>(GMT +09:30) Adelaide, Darwin</option>
+							<option value="10" $toselect[10]>(GMT +10:00) Canberra, Guam, Melbourne, Sydney, Vladivostok</option>
+							<option value="11" $toselect[11]>(GMT +11:00) Magadan, New Caledonia, Solomon Islands</option>
+							<option value="12" $toselect[12]>(GMT +12:00) Auckland, Wellington, Fiji, Marshall Island</option>
+							</select>
+						</td>
+					</tr>
+
+					<tr>
+						<th>{lang timeformat}</th>
+						<td>
+							<label><input type="radio" name="timeformatnew" value="0" $tfcheck[0]> {lang use_default}</label>
+							<label><input type="radio" name="timeformatnew" value="1" $tfcheck[1]> 12 {lang hour}</label>
+							<label><input type="radio" name="timeformatnew" value="2" $tfcheck[2]> 24 {lang hour}</label>
+						</td>
+					</tr>
+
+					<tr>
+						<th>{lang dateformat}</th>
+						<td>
+							<label><input type="radio" name="dateformatnew" $dfcheck[0]> {lang use_default}</label>
+							<!--{loop $dateformatlist $key $value}-->
+								<label><input type="radio" name="dateformatnew" value="$key" $dfcheck[$key]> $value</label>
+							<!--{/loop}-->
+						</td>
+					</tr>
+
+					<!--{if $dateconvert}-->
+						<tr>
+							<th>{lang memcp_profile_dateconvert_conf}</th>
+							<td>
+								<label><input type="radio" name="dateconvertnew" value="0" $dateconvertchecked[0]> {lang memcp_profile_dateconvert}</label>
+								<label><input type="radio" name="dateconvertnew" value="1" $dateconvertchecked[1]> {lang memcp_profile_nodateconvert}</label>
+							</td>
+						</tr>
+					<!--{else}-->
+						<input name="dateconvertnew" type="hidden" value="0" />
+					<!--{/if}-->
+
+					<tr class="sep_space"><th colspan="2"></th></tr>
+
+					<!--{if $creditnotice}-->
+						<tr>
+							<th>{lang memcp_profile_creditnotice}</th>
+							<td>
+								<label><input type="radio" name="creditnoticenew" value="1" $creditnoticechecked[1]> {lang yes}</label>
+								<label><input type="radio" name="creditnoticenew" value="0" $creditnoticechecked[0]> {lang no}</label>
+							</td>
+						</tr>
+					<!--{/if}-->
+					<tr>
+						<th>{lang notice}</th>
+						<td>
+							<!--{loop $prompts $promptkey $promptdata}-->
+								<!--{if $promptkey != 'newbietask'}--><label class="left" style="width:150px"><input type="checkbox" name="disablepromptnew[$promptkey]" value="1" {if !in_array($promptkey, $disableprompt)}checked="checked" {/if}/> $promptdata[name]</label><!--{/if}-->
+							<!--{/loop}-->
+						</td>
+					</tr>
+					<tr>
+						<th>{lang pmsound}</th>
+						<td>
+							<label><input type="radio" value="0" name="pmsoundnew" $pscheck[0] /> {lang none}</label>
+							<label><input type="radio" onclick="soundplayer(1)" value="1" name="pmsoundnew" $pscheck[1] /> #1</label>
+							<label><input type="radio" onclick="soundplayer(2)" value="2" name="pmsoundnew" $pscheck[2] /> #2</label>
+							<label><input type="radio" onclick="soundplayer(3)" value="3" name="pmsoundnew" $pscheck[3] /> #3</label>
+							<div id="soundplayerlayer" style="position:absolute;top:-100000px"></div>
+							<script type="text/javascript" reload="1">
+							function soundplayer(file) {
+								$('soundplayerlayer').innerHTML = AC_FL_RunContent('id', 'pmsoundplayer', 'name', 'pmsoundplayer', 'width', '0', 'height', '0', 'src', '{$boardurl}images/sound/player.swf', 'FlashVars', 'sFile={$boardurl}images/sound/pm_' + file + '.mp3', 'menu', 'false',  'allowScriptAccess', 'sameDomain', 'swLiveConnect', 'true');
+							}
+							</script>
+						</td>
+					</tr>
+					<!--{if $uchome['addfeed'] && $ucappopen['UCHOME']}-->
+						<tr>
+							<th>{lang memcp_profile_feed}</th>
+							<td>
+								<label><input type="radio" value="0" name="customaddfeednew" onclick="$('customaddfeed').style.display = 'none';" $defaultcheck class="radio" /> {lang default}</label>
+								<label><input type="radio" name="customaddfeednew" onclick="$('customaddfeed').style.display = '';" $customcheck class="radio" /> {lang customize}</label>
+								<span id="customaddfeed" style="display: $showfeedcheck">
+									<label><input type="checkbox" name="addfeed[1]" value="1" $feedchecks[1] class="checkbox" /> {lang general_thread}</label>
+									<label><input type="checkbox" name="addfeed[2]" value="1" $feedchecks[2] class="checkbox" /> {lang special_thread}</label>
+									<label><input type="checkbox" name="addfeed[3]" value="1" $feedchecks[3] class="checkbox" /> {lang join_thread}</label>
+								</span>
+							</td>
+						</tr>
+					<!--{/if}-->
+
+					<tr>
+						<th valign="top">{lang other_options}</th>
+						<td>
+							<!--{if $allowinvisible}-->
+								<label><input type="checkbox" name="invisiblenew" value="1" $invisiblechecked class="checkbox" /> {lang online_invisible}</label><br />
+							<!--{/if}-->
+							<label><input type="checkbox" name="showemailnew" value="1" $emailchecked class="checkbox" /> {lang show_email_addr}</label><br />
+							<label><input type="checkbox" name="newsletternew" value="1" $newschecked class="checkbox" /> {lang allow_newsletter}</label><br />
+						</td>
+					</tr>
+				<!--{/if}-->
+
+				$pluginhooks[memcp_profilesettings]
+
+				<!--{if $typeid != 3}-->
+					<tr>
+						<th>&nbsp;</th>
+						<td><button type="submit" class="submit" name="editsubmit" id="editsubmit" value="true" prompt="modifyprofile_submit">{lang submit}</button></td>
+					</tr>
+				<!--{/if}-->
+				</table>
+			</form>
+		</div>
+	</div>
+	<div class="side">
+		{subtemplate personal_navbar}
+	</div>
+</div>
+{subtemplate footer}

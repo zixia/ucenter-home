@@ -1,0 +1,109 @@
+{template header}
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+
+<div class="fcontent">
+	<h3 class="float_ctrl">
+		<em id="return_$handlekey"><!--{if $isactivitymaster}-->{lang activity_applylist_manage}<!--{else}-->{lang activity_applylist}<!--{/if}--></em>
+		<span>
+			<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('$handlekey')" title="{lang close}">{lang close}</a><!--{/if}-->
+		</span>
+	</h3>
+	<form id="applylistform" method="post" action="misc.php?action=activityapplylist&tid=$tid&applylistsubmit=yes&infloat=yes"{if !empty($infloat)} onsubmit="ajaxpost('applylistform', 'return_$handlekey', 'return_$handlekey', 'onerror');return false;"{/if}>
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="operation" value="" />
+	<!--{if !empty($infloat)}--><input type="hidden" name="handlekey" value="$handlekey" /><!--{/if}-->	
+	<!--{if !empty($uid) && $isactivitymaster}-->
+		{eval $apply = $applylist[0];}
+		<input type="hidden" name="applyidarray[]" value="$apply[applyid]" />
+		<table class="list" cellspacing="0" cellpadding="0" style="width:200px">
+			<tr>
+				<th>{lang activity_join_members}</th>
+				<td><a target="_blank" href="space.php?uid=$apply[uid]">$apply[username]</a></td>
+			</tr>
+			<tr>
+				<th>{lang activity_linkman}</th>
+				<td>$apply[contact]</td>
+			</tr>
+			<tr>
+				<th>{lang leaveword}</th>
+				<td>$apply[message]</td>
+			</tr>
+			<tr>
+				<th>{lang activity_payment}</th>
+				<td><!--{if $apply[payment] >= 0}-->$apply[payment] {lang payment_unit}<!--{else}-->{lang activity_self}<!--{/if}--></td>
+			</tr>
+			<tr>
+				<th>{lang activity_jointime}</th>
+				<td>$apply[dateline]</td>
+			</tr>
+
+			<tr class="btns" align="center">
+				<!--{if $operation == 'delete'}-->
+					<td colspan="2"><button type="submit" value="true" name="applylistsubmit" onclick="$('applylistform').operation.value='delete';">{lang delete}</button></td>
+				<!--{else}-->
+					<td colspan="2"><button class="submit" type="submit" value="true" name="applylistsubmit">{lang confirm}</button></td>
+				<!--{/if}-->
+			</tr>
+		</table>		
+	<!--{else}-->
+		<div class="floatwrap">
+		<table class="list" cellspacing="0" cellpadding="5">
+			<thead>
+				<tr>
+					<!--{if $isactivitymaster}--><td>&nbsp;</td><!--{/if}-->
+					<td>{lang activity_join_members}</td>
+					<!--{if $isactivitymaster}--><td>{lang activity_linkman}</td><!--{/if}-->
+					<td>{lang leaveword}</td>
+					<td>{lang activity_payment}</td>
+					<td>{lang activity_jointime}</td>
+					<!--{if $isactivitymaster}--><td>{lang status}</td><!--{/if}-->
+				</tr>
+			</thead>
+			<!--{loop $applylist $apply}-->
+				<tr>
+					<!--{if $isactivitymaster}-->
+						<td><input class="checkbox" type="checkbox" name="applyidarray[]" value="$apply[applyid]" /></td>
+					<!--{/if}-->
+					<td><a target="_blank" href="space.php?uid=$apply[uid]">$apply[username]</a></td>
+					<!--{if $isactivitymaster}-->
+						<td><input type="text" size="10" class="txt" value="$apply[contact]" readonly="readonly" /></td>
+					<!--{/if}-->
+					<td><input type="text" size="15" class="txt" value="$apply[message]" readonly="readonly" /></td>
+					<td><!--{if $apply[payment] >= 0}-->$apply[payment] {lang payment_unit}<!--{else}-->{lang activity_self}<!--{/if}--></td>
+					<td>$apply[dateline]</td>
+					<!--{if $isactivitymaster}-->
+						<td><!--{if $apply[verified]}-->{lang activity_allow_join}<!--{else}-->{lang activity_cant_audit}<!--{/if}--></td>
+					<!--{/if}-->
+				</tr>
+			<!--{/loop}-->
+		</table>
+		</div>
+		<!--{if $isactivitymaster}-->
+			<div class="postbox">
+			<label><input class="checkbox header" type="checkbox" name="chkall" onclick="checkall(this.form, 'applyid')" /> {lang checkall}</label>&nbsp;&nbsp;
+			<button type="submit" value="true" name="applylistsubmit" onclick="$('applylistform').operation.value='delete';">{lang delete}</button>&nbsp;&nbsp;
+			<button class="submit" type="submit" value="true" name="applylistsubmit">{lang confirm}</button>
+			</div>
+		<!--{/if}-->
+	<!--{/if}-->
+	</form>
+</div>
+
+<!--{if !empty($infloat)}-->
+<script type="text/javascript" reload="1">
+function submithandle_$handlekey(locationhref) {
+	ajaxget('viewthread.php?tid=$tid&viewpid=$pid', 'post_$pid');
+	hideWindow('$handlekey');
+}
+</script>
+<!--{/if}-->
+
+<!--{if empty($infloat)}-->
+	</div></div>
+</div>
+<!--{/if}-->
+{template footer}

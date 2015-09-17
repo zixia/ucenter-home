@@ -1,0 +1,51 @@
+<!--{if $attentionlist}-->
+<form method="post" action="my.php?item=attention&type=forum">
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<table cellspacing="0" cellpadding="0" summary="{lang my_attention_threads}" class="datatable">
+		<thead class="colplural">
+			<tr>
+				<td width="6%"></td>
+				<th>{lang forum}</th>
+				<td>{lang forum_moderate_threads}</td>
+				<td>{lang forum_threads}</td>
+				<td>{lang forum_posts}</td>
+				<td>{lang forum_todayposts}</td>
+				<td class="lastpost">{lang forum_lastpost}</td>
+			</tr>
+		</thead>
+		<tbody>
+			<!--{loop $attentionlist $attention}-->
+			<tr>
+				<td><input class="checkbox" type="checkbox" name="delete[]" value="$attention[fid]" /></td>
+				<!--{if $attention[newthreads]}-->
+					<th><strong><a href="my.php?item=attention&action=detail&type=forum&fid=$attention[fid]">$attention[name]</a></strong> <a href="my.php?item=attention&type=forum&action=open&fid=$attention[fid]" target="_blank">({lang attention_openforum})</a></th>
+				<!--{else}-->
+					<th><a href="my.php?item=attention&action=detail&type=forum&fid=$attention[fid]">$attention[name]</a></th>
+				<!--{/if}-->
+				<td>$attention[newthreads]</td>
+				<td>$attention[threads]</td>
+				<td>$attention[posts]</td>
+				<td>$attention[todayposts]</td>
+				<td class="lastpost"><cite><a href="redirect.php?tid=$attention[lastpost][tid]&goto=lastpost#lastpost" title="{echo cutstr($attention[lastpost][subject], 30)} {lang forum_lastpost_by} {if $attention['lastpost']['author']}$attention['lastpost']['author']{else}{lang anonymous}{/if}">$attention[lastpost][subject]</a></cite><em>$attention[lastpost][dateline]</em></td>
+			</tr>
+			<!--{/loop}-->
+			<tr>
+				<td><input class="checkbox" type="checkbox" name="chkall" id="chkall" onclick="checkall(this.form)" /> <label for="chkall">{lang delete_check}</label></td>
+				<th><button type="submit" class="submit" name="attentionsubmit" value="true">{lang submit}</button></th>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+<!--{else}-->
+<table cellspacing="0" cellpadding="0" class="datatable">
+	<tr><th><p class="nodata">{lang data_nonexistence}</p></th></tr>
+</table>
+<!--{/if}-->
+<!--{if !empty($multipage)}-->
+<div class="pages_btns">$multipage</div>
+<!--{/if}-->

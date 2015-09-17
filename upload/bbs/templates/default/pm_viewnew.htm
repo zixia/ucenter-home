@@ -1,0 +1,18 @@
+{subtemplate header_ajax}
+
+<ul>
+<!--{loop $pmlist $pm}-->
+	<li>
+	<!--{if $pm['msgfromid'] > 0}-->
+		<a href="pm.php?uid=$pm[touid]&filter=privatepm&daterange=$pm[daterange]#new" target="_blank"><em>$pm[msgfrom]</em>$pm[subject]</a>
+	<!--{else}-->
+		<a href="pm.php?pmid=$pm[pmid]&filter=systempm" target="_blank"><em>{lang pm_systemmessage}</em>$pm[subject]</a>
+	<!--{/if}-->
+	</li>
+<!--{/loop}-->
+<!--{if $morenum}-->
+	<li><a href="pm.php">{lang pm_message_num}</a></li>
+<!--{/if}-->
+</ul>
+
+{subtemplate footer_ajax}

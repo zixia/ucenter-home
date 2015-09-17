@@ -1,0 +1,43 @@
+{subtemplate header}
+<script type="text/javascript" src="{$jspath}viewthread.js?{VERHASH}"></script>
+<script type="text/javascript">zoomstatus = parseInt($zoomstatus);var imagemaxwidth = parseInt({IMAGEMAXWIDTH});</script>
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang announcement}</div>
+<div id="wrap" class="wrap s_clear with_side">
+	<div class="side">
+		<h2>{lang announcement}</h2>
+		<div class="sideinner noborder">
+			<ul class="tabs">
+			<!--{loop $months $month}-->
+				<li><a href="announcement.php?m=$month[0].$month[1]">$month[0] {lang year} $month[1] {lang month}</a></li>
+			<!--{/loop}-->
+			</ul>
+		</div>
+	</div>
+	<div class="main">
+		<div class="content">
+			<div class="datalist">
+			<!--{loop $announcelist $ann}-->
+				<div id="announce$ann[id]_c" class="c_header closenode">
+					<h3 onclick="toggle_collapse('announce$ann[id]', 1, 1);"><a>$ann[subject]</a><em>($ann[starttime])</em></h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn"><a href="javascript:;" onclick="toggle_collapse('announce$ann[id]', 1, 1);">[ {lang open} ]</a></p>
+					</div>
+				</div>
+				<div class="datalist" id="announce$ann[id]" style="display: none">
+					<div class="announcemsg">
+						<p class="author">{lang author}: <a href="space.php?username=$ann[authorenc]">$ann[author]</a></p>
+						$ann[message]
+					</div>
+				</div>
+			<!--{/loop}-->
+			</div>
+		</div>
+	</div>
+</div>
+<!--{if !empty($annid)}-->
+<script type="text/javascript">
+	toggle_collapse('announce$annid', 1, 1);
+</script>
+<!--{/if}-->
+		
+{subtemplate footer}

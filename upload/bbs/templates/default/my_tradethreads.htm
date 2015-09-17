@@ -1,0 +1,62 @@
+<div id="list_trade_selles_c" class="c_header">
+	<h3 onclick="toggle_collapse('list_trade_selles', 1, 1);">{lang my_trade_seller_list}<!--{if $tid || $srchkey}-->&nbsp;&nbsp;[<a href="my.php?item=$item$extrafid">{lang my_trade_view_allthread}</a>]<!--{/if}--></h3>
+	<div class="c_header_action">
+		<div class="c_header_ext">
+			<form action="my.php?item=tradethreads" method="post">
+				{lang my_trade_goods_name}: <input name="srchkey" value="$srchkey" size="20" class="txt" />&nbsp;<button class="submit" type="submit" name="submit" value="true">{lang search}</button>
+			</form>
+		</div>
+		<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_trade_selles', 1, 1);">[ {lang open} ]</p>
+	</div>
+</div>
+
+<table id="list_trade_selles" cellspacing="0" cellpadding="0" class="datatable">
+	<thead class="colplural">
+		<tr>
+			<td colspan="2">{lang my_trade_goods_name}</td>
+			<td >{lang my_trade_show}</td>
+			<td>{lang my_trade_sale_quantity}</td>
+			<td>{lang my_trade_stock_quantity}</td>
+			<td>{lang my_trade_amount_all}</td>
+			<td>{lang my_trade_last}</td>
+		</tr>
+	</thead>
+	<!--{if $tradelist}-->
+		<!--{loop $tradelist $key $trade}-->
+			<tr height="80" class="{echo swapclass('colplural')}">
+				<td width="80" valign="middle">
+					<a href="viewthread.php?do=tradeinfo&tid=$trade[tid]&pid=$trade[pid]" target="_blank"><!--{if $trade['aid']}--><img src="attachment.php?aid={echo aidencode($trade[aid]);}&noupdate=yes" onload="thumbImg(this, 1)" width="80" _width="80" _height="80" /><!--{else}--><img src="{IMGDIR}/trade_nophotosmall.gif" /><!--{/if}--></a>
+				</td>
+				<td>
+					<a href="viewthread.php?do=tradeinfo&tid=$trade[tid]&pid=$trade[pid]" target="_blank">$trade[subject]</a><br />
+					<!--{if $trade[closed]}-->
+						<span class="lighttxt">{lang trade_timeout}</span>
+					<!--{elseif $trade[expiration] > 0}-->
+						<span class="lighttxt">{lang trade_remain} {$trade[expiration]}{lang days}{$trade[expirationhour]}{lang trade_hour}</span>
+					<!--{elseif $trade[expiration] == -1}-->
+						<span class="lighttxt">{lang trade_timeout}</span>
+					<!--{/if}-->
+				</td>
+				<td><a href="my.php?item=selltrades&tid=$trade[tid]&pid=$trade[pid]" target="_blank">{lang enter}</a></td>
+				<td>$trade[totalitems]</td>
+				<td>$trade[amount]</td>
+				<td>
+					<!--{if $trade['price'] > 0}-->
+						$trade[tradesum] {lang trade_units}&nbsp;&nbsp;
+					<!--{/if}-->
+					<!--{if $trade['credit'] > 0}-->						
+						{$extcredits[$creditstransextra[5]][title]} $trade[credittradesum] {$extcredits[$creditstransextra[5]][unit]}
+					<!--{/if}-->
+				</td>
+				<td><!--{if $trade['lastbuyer']}--><a href="redirect.php?tid=$trade[tid]&goto=lastpost#lastpost">$trade[lastupdate]</a><br />{lang forum_lastpost_by} <a href="space.php?username=$trade[lastbuyer]" target="_blank">$trade[lastbuyer]</a><!--{else}-->&nbsp;<!--{/if}--></td>
+			</tr>
+		<!--{/loop}-->
+	<!--{else}-->
+		<tr><td colspan="6"><p class="nodata">{lang data_nonexistence}</p></td></tr>
+	<!--{/if}-->
+</table>
+<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+
+<div class="c_header">
+	<h3 class="noarrow"><a href="my.php?item=selltrades&filter=all">{lang my_trade_seller_log}</a></h3>
+</div>

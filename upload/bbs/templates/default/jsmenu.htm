@@ -1,0 +1,13 @@
+<!--{if !empty($plugins['jsmenu'])}-->
+	<ul class="popupmenu_popup headermenu_popup" id="plugin_menu" style="display: none">
+	<!--{loop $plugins['jsmenu'] $module}-->
+	     <!--{if !$module['adminid'] || ($module['adminid'] && $adminid > 0 && $module['adminid'] >= $adminid)}-->
+	     <li>$module[url]</li>
+	     <!--{/if}-->
+	<!--{/loop}-->
+	</ul>
+<!--{/if}-->
+
+<!--{loop $subnavs $subnav}-->
+	$subnav
+<!--{/loop}-->

@@ -1,0 +1,86 @@
+{template header}
+
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+
+<script language="javascript">
+function showintro(div, myclass){
+	$(div).style.display = myclass;
+}	
+</script>
+
+<div class="fcontent" id="main_messaqge">
+	<div id="layer_reg" class="postbox s_clear">
+		<h3 class="float_ctrl">
+			<em id="returnmessage4">{lang dps_postawards:dps_postawards_nolink}</em>
+			<span>
+				<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('paward')" title="{lang close}">{lang close}</a><!--{/if}-->
+			</span>
+		</h3>
+		{lang dps_postawards:post_count}
+		<form method="post" name="award" id="awardform" onsubmit="ajaxpost('awardform', 'returnmessage4', 'returnmessage4', 'onerror', 'awardformsubmit');return false;" action="plugin.php?id=dps_postawards:postawards&tid=$tid&infloat=yes&awardsubmit=yes">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="referer" value="$referer" />
+			<!--{if !empty($infloat)}--><input type="hidden" name="handlekey" value="$handlekey" /><!--{/if}-->	
+			<table>
+				<tr>
+					<td>{lang dps_postawards:award}  {lang dps_postawards:number}</td>
+					<td><input type="text" name="awardpost" id="awardpost" value="" class="txt" onFocus="showintro('credit_intro', '');"> {lang dps_postawards:floor}</td>
+				</tr>
+				<tbody id="credit_intro" style="display:none">
+					<tr>
+						<td></td>
+						<td>{lang dps_postawards:msg_intro_credit}</td>
+					</tr>
+				</tbody>
+				<tr>
+					<td>{lang dps_postawards:awardcredittype}:</td>
+					<td>$creditselect</div></td>
+				</tr>
+				<tr>
+					<td>{lang dps_postawards:awardcreditnum}:</td>
+					<td><input type="text" name="credit" id="credit" value="" class="txt"></td>
+				</tr>
+				
+				<tr>
+					<td>{lang dps_postawards:credit_mode}:</td>
+					<td>
+							<select name="selfcreditmode">						
+								<option value="1">{lang dps_postawards:self_credit_mode}</option>
+								<!--{if $allow[systemcredit]}-->
+								<option value="0">{lang dps_postawards:system_credit_mode}</option>
+								<!--{/if}-->
+							</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td><input type="checkbox" name="sendmsg" id="sendmsg" value="1" checked> <label for="sendmsg">{lang dps_postawards:sendmsg}</label></td>
+				</tr>
+				<!--{if $allow[ratemode]}-->
+				<tr>
+					<td></td>
+					<td><input type="checkbox" name="ratemode" id="ratemode" value="1"> <label for="ratemode">{lang dps_postawards:rate_mode}</label></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><textarea id="rate_msg" name="rate_msg"></textarea></td>
+				</tr>
+				<!--{/if}-->
+				<tr>
+					<td></td>
+					<td><button class="submit" id="awardformsubmit" type="submit" name="awardsubmit" value="true">{lang submit}</button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<!--{if empty($infloat)}-->
+</div></div></div>
+<!--{/if}-->
+{template footer}

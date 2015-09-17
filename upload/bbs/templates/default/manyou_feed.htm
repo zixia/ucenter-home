@@ -1,0 +1,47 @@
+{subtemplate header}
+
+<div id="nav">
+	<a href="$indexname">$bbname</a> &raquo; <a href="userapp.php">{lang manyou:myop}</a> &raquo; {lang manyou:feed}
+</div>
+
+<div id="wrap" class="wrap s_clear uappmain">
+	<div class="main">
+	<div class="content">
+
+		{subtemplate manyou_appnav}
+
+		<!--{if $feeds}-->
+		<ul class="uappfeed">
+		<!--{loop $feeds $value}-->
+			<!--{if $value[daterange]}-->
+				<li><strong>
+					<!--{if $value[daterange] == $day1}-->{lang pm_today}
+					<!--{elseif $value[daterange] == $day2}-->{lang pm_yesterday}
+					<!--{elseif $value[daterange] == $day3}-->{lang pm_before_yesterday}
+					<!--{else}-->$value[daterange]<!--{/if}-->
+				</strong></li>
+			<!--{/if}-->
+			<li>
+			<em>$value[dateline]</em>
+			<img class="apptype" src="$value[icon_image]">$value[title]
+			<div class="feed_content">
+				<!--{loop $value[image] $image}-->$image<!--{/loop}-->
+				$value[body]
+			</div>
+			<!--{if $value['general']}-->
+				<div class="quote"><span class="q">$value[general]</span></div>
+			<!--{/if}-->
+			</li>
+		<!--{/loop}-->
+		</ul>
+		<div class="page">$multi</div>
+		</div>
+		<!--{else}-->
+			<p class="nodata">{lang manyou:nofeed}<a href="userapp.php?view=all">{lang manyou:viewall}</a></p>
+		<!--{/if}-->
+
+	</div></div></div>
+
+</div>
+
+{subtemplate footer}

@@ -1,0 +1,76 @@
+
+		<!--{if count($trades) > 1 || ($discuz_uid == $thread['authorid'] || $allowedittrade)}-->
+			<div class="tradectrl">
+				<em>{lang post_trade_totalnumber}: $tradenum</em>
+				<!--{if $discuz_uid == $thread['authorid'] || $allowedittrade}-->
+					<a href="javascript:;" onclick="showWindow('tradeorder', 'misc.php?action=tradeorder&tid=$tid');return false;">{lang trade_displayorder}</a>
+					<!--{if $discuz_uid == $thread['authorid']}-->
+						<!--{if $allowposttrade}-->
+							<a href="post.php?action=reply&fid=$fid&tid=$tid&firstpid=$post[pid]&addtrade=yes">+ {lang trade_add_post}</a>
+						<!--{/if}-->
+						<span class="pipe">|</span>
+						<a href="javascript:;" onclick="window.open('my.php?item=selltrades&tid=$tid','','');return false;">{lang my_trade_stat}</a>
+					<!--{/if}-->
+				<!--{/if}-->
+			</div>
+		<!--{/if}-->
+		<!--{if $tradenum}-->
+			<!--{if $trades}-->
+				<div class="s_clear">
+					<!--{loop $trades $key $trade}-->
+					<div class="treadbox">
+						<dl id="trade$trade[pid]" class="tradethumblist">
+							<dt class="thumblist" onclick="display('trade$trade[pid]');ajaxget('viewthread.php?do=tradeinfo&amp;tid=$tid&amp;pid=$trade[pid]','tradeinfo$trade[pid]','tradeinfo$trade[pid]')">
+								<!--{if $trade['displayorder'] > 0}--><label style="display: none;">{lang post_trade_sticklist}</label><!--{/if}-->
+								<!--{if $trade['thumb']}-->
+									<img src="$trade[thumb]" onload="thumbImg(this, 1)" _width="96" _height="96" alt="{if $trade['typeid']}[{$tradetypes[$trade['typeid']]}] {/if}$trade[subject]" />
+								<!--{else}-->
+									<img src="{IMGDIR}/trade_nophoto.gif" width="96" height="96" alt="{if $trade['typeid']}[{$tradetypes[$trade['typeid']]}] {/if}$trade[subject]" />
+								<!--{/if}-->
+							</dt>
+							<dd>
+								<span class="infoview"><a href="javascript:;" onclick="display('trade$trade[pid]');ajaxget('viewthread.php?do=tradeinfo&amp;tid=$tid&amp;pid=$trade[pid]','tradeinfo$trade[pid]','tradeinfo$trade[pid]')">{lang open}</a></span>
+								<h2 class="tradename"><a href="javascript:;" onclick="display('trade$trade[pid]');ajaxget('viewthread.php?do=tradeinfo&amp;tid=$tid&amp;pid=$trade[pid]','tradeinfo$trade[pid]','tradeinfo$trade[pid]')">$trade[subject]</a></h2>
+								<p>
+								<!--{if $trade[closed]}-->
+									<em>{lang trade_timeout}</em>
+								<!--{elseif $trade[expiration] > 0}-->
+									{$trade[expiration]}{lang days}{$trade[expirationhour]}{lang trade_hour}
+								<!--{elseif $trade[expiration] == -1}-->
+									<em>{lang trade_timeout}</em>
+								<!--{/if}-->
+								</p>
+								<!--{if $trade[price] && $trade['costprice'] > 0 || $creditstransextra[5] != -1 && $trade[credit] && $trade['costcredit'] > 0}-->
+									<p>{lang trade_costprice}:</p>
+									<!--{if $trade['costprice'] > 0}-->
+										<del>$trade[costprice] {lang payment_unit}</del>&nbsp;&nbsp;
+									<!--{/if}-->
+									<!--{if $creditstransextra[5] != -1 && $trade['costcredit'] > 0}-->
+										<del>{$extcredits[$creditstransextra[5]][title]} $trade[costcredit] {$extcredits[$creditstransextra[5]][unit]}</del>
+									<!--{/if}-->
+								<!--{/if}-->
+								<p>{lang trade_price}:</p>
+								<!--{if $trade[price] > 0}-->
+									<strong class="price">$trade[price]</strong>&nbsp;{lang payment_unit}&nbsp;&nbsp;
+								<!--{/if}-->
+								<!--{if $creditstransextra[5] != -1 && $trade[credit]}-->
+									{$extcredits[$creditstransextra[5]][title]}&nbsp;<strong class="price">$trade[credit]</strong>&nbsp;{$extcredits[$creditstransextra[5]][unit]}
+								<!--{/if}-->
+							</dd>
+						</dl>
+						<div id="tradeinfo$trade[pid]"></div>
+					</div>
+					<!--{if count($trades) == 1}-->
+						<script type="text/javascript" onload="1">display('trade$trade[pid]');ajaxget('viewthread.php?do=tradeinfo&tid=$tid&pid=$trade[pid]','tradeinfo$trade[pid]','tradeinfo$trade[pid]')</script>
+					<!--{/if}-->
+					<!--{/loop}-->
+				</div>
+			<!--{/if}-->
+
+		<div id="postmessage_$post[pid]">$post[counterdesc]</div>
+		<!--{else}-->
+			<div class="locked">{lang trade_nogoods}</div>
+			<!--{if $discuz_uid == $thread['authorid'] && $allowposttrade}-->
+				<br /><button type="button" onclick="showWindow('reply', 'post.php?infloat=yes&action=reply&fid=$fid&tid=$tid&addtrade=yes');return false;">{lang trade_add_post}</button>
+			<!--{/if}-->
+		<!--{/if}-->

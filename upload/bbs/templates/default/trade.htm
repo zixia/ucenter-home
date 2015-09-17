@@ -1,0 +1,139 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang trade_confirm_buy}</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="content">
+		<script type="text/javascript" src="{$jspath}viewthread.js?{VERHASH}"></script>
+
+		<script type="text/javascript">
+		zoomstatus = parseInt($zoomstatus);
+		var feevalue = 0;
+		{if $trade[price] > 0}var price = $trade[price];{/if}
+		{if $creditstransextra[5] != -1 && $trade[credit]}var credit = $trade[credit];var currentcredit = $GLOBALS['extcredits'.$creditstransextra[5]];{/if}
+		</script>
+
+		<form method="post" id="tradepost" name="tradepost" action="trade.php?action=trade&tid=$tid&pid=$pid">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<div class="c_header"><h3 class="noarrow">{lang trade_confirm_buy}</h3></div>
+				<table summary="{lang trade_confirm_buy}" cellspacing="0" cellpadding="0" class="formtable">
+					<tr>
+						<th>
+						<!--{if $trade['aid']}-->
+							<a href="viewthread.php?do=tradeinfo&tid=$tid&pid=$pid"><img src="attachment.php?aid={echo aidencode($trade[aid]);}&noupdate=yes" onload="thumbImg(this, 1)" _width="80" _height="80" alt="$trade[subject]" /></a>
+						<!--{else}-->
+							<a href="viewthread.php?do=tradeinfo&tid=$tid&pid=$pid"><img src="{IMGDIR}/trade_nophotosmall.gif" alt="$trade[subject]" /></a>
+						<!--{/if}-->
+						</th>
+						<td valign="top">
+							<p>{lang trade_price}:
+							<!--{if $trade[price] > 0}-->
+								&nbsp;<strong>$trade[price]</strong>&nbsp;{lang payment_unit}
+							<!--{/if}-->
+							<!--{if $creditstransextra[5] != -1 && $trade[credit]}-->
+								&nbsp;{$extcredits[$creditstransextra[5]][title]}&nbsp;<strong>$trade[credit]</strong>&nbsp;{$extcredits[$creditstransextra[5]][unit]}
+							<!--{/if}-->
+							</p>
+							<!--{if $trade[locus]}--><p>{lang post_trade_locus}:&nbsp;$trade[locus]</p><!--{/if}-->
+							<p>{lang trade_seller}:&nbsp;<a href="space.php?uid=$trade[sellerid]" target="_blank">$trade[seller]</a></p>
+						</td>
+					</tr>
+					<tr>
+						<th>{lang trade_credits_total}</th>
+						<td>
+							<!--{if $trade[price] > 0}--><strong id="caculate"></strong>&nbsp;{lang trade_units}&nbsp;&nbsp;<!--{/if}-->
+							<!--{if $creditstransextra[5] != -1 && $trade[credit]}-->{$extcredits[$creditstransextra[5]][title]}&nbsp;<strong id="caculatecredit"></strong>&nbsp;{$extcredits[$creditstransextra[5]][unit]}&nbsp;<span id="crediterror"></span><!--{/if}-->
+						</td>
+					</tr>
+					<tr>
+						<th><label for="number">{lang trade_nums}</label></th>
+						<td><input type="text" id="number" name="number" onkeyup="calcsum()" value="1" class="txt" /></td>
+					</tr>
+					<tr>
+						<th>{lang post_trade_transport}</th>
+						<td>
+							<p>
+							<!--{if $trade['transport'] == 1}--><input type="hidden" name="transport" value="1">{lang post_trade_transport_seller}<!--{/if}-->
+							<!--{if $trade['transport'] == 2}--><input type="hidden" name="transport" value="2">{lang post_trade_transport_buyer}<!--{/if}-->
+							<!--{if $trade['transport'] == 3}--><input type="hidden" name="transport" value="3">{lang post_trade_transport_virtual}<!--{/if}-->
+							<!--{if $trade['transport'] == 4}--><input type="hidden" name="transport" value="4">{lang post_trade_transport_physical}<!--{/if}-->
+							</p>
+							<!--{if $trade['transport'] == 1 or $trade['transport'] == 2 or $trade['transport'] == 4}-->
+								<!--{if !empty($trade['ordinaryfee'])}--> <label><input class="radio" type="radio" name="fee" value="1" checked="checked" <!--{if $trade['transport'] == 2}-->onclick="feevalue = $trade[ordinaryfee];calcsum()"<!--{/if}--> /> {lang post_trade_transport_mail} $trade[ordinaryfee] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script type="text/javascript">feevalue = $trade[ordinaryfee]</script><!--{/if}--><!--{/if}-->
+								<!--{if !empty($trade['expressfee'])}--> <label><input class="radio" type="radio" name="fee" value="3" checked="checked" <!--{if $trade['transport'] == 2}-->onclick="feevalue = $trade[expressfee];calcsum()"<!--{/if}--> /> {lang post_trade_transport_express} $trade[expressfee] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script type="text/javascript">feevalue = $trade[expressfee]</script><!--{/if}--><!--{/if}-->
+								<!--{if !empty($trade['emsfee'])}--> <label><input class="radio" type="radio" name="fee" value="2" checked="checked" <!--{if $trade['transport'] == 2}-->onclick="feevalue = $trade[emsfee];calcsum()"<!--{/if}--> /> EMS $trade[emsfee] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script type="text/javascript">feevalue = $trade[emsfee]</script><!--{/if}--><!--{/if}-->
+							<!--{/if}-->
+						</td>
+					</tr>
+					<tr>
+						<th>{lang trade_paymethod}</th>
+						<td>
+							<!--{if !$discuz_uid}-->
+								<label><input type="hidden" name="offline" value="0" checked="checked" /> {lang trade_pay_alipay}</label>
+							<!--{elseif !$trade['account']}-->
+								<input type="hidden" name="offline" value="1" checked="checked" /> {lang trade_pay_offline}
+							<!--{else}-->
+								<label><input type="radio" class="radio" name="offline" value="0" checked="checked" /> {lang trade_pay_alipay}</label> <label><input type="radio" class="radio" name="offline" value="1" /> {lang trade_pay_offline}</label>
+							<!--{/if}-->
+						</td>
+					</tr>
+					<!--{if $trade['transport'] != 3}-->
+						<tr>
+							<th><label for="buyername">{lang trade_buyername}</label></th>
+							<td><input type="text" id="buyername" name="buyername" maxlength="50" value="$lastbuyerinfo[buyername]" class="txt" /></td>
+						</tr>
+						<tr>
+							<th><label for="buyercontact">{lang trade_buyercontact}</label></th>
+							<td><input type="text" id="buyercontact" name="buyercontact" maxlength="100" size="80" value="$lastbuyerinfo[buyercontact]" class="txt" /></td>
+						</tr>
+						<tr>
+							<th><label for="buyerzip">{lang trade_buyerzip}</label></th>
+							<td><input type="text" id="buyerzip" name="buyerzip" maxlength="10" value="$lastbuyerinfo[buyerzip]" class="txt" /></td>
+						</tr>
+						<tr>
+							<th><label for="buyerphone">{lang trade_buyerphone}</label></th>
+							<td><input type="text" id="buyerphone" name="buyerphone" maxlength="20" value="$lastbuyerinfo[buyerphone]" class="txt" /></td>
+						</tr>
+						<tr>
+							<th><label for="buyermobile">{lang trade_buyermobile}</label></th>
+							<td><input type="text" id="buyermobile" name="buyermobile" maxlength="20" value="$lastbuyerinfo[buyermobile]" class="txt" /></td>
+						</tr>
+					<!--{else}-->
+						<input type="hidden" name="buyername" value="" />
+						<input type="hidden" name="buyercontact" value="" />
+						<input type="hidden" name="buyerzip" value="" />
+						<input type="hidden" name="buyerphone" value="" />
+						<input type="hidden" name="buyermobile" value="" />
+					<!--{/if}-->
+					<tr>
+						<th valign="top"><label for="buyermsg">{lang trade_seller_remark}</label><div class="tips">{lang trade_seller_remark_comment}</div></th>
+						<td>
+							<textarea id="buyermsg" name="buyermsg" rows="3" class="txtarea"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>&nbsp;</th>
+						<td>
+							<button class="submit" type="submit" id="tradesubmit" name="tradesubmit" value="true">{lang trade_buy_confirm}</button>
+							<!--{if !$discuz_uid}--><em class="tips">{lang trade_guest_alarm}</em><!--{/if}-->
+						</td>
+					</tr>
+				</table>
+		</form>
+
+		<script type="text/javascript">
+		function calcsum() {
+			{if $trade[price] > 0}$('caculate').innerHTML = (price * $('tradepost').number.value + feevalue);{/if}
+			{if $creditstransextra[5] != -1 && $trade[credit]}
+				v = (credit * $('tradepost').number.value + feevalue);
+				if(v > currentcredit) {
+					$('crediterror').innerHTML = '{lang trade_buy_crediterror}';
+				} else {
+					$('crediterror').innerHTML = '';
+				}
+				$('caculatecredit').innerHTML = v;
+			{/if}
+		}
+		calcsum();
+		</script>
+	</div>
+</div>
+{subtemplate footer}

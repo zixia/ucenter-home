@@ -1,0 +1,16 @@
+<!--{if $pm[daterange]}--><li class="pm_date"><strong>$pm[daterange]</strong></li><!--{/if}-->
+<li id="pm_$pm[pmid]" class="s_clear {if $pm[msgfromid] == $discuz_uid}self{/if}">
+	<a name="pm_$pm[pmid]"></a>
+	{if !$new && $pm[new]}<a name="new"></a>{eval $new = 1;}{/if}
+	<a{if $msgfromurl && $pm[msgfromid] != $discuz_uid} href="$msgfromurl"{/if} class="avatar">{echo discuz_uc_avatar($pm[msgfromid], 'small');}</a>
+	<p class="cite">
+		<cite><!--{if $pm[msgfromid] != $discuz_uid}-->$pm[msgfrom]<!--{else}-->$discuz_userss<!--{/if}--></cite>
+		$pm[dateline]
+		<!--{if $pm[new]}-->&nbsp;&nbsp;<img src="{IMGDIR}/notice_newpm.gif" alt="NEW" /><!--{/if}-->
+	</p>
+	<div class="summary">$pm[message]</div>
+	<span class="action">
+		<a href="pm.php?action=new&pmid=$pm[pmid]" onclick="showWindow('sendpm', this.href);return false;">{lang forward}</a>
+	</span>
+</li>
+<!--{if $inajax}--><script type="text/javascript" reload="1">appendpmnode();</script><!--{/if}-->

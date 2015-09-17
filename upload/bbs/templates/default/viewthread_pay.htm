@@ -1,0 +1,12 @@
+<!--{if $thread['freemessage']}-->
+	<div id="postmessage_$pid" class="t_msgfont">$thread[freemessage]</div>
+<!--{/if}-->
+<div class="locked">
+	<a href="javascript:;" class="right viewpay" title="{lang pay}" onclick="showWindow('pay', 'misc.php?action=pay&tid=$tid&pid=$post[pid]')">{lang pay}</a>
+	<em class="right">
+		{lang pay_buyers}:$thread[payers]&nbsp; <a href="misc.php?action=viewpayments&tid=$tid" onclick="showWindow('pay', this.href);return false;">{lang pay_view}</a>
+	</em>
+	<!--{if $thread['price'] > 0}-->{lang pay_comment}<!--{/if}-->
+	<!--{if $thread[endtime]}-->{lang pay_free_time}<!--{/if}-->
+</div>
+</div>

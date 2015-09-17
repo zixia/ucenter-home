@@ -1,0 +1,70 @@
+/*
+(C) 2001-2008 Comsenz Inc.
+*/
+
+/* common */
+*{ word-wrap:break-word; }
+body{ background:#FFF; text-align:center; }
+body, td, input, textarea, select, button{ color:#666; font:12px "Lucida Grande", Verdana, Lucida, Helvetica, Arial, "����" ,sans-serif; }
+body, ul, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset { margin:0; padding:0; }
+h1, h2, h3, h4, h5, h6{ font-size:12px; }
+a{ color:#2366A8; text-decoration:none; }
+	a:hover { text-decoration:underline; }
+	a img{ border:none; }
+em, cite, strong, th{ font-style:normal; font-weight:normal; }
+table{ border-collapse:collapse; }
+
+/* box */
+.container{ margin:0 auto; width:700px; min-height:400px; height:auto !important; height:400px; text-align:left; border:1px solid #B5CFD9; }
+.header{ height:194px; background:url(../img/bg_repx.gif) repeat-x; }
+	.header h1{ text-indent:-9999px; width:540px; height:64px; background:url(../img/bg_repno.gif) no-repeat 26px 14px; }
+.main{ padding:20px 20px 0; background:#F7FBFE url(../img/bg_repx.gif) repeat-x 0 -196px;}
+	.main h3{ margin:10px auto; color:#6CA1B4; font-size:16px; font-weight:700; }
+.desc{ margin:0 auto; width:75%; line-height:180%; }
+	.desc ul{ margin-left:20px; }
+.tb, .tb2{ margin:20px auto; width:75%; }
+	.tb th{ padding:5px; color:#6CA1B4; font-weight:700; }
+	.tb td{ padding:3px 5px; }
+		.tb .w, .tb .nw{ padding-left:25px; width:100px; }
+.tb2{}
+	.tb2 th{ padding:3px 5px; width:36%; }
+	.tb2 td{ padding:3px 5px; }
+.btnbox{ text-align:center; }
+	.btnbox input{ margin:0 2px; }
+	.btnbox textarea{ margin-bottom:10px; height:300px; }
+.footer{ line-height:40px; text-align:center; background:url(../img/bg_footer.gif) repeat-x; font-size:11px; }
+
+/* form */
+.txt{ width:200px; }
+
+/* step num */
+.setup{ margin:30px 0 0 200px; padding-left:70px;height:76px;}
+	.setup h2{color:#6CA1B4; font-size:36px; height:76px; line-height:76px;}
+	.setup p{ margin-left:2px; color:#999; }
+.step1{ background:url(../img/stepnum.gif) no-repeat 0 8px; }
+.step2{ background:url(../img/stepnum.gif) no-repeat 0 -92px; }
+.step3{ background:url(../img/stepnum.gif) no-repeat 0 -192px; }
+.step4{ background:url(../img/stepnum.gif) no-repeat 0 -292px; }
+.step5{ background:url(../img/stepnum.gif) no-repeat 0 -392px; }
+
+/* step status */
+.stepstat{ position:relative; left:80px; height:30px; }
+* html .stepstat{ width:593px; }
+	.stepstatbg{ position:absolute; top:18px; z-index:90; width:566px; height:9px; overflow:hidden; background:#81C6F0 url(../img/bg_stepstatus.gif) no-repeat; }
+	.stepstat ul{ position:absolute; top:3px; left:-2px; z-index:100; list-style:none; width:700px; white-space:nowrap; overflow:hidden; }
+		.stepstat li{ float:left; text-indent:-9999px; width:20%; height:30px; background:url(../img/bg_repno.gif) no-repeat 0 -38px; }
+		.stepstat .current{ background:url(../img/bg_repno.gif) no-repeat 0 -71px; }
+		.stepstat .unactivated{ background:url(../img/bg_repno.gif) no-repeat 0 -103px; }
+.stepstat0{ background-position:-750px 0; }
+.stepstat1{ background-position:-750px 0; }
+.stepstat2{ background-position:-600px 0; }
+.stepstat3{ background-position:-460px 0; }
+.stepstat4{ background-position:-330px 0; }
+
+/* file status */
+.w{ padding-left:25px; background:url(../img/bg_repno.gif) no-repeat 5px -148px; }
+.nw{ padding-left:25px; background:url(../img/bg_repno.gif) no-repeat 5px -197px; }
+
+/* space */
+.marginbot{ margin-bottom:20px; }
+.red{ color:red; }

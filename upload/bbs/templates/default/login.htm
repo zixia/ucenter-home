@@ -1,0 +1,183 @@
+{template header}
+
+<!--{if !empty($message)}-->
+$ucsynlogin
+<script type="text/javascript" reload="1">
+{if $message == 2}
+	hideWindow('login');
+	showWindow('register', '$location');
+{elseif $message == 1}
+	display('main_messaqge');
+	display('layer_login');
+	display('layer_message');
+	{if $groupid == 8}
+		$('messageleft').innerHTML = '<p>{lang login_succeed} $usergroups $discuz_user</p><p>{lang login_succeed_inactive_member}</p>';
+		$('messageright').innerHTML = '<a href="memcp.php">{lang user_center}</a>';
+		setTimeout("window.location.href='memcp.php'", $mrefreshtime);
+	{else}
+		$('messageleft').innerHTML = '<p>{lang login_succeed} $usergroups $discuz_user</p>';
+		{if !empty($floatlogin)}
+			$('messageright').innerHTML = '<a href="javascript:;" onclick="location.reload()">{lang login_refresh}</a>';
+			setTimeout('location.reload()', $mrefreshtime);
+		{else}
+			{eval $dreferer = str_replace('&amp;', '&', dreferer());}
+			$('messageright').innerHTML = '<a href="$dreferer">{lang login_location}</a>';
+			setTimeout("window.location.href='$dreferer'", $mrefreshtime);
+		{/if}
+	{/if}
+	{if $_DCACHE['settings']['frameon'] && $_DCOOKIE['frameon'] == 'yes'}
+		if(top != self) {
+			parent.leftmenu.location.reload();
+		}
+	{/if}
+{/if}
+</script>
+<!--{else}-->
+<!--{if empty($infloat)}-->
+<div id="nav"><a href="$indexname">$bbname</a> $navigation</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="main"><div class="content nofloat">
+<!--{/if}-->
+<div class="fcontent" id="main_messaqge">
+	<div id="layer_login">
+		<h3 class="float_ctrl">
+			<em id="returnmessage">{lang login_member}</em>
+			<span><!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('login')" title="{lang close}">{lang close}</a><!--{/if}--></span>
+		</h3>
+		<div class="postbox">
+			<form method="post" name="login" id="loginform" class="s_clear" onsubmit="{if $pwdsafety}pwmd5('password3');{/if}pwdclear = 1;ajaxpost('loginform', 'returnmessage', 'returnmessage', 'onerror');return false;" action="logging.php?action=login&loginsubmit=yes{if !empty($infloat)}&floatlogin=yes{/if}">
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="referer" value="$referer" />
+				<div class="loginform nolabelform">
+					<div class="float_typeid selectinput" id="account">
+						<select name="loginfield" style="float:left;width:50px;" id="loginfield">
+							<option value="username">{lang username}</option>
+							<option value="uid">{lang uid}</option>
+							<option value="email">{lang email}</option>
+						</select>
+						<input type="text" name="username" autocomplete="off" size="36" class="txt" tabindex="1" value="$username" />
+					</div>
+					<p class="selectinput loginpsw">
+						<label for="password3">{lang login_password}</label>
+						<input type="password" id="password3" name="password" onfocus="clearpwd()" onkeypress="detectCapsLock(event, this)" size="36" class="txt" tabindex="1" />
+					</p>
+
+					<div id="seccodelayer"><!--{if $secqaacheck || $seccodecheck}-->{subtemplate seccheck}<!--{/if}--></div>
+
+					<div class="float_typeid selecttype">
+						<select id="questionid" name="questionid" change="if($('questionid').value > 0) {$('answer').style.display='';} else {$('answer').style.display='none';}">
+							<option value="0">{lang security_question}</option>
+							<option value="1">{lang security_question_1}</option>
+							<option value="2">{lang security_question_2}</option>
+							<option value="3">{lang security_question_3}</option>
+							<option value="4">{lang security_question_4}</option>
+							<option value="5">{lang security_question_5}</option>
+							<option value="6">{lang security_question_6}</option>
+							<option value="7">{lang security_question_7}</option>
+						</select>
+					</div>
+					<p><input type="text" name="answer" id="answer" style="display:none" autocomplete="off" size="36" class="txt" tabindex="1" /></p>
+				</div>
+				<div class="logininfo multinfo">
+					<h4>{lang login_guest}</h4>
+					<p><a href="javascript:;" onclick="display('layer_login');display('layer_lostpw');" title="{lang getpassword}">{lang getpassword}</a></p>
+					<p><a href="javascript:;" onclick="ajaxget('member.php?action=clearcookies&formhash={FORMHASH}', 'returnmessage', 'returnmessage');return false;" title="{lang login_clearcookies}">{lang login_clearcookies}</a></p>
+				</div>
+				<p class="fsubmit s_clear">
+					<!--{if $sitemessage[login]}--><a href="javascript:;" id="custominfo_login" class="right"><img src="{IMGDIR}/info.gif" alt="{lang faq}" /></a><!--{/if}-->
+					<button class="submit" type="submit" name="loginsubmit" value="true" tabindex="1">{lang login}</button>
+					<input type="checkbox" class="checkbox" name="cookietime" id="cookietime" tabindex="1" value="2592000" $cookietimecheck /> <label for="cookietime">{lang login_permanent}</label>
+				</p>
+			</form>
+		</div>
+	</div>
+	<div id="layer_lostpw" style="display: none;">
+		<h3 class="float_ctrl">
+			<em id="returnmessage3">{lang getpassword}</em>
+			<span><!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('login')" title="{lang close}">{lang close}</a><!--{/if}--></span>
+		</h3>
+		<div class="postbox">
+			<form method="post" id="lostpwform" class="s_clear" onsubmit="ajaxpost('lostpwform', 'returnmessage3', 'returnmessage3', 'onerror');return false;" action="member.php?action=lostpasswd&lostpwsubmit=yes&infloat=yes">
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="handlekey" value="lostpwform" />
+				<div class="loginform">
+					<label><em>{lang username}:</em><input type="text" name="username" size="25" value=""  tabindex="1" class="txt" /></label>
+					<label><em>{lang email}:</em><input type="text" name="email" size="25" value=""  tabindex="1" class="txt" /></label>
+				</div>
+				<div class="logininfo multinfo">
+					<h4>{lang login_guest}</h4>
+					<p><a href="javascript:;" onclick="display('layer_login');display('layer_lostpw');">{lang return_login}</a></p>
+				</div>
+				<p class="fsubmit s_clear">
+					<em>&nbsp;</em>
+					<button class="submit" type="submit" name="lostpwsubmit" value="true" tabindex="100">{lang submit}</button>
+				</p>
+			</form>
+		</div>
+	</div>
+</div>
+<div id="layer_message" class="fcontent alert_win" style="display: none;">
+	<h3 class="float_ctrl">
+		<em>{lang login_member}</em>
+		<span><!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="hideWindow('login')" title="{lang close}">{lang close}</a><!--{/if}--></span>
+	</h3>
+	<hr class="shadowline" />
+	<div class="postbox"><div class="alert_right">
+		<div id="messageleft"></div>
+		<p class="alert_btnleft" id="messageright"></p>
+	</div>
+</div>
+
+<script type="text/javascript" src="{$jspath}md5.js?{VERHASH}" reload="1"></script>
+<script type="text/javascript" reload="1">
+var pwdclear = 0;
+function initinput_login() {
+	document.body.focus();
+	$('loginform').username.focus();
+	simulateSelect('loginfield');
+	simulateSelect('questionid');
+}
+if(BROWSER.ie && BROWSER.ie < 7) {
+	setTimeout('initinput_login()', 500);
+} else {
+	initinput_login();
+}
+{if $sitemessage[login]}
+showPrompt('custominfo_login', 'click', '{echo trim($sitemessage[login][array_rand($sitemessage[login])])}', $sitemessage[time]);
+{/if}
+
+{if $pwdsafety}
+var pwmd5log = new Array();
+function pwmd5() {
+	numargs = pwmd5.arguments.length;
+	for(var i = 0; i < numargs; i++) {
+		if(!pwmd5log[pwmd5.arguments[i]] || $(pwmd5.arguments[i]).value.length != 32) {
+			pwmd5log[pwmd5.arguments[i]] = $(pwmd5.arguments[i]).value = hex_md5($(pwmd5.arguments[i]).value);
+		}
+	}
+}
+{/if}
+
+function clearpwd() {
+	if(pwdclear) {
+		$('password3').value = '';
+	}
+	pwdclear = 0;
+}
+
+function messagehandle_lostpwform(key) {
+	if(key == 141) {
+		$('messageleft').innerHTML = '<p>{lang getpassword_msg}</p>';
+		$('messageright').innerHTML = '<a href="javascript:;" onclick="hideMenu(\'fwin_login\', \'win\')">{lang close}</a>';
+	}
+}
+
+</script>
+<!--{/if}-->
+
+{eval updatesession();}
+<!--{if empty($infloat)}-->
+	</div></div>
+</div>
+<!--{/if}-->
+{template footer}

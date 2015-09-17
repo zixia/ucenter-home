@@ -1,0 +1,79 @@
+<table cellspacing="0" cellpadding="0" class="datatable">
+	<thead class="colplural">
+		<tr>
+			<td class="folder">&nbsp;</td>
+			<td class="icon">&nbsp;</td>
+			<th>{lang thread}</th>
+			<td width="20%">{lang activity_starttime}</td>
+			<td>{lang activity_space}</td>
+			<td width="10%">{lang activity_payment}</td>
+			<td class="nums">
+				<select onchange="window.location=this.value">
+					<!--{if $type == 'orig'}-->
+						<option value="my.php?item=activities&type=orig&filter=$extrafid">{lang status}</option>
+						<option value="my.php?item=activities&type=orig&ended=no$extrafid"<!--{if $ended == 'no'}--> selected="selected"<!--{/if}-->>{lang my_activities_stop_stauts_no}</option>
+						<option value="my.php?item=activities&type=orig&ended=yes$extrafid"<!--{if $ended == 'yes'}--> selected="selected"<!--{/if}-->>{lang my_activities_stop_stauts_yes}</option>
+					<!--{elseif $type == 'apply'}-->
+						<option value="my.php?item=activities&type=apply&filter=$extrafid">{lang status}</option>
+						<option value="my.php?item=activities&type=apply&ended=no$extrafid"<!--{if $ended == 'no'}--> selected="selected"<!--{/if}-->>{lang activity_confirm_status_no}</option>
+						<option value="my.php?item=activities&type=apply&ended=yes$extrafid"<!--{if $ended == 'yes'}--> selected="selected"<!--{/if}-->>{lang activity_confirm_status_yes}</option>
+					<!--{/if}-->
+				</select>
+			</td>
+		</tr>
+	</thead>
+	<!--{if $activity}-->
+		<tbody>
+			<!--{if $type == 'orig'}-->
+				<!--{loop $activity $value}-->
+					<tr>
+						<td class="folder">
+							<a href="viewthread.php?tid=$value[tid]"  target="_blank">
+							<!--{if $value[folder] == 'lock'}-->
+								<img src="{IMGDIR}/folder_lock.gif" /></a>
+							<!--{else}-->
+								<img src="{IMGDIR}/folder_$value[folder].gif" /></a>
+							<!--{/if}-->
+						</td>
+						<td class="icon">
+						<img src="{IMGDIR}/activitysmall.gif" alt="{lang thread_activity}" />
+						</td>
+						<th><!--{if $value['displayorder'] >= 0}--><a href="viewthread.php?tid=$value['tid']" target="_black">$value[subject]</a><!--{else}-->$value[subject]<!--{/if}--></th>
+						<td>$value[starttimefrom]</td>
+						<td>$value[place]</td>
+						<td>$value[cost]</td>
+						<td class="nums"><!--{if $value['expiration']}-->{lang my_activities_stop_stauts_no}<!--{else}-->{lang my_activities_stop_stauts_yes}<!--{/if}--></td>
+					</tr>
+				<!--{/loop}-->
+			<!--{else}-->
+				<!--{loop $activity $value}-->
+					<tr>
+						<td class="folder">
+							<a href="viewthread.php?tid=$value[tid]"  target="_blank">
+							<!--{if $value[folder] == 'lock'}-->
+								<img src="{IMGDIR}/folder_lock.gif" /></a>
+							<!--{else}-->
+								<img src="{IMGDIR}/folder_$value[folder].gif" /></a>
+							<!--{/if}-->
+						</td>
+						<td class="icon">
+						<img src="{IMGDIR}/activitysmall.gif" alt="{lang thread_activity}" />
+						</td>
+						<th><!--{if $thread['displayorder'] >= 0}--><a href="viewthread.php?tid=$value['tid']" target="_black">$value[subject]</a><!--{else}-->$value[subject]<!--{/if}--></th>
+						<td>$value[starttimefrom]</td>
+						<td>$value[place]</td>
+						<td>$value[cost]</td>
+						<td class="nums"><!--{if $value['verified']}-->{lang activity_confirm_status_yes}<!--{else}-->{lang activity_confirm_status_no}<!--{/if}--></td>
+					</tr>
+				<!--{/loop}-->
+			<!--{/if}-->
+		</tbody>
+	<!--{else}-->
+		<tr>
+			<td class="folder">&nbsp;</td>
+			<td class="icon">&nbsp;</td>
+			<th colspan="4"><p class="nodata">{lang data_nonexistence}</p></th>
+		</tr>
+	<!--{/if}-->
+</table>
+<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->

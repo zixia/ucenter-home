@@ -1,0 +1,197 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang trade_order}</div>
+<div id="wrap" class="wrap s_clear">
+	<div class="content">
+		<form method="post" id="tradepost" name="tradepost" action="trade.php?orderid=$orderid">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<div class="c_header">
+				<h3 class="noarrow">
+					<!--{if !$tradelog[offline]}-->
+					{lang trade_pay_alipay}
+					<!--{else}-->
+					{lang trade_pay_offline}
+					<!--{/if}-->
+				</h3>
+			</div>
+			<table summary="{lang trade_order}" cellspacing="0" cellpadding="0" class="formtable" style="margin-bottom:30px;">
+				<tr>
+					<th>{lang status}</th>
+					<td>$tradelog[statusview] ($tradelog[lastupdate])</td>
+				</tr>
+				<!--{if $tradelog[offline] && $offlinenext}-->
+					<tr>
+						<th><label for="password">{lang trade_password}</label></th>
+						<td><input id="password" name="password" type="password" class="txt" /></td>
+					</tr>
+					<tr>
+						<th valign="top"><label for="message">{lang trade_message}</label></th>
+						<td>
+							<textarea id="buyermsg" id="message" name="message" rows="3" class="txtarea"></textarea>
+							$trade_message {lang trade_seller_remark_comment}
+						</td>
+					</tr>
+					<tr>
+						<th>&nbsp;</th>
+						<td>
+							<!--{loop $offlinenext $nextid $nextbutton}-->
+								<button class="submit" type="button" onclick="$('tradepost').offlinestatus.value = '$nextid';$('offlinesubmit').click();">$nextbutton</button>&nbsp;
+							<!--{/loop}-->
+							<input type="hidden" name="offlinestatus" value="" />
+							<input type="submit" id="offlinesubmit" name="offlinesubmit" style="display: none" />
+						</td>
+					</tr>
+				<!--{/if}-->
+				<!--{if trade_typestatus('successtrades', $tradelog[status]) || trade_typestatus('refundsuccess', $tradelog[status])}-->
+					<tr>
+						<!--{if $tradelog[ratestatus] == 3}-->
+							<th>{lang eccredit_post_between}</th><td>&nbsp;</td>
+						<!--{elseif ($discuz_uid == $tradelog[buyerid] && $tradelog[ratestatus] == 1) || ($discuz_uid == $tradelog[sellerid] && $tradelog[ratestatus] == 2)}-->
+							<th>{lang eccredit_post_waiting}</th><td>&nbsp;</td>
+						<!--{else}-->
+							<!--{if ($discuz_uid == $tradelog[buyerid] && $tradelog[ratestatus] == 2) || ($discuz_uid == $tradelog[sellerid] && $tradelog[ratestatus] == 1)}-->
+								<th>{lang eccredit_post_already}</th>
+							<!--{else}-->
+								<th>&nbsp;</th>
+							<!--{/if}-->
+							<td>
+							<!--{if $discuz_uid == $tradelog[buyerid]}-->
+								<button class="submit" type="button" onclick="window.open('eccredit.php?action=rate&orderid=$tradelog[orderid]&type=0', '', '')">{lang eccredit1}</button>
+							<!--{elseif $discuz_uid == $tradelog[sellerid]}-->
+								<button class="submit" type="button" onclick="window.open('eccredit.php?action=rate&orderid=$tradelog[orderid]&type=1', '', '')">{lang eccredit1}</button>
+							<!--{/if}-->
+							</td>
+						<!--{/if}-->
+						</td>
+					</tr>
+				<!--{elseif !$tradelog[offline]}-->
+					<tr>
+						<th>{lang trade_alipay_tradeurl}</th>
+						<td>
+							<!--{if $tradelog[status] == 0 && $tradelog[buyerid] == $discuz_uid}-->
+								<button class="submit" type="button" name="" onclick="window.open('trade.php?orderid=$orderid&pay=yes','','')">{lang trade_online_pay}</button>
+							<!--{else}-->
+								<button class="submit" type="button" onclick="window.open('$loginurl', '', '')">{lang trade_order_status}</button>
+							<!--{/if}-->
+						</td>
+					</tr>
+				<!--{/if}-->
+			</table>
+
+			<div class="c_header"><h3 class="noarrow">{lang trade_order}</h3></div>
+			<table summary="{lang trade_order}" cellspacing="0" cellpadding="0" class="formtable" style="margin-bottom:30px;">
+				<tr>
+					<th>{lang trade_payment}</th>
+					<td>
+						<!--{if $tradelog[price] > 0}--><strong>$tradelog[price]</strong>&nbsp;{lang payment_unit}&nbsp;&nbsp;<!--{/if}-->
+						<!--{if $creditstransextra[5] != -1 && $tradelog[credit]}-->{$extcredits[$creditstransextra[5]][title]}&nbsp;<strong>$tradelog[credit]</strong>&nbsp;{$extcredits[$creditstransextra[5]][unit]}&nbsp;&nbsp;<!--{/if}-->
+						<!--{if $tradelog[status] == 0}--><em class="tips">{lang trade_payment_comment}</em><!--{/if}-->
+					</td>
+				</tr>
+				<!--{if $tradelog[tradeno]}-->
+					<tr>
+						<th>{lang trade_order_no}</th>
+						<td><a href="$loginurl" class="lightlink" target="_blank">$tradelog[tradeno]</a></td>
+					</tr>
+				<!--{/if}-->
+				<tr>
+					<th>{lang trade_buyer}</th>
+					<td><a href="space.php?uid=$tradelog[buyerid]" class="lightlink" target="_blank">$tradelog[buyer]</a>
+					<!--{if $discuz_uid != $tradelog['buyerid']}-->&nbsp;<a href="pm.php?action=new&uid=$tradelog[buyerid]" class="lightlink" target="_blank">[{lang send_pm}]</a><!--{/if}-->
+					</td>
+				</tr>
+				<tr>
+					<th>{lang trade_seller}</th>
+					<td><a href="space.php?uid=$tradelog[sellerid]" class="lightlink" target="_blank">$tradelog[seller]</a>
+					<!--{if $discuz_uid != $tradelog['sellerid']}-->&nbsp;<a href="pm.php?action=new&uid=$tradelog[sellerid]" class="lightlink" target="_blank">[{lang send_pm}]</a><!--{/if}-->
+					</td>
+				</tr>
+				<tr>
+					<th>{lang post_trade_name}</th>
+					<td><a href="viewthread.php?do=tradeinfo&tid=$tradelog[tid]&pid=$tradelog[pid]" class="lightlink" target="_blank">$tradelog[subject]</a></td>
+				</tr>
+				<!--{if $tradelog[status] == 0 && $tradelog[sellerid] == $discuz_uid}-->
+				<tr>
+					<th><label for="newprice">{lang trade_baseprice}</label></th>
+					<td>
+						<input type="text" id="newprice" name="newprice" value="$tradelog[baseprice]" class="txt" style="width:100px" /> {lang payment_unit}&nbsp;&nbsp;
+						<!--{if $creditstransextra[5] != -1 && $tradelog[credit]}-->
+							{$extcredits[$creditstransextra[5]][title]} <input type="text" id="newcredit" name="newcredit" value="$tradelog[basecredit]" class="txt" style="width:100px" /> {$extcredits[$creditstransextra[5]][unit]}
+						<!--{/if}-->
+					</td>
+				</tr>
+				<!--{/if}-->
+				<tr>
+					<th><label for="newnumber">{lang trade_nums}</label></th>
+					<td><!--{if $tradelog[status] == 0 && $tradelog[buyerid] == $discuz_uid}--><input type="text" id="newnumber" name="newnumber" value="$tradelog[number]" class="txt" style="width:100px" /><!--{else}-->$tradelog[number]<!--{/if}--></td>
+				</tr>
+				<tr>
+					<th>{lang post_trade_transport}</th>
+					<td>
+						<!--{if $tradelog['transport'] == 1}-->{lang post_trade_transport_seller}<!--{/if}-->
+						<!--{if $tradelog['transport'] == 2}-->{lang post_trade_transport_buyer}<!--{/if}-->
+						<!--{if $tradelog['transport'] == 3}-->{lang post_trade_transport_virtual}<!--{/if}-->
+						<!--{if $tradelog['transport'] == 4}-->{lang post_trade_transport_physical}<!--{/if}-->
+						&nbsp;{lang trade_transportfee}
+						<!--{if $tradelog[status] == 0 && $tradelog[sellerid] == $discuz_uid}--><input type="text" name="newfee" value="$tradelog['transportfee']" class="txt" style="width:100px" />&nbsp;<!--{else}-->$tradelog[transportfee]&nbsp;<!--{/if}-->
+						{lang payment_unit}
+					</td>
+				</tr>
+				<!--{if $tradelog['transport'] != 3}-->
+					<tr>
+						<th><label for="newbuyername">{lang trade_buyername}</label></th>
+						<td><!--{if $tradelog[status] == 0 && $tradelog[buyerid] == $discuz_uid}--><input type="text" id="newbuyername" name="newbuyername" value="$tradelog[buyername]" maxlength="50" class="txt" /><!--{else}-->$tradelog[buyername]<!--{/if}--></td>
+					</tr>
+					<tr>
+						<th><label for="newbuyercontact">{lang trade_buyercontact}</label></th>
+						<td><!--{if $tradelog[status] == 0 && $tradelog[buyerid] == $discuz_uid}--><input type="text" id="newbuyercontact" name="newbuyercontact" value="$tradelog[buyercontact]" maxlength="100" size="80" class="txt" /><!--{else}-->$tradelog[buyercontact]<!--{/if}--></td>
+					</tr>
+					<tr>
+						<th><label for="newbuyerzip">{lang trade_buyerzip}</label></th>
+						<td><!--{if $tradelog[status] == 0 && $tradelog[buyerid] == $discuz_uid}--><input type="text" id="newbuyerzip" name="newbuyerzip" value="$tradelog[buyerzip]" maxlength="10" class="txt" /><!--{else}-->$tradelog[buyerzip]<!--{/if}--></td>
+					</tr>
+					<tr>
+						<th><label for="newbuyerphone">{lang trade_buyerphone}</label></th>
+						<td><!--{if $tradelog[status] == 0 && $tradelog[buyerid] == $discuz_uid}--><input type="text" id="newbuyerphone" name="newbuyerphone" value="$tradelog[buyerphone]" maxlength="20" class="txt" /><!--{else}-->$tradelog[buyerphone]<!--{/if}--></td>
+					</tr>
+					<tr>
+						<th><label for="newbuyermobile">{lang trade_buyermobile}</label></th>
+						<td><!--{if $tradelog[status] == 0 && $tradelog[buyerid] == $discuz_uid}--><input type="text" id="newbuyermobile" name="newbuyermobile" value="$tradelog[buyermobile]" maxlength="20" class="txt" /><!--{else}-->$tradelog[buyermobile]<!--{/if}--></td>
+					</tr>
+				<!--{else}-->
+					<input type="hidden" name="newbuyername" value="" />
+					<input type="hidden" name="newbuyercontact" value="" />
+					<input type="hidden" name="newbuyerzip" value="" />
+					<input type="hidden" name="newbuyerphone" value="" />
+					<input type="hidden" name="newbuyermobile" value="" />
+				<!--{/if}-->
+				<tr>
+					<th valign="top"><label for="newbuyermsg">{lang trade_seller_remark}</label></th>
+					<td><!--{if $tradelog[status] == 0 && $tradelog[buyerid] == $discuz_uid}--><textarea id="newbuyermsg" name="newbuyermsg" rows="3" class="txtarea">$tradelog[buyermsg]</textarea><!--{else}-->$tradelog[buyermsg]<!--{/if}--></td>
+				</tr>
+				<!--{if $tradelog[status] == 0}-->
+					<tr>
+						<th>&nbsp;</th>
+						<td>
+							<button class="submit" type="submit" name="tradesubmit" value="true">{lang trade_submit_order}</button>
+						</td>
+					</tr>
+				<!--{/if}-->
+			</table>
+
+			<!--{if $tradelog['offline'] && !empty($messagelist)}-->
+				<div class="c_header"><h3 class="noarrow">{lang trade_message}</h3></div>
+				<table summary="{lang trade_order}" cellspacing="0" cellpadding="0" class="formtable">
+				<!--{loop $messagelist $message}-->
+					<tr>
+						<th valign="top">
+							<a href="space.php?uid=$message[0]" class="lightlink" target="_blank">$message[1]</a>
+						</th>
+						<td><strong>$message[2]</strong><br />$message[3]</td>
+					</tr>
+				<!--{/loop}-->
+				</table>
+			<!--{/if}-->
+		</form>
+	</div>
+</div>
+{subtemplate footer}

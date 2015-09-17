@@ -1,0 +1,25 @@
+<h2>{lang faq}</h2>
+<div class="sideinner">
+	<ul class="tabs">
+		<!--{loop $faqparent $fpid $parent}-->
+			<li name="$parent[title]"><a href="faq.php?action=faq&id=$fpid" >$parent[title]</a></li>
+		<!--{/loop}-->
+		<li><a href="faq.php?action=credits">{lang credits_policy}</a></li>
+		<li><a href="faq.php?action=grouppermission">{lang permission_group_search}</a></li>
+		<!--{if !empty($plugins['faq'])}-->
+			<!--{loop $plugins['faq'] $id $module}-->
+				<li{if $_GET[id] == $id} class="current"{/if}><a href="faq.php?action=plugin&id=$id">$module[name]</a></li>
+			<!--{/loop}-->
+		<!--{/if}-->
+	</ul>
+</div>
+<hr class="shadowline" />
+<div class="sideinner">
+	<form method="post" action="faq.php?action=search&searchsubmit=yes">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="searchtype" value="all" />
+		<input type="text" name="keyword" size="16" value="$keyword" class="txt" />
+		<button type="submit" name="searchsubmit">{lang search}</button>
+	</form>
+</div>
+$pluginhooks[faq_extra]
