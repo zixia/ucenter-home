@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+
+  db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    network_mode: bridge
+    environment:
+      MYSQL_ROOT_PASSWORD: uchome
+
+  adminer:
+    image: adminer
+    network_mode: bridge
+    restart: always
+    ports:
+      - 8081:8080
+
+  # uchome:
+  #   image: uchome
+  #   container_name: uchome
+  #   network_mode: bridge
+  #   expose:
+  #     - 80
+  #   volumes:
+  #     - /opt/data/uchome.com/admin/UploadFiles/:/var/www/admin/UploadFiles/:rw
+  #   environment:
+  #     - HTTPS_METHOD=noredirect
+  #   env_file:
+  #     - .env

@@ -1,7 +1,8 @@
 # UCenter+UCHome+Discuz
 
 UCenter1.5.1/UCHome2.0/Discuz!7.2 集成安装包  
-https://github.com/17salsa/ucenter-home
+
+GitHub Repo: <https://github.com/zixia/ucenter-home>
 
 ## Screenshot
 
@@ -26,3 +27,20 @@ https://github.com/17salsa/ucenter-home
  1. /home/install
  1. /bbs/install
 
+## Docker
+
+```sh
+docker-compose up
+```
+
+## Maintainer
+
+[Huan](https://github.com/huan) [(李卓桓)](http://linkedin.com/in/zixia), Chair of [17SALSA](https://www.17salsa.com), <zixia@zixia.net>
+
+[![Profile of Huan LI (李卓桓) on StackOverflow](https://stackoverflow.com/users/flair/1123955.png)](https://stackoverflow.com/users/1123955/huan)
+
+## Copyright & License
+
+- Code & Docs © 2010-2021 Comsenz & 17SALSA
+- Code released under the Apache-2.0 License
+- Docs released under Creative Commons
